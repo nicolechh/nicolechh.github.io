@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Combinators Cheatsheet</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital@0;1&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap" rel="stylesheet"> 
+</head>
+<body>
+    <table>
+        <thead>
+            <th colspan="4">CSS Combinators</th>
+        </thead>
+        <tbody>
+            <tr class="column-name">
+                <td>Combinator Name</td>
+                <td>CSS Syntax</td>
+                <td>Description</td>
+                <td>Example</td>
+            </tr>
+            <tr class="descendant">
+                <td class="name">Descendant</td>
+                <td class="css"><p>(" ")</p></td>
+                <td class="description">Typically represented by a single space (" ") between two selectors. It combines two selectors so that elements matched to the second selector are selected if they have an ancestor element matching the first selector.</td>
+                <td class="example"><p>body article p</p></td>
+            </tr>
+            <tr class="child">
+                <td class="name">Child</td>
+                <td class="css"><p>( > )</p></td>
+                <td class="description">Represented by > between two selectors. It matches only those elements matched by the second selector that are direct children of elements matched by the first. Descendents further down the hierarchy don't match.</td>
+                <td class="example"><p>article > p</p></td>
+            </tr>
+            <tr class="next-sibling">
+                <td class="name">Next-sibling</td>
+                <td class="css"><p>( + )</p></td>
+                <td class="description">Represented by + between two selectors. It matches only those elements matched by the second selector that are the next sibling element of the first selector. In other words, the second selector element is immediately preceded by the first selector element.</td>
+                <td class="example"><p>p + img</p></td>
+            </tr>
+            <tr class="subsequent-sibling">
+                <td class="name">Subsequent-sibling</td>
+                <td class="css"><p>( ~ )</p></td>
+                <td class="description">Represented by ~ between two selectors. It selects siblings of an element even if they are not directly adjacent. In other words, the second selector element can come anywhere after the first selector element, as long as they are siblings.</td>
+                <td class="example"><p>p ~ img</p></td>
+            </tr>
+            <tr class="subsequent-sibling">
+                <td class="name">Subsequent-sibling</td>
+                <td class="css"><p>( ~ )</p></td>
+                <td class="description">Represented by ~ between two selectors. It selects siblings of an element even if they are not directly adjacent. In other words, the second selector element can come anywhere after the first selector element, as long as they are siblings.</td>
+                <td class="example"><p>p ~ img</p></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
