@@ -1,20 +1,20 @@
 table {
     width: 80%;
     margin: 0 auto;
-    border: 1px solid navy;
+    border: 1px solid #000080;
 }
 
 thead {
-    background-color: cornflowerblue;
-    color: lightcyan;
+    background-color: #6495ED;
+    color: #E0FFFF;
     font-family: Poppins, sans-serif;
     font-size: 30px;
 }
 
 .column-name td {
     padding: 10px 20px;
-    background-color: lightcyan;
-    color: dimgray;
+    background-color: #E0FFFF;
+    color: #696969;
     font-family: Poppins, sans-serif;
     font-size: 16px;
 }
@@ -22,8 +22,8 @@ thead {
 .name {
     width: 15%;
     padding: 10px 20px;
-    background-color: snow;
-    color: cornflowerblue;
+    background-color: #FFFAFA;
+    color: #6495ED;
     font-family: Poppins, sans-serif;
     font-size: 14px;
 }
@@ -31,21 +31,22 @@ thead {
 .css {
     width: 10%;
     padding: 10px 20px;
-    background-color: snow;
-    color: cornflowerblue;
+    background-color: #FFFAFA;
+    color: #6495ED;
     font-family: 'IBM Plex Mono', monospace;
     font-size: 14px;
     text-align: center;
 }
 
 .css p {
-    background-color: lightcyan;
+    background-color: #E0FFFF;
 }
 
 .description {
     width: 62%;
-    padding: 10px 20px;background-color: snow;
-    color: cornflowerblue;
+    padding: 10px 20px;
+    background-color: #FFFAFA;
+    color: #6495ED;
     font-family: Poppins, sans-serif;
     font-size: 14px;
     text-align: justify;
@@ -54,12 +55,12 @@ thead {
 .example {
     width: 13%;
     padding: 10px 20px;
-    background-color: snow;
-    color: cornflowerblue;
+    background-color: #FFFAFA;
+    color: #6495ED;
     font-family: 'IBM Plex Mono', monospace;
     font-size: 14px;
 }
 
 .example p {
-    background-color: lightcyan;
+    background-color: #E0FFFF;
 }
