@@ -4,6 +4,7 @@ nav ul li {
 
 div.colors {
     display: inline-block;
+    float: left;
 }
 
 .color-1 {
