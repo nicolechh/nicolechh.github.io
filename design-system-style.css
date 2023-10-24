@@ -3,28 +3,28 @@ nav ul li {
 }
 
 div.colors {
-    display: inline-block;
+    display: inline;
 }
 
-div.color-1 {
+.color-1 {
     background-color: #6495ED;
     padding: 50px 40px;
     border-radius: 50%;
 }
 
-div.color-2 {
+.color-2 {
     background-color: #E0FFFF;
     padding: 50px 40px;
     border-radius: 50%;
 }
 
-div.color-3 {
+.color-3 {
     background-color: #FFFAFA;
     padding: 50px 40px;
     border-radius: 50%;
 }
 
-div.color-4 {
+.color-4 {
     background-color: #696969;
     padding: 50px 40px;
     border-radius: 50%;
