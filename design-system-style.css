@@ -6,25 +6,25 @@ div.colors {
     display: inline-block;
 }
 
-.color-1 {
+div.color-1 {
     background-color: #6495ED;
     padding: 50px 40px;
     border-radius: 50%;
 }
 
-.color-2 {
+div.color-2 {
     background-color: #E0FFFF;
     padding: 50px 40px;
     border-radius: 50%;
 }
 
-.color-3 {
+div.color-3 {
     background-color: #FFFAFA;
     padding: 50px 40px;
     border-radius: 50%;
 }
 
-.color-4 {
+div.color-4 {
     background-color: #696969;
     padding: 50px 40px;
     border-radius: 50%;
