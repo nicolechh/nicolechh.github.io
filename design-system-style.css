@@ -2,8 +2,52 @@ body {
     margin: 32px 40px;
 }
 
+h1 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 32px;
+    color: #333;
+}
+
+h2 {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 24px;
+    color: #333;
+}
+
+h3 {
+    font-family: 'Figtree', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    color: #333;
+}
+
+p {
+    font-family: 'Figtree', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #000;
+}
+
+header {
+    margin: 0 0 60px 0;
+}
+
 nav ul li {
     display: inline;
+    background-color: #6495ED;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border-radius: 5px;
+}
+
+nav ul li a {
+    font-family: 'Figtree', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    text-decoration: none;
+    color: #333;
 }
 
 div.colors {
@@ -33,16 +77,24 @@ div.color-block {
     background-color: #E0FFFF;
     padding: 60px;
     border-radius: 50%;
+    border: 1px solid #cfcfcf;
 }
 
 .color-3 {
     background-color: #FFFAFA;
     padding: 60px;
     border-radius: 50%;
+    border: 1px solid #cfcfcf;
 }
 
 .color-4 {
     background-color: #696969;
+    padding: 60px;
+    border-radius: 50%;
+}
+
+.color-5 {
+    background-color: #333;
     padding: 60px;
     border-radius: 50%;
 }
