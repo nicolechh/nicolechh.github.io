@@ -10,6 +10,14 @@ div.color-block {
     float: left;
 }
 
+.color-name {
+    text-align: center;
+}
+
+.color-code {
+    text-align: center;
+}
+
 .color-1 {
     background-color: #6495ED;
     padding: 50px;
