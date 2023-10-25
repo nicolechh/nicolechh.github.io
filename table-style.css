@@ -7,7 +7,8 @@ table {
 thead {
     background-color: #6495ED;
     color: #E0FFFF;
-    font-family: Poppins, sans-serif;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
     font-size: 30px;
 }
 
@@ -15,7 +16,8 @@ thead {
     padding: 10px 20px;
     background-color: #E0FFFF;
     color: #696969;
-    font-family: Poppins, sans-serif;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
     font-size: 16px;
 }
 
@@ -24,8 +26,8 @@ thead {
     padding: 10px 20px;
     background-color: #FFFAFA;
     color: #6495ED;
-    font-family: Poppins, sans-serif;
-    font-size: 14px;
+    font-family: 'Figtree', sans-serif;
+    font-size: 16px;
 }
 
 .css {
@@ -34,7 +36,7 @@ thead {
     background-color: #FFFAFA;
     color: #6495ED;
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 14px;
+    font-size: 16px;
     text-align: center;
 }
 
@@ -47,8 +49,8 @@ thead {
     padding: 10px 20px;
     background-color: #FFFAFA;
     color: #6495ED;
-    font-family: Poppins, sans-serif;
-    font-size: 14px;
+    font-family: 'Figtree', sans-serif;
+    font-size: 16px;
     text-align: justify;
 }
 
@@ -58,7 +60,7 @@ thead {
     background-color: #FFFAFA;
     color: #6495ED;
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .example p {
