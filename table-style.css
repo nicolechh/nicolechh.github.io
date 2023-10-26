@@ -6,7 +6,7 @@ table {
 
 thead {
     background-color: #6495ED;
-    color: #E0FFFF;
+    color: #FFFAFA;
     font-family: 'Poppins', sans-serif;
     font-weight: 600;
     font-size: 30px;
@@ -14,8 +14,8 @@ thead {
 
 .column-name td {
     padding: 10px 20px;
-    background-color: #E0FFFF;
-    color: #696969;
+    background-color: #B8D9FF;
+    color: #000;
     font-family: 'Poppins', sans-serif;
     font-weight: 400;
     font-size: 16px;
@@ -25,7 +25,7 @@ thead {
     width: 15%;
     padding: 10px 20px;
     background-color: #FFFAFA;
-    color: #6495ED;
+    color: #333;
     font-family: 'Figtree', sans-serif;
     font-size: 16px;
 }
@@ -33,36 +33,39 @@ thead {
 .css {
     width: 10%;
     padding: 10px 20px;
-    background-color: #FFFAFA;
-    color: #6495ED;
+    background-color: #FDDEC0;
+    color: #333;
     font-family: 'IBM Plex Mono', monospace;
     font-size: 16px;
     text-align: center;
 }
-
+/*
 .css p {
-    background-color: #E0FFFF;
-}
+    background-color: #ABC4F3;
+}*/
 
 .description {
-    width: 62%;
+    width: 60%;
     padding: 10px 20px;
     background-color: #FFFAFA;
-    color: #6495ED;
+    color: #333;
     font-family: 'Figtree', sans-serif;
     font-size: 16px;
     text-align: justify;
 }
 
 .example {
-    width: 13%;
+    width: 15%;
     padding: 10px 20px;
-    background-color: #FFFAFA;
-    color: #6495ED;
+    background-color: #FDDEC0;
+    color: #333;
     font-family: 'IBM Plex Mono', monospace;
     font-size: 16px;
+    text-align: center;
 }
 
+/*
 .example p {
-    background-color: #E0FFFF;
-}
+    background-color: #ABC4F3;
+    padding: 5px 8px;
+} */
