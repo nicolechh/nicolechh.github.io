@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nicolechou.github.io/sitemap.xml
+Sitemap: https://nicolechh.github.io/sitemap.xml

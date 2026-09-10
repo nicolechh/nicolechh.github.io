@@ -1,10 +1,10 @@
-# nicolechou.github.io
+# nicolechh.github.io
 
 Personal portfolio site for Nicole Chou — a single, hand-tuned static page
 (`index.html`) with a design-canvas aesthetic. No build step, no dependencies.
 Fonts load from Google Fonts; everything else is inline.
 
-- **Live (GitHub Pages):** https://nicolechou.github.io/
+- **Live (GitHub Pages):** https://nicolechh.github.io/
 - **Custom domain:** _not connected yet_ — see [Connecting a domain](#connecting-a-domain)
 
 ---
@@ -30,7 +30,7 @@ Fonts load from Google Fonts; everything else is inline.
    (`Cmd+Shift+P`) → **Shell Command: Install 'code' command in PATH**.
 2. Open the folder:
    ```bash
-   code /Users/nicolechou/Desktop/claude/nicolechou.github.io
+   code /Users/nicolechou/Desktop/claude/nicolechh.github.io
    ```
 3. When VS Code prompts, install the **recommended extensions**
    (Live Server + Prettier — listed in `.vscode/extensions.json`).
@@ -46,22 +46,22 @@ Everything is in `index.html`:
 
 ## Publishing to GitHub Pages
 
-This repo is named `nicolechou.github.io`, so GitHub publishes it as your
-**user site** at `https://nicolechou.github.io/` with no extra path.
+This repo is named `nicolechh.github.io`, so GitHub publishes it as your
+**user site** at `https://nicolechh.github.io/` with no extra path.
 
 ### First-time setup
 
-1. Create the repo on GitHub named exactly **`nicolechou.github.io`** (public).
+1. Create the repo on GitHub named exactly **`nicolechh.github.io`** (public).
    Don't add a README/license from the GitHub UI — this folder already has one.
 2. From this folder:
    ```bash
-   git remote add origin https://github.com/nicolechou/nicolechou.github.io.git
+   git remote add origin https://github.com/nicolechh/nicolechh.github.io.git
    git branch -M main
    git push -u origin main
    ```
 3. On GitHub: **Settings → Pages → Build and deployment**
    → Source: **Deploy from a branch** → Branch: **`main`** / **`/ (root)`** → Save.
-4. Wait ~1 minute, then visit https://nicolechou.github.io/.
+4. Wait ~1 minute, then visit https://nicolechh.github.io/.
 
 ### Every update after that
 
@@ -100,7 +100,7 @@ At your DNS provider, add these records:
 | `AAAA` | `@` | `2606:50c0:8001::153` |
 | `AAAA` | `@` | `2606:50c0:8002::153` |
 | `AAAA` | `@` | `2606:50c0:8003::153` |
-| `CNAME` | `www` | `nicolechou.github.io.` |
+| `CNAME` | `www` | `nicolechh.github.io.` |
 
 ### 3. Wait, then lock it down
 
