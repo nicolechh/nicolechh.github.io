@@ -1,0 +1,10 @@
+{
+  "liveServer.settings.port": 5500,
+  "liveServer.settings.root": "/",
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "editor.formatOnSave": false,
+  "[html]": {
+    "editor.wordWrap": "on"
+  }
+}

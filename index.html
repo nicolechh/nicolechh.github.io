@@ -1,0 +1,988 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+
+<title>Nicole Chou — Product Designer</title>
+<meta name="description" content="Nicole Chou is a product designer working on tools people use every day for work — interface and systems design, based in Lisbon.">
+<link rel="canonical" href="https://nicolechou.github.io/">
+
+<!-- Open Graph / social preview. Replace the image with a 1200x630 PNG at assets/social-card.png -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Nicole Chou — Product Designer">
+<meta property="og:description" content="I design the decisions, not just the screens.">
+<meta property="og:url" content="https://nicolechou.github.io/">
+<meta property="og:image" content="https://nicolechou.github.io/assets/social-card.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="assets/favicon.png">
+<meta name="theme-color" content="#EFEFEB" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#131417" media="(prefers-color-scheme: dark)">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&family=Geist+Pixel&display=swap">
+
+<style>
+:root{
+  --paper:#EFEFEB;
+  --paper-2:#F6F6F3;
+  --ink:#16171A;
+  --ink-2:#4D5055;
+  --ink-3:#686B74;
+  --rule:#CBCBC4;
+  --rule-soft:#DEDED8;
+  --edge:#8A8A83;          /* ruler ticks + control borders: >=3:1 non-text */
+  --dot:rgba(22,23,26,.20);
+  --dot-hot:rgba(192,62,15,.85);
+  --accent:#C03E0F;
+  --select:#2E5BEA;
+  --on-select:#FFFFFF;
+  --chrome:rgba(246,246,243,.82);
+  --card:#FFFFFF;
+  --sticker:#FBE58A;
+  --sticker-ink:#221F10;
+  --sticker-edge:#FFFDF4;
+
+  --gutter:30px;
+  --sel-x:clamp(10px,2vw,26px);
+  --step:8px;
+  --maxw:1180px;
+
+  /* one superfamily: the pixel face is a Geist sibling, so it pairs by
+     construction, and the sans/mono are drawn for UI legibility */
+  --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --body:"Geist",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --display:"Geist",system-ui,-apple-system,sans-serif;
+  --name:"Geist Pixel","Geist",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#131417;
+    --paper-2:#191A1E;
+    --ink:#E9E9E4;
+    --ink-2:#A4A6AE;
+    --ink-3:#82858D;
+    --rule:#34363C;
+    --rule-soft:#26282D;
+    --edge:#64676F;
+    --dot:rgba(233,233,228,.17);
+    --dot-hot:rgba(255,122,64,.9);
+    --accent:#FF7A40;
+    --select:#7391FF;
+    --on-select:#0E1220;
+    --chrome:rgba(25,26,30,.82);
+    --card:#1B1C20;
+    --sticker:#E7CE72;
+    --sticker-ink:#221F10;
+    --sticker-edge:#F7F3E4;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#131417;
+  --paper-2:#191A1E;
+  --ink:#E9E9E4;
+  --ink-2:#A4A6AE;
+  --ink-3:#82858D;
+  --rule:#34363C;
+  --rule-soft:#26282D;
+  --edge:#64676F;
+  --dot:rgba(233,233,228,.17);
+  --dot-hot:rgba(255,122,64,.9);
+  --accent:#FF7A40;
+  --select:#7391FF;
+  --on-select:#0E1220;
+  --chrome:rgba(25,26,30,.82);
+  --card:#1B1C20;
+  --sticker:#E7CE72;
+  --sticker-ink:#221F10;
+  --sticker-edge:#F7F3E4;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:16px;
+  line-height:1.55;
+  margin:0;
+  padding:var(--gutter) 0 0 var(--gutter);
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---------- canvas layers ---------- */
+#dots{
+  position:fixed; inset:var(--gutter) 0 0 var(--gutter);
+  width:calc(100% - var(--gutter)); height:calc(100% - var(--gutter));
+  z-index:0; pointer-events:none;
+}
+.chrome{position:fixed;z-index:60;pointer-events:none}
+/* explicit CSS size: a canvas won't stretch to `right`/`bottom` on its own,
+   so without this the strip stops short of the edge after any resize */
+#ruler-x{top:0;left:var(--gutter);right:0;height:var(--gutter);width:calc(100% - var(--gutter));border-bottom:1px solid var(--rule)}
+#ruler-y{top:var(--gutter);left:0;bottom:0;width:var(--gutter);height:calc(100% - var(--gutter));border-right:1px solid var(--rule)}
+#ruler-x,#ruler-y{background:var(--paper-2)}
+.corner{
+  top:0;left:0;width:var(--gutter);height:var(--gutter);
+  background:var(--paper-2);
+  border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);
+  display:grid;place-items:center;
+  font-family:var(--mono);font-size:8px;color:var(--ink-3);letter-spacing:.02em;
+}
+.readout{
+  right:14px;bottom:14px;
+  display:flex;gap:14px;
+  font-family:var(--mono);font-size:10px;color:var(--ink-2);
+  border:1px solid var(--rule-soft);
+  padding:5px 9px;
+  font-variant-numeric:tabular-nums;
+}
+.readout b{font-weight:500;color:var(--ink-3);margin-right:5px}
+
+/* ---------- nav ---------- */
+.bar{
+  position:fixed;top:var(--gutter);left:var(--gutter);right:0;height:46px;z-index:50;
+  display:flex;align-items:center;justify-content:flex-start;
+  gap:clamp(14px,2.4vw,26px);padding:0 14px;
+  border-bottom:1px solid var(--rule-soft);
+}
+/* the toolbar and the coordinate readout are the same pane of glass */
+.bar,.readout{
+  background:var(--chrome);
+  -webkit-backdrop-filter:blur(8px);
+  backdrop-filter:blur(8px);
+}
+.logo{
+  width:32px;height:32px;flex:none;display:block;
+  transition:transform .22s cubic-bezier(.4,0,.2,1);
+}
+.logo img{display:block;width:100%;height:100%;object-fit:contain}
+.logo:hover{transform:rotate(-9deg) scale(1.07)}
+.logo:active{transform:rotate(-9deg) scale(.93);transition-duration:.08s}
+.logo:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.menu{display:contents}
+/* centred on the bar itself, so the wide toggle on the right doesn't shove
+   the links off-centre the way space-between would */
+.nav{
+  display:flex;gap:clamp(1.1rem,2.6vw,2.2rem);
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+}
+.burger{
+  display:none;
+  margin-left:auto;
+  align-items:center;gap:8px;
+  width:auto;min-width:32px;min-height:32px;padding:0 6px;
+  background:none;border:0;cursor:pointer;
+  font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-2);
+}
+.burger-bars{display:flex;flex-direction:column;gap:4px;width:16px}
+.burger-bars span{
+  display:block;width:16px;height:1.5px;background:var(--ink-2);
+  transition:transform .22s cubic-bezier(.4,0,.2,1);
+}
+#bar[data-open="true"] .burger-bars span:nth-child(1){transform:translateY(2.75px) rotate(45deg)}
+#bar[data-open="true"] .burger-bars span:nth-child(2){transform:translateY(-2.75px) rotate(-45deg)}
+.burger:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.motion{
+  margin-left:auto;
+  display:flex;align-items:center;gap:9px;
+  background:none;border:0;padding:7px 6px;cursor:pointer;
+  font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-3);transition:color .18s ease;
+}
+.motion:hover{color:var(--ink-2)}
+.motion-track{
+  width:26px;height:14px;flex:none;position:relative;border-radius:7px;
+  border:1px solid var(--edge);background:var(--paper);
+  transition:border-color .18s ease;
+}
+.motion-track::after{
+  content:"";position:absolute;top:1.5px;left:1.5px;width:9px;height:9px;border-radius:50%;
+  background:var(--ink-3);transition:transform .2s cubic-bezier(.4,0,.2,1),background .18s ease;
+}
+.motion[aria-checked="true"]{color:var(--accent)}
+.motion[aria-checked="true"] .motion-track{border-color:var(--accent)}
+.motion[aria-checked="true"] .motion-track::after{transform:translateX(11px);background:var(--accent)}
+.motion:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.nav a{
+  font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-2);text-decoration:none;padding:6px 4px;position:relative;
+  transition:color .18s ease;
+}
+.nav a::after{
+  content:"";position:absolute;left:0;right:0;bottom:1px;height:1px;
+  background:var(--accent);transform:scaleX(0);transform-origin:left;
+  transition:transform .22s cubic-bezier(.4,0,.2,1);
+}
+.nav a:hover,.nav a:focus-visible{color:var(--ink)}
+.nav a:hover::after,.nav a:focus-visible::after{transform:scaleX(1)}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+/* ---------- shell ---------- */
+main{position:relative;z-index:10;max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,56px)}
+section{scroll-margin-top:calc(var(--gutter) + 46px + 24px)}
+
+/* ---------- selection chrome ---------- */
+.sel{position:relative}
+.sel-box{
+  position:absolute;inset:-22px calc(-1 * var(--sel-x));
+  border:1px dashed var(--select);
+  opacity:0;transition:opacity .2s ease;pointer-events:none;
+}
+.sel-box i{
+  position:absolute;width:6px;height:6px;background:var(--paper-2);
+  border:1px solid var(--select);
+}
+.sel-box i:nth-child(1){left:-3.5px;top:-3.5px}
+.sel-box i:nth-child(2){right:-3.5px;top:-3.5px}
+.sel-box i:nth-child(3){left:-3.5px;bottom:-3.5px}
+.sel-box i:nth-child(4){right:-3.5px;bottom:-3.5px}
+.sel-dim{
+  position:absolute;left:50%;bottom:-11px;transform:translate(-50%,100%);
+  white-space:nowrap;
+  background:var(--select);color:var(--on-select);
+  font-family:var(--mono);font-size:9px;letter-spacing:.02em;
+  padding:2px 6px;white-space:nowrap;font-variant-numeric:tabular-nums;
+}
+
+/* ---------- hero ---------- */
+.hero{
+  min-height:calc(100vh - var(--gutter));
+  min-height:calc(100svh - var(--gutter));
+  display:flex;flex-direction:column;align-items:stretch;
+  justify-content:center;
+  /* short viewports: fall back to start rather than overflowing both edges */
+  justify-content:safe center;
+  gap:clamp(86px,10vh,112px);  /* clears the marquee inset, the size chip, and the tilted text box */
+  padding:calc(46px + clamp(40px,5vh,60px)) 0 clamp(36px,7vh,72px);
+  text-align:left;
+  position:relative;
+}
+
+/* a query container, so the name fills the column even once it caps at --maxw
+   (viewport units keep growing past that cap and would overflow) */
+.hero .sel{container-type:inline-size}
+.hero .sel-box{opacity:1}
+h1.name{
+  margin:0;
+  font-family:var(--name);
+  font-weight:400;               /* Geist Pixel is single-weight */
+  text-transform:uppercase;
+  font-size:15.1cqw;             /* tuned to the measured advance of the name */
+  line-height:1;
+  letter-spacing:0;
+  white-space:nowrap;
+}
+/* die-cut sticker slapped over the top-right corner of the selection */
+.sticker{
+  position:absolute;z-index:3;margin:0;
+  top:0;right:0;
+  transform:translate(0,-58%) rotate(8deg);
+  transform-origin:100% 50%;
+  font-family:var(--mono);
+  font-size:clamp(9px,1vw,11px);font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--sticker-ink);
+  background:var(--sticker);
+  padding:9px 17px;
+  border-radius:100px;
+  box-shadow:0 0 0 3px var(--sticker-edge),0 9px 20px rgba(24,20,6,.24);
+}
+/* a loose Figma text layer: solid selection box (the name's marquee is dashed,
+   so the two read as different object types) nudged off-axis */
+.tlayer{
+  position:relative;
+  align-self:flex-start;
+  max-width:100%;
+  transform:rotate(-1.8deg);
+  transform-origin:0 50%;
+}
+.tbox{
+  position:absolute;inset:-14px -18px;
+  border:1.5px solid var(--select);
+  pointer-events:none;
+}
+.tbox i{
+  position:absolute;width:7px;height:7px;
+  background:var(--paper);border:1.5px solid var(--select);
+}
+.tbox i:nth-child(1){left:-4.25px;top:-4.25px}
+.tbox i:nth-child(2){right:-4.25px;top:-4.25px}
+.tbox i:nth-child(3){left:-4.25px;bottom:-4.25px}
+.tbox i:nth-child(4){right:-4.25px;bottom:-4.25px}
+.lede{
+  margin:0;
+  font-size:clamp(1.15rem,2vw,1.65rem);
+  line-height:1.35;
+  color:var(--ink-2);
+  text-wrap:pretty;
+}
+
+/* ---------- section head ---------- */
+.head{
+  display:flex;align-items:center;justify-content:space-between;gap:clamp(12px,2vw,22px);
+  padding-bottom:14px;border-bottom:1px solid var(--rule);margin-bottom:34px;flex-wrap:wrap;
+}
+h2{
+  font-family:var(--name);
+  font-weight:400;                 /* Geist Pixel is single-weight */
+  text-transform:uppercase;
+  font-size:clamp(1.35rem,2.8vw,2rem);
+  letter-spacing:.01em;line-height:1;margin:0;
+}
+.head-note{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+
+/* ---------- work ---------- */
+#work{padding-bottom:clamp(80px,12vh,120px)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,2.4vw,32px)}
+.card{position:relative;display:flex;flex-direction:column;gap:0}
+.card-label{
+  display:flex;align-items:baseline;gap:10px;
+  font-family:var(--mono);font-size:9px;letter-spacing:.05em;
+  color:var(--ink-3);margin-bottom:6px;transition:color .18s ease;
+}
+.card-body{
+  position:relative;flex:1;
+  display:flex;flex-direction:column;
+  background:var(--card);
+  border:1px solid var(--rule-soft);
+  padding:clamp(13px,1.3vw,17px);
+  transition:border-color .18s ease;
+}
+.card:hover .card-label,.card:focus-within .card-label{color:var(--select)}
+.card:hover .card-body,.card:focus-within .card-body{border-color:var(--rule)}
+.card:hover .sel-box,.card:focus-within .sel-box{opacity:1}
+.card .sel-box{inset:-9px}
+.card .sel-box i{background:var(--card)}
+.thumb{
+  border:1px solid var(--rule-soft);
+  background:var(--paper-2);
+  aspect-ratio:16/10;overflow:hidden;
+}
+.thumb svg{display:block;width:100%;height:100%}
+h3{
+  font-family:var(--display);
+  font-variation-settings:"wght" 600;
+  font-weight:600;font-size:1.14rem;letter-spacing:-.015em;
+  margin:16px 0 0;line-height:1.2;
+}
+h3 a{color:inherit;text-decoration:none}
+h3 a::after{content:"";position:absolute;inset:-12px;z-index:1}
+.card p{margin:7px 0 0;font-size:.9rem;color:var(--ink-2);line-height:1.5}
+.card-body > p:not(.meta){margin-bottom:20px}
+.card .meta{
+  margin-top:auto;padding-top:18px;border-top:1px solid var(--rule-soft);
+  font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--ink-2);
+  /* stacked rather than inline: role lengths differ per card, so an inline row
+     wraps on some cards and not others and the three footers stop matching.
+     Two fixed lines reads as one spec block at every breakpoint. */
+  display:flex;flex-direction:column;align-items:flex-start;gap:5px;
+}
+.card .m-date{flex:none;white-space:nowrap;font-weight:500;color:var(--ink)}
+.card .m-role{color:var(--ink-2);text-wrap:balance}
+.card .m-studio{color:var(--ink-3);margin-top:3px}
+
+/* ---------- about ---------- */
+#about{padding-bottom:clamp(70px,10vh,110px)}
+.about-body{display:grid;grid-template-columns:1.25fr .75fr;gap:clamp(28px,5vw,72px);align-items:start}
+.about-body p{margin:0 0 16px;max-width:60ch;color:var(--ink-2)}
+.about-body p strong{color:var(--ink);font-weight:500}
+.spec{border-top:1px solid var(--rule);padding-top:12px}
+.spec dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:7px 18px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.04em;font-variant-numeric:tabular-nums}
+.spec dt{color:var(--ink-3);text-transform:uppercase}
+.spec dd{margin:0;color:var(--ink-2)}
+.spec a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent}
+.spec a:hover{border-bottom-color:var(--accent)}
+
+footer{
+  border-top:1px solid var(--rule);padding:16px 0 30px;
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);
+}
+
+/* Multi-column only: the three cards share row tracks via subgrid, so the
+   thumbnail, title, description and footer rows line up across all of them.
+   Without it a longer role wraps, that one footer grows, and because footers
+   are bottom-pinned only its divider rides up. */
+@media (min-width:901px){
+  .grid{grid-template-rows:auto auto auto auto auto}
+  .card{display:grid;grid-template-rows:subgrid;grid-row:span 5;row-gap:0}
+  .card-body{display:grid;grid-template-rows:subgrid;grid-row:span 4;row-gap:0}
+  .card .meta{margin-top:0}
+}
+@media (max-width:900px){
+  .grid{grid-template-columns:1fr;gap:40px}
+  .about-body{grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  h1.name{white-space:normal;font-size:28.8cqw}   /* longest word measures 3.42em */
+  h1.name span{display:block}
+}
+@media (max-width:560px){
+  :root{--gutter:18px}
+  .corner{font-size:6px}
+  .readout{display:none}
+  .sticker{transform:translate(0,-58%) rotate(8deg);padding:7px 13px}
+}
+/* the inline bar needs ~394px of content plus the gutter, so it holds
+   comfortably to here before collapsing */
+/* the bar is viewport minus the gutter, so centred links clear the toggle only
+   above ~490px of viewport; below that fall back to flow order */
+@media (max-width:500px){
+  .nav{position:static;top:auto;left:auto;transform:none}
+}
+@media (max-width:440px){
+  .burger{display:flex}
+  /* stays in the DOM so it can animate; `visibility` (not display) keeps the
+     links out of the tab order while closed, and clip-path reveals the panel
+     downward so it reads as sliding out from under the bar */
+  .menu{
+    display:flex;
+    position:absolute;top:100%;left:0;right:0;
+    flex-direction:column;
+    background:var(--chrome);
+    -webkit-backdrop-filter:blur(8px);
+    backdrop-filter:blur(8px);
+    border:0;
+    border-bottom:1px solid var(--rule);
+    padding:6px;
+    clip-path:inset(0 0 100% 0);
+    transform:translateY(-10px);
+    opacity:0;
+    visibility:hidden;
+    transition:clip-path .3s cubic-bezier(.4,0,.2,1),
+               transform .3s cubic-bezier(.4,0,.2,1),
+               opacity .18s ease,
+               visibility 0s linear .3s;
+  }
+  #bar[data-open="true"] .menu{
+    clip-path:inset(0 0 0 0);
+    transform:translateY(0);
+    opacity:1;
+    visibility:visible;
+    transition:clip-path .3s cubic-bezier(.4,0,.2,1),
+               transform .3s cubic-bezier(.4,0,.2,1),
+               opacity .16s ease,
+               visibility 0s;
+  }
+  .nav{flex-direction:column;gap:0;width:100%}
+  .nav a{padding:11px 12px;width:100%}
+  .nav a::after{display:none}
+  .nav a:hover,.nav a:focus-visible{background:var(--select);color:var(--on-select)}
+  .motion{
+    position:static;transform:none;
+    width:100%;justify-content:space-between;
+    padding:11px 12px;margin-top:5px;margin-left:0;
+    border-top:1px solid var(--rule-soft);
+  }
+}
+@media (max-width:400px){
+  .burger-label{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition-duration:.01ms!important;transition-delay:0s!important}
+}
+:root[data-motion="reduced"]{scroll-behavior:auto}
+:root[data-motion="reduced"] *:not(.motion-track){transition-duration:.01ms!important;transition-delay:0s!important}
+:root[data-motion="full"]{scroll-behavior:smooth}
+</style>
+</head>
+
+<body>
+
+<canvas id="dots" aria-hidden="true"></canvas>
+<canvas id="ruler-x" class="chrome" aria-hidden="true"></canvas>
+<canvas id="ruler-y" class="chrome" aria-hidden="true"></canvas>
+<div class="corner chrome" aria-hidden="true">100</div>
+<div class="readout chrome" aria-hidden="true"><span><b>X</b><span id="rx">0</span></span><span><b>Y</b><span id="ry">0</span></span></div>
+
+<nav class="bar" id="bar" data-open="false">
+  <a class="logo" href="#home" aria-label="Home"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFsAAABaCAMAAADgtNoOAAADAFBMVEXjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERFpfbk+AAABAHRSTlMAAQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyAhIiMkJSYnKCkqKywtLi8wMTIzNDU2Nzg5Ojs8PT4/QEFCQ0RFRkdISUpLTE1OT1BRUlNUVVZXWFlaW1xdXl9gYWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXp7fH1+f4CBgoOEhYaHiImKi4yNjo+QkZKTlJWWl5iZmpucnZ6foKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr/AwcLDxMXGx8jJysvMzc7P0NHS09TV1tfY2drb3N3e3+Dh4uPk5ebn6Onq6+zt7u/w8fLz9PX29/j5+vv8/f7/qVjM+gAABG1JREFUeNrVmU1oFEkUgB8isoiIyBIkSAgS5jCIeBIRzQ4eRBQkiIiEnBYJIo2GHESkEUSWJaR3WVgwSAZ/8CCSBpFhkSy9hGWRoLSIBC+mFURkAnaQEARDZrasn/6p6a6qrpiug+8wM1Wv+qs3r15Vva4CAEBM6nWEaIFWJNVYavQz9CBuDG6iC5APIfJYDVaHYaQAAJ4hE8z2ffbT5qo9FBvCScJGjE36rLWiKl+I9zxKQg5XZ7darTCLrjscO6ojj674j2+q5Zxa/fRVYprr8n/p6XEoQ/6Ohy/19vIpKEluJD7hBrVEQdwwgwl49GGC7bMemibM9sl3Df1RNvttGuA/lc2+mQZK6e7+P5nz5bPvGLR7MI1vrnb7/mpJbDvLPvoFoZlvgI003JMZdgB0wUrlNumqR0bY2LtZrDiBn2r3ZH0CmM3B75PKigQ98AG13zwY2ZvXXCCP9efYfoe7VeyelWiFW5wa7tVh20ibPcpvMPMTA1sL2ZY2eyqzf63OXju4UcW28C6t6e+Xgn10uWFV5P7WZy9K0oD3t85cz7DZbA+0/b2hTcdxfPjcL40FUR85Np1AWuxtRPW5jxWq1sPFQjbOhGw9n3QT1RRXsXe0sSRjx1mWr8fuI6qxjJ/2XZpeFrDjtcrVZFeJ6rpgIThgz3wRsGtAkzQt9m4JWxbf+MtvtbJjeaBLJIeJ6nehqssWj+UQytn9jZIZSyu775TG9jzag1c+ezDZL8EIO6SGZ9n3J0TymKieC1UTT7TZFem+tYYYTGdn2WzwhnxjbEHuUxIbDLKjGGyZY1tWi19QSmQD3ufz7HfzImnSLU2omv8oZCMj6wlhe8Lcpxy2JZyXJteqj02RUJ8uC1XNJcl+qbue7Fl7fHuegr37RFXG3nrk2A4p+1DEVsyd0WhIBOxenPqsHlHbHajm/L+48I+YPUxKkyp2TRjfCXsWF/4TsyntnmqtMsZOT8wMsPGZmHqNXYdPAg8V+2ThXiR/EdVcXHpW6G8NtkoK/E3PCo2wPQhVc36ddoMxdki/QWssO+WZDtvWjUHByidln2KuNsKG9CxMxp4pYE8W5D6OLff3I1yYVRwcjKvZjipO7uLCazF7jDS8omIH6hi8RI5ztgvZNOMeULADzMYvU1J2PyldE6HZFUS3ym62HErH8gfyzr76swBNX+bnoJDNZpBwLx5nJ/oj/ZWd3bH07R+eZtPyrAZbnsd2LShm/NwmJdsBqCtz5NqKFP2pUpSf1NVs2Pdegn6xqzD3CTv3Bnq4vIP/c5vPv8qD209Ob+AbnSSVfaJ8kGNXX7aXxrJR8eOxC1d/+zOW8Svna1uyTS5PNwahgF2SXKRUco8Ehs7tfWL4r2buG+jNXtPc/c73dS+VsENT7LpBuy2DbDDGDjrvojMdpjfKKN+I6QFFpxmQvZZ26JNubiniu9C6Cc89DQ6z33Xl7eprfTl2MkHtsr4sy6FGDqUtA/wa5zielVyRs4vJDhOd5B7djutceqT+Fc9RphVm8gQ+AAAAAElFTkSuQmCC" alt="" width="91" height="90"></a>
+  <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="menu">
+    <span class="burger-bars" aria-hidden="true"><span></span><span></span></span>
+    <span class="burger-label">Menu</span>
+  </button>
+  <div class="menu" id="menu">
+    <div class="nav">
+      <a href="#home">Home</a>
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+    </div>
+    <button class="motion" id="motion" type="button" role="switch" aria-checked="false">
+      <span class="motion-label">Reduce motion</span>
+      <span class="motion-track" aria-hidden="true"></span>
+    </button>
+  </div>
+</nav>
+
+<main lang="en">
+  <section id="home" class="hero">
+    <div class="sel">
+      <div class="sel-box" aria-hidden="true"><i></i><i></i><i></i><i></i><span class="sel-dim" id="dim">&mdash;</span></div>
+      <p class="sticker">Product designer</p>
+      <h1 class="name" aria-label="Nicole Chou"><span>Nicole</span> <span>Chou</span></h1>
+    </div>
+    <div class="tlayer">
+      <div class="tbox" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <p class="lede">I design the decisions, not just the screens.</p>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="head">
+      <h2>Selected Work</h2>
+      <p class="head-note">Updated Sep 2026</p>
+    </div>
+    <div class="grid">
+
+      <article class="card">
+        <div class="card-label"><span>masking-in-boards</span></div>
+        <div class="card-body">
+          <div class="sel-box" aria-hidden="true"><i></i><i></i><i></i><i></i><span class="sel-dim dim-out">320 &times; 200</span></div>
+          <div class="thumb">
+          <svg viewBox="0 0 320 200" role="img" aria-label="Grid of component variants and colour tokens">
+            <rect width="320" height="200" fill="var(--paper-2)"/>
+            <g fill="none" stroke="var(--rule-soft)" stroke-width="1">
+              <path d="M0 40.5h320M0 80.5h320M0 120.5h320M0 160.5h320"/>
+              <path d="M40.5 0v200M80.5 0v200M120.5 0v200M160.5 0v200M200.5 0v200M240.5 0v200M280.5 0v200"/>
+            </g>
+            <rect x="28" y="28" width="76" height="20" rx="10" fill="var(--ink)"/>
+            <rect x="116" y="28" width="76" height="20" rx="10" fill="none" stroke="var(--ink-2)" stroke-width="1.5"/>
+            <rect x="204" y="28" width="76" height="20" rx="10" fill="none" stroke="var(--rule)" stroke-width="1.5" stroke-dasharray="3 3"/>
+            <rect x="28" y="68" width="252" height="1.5" fill="var(--rule)"/>
+            <g>
+              <rect x="28" y="88" width="34" height="34" fill="var(--accent)"/>
+              <rect x="70" y="88" width="34" height="34" fill="var(--select)"/>
+              <rect x="112" y="88" width="34" height="34" fill="var(--ink)"/>
+              <rect x="154" y="88" width="34" height="34" fill="var(--ink-3)"/>
+              <rect x="196" y="88" width="34" height="34" fill="var(--rule)"/>
+              <rect x="238" y="88" width="34" height="34" fill="none" stroke="var(--rule)" stroke-width="1.5"/>
+            </g>
+            <rect x="28" y="142" width="150" height="7" rx="3.5" fill="var(--ink-3)"/>
+            <rect x="28" y="157" width="96" height="7" rx="3.5" fill="var(--rule)"/>
+          </svg>
+        </div>
+        <h3><a href="#work">Raspberry AI: masking on the canvas, not in a window</a></h3>
+        <p>Multi-material masking, redesigned as a mode that leaves the rest of the workspace usable.</p>
+        <p class="meta"><span class="m-date">Apr 2026</span><span class="m-role">Product Designer</span><span class="m-studio">Completed at Interlude Studio</span></p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-label"><span>guardrail-system</span></div>
+        <div class="card-body">
+          <div class="sel-box" aria-hidden="true"><i></i><i></i><i></i><i></i><span class="sel-dim dim-out">320 &times; 200</span></div>
+          <div class="thumb">
+          <svg viewBox="0 0 320 200" role="img" aria-label="Three connected mobile onboarding screens">
+            <rect width="320" height="200" fill="var(--paper-2)"/>
+            <g fill="none" stroke="var(--rule-soft)" stroke-width="1">
+              <path d="M0 40.5h320M0 80.5h320M0 120.5h320M0 160.5h320"/>
+              <path d="M40.5 0v200M80.5 0v200M120.5 0v200M160.5 0v200M200.5 0v200M240.5 0v200M280.5 0v200"/>
+            </g>
+            <path d="M92 100h28M204 100h28" stroke="var(--select)" stroke-width="1" stroke-dasharray="4 3" fill="none"/>
+            <circle cx="120" cy="100" r="2.5" fill="var(--select)"/>
+            <circle cx="232" cy="100" r="2.5" fill="var(--select)"/>
+            <g>
+              <rect x="24" y="36" width="68" height="128" rx="8" fill="var(--paper)" stroke="var(--rule)" stroke-width="1.5"/>
+              <rect x="34" y="50" width="30" height="5" rx="2.5" fill="var(--ink-3)"/>
+              <rect x="34" y="66" width="48" height="30" rx="4" fill="var(--rule-soft)"/>
+              <rect x="34" y="104" width="48" height="5" rx="2.5" fill="var(--rule)"/>
+              <rect x="34" y="115" width="34" height="5" rx="2.5" fill="var(--rule)"/>
+              <rect x="34" y="138" width="48" height="14" rx="7" fill="var(--ink)"/>
+            </g>
+            <g>
+              <rect x="136" y="36" width="68" height="128" rx="8" fill="var(--paper)" stroke="var(--rule)" stroke-width="1.5"/>
+              <rect x="146" y="50" width="40" height="5" rx="2.5" fill="var(--ink-3)"/>
+              <rect x="146" y="66" width="48" height="12" rx="3" fill="none" stroke="var(--select)" stroke-width="1.5"/>
+              <rect x="146" y="84" width="48" height="12" rx="3" fill="none" stroke="var(--rule)" stroke-width="1.5"/>
+              <rect x="146" y="102" width="48" height="12" rx="3" fill="none" stroke="var(--rule)" stroke-width="1.5"/>
+              <rect x="146" y="138" width="48" height="14" rx="7" fill="var(--ink)"/>
+            </g>
+            <g>
+              <rect x="248" y="36" width="68" height="128" rx="8" fill="var(--paper)" stroke="var(--rule)" stroke-width="1.5"/>
+              <circle cx="282" cy="82" r="17" fill="none" stroke="var(--accent)" stroke-width="2.5"/>
+              <path d="M275 82l5 5 10-11" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <rect x="258" y="112" width="48" height="5" rx="2.5" fill="var(--rule)"/>
+              <rect x="266" y="123" width="32" height="5" rx="2.5" fill="var(--rule)"/>
+            </g>
+          </svg>
+        </div>
+        <h3><a href="#work">Guardrail AI: a system that decides colour once</a></h3>
+        <p>Audit, design system and redesign; colour became something you select, not something you check.</p>
+        <p class="meta"><span class="m-date">May 2025&ndash;2026</span><span class="m-role">Product Designer, Design System Lead</span><span class="m-studio">Completed at Interlude Studio</span></p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-label"><span>workflow-tutorials</span></div>
+        <div class="card-body">
+          <div class="sel-box" aria-hidden="true"><i></i><i></i><i></i><i></i><span class="sel-dim dim-out">320 &times; 200</span></div>
+          <div class="thumb">
+          <svg viewBox="0 0 320 200" role="img" aria-label="Trading dashboard with price chart and data rows">
+            <rect width="320" height="200" fill="var(--paper-2)"/>
+            <g fill="none" stroke="var(--rule-soft)" stroke-width="1">
+              <path d="M0 40.5h320M0 80.5h320M0 120.5h320M0 160.5h320"/>
+              <path d="M40.5 0v200M80.5 0v200M120.5 0v200M160.5 0v200M200.5 0v200M240.5 0v200M280.5 0v200"/>
+            </g>
+            <rect x="24" y="24" width="190" height="92" fill="var(--paper)" stroke="var(--rule)" stroke-width="1"/>
+            <path d="M24 116L24 96l20-8 19 11 19-20 19 6 19-17 19 9 19-24 19 12 19-9v60z" fill="var(--accent)" opacity=".13"/>
+            <path d="M24 96l20-8 19 11 19-20 19 6 19-17 19 9 19-24 19 12 19-9" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round"/>
+            <circle cx="214" cy="47" r="3.5" fill="var(--accent)"/>
+            <rect x="226" y="24" width="70" height="92" fill="var(--paper)" stroke="var(--rule)" stroke-width="1"/>
+            <rect x="236" y="36" width="36" height="6" rx="3" fill="var(--ink)"/>
+            <rect x="236" y="50" width="50" height="4" rx="2" fill="var(--rule)"/>
+            <rect x="236" y="60" width="42" height="4" rx="2" fill="var(--rule)"/>
+            <rect x="236" y="76" width="36" height="6" rx="3" fill="var(--select)"/>
+            <rect x="236" y="90" width="50" height="4" rx="2" fill="var(--rule)"/>
+            <rect x="236" y="100" width="30" height="4" rx="2" fill="var(--rule)"/>
+            <g fill="var(--rule)">
+              <rect x="24" y="132" width="60" height="5" rx="2.5"/><rect x="100" y="132" width="88" height="5" rx="2.5"/><rect x="204" y="132" width="44" height="5" rx="2.5" fill="var(--ink-3)"/><rect x="264" y="132" width="32" height="5" rx="2.5"/>
+              <rect x="24" y="150" width="60" height="5" rx="2.5"/><rect x="100" y="150" width="70" height="5" rx="2.5"/><rect x="204" y="150" width="44" height="5" rx="2.5" fill="var(--ink-3)"/><rect x="264" y="150" width="32" height="5" rx="2.5"/>
+              <rect x="24" y="168" width="60" height="5" rx="2.5"/><rect x="100" y="168" width="94" height="5" rx="2.5"/><rect x="204" y="168" width="44" height="5" rx="2.5" fill="var(--ink-3)"/><rect x="264" y="168" width="32" height="5" rx="2.5"/>
+            </g>
+          </svg>
+        </div>
+        <h3><a href="#work">Raspberry AI: teaching a platform to explain itself</a></h3>
+        <p>A guided tutorial system built around workflows, replacing one-to-one onboarding calls.</p>
+        <p class="meta"><span class="m-date">Feb &amp; Apr 2026</span><span class="m-role">Product Designer</span><span class="m-studio">Completed at Interlude Studio</span></p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="head">
+      <h2>About</h2>
+      <p class="head-note">Colophon</p>
+    </div>
+    <div class="about-body">
+      <div>
+        <p><strong>I'm Nicole Chou, a product designer working on tools people use every day for work.</strong> Before design I spent three years in technical documentation, which is where I learned that most interface problems are really naming problems wearing a costume.</p>
+        <p>I work best in the messy middle of a project &mdash; after the strategy deck and before the polish &mdash; mapping states, pressure-testing flows, and writing the words on the buttons. Most of my recent work has been in logistics, marine, and commodities software.</p>
+      </div>
+      <div class="spec">
+        <dl>
+          <dt>Discipline</dt><dd>Interface &amp; systems design</dd>
+          <dt>Located</dt><dd>Lisbon, UTC+1</dd>
+          <dt>Status</dt><dd>Two slots, Q2 2026</dd>
+          <dt>Email</dt><dd><a href="mailto:hello@example.com">hello@example.com</a></dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>&copy; 2026 Nicole Chou</span>
+    <span>Set in Geist, Geist Mono &amp; Geist Pixel</span>
+  </footer>
+</main>
+
+<script>
+(() => {
+  let G = 30;                   // ruler gutter, read from --gutter (shrinks on mobile)
+  const SPACING = 26;           // dot grid pitch
+  const R = 118;                // cursor influence radius
+  const PULL = 11;              // max attraction in px
+  const mqReduce = matchMedia("(prefers-reduced-motion: reduce)");
+  let reduce = mqReduce.matches;
+
+  const cv = document.getElementById("dots");
+  const ctx = cv.getContext("2d");
+  const rx = document.getElementById("ruler-x"), rxc = rx.getContext("2d");
+  const ry = document.getElementById("ruler-y"), ryc = ry.getContext("2d");
+  const outX = document.getElementById("rx"), outY = document.getElementById("ry");
+
+  let dpr = 1, W = 0, H = 0, cols = 0, rows = 0;
+  let rxW = 0, ryH = 0;         // each ruler's own drawn length
+  let originX = 0, originY = 0; // where the dot canvas sits in viewport space
+  let dots = [];                // {bx, by, ox, oy} base + current offset
+  let mx = -9999, my = -9999;   // cursor in canvas space
+  let scrollY = 0;
+  let running = false, settled = true, menuOpen = false;
+
+  const css = getComputedStyle(document.documentElement);
+  let cDot, cHot, cRule, cLabel, cAccent, cPaper2;
+  function readTokens(){
+    cDot    = css.getPropertyValue("--dot").trim();
+    cHot    = css.getPropertyValue("--dot-hot").trim();
+    cRule   = css.getPropertyValue("--edge").trim();   // ruler minor ticks
+    cLabel  = css.getPropertyValue("--ink-3").trim();
+    cAccent = css.getPropertyValue("--accent").trim();
+    cPaper2 = css.getPropertyValue("--paper-2").trim();
+  }
+
+  function readGutter(){
+    const v = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--gutter"));
+    if (Number.isFinite(v) && v > 0) G = v;
+  }
+
+  /* The CSS sizes these canvases with calc(100% - gutter) against the viewport.
+     Deriving the backing store from documentElement.clientHeight instead can give
+     a wildly different number (it returns the whole document height in quirks
+     mode), which stretches the bitmap. Measure the element itself so the two
+     can never disagree. */
+  function fit(c, cx){
+    const r = c.getBoundingClientRect();
+    const w = Math.max(1, Math.round(r.width));
+    const h = Math.max(1, Math.round(r.height));
+    c.width = Math.round(w * dpr);
+    c.height = Math.round(h * dpr);
+    cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return [w, h, r.left, r.top];
+  }
+
+  function build(){
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    readGutter();
+    const dz = fit(cv, ctx);
+    W = dz[0]; H = dz[1]; originX = dz[2]; originY = dz[3];
+    rxW = fit(rx, rxc)[0];
+    ryH = fit(ry, ryc)[1];
+
+    cols = Math.ceil(W / SPACING) + 2;
+    rows = Math.ceil(H / SPACING) + 2;
+    dots = new Array(cols * rows);
+    let i = 0;
+    for (let r = 0; r < rows; r++){
+      for (let c = 0; c < cols; c++){
+        dots[i++] = { bx: c * SPACING, by: r * SPACING, ox: 0, oy: 0 };
+      }
+    }
+    readTokens();
+    settled = false;
+    kick();
+  }
+
+  function drawDots(){
+    ctx.clearRect(0, 0, W, H);
+    // grid scrolls with the page: shift the whole field by the scroll remainder
+    const phase = -(scrollY % SPACING);
+    const ease = reduce ? 1 : 0.16;
+    let maxMove = 0;
+
+    ctx.beginPath();                       // resting dots \u2014 one fill
+    const hot = [];
+    for (let i = 0; i < dots.length; i++){
+      const d = dots[i];
+      const x = d.bx, y = d.by + phase;
+      let tx = 0, ty = 0, near = 0;
+
+      if (!reduce){
+        const dx = mx - x, dy = my - y;
+        const d2 = dx * dx + dy * dy;
+        if (d2 < R * R){
+          const dist = Math.sqrt(d2) || 0.0001;
+          const f = 1 - dist / R;
+          near = f;
+          const push = Math.min(PULL * f * f * 1.6, dist);   // pull toward, never overshoot
+          tx = (dx / dist) * push;
+          ty = (dy / dist) * push;
+        }
+      }
+      d.ox += (tx - d.ox) * ease;
+      d.oy += (ty - d.oy) * ease;
+      const m = Math.abs(d.ox) + Math.abs(d.oy);
+      if (m > maxMove) maxMove = m;
+
+      const px = x + d.ox, py = y + d.oy;
+      if (px < -8 || px > W + 8 || py < -8 || py > H + 8) continue;
+
+      if (near > 0.08){
+        hot.push(px, py, near);
+      } else {
+        ctx.moveTo(px + 1.15, py);
+        ctx.arc(px, py, 1.15, 0, 6.2832);
+      }
+    }
+    ctx.fillStyle = cDot;
+    ctx.fill();
+
+    for (let i = 0; i < hot.length; i += 3){         // attracted dots read warmer + larger
+      const n = hot[i + 2];
+      ctx.beginPath();
+      ctx.arc(hot[i], hot[i + 1], 1.15 + n * 1.5, 0, 6.2832);
+      ctx.globalAlpha = 0.25 + n * 0.75;
+      ctx.fillStyle = cHot;
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+    settled = reduce || (maxMove < 0.04 && mx < -1000);
+  }
+
+  function ticks(cx, len, cross, offset, horiz, thick){
+    cx.clearRect(0, 0, horiz ? len : thick, horiz ? thick : len);
+    cx.fillStyle = cPaper2;
+    cx.fillRect(0, 0, horiz ? len : thick, horiz ? thick : len);
+    const majT = Math.max(4, Math.round(thick * 0.28));   // ticks follow the ruler's thickness
+    const minT = Math.max(2, Math.round(thick * 0.14));
+    const fs   = thick >= 26 ? 8 : 7;
+    cx.fillStyle = cRule;
+    cx.font = fs + 'px "Geist Mono", ui-monospace, monospace';
+    cx.textBaseline = "middle";
+
+    const start = Math.floor(offset / 10) * 10;
+    for (let v = start; v <= offset + len; v += 10){
+      const p = Math.round(v - offset) + 0.5;
+      if (p < 0 || p > len) continue;
+      const major = v % 100 === 0;
+      cx.fillStyle = major ? cLabel : cRule;
+      if (horiz) cx.fillRect(p, thick - (major ? majT : minT), 1, major ? majT : minT);
+      else       cx.fillRect(thick - (major ? majT : minT), p, major ? majT : minT, 1);
+
+      if (major){
+        cx.fillStyle = cLabel;
+        if (horiz){
+          cx.textAlign = "left";
+          cx.fillText(String(v), p + 3, Math.round(thick * 0.27));
+        } else {
+          cx.save();
+          cx.translate(Math.round(thick * 0.3), p + 3);
+          cx.rotate(-Math.PI / 2);
+          cx.textAlign = "left";
+          cx.fillText(String(v), 0, 0);
+          cx.restore();
+        }
+      }
+    }
+    if (cross !== null && cross >= 0 && cross <= len){    // cursor marker
+      cx.fillStyle = cAccent;
+      if (horiz) cx.fillRect(Math.round(cross), 0, 1, thick);
+      else       cx.fillRect(0, Math.round(cross), thick, 1);
+    }
+  }
+
+  function drawRulers(){
+    const live = !reduce && mx > -1000;
+    ticks(rxc, rxW, live ? mx : null, 0, true, rx.height / dpr);
+    ticks(ryc, ryH, live ? my : null, scrollY, false, ry.width / dpr);
+  }
+
+  function frame(){
+    drawDots();
+    drawRulers();
+    if (settled){ running = false; return; }
+    requestAnimationFrame(frame);
+  }
+  function kick(){
+    if (running) return;
+    running = true;
+    requestAnimationFrame(frame);
+  }
+
+  window.addEventListener("pointermove", e => {
+    if (menuOpen) return;         // panel open: the canvas holds still behind it
+    mx = e.clientX - originX;
+    my = e.clientY - originY;
+    outX.textContent = Math.max(0, Math.round(mx));
+    outY.textContent = Math.max(0, Math.round(my + scrollY));
+    if (reduce) return;            // no ruler marker, no dot response
+    settled = false;
+    kick();
+  }, { passive: true });
+
+  window.addEventListener("pointerleave", () => { mx = my = -9999; settled = false; kick(); });
+
+  window.addEventListener("scroll", () => {
+    scrollY = window.scrollY;
+    settled = false;
+    kick();
+  }, { passive: true });
+
+  let rt;
+  window.addEventListener("resize", () => {
+    if (document.documentElement.clientWidth > 440) setMenu(false);
+    clearTimeout(rt); rt = setTimeout(build, 120);
+  });
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { readTokens(); settled = false; kick(); });
+
+  // collapsed menu
+  const bar = document.getElementById("bar");
+  const burger = document.getElementById("burger");
+  const menu = document.getElementById("menu");
+  const setMenu = open => {
+    bar.dataset.open = String(open);
+    burger.setAttribute("aria-expanded", String(open));
+    menuOpen = open;
+    if (open){                    // drop any attraction still under the panel
+      mx = my = -9999;
+      for (const d of dots){ d.ox = 0; d.oy = 0; }
+      settled = false;
+      kick();
+    }
+  };
+  burger.addEventListener("click", e => {
+    e.stopPropagation();
+    setMenu(bar.dataset.open !== "true");
+  });
+  menu.addEventListener("click", e => { if (e.target.closest("a")) setMenu(false); });
+  document.addEventListener("click", e => {
+    if (bar.dataset.open === "true" && !bar.contains(e.target)) setMenu(false);
+  });
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && bar.dataset.open === "true"){ setMenu(false); burger.focus(); }
+  });
+
+  // reduce-motion switch
+  const btn = document.getElementById("motion");
+  function setMotion(on){
+    reduce = on;
+    btn.setAttribute("aria-checked", String(on));
+    document.documentElement.dataset.motion = on ? "reduced" : "full";
+    if (on){
+      for (const d of dots){ d.ox = 0; d.oy = 0; }   // snap the field back to the grid
+    }
+    settled = false;
+    kick();
+  }
+  btn.addEventListener("click", () => setMotion(!reduce));
+  mqReduce.addEventListener("change", e => setMotion(e.matches));
+  setMotion(reduce);
+
+  // selections report their real measured size, the way a design tool does
+  const ro = "ResizeObserver" in window ? new ResizeObserver(entries => {
+    for (const e of entries){
+      const out = e.target._dimOut;
+      if (!out) continue;
+      const box = e.target._dimBox || e.target;
+      out.textContent = Math.round(box.offsetWidth) + " \u00D7 " + Math.round(box.offsetHeight);
+    }
+  }) : null;
+
+  if (ro){
+    const heroSel = document.querySelector(".hero .sel");
+    const dim = document.getElementById("dim");
+    if (heroSel && dim){
+      heroSel._dimOut = dim;
+      heroSel._dimBox = document.querySelector(".hero .sel-box");
+      ro.observe(heroSel);
+    }
+    for (const body of document.querySelectorAll(".card .card-body")){
+      body._dimOut = body.querySelector(".dim-out");
+      ro.observe(body);
+    }
+  }
+
+  // the rulers are painted into a canvas, which takes no part in font swap \u2014
+  // repaint once the webfont is actually available
+  if (document.fonts && document.fonts.ready){
+    document.fonts.ready.then(() => { settled = false; kick(); });
+  }
+
+  scrollY = window.scrollY;
+  build();
+})();
+</script>
+
+</body>
+</html>
