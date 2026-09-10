@@ -42,6 +42,7 @@
   --select:#2E5BEA;
   --on-select:#FFFFFF;
   --chrome:rgba(246,246,243,.82);
+  --menu:rgba(243,243,239,.985);   /* collapsed mobile menu: near-opaque so the page doesn't read through */
   --card:#FFFFFF;
   --sticker:#FBE58A;
   --sticker-ink:#221F10;
@@ -75,6 +76,7 @@
     --select:#7391FF;
     --on-select:#0E1220;
     --chrome:rgba(25,26,30,.82);
+    --menu:rgba(22,23,26,.985);
     --card:#1B1C20;
     --sticker:#E7CE72;
     --sticker-ink:#221F10;
@@ -96,6 +98,7 @@
   --select:#7391FF;
   --on-select:#0E1220;
   --chrome:rgba(25,26,30,.82);
+  --menu:rgba(22,23,26,.985);
   --card:#1B1C20;
   --sticker:#E7CE72;
   --sticker-ink:#221F10;
@@ -300,6 +303,7 @@ h1.name{
 .tlayer{
   position:relative;
   align-self:flex-start;
+  width:max-content;      /* hug the line(s) so the box wraps the text, not the column */
   max-width:100%;
   transform:rotate(-1.8deg);
   transform-origin:0 50%;
@@ -356,9 +360,18 @@ h2{
   padding:clamp(13px,1.3vw,17px);
   transition:border-color .18s ease;
 }
-.card:hover .card-label,.card:focus-within .card-label{color:var(--select)}
-.card:hover .card-body,.card:focus-within .card-body{border-color:var(--rule)}
-.card:hover .sel-box,.card:focus-within .sel-box{opacity:1}
+/* hover only where a real pointer can hover — otherwise a tap on a touch
+   screen leaves the card stuck in its hover state until you tap elsewhere */
+@media (hover:hover){
+  .card:hover .card-label{color:var(--select)}
+  .card:hover .card-body{border-color:var(--rule)}
+  .card:hover .sel-box{opacity:1}
+}
+/* keyboard focus still gets the treatment; :focus-visible (not :focus-within)
+   so a touch tap that focuses the link doesn't trigger it */
+.card:has(:focus-visible) .card-label{color:var(--select)}
+.card:has(:focus-visible) .card-body{border-color:var(--rule)}
+.card:has(:focus-visible) .sel-box{opacity:1}
 .card .sel-box{inset:-9px}
 .card .sel-box i{background:var(--card)}
 .thumb{
@@ -426,6 +439,7 @@ footer{
 @media (max-width:560px){
   h1.name{white-space:normal;font-size:28.8cqw}   /* longest word measures 3.42em */
   h1.name span{display:block}
+  .lede{max-width:14em;text-wrap:balance}   /* wrap into a tight, even column so .tlayer's box hugs it */
 }
 @media (max-width:560px){
   :root{--gutter:18px}
@@ -449,9 +463,9 @@ footer{
     display:flex;
     position:absolute;top:100%;left:0;right:0;
     flex-direction:column;
-    background:var(--chrome);
-    -webkit-backdrop-filter:blur(8px);
-    backdrop-filter:blur(8px);
+    background:var(--menu);
+    -webkit-backdrop-filter:blur(18px) saturate(1.4);
+    backdrop-filter:blur(18px) saturate(1.4);
     border:0;
     border-bottom:1px solid var(--rule);
     padding:6px;
@@ -484,9 +498,6 @@ footer{
     padding:11px 12px;margin-top:5px;margin-left:0;
     border-top:1px solid var(--rule-soft);
   }
-}
-@media (max-width:400px){
-  .burger-label{display:none}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
@@ -710,6 +721,8 @@ footer{
   let mx = -9999, my = -9999;   // cursor in canvas space
   let scrollY = 0;
   let running = false, settled = true, menuOpen = false;
+  let touchInput = false;       // last input came from a touch — suppress the ruler's cursor line
+  let pDown = false;            // a touch is currently held — gate the dot response to this
 
   const css = getComputedStyle(document.documentElement);
   let cDot, cHot, cRule, cLabel, cAccent, cPaper2;
@@ -863,7 +876,9 @@ footer{
   }
 
   function drawRulers(){
-    const live = !reduce && mx > -1000;
+    // a touch doesn't glide toward a target the way a cursor does, so the
+    // marker just jumps — show it only for a real hovering pointer
+    const live = !reduce && mx > -1000 && !touchInput;
     ticks(rxc, rxW, live ? mx : null, 0, true, rx.height / dpr);
     ticks(ryc, ryH, live ? my : null, scrollY, false, ry.width / dpr);
   }
@@ -880,18 +895,43 @@ footer{
     requestAnimationFrame(frame);
   }
 
-  window.addEventListener("pointermove", e => {
-    if (menuOpen) return;         // panel open: the canvas holds still behind it
+  function track(e){
     mx = e.clientX - originX;
     my = e.clientY - originY;
     outX.textContent = Math.max(0, Math.round(mx));
     outY.textContent = Math.max(0, Math.round(my + scrollY));
-    if (reduce) return;            // no ruler marker, no dot response
+    if (reduce) return;
     settled = false;
     kick();
+  }
+  function release(){
+    pDown = false;
+    mx = my = -9999;              // let the field ease back to the grid
+    settled = false;
+    kick();
+  }
+
+  window.addEventListener("pointermove", e => {
+    if (menuOpen) return;         // panel open: the canvas holds still behind it
+    if (e.pointerType === "touch"){
+      touchInput = true;
+      if (!pDown) return;         // touch: the field only reacts while the screen is held
+    } else {
+      touchInput = false;
+    }
+    track(e);
   }, { passive: true });
 
-  window.addEventListener("pointerleave", () => { mx = my = -9999; settled = false; kick(); });
+  window.addEventListener("pointerdown", e => {
+    if (menuOpen || e.pointerType !== "touch") return;
+    touchInput = true;
+    pDown = true;
+    track(e);                     // tap: pull the field toward the touch point
+  }, { passive: true });
+
+  window.addEventListener("pointerup", e => { if (e.pointerType === "touch") release(); }, { passive: true });
+  window.addEventListener("pointercancel", e => { if (e.pointerType === "touch") release(); }, { passive: true });
+  window.addEventListener("pointerleave", () => { if (!pDown) release(); });
 
   window.addEventListener("scroll", () => {
     scrollY = window.scrollY;
