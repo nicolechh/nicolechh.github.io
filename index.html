@@ -28,7 +28,7 @@
 
 <style>
 :root{
-  --paper:#fcfcfc;
+  --paper:#f8f8f6;
   --paper-2:#F6F6F3;
   --ink:#16171A;
   --ink-2:#4D5055;
@@ -41,8 +41,7 @@
   --accent:#C03E0F;
   --select:#2E5BEA;
   --on-select:#FFFFFF;
-  --chrome:rgba(246,246,243,.82);
-  --menu-bg:#F6F6F3;
+  --menu-bg:#fcfcfc;
   --ruler-bg:#fcfcfc;
   --card:#FFFFFF;
   --sticker:#FBE58A;
@@ -76,7 +75,6 @@
     --accent:#FF7A40;
     --select:#7391FF;
     --on-select:#0E1220;
-    --chrome:rgba(25,26,30,.82);
     --menu-bg:#191A1E;
     --ruler-bg:#191A1E;
     --card:#1B1C20;
@@ -99,7 +97,6 @@
   --accent:#FF7A40;
   --select:#7391FF;
   --on-select:#0E1220;
-  --chrome:rgba(25,26,30,.82);
   --menu-bg:#191A1E;
   --ruler-bg:#191A1E;
   --card:#1B1C20;
@@ -163,13 +160,8 @@ body{
   -webkit-backdrop-filter:blur(8px);
   backdrop-filter:blur(8px);
 }
-.bar{background:var(--chrome)}
+.bar{background:var(--menu-bg)}
 .readout{background:var(--ruler-bg)}
-/* while the menu is open, the bar it hangs from reads as one solid piece
-   with it rather than staying at the lighter resting-state opacity */
-#bar[data-open="true"]{
-  background:var(--menu-bg);
-}
 .logo{
   width:32px;height:32px;flex:none;display:block;
   transition:transform .22s cubic-bezier(.4,0,.2,1);
@@ -245,7 +237,7 @@ section{scroll-margin-top:calc(var(--gutter) + 46px + 24px)}
 .sel{position:relative}
 .sel-box{
   position:absolute;inset:-22px calc(-1 * var(--sel-x));
-  border:1px dashed var(--select);
+  border:1px solid var(--select);
   opacity:0;transition:opacity .2s ease;pointer-events:none;
 }
 .sel-box i{
@@ -307,8 +299,9 @@ h1.name{
   border-radius:100px;
   box-shadow:0 0 0 3px var(--sticker-edge),0 9px 20px rgba(24,20,6,.24);
 }
-/* a loose Figma text layer: solid selection box (the name's marquee is dashed,
-   so the two read as different object types) nudged off-axis */
+/* a loose Figma text layer: heavier 1.5px selection box (vs. the name
+   marquee's 1px) so the two still read as different object types, nudged
+   off-axis */
 .tlayer{
   position:relative;
   align-self:flex-start;
@@ -542,7 +535,7 @@ footer{
 <canvas id="dots" aria-hidden="true"></canvas>
 <canvas id="ruler-x" class="chrome" aria-hidden="true"></canvas>
 <canvas id="ruler-y" class="chrome" aria-hidden="true"></canvas>
-<div class="corner chrome" aria-hidden="true">100</div>
+<div class="corner chrome" aria-hidden="true"></div>
 <div class="readout chrome" aria-hidden="true"><span><b>X</b><span id="rx">0</span></span><span><b>Y</b><span id="ry">0</span></span></div>
 
 <nav class="bar" id="bar" data-open="false">
