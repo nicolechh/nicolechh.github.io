@@ -261,9 +261,15 @@ section{scroll-margin-top:calc(var(--gutter) + 46px + 24px)}
 /* ---------- hero ---------- */
 .hero{
   /* body's own padding now clears the bar+ruler chrome (see body{} above),
-     so this only needs to account for the gap itself, not the bar again */
+     so this only needs to account for the gap itself, not the bar again.
+     svh is fixed to the *smallest* possible viewport (address bar fully
+     expanded) -- safe, but on iOS Safari the actual visible area at load
+     is often already larger than that (chrome mid-collapse), so a hero
+     sized to svh comes up short and the next section peeks in at the
+     bottom. dvh tracks whatever the current visible area actually is. */
   min-height:calc(100vh - 46px - var(--gutter));
   min-height:calc(100svh - 46px - var(--gutter));
+  min-height:calc(100dvh - 46px - var(--gutter));
   display:flex;flex-direction:column;align-items:stretch;
   justify-content:center;
   /* short viewports: fall back to start rather than overflowing both edges */
