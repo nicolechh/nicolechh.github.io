@@ -302,7 +302,7 @@ h1.name{
 .sticker{
   position:absolute;z-index:3;margin:0;
   top:0;right:0;
-  transform:translate(0,calc(-58% - 24px)) rotate(8deg);
+  transform:translate(0,calc(-58% - 36px)) rotate(5deg);
   transform-origin:100% 50%;
   font-family:var(--mono);
   font-size:clamp(1.15rem,2vw,1.65rem);font-weight:700;   /* matches .lede */
@@ -312,6 +312,17 @@ h1.name{
   border:1.5px solid var(--tag-blue);
   padding:9px 17px;
 }
+/* corner handles, same idea as .sel-box/.tbox's, so this reads as a
+   marquee too -- paper-coloured fill (punching through the solid blue)
+   with a border in the same blue */
+.sticker i{
+  position:absolute;width:6px;height:6px;
+  background:var(--paper);border:1.5px solid var(--tag-blue);
+}
+.sticker i:nth-child(1){left:-3.5px;top:-3.5px}
+.sticker i:nth-child(2){right:-3.5px;top:-3.5px}
+.sticker i:nth-child(3){left:-3.5px;bottom:-3.5px}
+.sticker i:nth-child(4){right:-3.5px;bottom:-3.5px}
 /* the lede's frame, tilted the same way the "Product designer" tag is */
 .tlayer{
   position:relative;
@@ -472,7 +483,7 @@ footer{
   :root{--gutter:0px}
   #ruler-x,#ruler-y,.corner{display:none}
   .readout{display:none}
-  .sticker{transform:translate(0,-58%) rotate(8deg);padding:7px 13px}
+  .sticker{transform:translate(0,calc(-58% - 12px)) rotate(5deg);padding:7px 13px}
 }
 /* the bar is viewport minus the gutter, so centred links clear the toggle
    only above ~490px of viewport — go straight to the hamburger at that
@@ -581,7 +592,7 @@ footer{
 <main lang="en">
   <section id="home" class="hero">
     <div class="sel">
-      <p class="sticker">Product designer</p>
+      <p class="sticker"><i></i><i></i><i></i><i></i>Product designer</p>
       <h1 class="name" aria-label="Nicole Chou"><span>Nicole</span> <span>Chou</span></h1>
     </div>
     <div class="tlayer">
