@@ -48,7 +48,7 @@
   --sticker-ink:#221F10;
   --sticker-edge:#FFFDF4;
 
-  --gutter:30px;
+  --gutter:18px;   /* same thickness the ruler used on mobile before it was hidden there */
   --step:8px;
   --maxw:1180px;
 
@@ -113,26 +113,26 @@ body{
   font-size:16px;
   line-height:1.55;
   margin:0;
-  padding:var(--gutter) 0 0 var(--gutter);
+  padding:calc(46px + var(--gutter)) 0 0 var(--gutter);   /* bar height + the ruler frame now below it */
   overflow-x:hidden;
   -webkit-font-smoothing:antialiased;
 }
 
 /* ---------- canvas layers ---------- */
+/* the ruler frame now sits below the full-width bar, so everything here
+   is offset by its 46px height */
 #dots{
-  position:fixed; inset:var(--gutter) 0 0 var(--gutter);
-  width:calc(100% - var(--gutter)); height:calc(100% - var(--gutter));
+  position:fixed; inset:calc(46px + var(--gutter)) 0 0 var(--gutter);
+  width:calc(100% - var(--gutter)); height:calc(100% - 46px - var(--gutter));
   z-index:0; pointer-events:none;
 }
 .chrome{position:fixed;z-index:60;pointer-events:none}
 /* explicit CSS size: a canvas won't stretch to `right`/`bottom` on its own,
    so without this the strip stops short of the edge after any resize */
-#ruler-x{top:0;left:var(--gutter);right:0;height:var(--gutter);width:calc(100% - var(--gutter));border-bottom:1px solid var(--rule)}
-#ruler-y{top:var(--gutter);left:0;bottom:0;width:var(--gutter);height:calc(100% - var(--gutter));border-right:1px solid var(--rule)}
-#ruler-x,#ruler-y{background:var(--ruler-bg)}
+#ruler-x{top:46px;left:var(--gutter);right:0;height:var(--gutter);width:calc(100% - var(--gutter));border-bottom:1px solid var(--rule)}
+#ruler-y{top:calc(46px + var(--gutter));left:0;bottom:0;width:var(--gutter);height:calc(100% - 46px - var(--gutter));border-right:1px solid var(--rule)}
 .corner{
-  top:0;left:0;width:var(--gutter);height:var(--gutter);
-  background:var(--ruler-bg);
+  top:46px;left:0;width:var(--gutter);height:var(--gutter);
   border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);
   display:grid;place-items:center;
   font-family:var(--mono);font-size:8px;color:var(--ink-3);letter-spacing:.02em;
@@ -149,7 +149,7 @@ body{
 
 /* ---------- nav ---------- */
 .bar{
-  position:fixed;top:var(--gutter);left:var(--gutter);right:0;height:46px;z-index:50;
+  position:fixed;top:0;left:0;right:0;height:46px;z-index:50;
   display:flex;align-items:center;justify-content:flex-start;
   gap:clamp(14px,2.4vw,26px);padding:0 14px;
   border-bottom:1px solid var(--rule-soft);
@@ -257,14 +257,16 @@ section{scroll-margin-top:calc(var(--gutter) + 46px + 24px)}
 
 /* ---------- hero ---------- */
 .hero{
-  min-height:calc(100vh - var(--gutter));
-  min-height:calc(100svh - var(--gutter));
+  /* body's own padding now clears the bar+ruler chrome (see body{} above),
+     so this only needs to account for the gap itself, not the bar again */
+  min-height:calc(100vh - 46px - var(--gutter));
+  min-height:calc(100svh - 46px - var(--gutter));
   display:flex;flex-direction:column;align-items:stretch;
   justify-content:center;
   /* short viewports: fall back to start rather than overflowing both edges */
   justify-content:safe center;
   gap:clamp(86px,10vh,112px);  /* clears the marquee inset, the size chip, and the tilted text box */
-  padding:calc(46px + clamp(40px,5vh,60px)) 0 clamp(36px,7vh,72px);
+  padding:clamp(40px,5vh,60px) 0 clamp(36px,7vh,72px);
   text-align:left;
   position:relative;
 }
@@ -752,14 +754,13 @@ footer{
   let pDown = false;            // a touch is currently held — gate the dot response to this
 
   const css = getComputedStyle(document.documentElement);
-  let cDot, cHot, cRule, cLabel, cAccent, cRulerBg;
+  let cDot, cHot, cRule, cLabel, cAccent;
   function readTokens(){
-    cDot     = css.getPropertyValue("--dot").trim();
-    cHot     = css.getPropertyValue("--dot-hot").trim();
-    cRule    = css.getPropertyValue("--edge").trim();   // ruler minor ticks
-    cLabel   = css.getPropertyValue("--ink-3").trim();
-    cAccent  = css.getPropertyValue("--accent").trim();
-    cRulerBg = css.getPropertyValue("--ruler-bg").trim();
+    cDot    = css.getPropertyValue("--dot").trim();
+    cHot    = css.getPropertyValue("--dot-hot").trim();
+    cRule   = css.getPropertyValue("--edge").trim();   // ruler minor ticks
+    cLabel  = css.getPropertyValue("--ink-3").trim();
+    cAccent = css.getPropertyValue("--accent").trim();
   }
 
   function readGutter(){
@@ -883,9 +884,7 @@ footer{
   }
 
   function ticks(cx, len, cross, offset, horiz, thick){
-    cx.clearRect(0, 0, horiz ? len : thick, horiz ? thick : len);
-    cx.fillStyle = cRulerBg;
-    cx.fillRect(0, 0, horiz ? len : thick, horiz ? thick : len);
+    cx.clearRect(0, 0, horiz ? len : thick, horiz ? thick : len);   // no fill after this: the ruler is transparent, whatever's behind it shows through
     const majT = Math.max(4, Math.round(thick * 0.28));   // ticks follow the ruler's thickness
     const minT = Math.max(2, Math.round(thick * 0.14));
     const fs   = thick >= 26 ? 8 : 7;
