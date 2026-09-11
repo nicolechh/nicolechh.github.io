@@ -461,23 +461,24 @@ footer{
 @media (max-width:440px){
   .burger{display:flex}
   /* stays in the DOM so it can animate; `visibility` (not display) keeps the
-     links out of the tab order while closed, and clip-path reveals the panel
-     downward so it reads as sliding out from under the bar.
-     The blur lives on .menu-panel, one level in, rather than here: Safari
-     silently drops backdrop-filter on an element that also has clip-path
-     on it, so the two effects have to sit on different elements. */
+     links out of the tab order while closed. The blurred panel is one level
+     in (.menu-panel), and — just as important — none of the reveal animation
+     lives on *this* wrapper: an ancestor with opacity/transform/clip-path
+     makes browsers composite the panel's backdrop-filter from an isolated,
+     mostly-blank layer instead of the real page behind it, which is why the
+     blur read as much weaker here than on .bar. max-height + overflow is the
+     one reveal technique that doesn't trigger that. */
   .menu{
     display:block;
     position:absolute;top:100%;left:0;right:0;
-    clip-path:inset(0 0 100% 0);
-    transform:translateY(-10px);
-    opacity:0;
+    overflow:hidden;
+    max-height:0;
     visibility:hidden;
-    transition:clip-path .3s cubic-bezier(.4,0,.2,1),
-               transform .3s cubic-bezier(.4,0,.2,1),
-               opacity .18s ease,
+    transition:max-height .3s cubic-bezier(.4,0,.2,1),
                visibility 0s linear .3s;
   }
+  /* the slide + fade move here instead — same element as the blur, which is
+     the combination that doesn't fight backdrop-filter */
   .menu-panel{
     display:flex;
     flex-direction:column;
@@ -486,16 +487,22 @@ footer{
     backdrop-filter:blur(8px);
     border-bottom:1px solid var(--rule);
     padding:6px;
+    transform:translateY(-10px);
+    opacity:0;
+    transition:transform .3s cubic-bezier(.4,0,.2,1),
+               opacity .18s ease;
   }
   #bar[data-open="true"] .menu{
-    clip-path:inset(0 0 0 0);
+    max-height:400px;
+    visibility:visible;
+    transition:max-height .3s cubic-bezier(.4,0,.2,1),
+               visibility 0s;
+  }
+  #bar[data-open="true"] .menu-panel{
     transform:translateY(0);
     opacity:1;
-    visibility:visible;
-    transition:clip-path .3s cubic-bezier(.4,0,.2,1),
-               transform .3s cubic-bezier(.4,0,.2,1),
-               opacity .16s ease,
-               visibility 0s;
+    transition:transform .3s cubic-bezier(.4,0,.2,1),
+               opacity .16s ease;
   }
   .nav{flex-direction:column;gap:0;width:100%}
   .nav a{padding:11px 12px;width:100%}
