@@ -161,6 +161,11 @@ body{
   -webkit-backdrop-filter:blur(8px);
   backdrop-filter:blur(8px);
 }
+/* while the menu is open, the bar it hangs from reads as one solid piece
+   with it rather than staying at the lighter resting-state opacity */
+#bar[data-open="true"]{
+  background:var(--menu-bg);
+}
 .logo{
   width:32px;height:32px;flex:none;display:block;
   transition:transform .22s cubic-bezier(.4,0,.2,1);
@@ -187,7 +192,7 @@ body{
 }
 .burger-bars{display:flex;flex-direction:column;gap:4px;width:16px}
 .burger-bars span{
-  display:block;width:16px;height:1.5px;background:var(--ink-2);
+  display:block;width:16px;height:2px;background:var(--ink-2);
   transition:transform .22s cubic-bezier(.4,0,.2,1);
 }
 #bar[data-open="true"] .burger-bars span:nth-child(1){transform:translateY(2.75px) rotate(45deg)}
