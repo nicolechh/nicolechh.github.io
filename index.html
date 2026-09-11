@@ -43,6 +43,7 @@
   --on-select:#FFFFFF;
   --chrome:rgba(246,246,243,.82);
   --menu-bg:#F6F6F3;
+  --ruler-bg:#fcfcfc;
   --card:#FFFFFF;
   --sticker:#FBE58A;
   --sticker-ink:#221F10;
@@ -77,6 +78,7 @@
     --on-select:#0E1220;
     --chrome:rgba(25,26,30,.82);
     --menu-bg:#191A1E;
+    --ruler-bg:#191A1E;
     --card:#1B1C20;
     --sticker:#E7CE72;
     --sticker-ink:#221F10;
@@ -99,6 +101,7 @@
   --on-select:#0E1220;
   --chrome:rgba(25,26,30,.82);
   --menu-bg:#191A1E;
+  --ruler-bg:#191A1E;
   --card:#1B1C20;
   --sticker:#E7CE72;
   --sticker-ink:#221F10;
@@ -130,10 +133,10 @@ body{
    so without this the strip stops short of the edge after any resize */
 #ruler-x{top:0;left:var(--gutter);right:0;height:var(--gutter);width:calc(100% - var(--gutter));border-bottom:1px solid var(--rule)}
 #ruler-y{top:var(--gutter);left:0;bottom:0;width:var(--gutter);height:calc(100% - var(--gutter));border-right:1px solid var(--rule)}
-#ruler-x,#ruler-y{background:var(--paper-2)}
+#ruler-x,#ruler-y{background:var(--ruler-bg)}
 .corner{
   top:0;left:0;width:var(--gutter);height:var(--gutter);
-  background:var(--paper-2);
+  background:var(--ruler-bg);
   border-right:1px solid var(--rule);border-bottom:1px solid var(--rule);
   display:grid;place-items:center;
   font-family:var(--mono);font-size:8px;color:var(--ink-3);letter-spacing:.02em;
@@ -157,10 +160,11 @@ body{
 }
 /* the toolbar and the coordinate readout are the same pane of glass */
 .bar,.readout{
-  background:var(--chrome);
   -webkit-backdrop-filter:blur(8px);
   backdrop-filter:blur(8px);
 }
+.bar{background:var(--chrome)}
+.readout{background:var(--ruler-bg)}
 /* while the menu is open, the bar it hangs from reads as one solid piece
    with it rather than staying at the lighter resting-state opacity */
 #bar[data-open="true"]{
@@ -755,14 +759,14 @@ footer{
   let pDown = false;            // a touch is currently held — gate the dot response to this
 
   const css = getComputedStyle(document.documentElement);
-  let cDot, cHot, cRule, cLabel, cAccent, cPaper2;
+  let cDot, cHot, cRule, cLabel, cAccent, cRulerBg;
   function readTokens(){
-    cDot    = css.getPropertyValue("--dot").trim();
-    cHot    = css.getPropertyValue("--dot-hot").trim();
-    cRule   = css.getPropertyValue("--edge").trim();   // ruler minor ticks
-    cLabel  = css.getPropertyValue("--ink-3").trim();
-    cAccent = css.getPropertyValue("--accent").trim();
-    cPaper2 = css.getPropertyValue("--paper-2").trim();
+    cDot     = css.getPropertyValue("--dot").trim();
+    cHot     = css.getPropertyValue("--dot-hot").trim();
+    cRule    = css.getPropertyValue("--edge").trim();   // ruler minor ticks
+    cLabel   = css.getPropertyValue("--ink-3").trim();
+    cAccent  = css.getPropertyValue("--accent").trim();
+    cRulerBg = css.getPropertyValue("--ruler-bg").trim();
   }
 
   function readGutter(){
@@ -865,7 +869,7 @@ footer{
 
   function ticks(cx, len, cross, offset, horiz, thick){
     cx.clearRect(0, 0, horiz ? len : thick, horiz ? thick : len);
-    cx.fillStyle = cPaper2;
+    cx.fillStyle = cRulerBg;
     cx.fillRect(0, 0, horiz ? len : thick, horiz ? thick : len);
     const majT = Math.max(4, Math.round(thick * 0.28));   // ticks follow the ruler's thickness
     const minT = Math.max(2, Math.round(thick * 0.14));
