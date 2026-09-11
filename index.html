@@ -474,6 +474,11 @@ footer{
   h1.name span{display:block}
   .lede{max-width:14em;text-wrap:balance;text-align:center}   /* wrap into a tight, even column so .tlayer's box hugs it */
   .tlayer{align-self:center}   /* alignLedeToI() skips the margin-left nudge below this width, leaving centering to this */
+  /* the base rule's top/bottom padding use different clamp() ranges (tuned
+     for desktop's proportions), which left content on mobile a bit off
+     centre within the full-height hero -- equal padding here actually
+     centers it */
+  .hero{padding:clamp(36px,6vh,64px) 0}
 }
 @media (max-width:560px){
   /* the gutter's only job was reserving room for the ruler frame; with the
