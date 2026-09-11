@@ -367,6 +367,13 @@ h2{
   .card:hover .card-body{border-color:var(--rule)}
   .card:hover .sel-box{opacity:1}
 }
+/* :active covers the touch case on purpose: it only applies while the finger
+   (or mouse button) is actually down, and browsers drop it the moment the
+   touch ends or turns into a scroll — so tapping shows the same treatment,
+   and it can't get stuck the way :hover/:focus-within did */
+.card:active .card-label{color:var(--select)}
+.card:active .card-body{border-color:var(--rule)}
+.card:active .sel-box{opacity:1}
 /* keyboard focus still gets the treatment; :focus-visible (not :focus-within)
    so a touch tap that focuses the link doesn't trigger it */
 .card:has(:focus-visible) .card-label{color:var(--select)}
@@ -707,6 +714,10 @@ footer{
   const PULL = 11;              // max attraction in px
   const mqReduce = matchMedia("(prefers-reduced-motion: reduce)");
   let reduce = mqReduce.matches;
+
+  // iOS Safari only applies :active to plain elements (like .card) once
+  // there's a touch listener in play — this no-op is the standard unlock
+  document.addEventListener("touchstart", () => {}, { passive: true });
 
   const cv = document.getElementById("dots");
   const ctx = cv.getContext("2d");
