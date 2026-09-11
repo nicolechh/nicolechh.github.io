@@ -1095,6 +1095,15 @@ footer{
   window.addEventListener("pointerup", e => { if (e.pointerType === "touch") release(); }, { passive: true });
   window.addEventListener("pointercancel", e => { if (e.pointerType === "touch") release(); }, { passive: true });
   window.addEventListener("pointerleave", () => { if (!pDown) release(); });
+  // belt-and-suspenders: pointerleave on window is inconsistent across
+  // browsers for "the mouse left the actual OS window" (as opposed to just
+  // an element boundary inside the page). pointerout with relatedTarget
+  // null is the standard, more reliable way to catch that -- it fires
+  // whenever the pointer leaves an element, and a null relatedTarget means
+  // there's no element it entered, i.e. it left the document entirely.
+  document.addEventListener("pointerout", e => {
+    if (e.pointerType !== "touch" && !e.relatedTarget && !pDown) release();
+  }, { passive: true });
 
   window.addEventListener("scroll", () => {
     scrollY = window.scrollY;
