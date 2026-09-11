@@ -105,7 +105,7 @@
 }
 
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}   /* stop mobile Safari/Chrome from auto-boosting small text -- render exactly what's specified */
 body{
   background:var(--paper);
   color:var(--ink);
@@ -270,6 +270,10 @@ section{scroll-margin-top:calc(var(--gutter) + 46px + 24px)}
   min-height:calc(100vh - 46px - var(--gutter));
   min-height:calc(100svh - 46px - var(--gutter));
   min-height:calc(100dvh - 46px - var(--gutter));
+  /* JS-measured window.innerHeight, set in build() -- the most reliable
+     source once it's run; the vh/svh/dvh lines above are the pre-JS/
+     no-JS fallback */
+  min-height:calc(var(--vh100, 100dvh) - 46px - var(--gutter));
   display:flex;flex-direction:column;align-items:stretch;
   justify-content:center;
   /* short viewports: fall back to start rather than overflowing both edges */
@@ -551,15 +555,17 @@ footer{
      that has to be undone here or it pulls the links out of .menu-panel's
      flex flow entirely, leaving just .motion to size the dropdown */
   .nav{position:static;top:auto;left:auto;transform:none;flex-direction:column;gap:0;width:100%}
-  .nav a{padding:11px 12px;width:100%}
+  .nav a{font-size:11px;padding:11px 12px;width:100%}   /* same as desktop's .nav a -- stated explicitly rather than left to inheritance */
   .nav a::after{display:none}
   .nav a:hover,.nav a:focus-visible{background:var(--select);color:var(--on-select)}
   .motion{
     position:static;transform:none;
     width:100%;justify-content:space-between;
+    font-size:10px;   /* same as desktop's .motion */
     padding:11px 12px;margin-top:5px;margin-left:0;
     border-top:1px solid var(--rule-soft);
   }
+  .motion-track{width:26px;height:14px}   /* same as desktop's switch */
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
@@ -823,6 +829,11 @@ footer{
 
   function build(){
     dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // belt-and-suspenders for iOS Safari: dvh/svh still misjudge the real
+    // visible viewport in some address-bar states, but window.innerHeight
+    // always reflects the browser's own actual current layout viewport --
+    // no unit-semantics ambiguity to get wrong
+    document.documentElement.style.setProperty("--vh100", window.innerHeight + "px");
     readGutter();
     const dz = fit(cv, ctx);
     W = dz[0]; H = dz[1]; originX = dz[2]; originY = dz[3];
