@@ -166,7 +166,7 @@ body{
 .logo:hover{transform:rotate(-9deg) scale(1.07)}
 .logo:active{transform:rotate(-9deg) scale(.93);transition-duration:.08s}
 .logo:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-.menu{display:contents}
+.menu,.menu-panel{display:contents}
 /* centred on the bar itself, so the wide toggle on the right doesn't shove
    the links off-centre the way space-between would */
 .nav{
@@ -462,17 +462,13 @@ footer{
   .burger{display:flex}
   /* stays in the DOM so it can animate; `visibility` (not display) keeps the
      links out of the tab order while closed, and clip-path reveals the panel
-     downward so it reads as sliding out from under the bar */
+     downward so it reads as sliding out from under the bar.
+     The blur lives on .menu-panel, one level in, rather than here: Safari
+     silently drops backdrop-filter on an element that also has clip-path
+     on it, so the two effects have to sit on different elements. */
   .menu{
-    display:flex;
+    display:block;
     position:absolute;top:100%;left:0;right:0;
-    flex-direction:column;
-    background:var(--chrome);            /* same pane of glass as .bar/.readout */
-    -webkit-backdrop-filter:blur(8px);
-    backdrop-filter:blur(8px);
-    border:0;
-    border-bottom:1px solid var(--rule);
-    padding:6px;
     clip-path:inset(0 0 100% 0);
     transform:translateY(-10px);
     opacity:0;
@@ -481,6 +477,15 @@ footer{
                transform .3s cubic-bezier(.4,0,.2,1),
                opacity .18s ease,
                visibility 0s linear .3s;
+  }
+  .menu-panel{
+    display:flex;
+    flex-direction:column;
+    background:var(--chrome);            /* same pane of glass as .bar/.readout */
+    -webkit-backdrop-filter:blur(8px);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--rule);
+    padding:6px;
   }
   #bar[data-open="true"] .menu{
     clip-path:inset(0 0 0 0);
@@ -528,15 +533,17 @@ footer{
     <span class="burger-label">Menu</span>
   </button>
   <div class="menu" id="menu">
-    <div class="nav">
-      <a href="#home">Home</a>
-      <a href="#work">Work</a>
-      <a href="#about">About</a>
+    <div class="menu-panel">
+      <div class="nav">
+        <a href="#home">Home</a>
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+      </div>
+      <button class="motion" id="motion" type="button" role="switch" aria-checked="false">
+        <span class="motion-label">Reduce motion</span>
+        <span class="motion-track" aria-hidden="true"></span>
+      </button>
     </div>
-    <button class="motion" id="motion" type="button" role="switch" aria-checked="false">
-      <span class="motion-label">Reduce motion</span>
-      <span class="motion-track" aria-hidden="true"></span>
-    </button>
   </div>
 </nav>
 
