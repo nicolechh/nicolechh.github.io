@@ -451,19 +451,21 @@ footer{
   .lede{max-width:14em;text-wrap:balance}   /* wrap into a tight, even column so .tlayer's box hugs it */
 }
 @media (max-width:560px){
-  :root{--gutter:18px}
+  /* the gutter's only job was reserving room for the ruler frame; with the
+     ruler hidden below, it collapses to 0 so body/#dots/.bar stop being
+     offset on the left only — main's own symmetric padding then gives
+     equal margins on both sides */
+  :root{--gutter:0px}
   #ruler-x,#ruler-y,.corner{display:none}
   .readout{display:none}
   .sticker{transform:translate(0,-58%) rotate(8deg);padding:7px 13px}
 }
-/* the inline bar needs ~394px of content plus the gutter, so it holds
-   comfortably to here before collapsing */
-/* the bar is viewport minus the gutter, so centred links clear the toggle only
-   above ~490px of viewport; below that fall back to flow order */
+/* the bar is viewport minus the gutter, so centred links clear the toggle
+   only above ~490px of viewport — go straight to the hamburger at that
+   point instead of an in-between state where the nav de-centers into flow
+   order while the toggle stays put; the two would only be one narrow step
+   apart from colliding, and it read as the layout hiccupping. */
 @media (max-width:500px){
-  .nav{position:static;top:auto;left:auto;transform:none}
-}
-@media (max-width:440px){
   .burger{display:flex}
   /* stays in the DOM so it can animate; `visibility` (not display) keeps the
      links out of the tab order while closed. The blurred panel is one level
