@@ -48,7 +48,7 @@
   --sticker-ink:#221F10;
   --sticker-edge:#FFFDF4;
 
-  --gutter:18px;   /* same thickness the ruler used on mobile before it was hidden there */
+  --gutter:24px;
   --step:8px;
   --maxw:1180px;
 
@@ -155,11 +155,11 @@ body{
   border-bottom:1px solid var(--rule-soft);
 }
 /* the toolbar and the coordinate readout are the same pane of glass */
-.bar,.readout{
+.bar,.readout,#ruler-x,#ruler-y,.corner{
   -webkit-backdrop-filter:blur(8px);
   backdrop-filter:blur(8px);
 }
-.bar{background:var(--menu-bg)}
+.bar,#ruler-x,#ruler-y,.corner{background:var(--menu-bg)}
 .readout{background:var(--ruler-bg)}
 .logo{
   width:32px;height:32px;flex:none;display:block;
