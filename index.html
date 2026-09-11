@@ -42,6 +42,7 @@
   --select:#2E5BEA;
   --on-select:#FFFFFF;
   --chrome:rgba(246,246,243,.82);
+  --menu-bg:rgba(246,246,243,.96);
   --card:#FFFFFF;
   --sticker:#FBE58A;
   --sticker-ink:#221F10;
@@ -75,6 +76,7 @@
     --select:#7391FF;
     --on-select:#0E1220;
     --chrome:rgba(25,26,30,.82);
+    --menu-bg:rgba(25,26,30,.96);
     --card:#1B1C20;
     --sticker:#E7CE72;
     --sticker-ink:#221F10;
@@ -96,6 +98,7 @@
   --select:#7391FF;
   --on-select:#0E1220;
   --chrome:rgba(25,26,30,.82);
+  --menu-bg:rgba(25,26,30,.96);
   --card:#1B1C20;
   --sticker:#E7CE72;
   --sticker-ink:#221F10;
@@ -482,7 +485,7 @@ footer{
   .menu-panel{
     display:flex;
     flex-direction:column;
-    background:var(--chrome);            /* same pane of glass as .bar/.readout */
+    background:var(--menu-bg);           /* solid enough to read even where blur doesn't render */
     -webkit-backdrop-filter:blur(8px);
     backdrop-filter:blur(8px);
     border-bottom:1px solid var(--rule);
