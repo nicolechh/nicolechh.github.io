@@ -41,6 +41,7 @@
   --accent:#C03E0F;
   --select:#2E5BEA;
   --on-select:#FFFFFF;
+  --chrome:rgba(246,246,243,.82);   /* translucent glass for .bar + the ruler frame -- kept separate from --menu-bg, which the mobile menu panel needs fully opaque */
   --menu-bg:#fcfcfc;
   --ruler-bg:#fcfcfc;
   --card:#FFFFFF;
@@ -74,6 +75,7 @@
     --accent:#FF7A40;
     --select:#7391FF;
     --on-select:#0E1220;
+    --chrome:rgba(25,26,30,.82);
     --menu-bg:#191A1E;
     --ruler-bg:#191A1E;
     --card:#1B1C20;
@@ -96,6 +98,7 @@
   --accent:#FF7A40;
   --select:#7391FF;
   --on-select:#0E1220;
+  --chrome:rgba(25,26,30,.82);
   --menu-bg:#191A1E;
   --ruler-bg:#191A1E;
   --card:#1B1C20;
@@ -159,7 +162,7 @@ body{
   -webkit-backdrop-filter:blur(8px);
   backdrop-filter:blur(8px);
 }
-.bar,#ruler-x,#ruler-y,.corner{background:var(--menu-bg)}
+.bar,#ruler-x,#ruler-y,.corner{background:var(--chrome)}
 .readout{background:var(--ruler-bg)}
 .logo{
   width:32px;height:32px;flex:none;display:block;
