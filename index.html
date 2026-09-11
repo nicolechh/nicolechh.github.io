@@ -45,9 +45,12 @@
   --menu-bg:#fcfcfc;
   --ruler-bg:#fcfcfc;
   --card:#FFFFFF;
-  --sticker:#FBE58A;
-  --sticker-ink:#221F10;
-  --sticker-edge:#FFFDF4;
+  /* fixed (not theme-swapped) so the marquee tag's white-on-blue contrast
+     ratio -- ~5.5:1, passing WCAG AA for normal text -- holds in both
+     themes; --select's dark value (#7391FF) is a light tint meant to sit
+     ON a dark page, not to carry white text itself, so reusing it here
+     would fail contrast in dark mode */
+  --tag-blue:#2E5BEA;
 
   --gutter:24px;
   --step:8px;
@@ -79,9 +82,6 @@
     --menu-bg:#191A1E;
     --ruler-bg:#191A1E;
     --card:#1B1C20;
-    --sticker:#E7CE72;
-    --sticker-ink:#221F10;
-    --sticker-edge:#F7F3E4;
   }
 }
 :root[data-theme="dark"]{
@@ -102,9 +102,6 @@
   --menu-bg:#191A1E;
   --ruler-bg:#191A1E;
   --card:#1B1C20;
-  --sticker:#E7CE72;
-  --sticker-ink:#221F10;
-  --sticker-edge:#F7F3E4;
 }
 
 *{box-sizing:border-box}
@@ -275,12 +272,10 @@ section{scroll-margin-top:calc(var(--gutter) + 46px + 24px)}
 }
 
 /* a query container, so the name fills the column even once it caps at --maxw
-   (viewport units keep growing past that cap and would overflow). The
-   padding gives the name room from the marquee's edges: cqw sizing is based
-   on the container's content box, so the name auto-shrinks to leave that
-   gap rather than the marquee having to extend past its own edges for it. */
-.hero .sel{container-type:inline-size;padding:0 clamp(14px,2vw,32px)}
-.hero .sel-box{opacity:1}
+   (viewport units keep growing past that cap and would overflow). No
+   padding here now -- the heading has no marquee to leave room for, so it
+   fills the same width #work/#about's content does. */
+.hero .sel{container-type:inline-size}
 h1.name{
   margin:0;
   font-family:var(--name);
@@ -295,40 +290,52 @@ h1.name{
                            line's own left/right gap equal instead of dumping
                            the shorter word's slack entirely on one side */
 }
-/* die-cut sticker slapped over the top-right corner of the selection */
+/* a marquee tag, not a die-cut sticker: solid fill in the same blue as
+   every other marquee's border (so border+fill are literally the same
+   colour, per spec, even though that makes the border itself invisible)
+   with bold white text. Fixed --tag-blue rather than --select, since
+   --select's dark-mode value can't carry white text at AA contrast --
+   see the --tag-blue definition. */
 .sticker{
   position:absolute;z-index:3;margin:0;
   top:0;right:0;
   transform:translate(0,-58%) rotate(8deg);
   transform-origin:100% 50%;
   font-family:var(--mono);
-  font-size:clamp(9px,1vw,11px);font-weight:500;
+  font-size:clamp(9px,1vw,11px);font-weight:700;
   letter-spacing:.1em;text-transform:uppercase;
-  color:var(--sticker-ink);
-  background:var(--sticker);
+  color:#FFFFFF;
+  background:var(--tag-blue);
+  border:1.5px solid var(--tag-blue);
   padding:9px 17px;
-  border-radius:100px;
-  box-shadow:0 0 0 3px var(--sticker-edge),0 9px 20px rgba(24,20,6,.24);
 }
-/* a second sticky note, same tilt as the "Product designer" tag, holding
-   the lede itself rather than framing it like a design-tool selection */
+/* the lede's frame, tilted the same way the "Product designer" tag is */
 .tlayer{
   position:relative;
   align-self:flex-start;
-  width:max-content;      /* hug the line(s) so the note wraps the text, not the column */
+  width:max-content;      /* hug the line(s) so the box wraps the text, not the column */
   max-width:100%;
   transform:rotate(-1.8deg);
   transform-origin:0 50%;
-  background:var(--sticker);
-  padding:18px 22px;
-  border-radius:3px;
-  box-shadow:0 0 0 3px var(--sticker-edge),0 10px 22px rgba(24,20,6,.22);
 }
+.tbox{
+  position:absolute;inset:-14px 0;
+  border:1.5px solid var(--select);
+  pointer-events:none;
+}
+.tbox i{
+  position:absolute;width:7px;height:7px;
+  background:var(--paper);border:1.5px solid var(--select);
+}
+.tbox i:nth-child(1){left:-4.25px;top:-4.25px}
+.tbox i:nth-child(2){right:-4.25px;top:-4.25px}
+.tbox i:nth-child(3){left:-4.25px;bottom:-4.25px}
+.tbox i:nth-child(4){right:-4.25px;bottom:-4.25px}
 .lede{
   margin:0;
   font-size:clamp(1.15rem,2vw,1.65rem);
   line-height:1.35;
-  color:var(--sticker-ink);
+  color:var(--ink-2);
   text-wrap:pretty;
 }
 
@@ -568,11 +575,11 @@ footer{
 <main lang="en">
   <section id="home" class="hero">
     <div class="sel">
-      <div class="sel-box" aria-hidden="true"><i></i><i></i><i></i><i></i><span class="sel-dim" id="dim">&mdash;</span></div>
       <p class="sticker">Product designer</p>
       <h1 class="name" aria-label="Nicole Chou"><span>Nicole</span> <span>Chou</span></h1>
     </div>
     <div class="tlayer">
+      <div class="tbox" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
       <p class="lede">I design the decisions, not just the screens.</p>
     </div>
   </section>
@@ -890,7 +897,7 @@ footer{
     cx.clearRect(0, 0, horiz ? len : thick, horiz ? thick : len);   // no fill after this: the ruler is transparent, whatever's behind it shows through
     const majT = Math.max(4, Math.round(thick * 0.28));   // ticks follow the ruler's thickness
     const minT = Math.max(2, Math.round(thick * 0.14));
-    const fs   = thick >= 26 ? 8 : 7;
+    const fs   = thick >= 26 ? 10 : 9;
     cx.fillStyle = cRule;
     cx.font = fs + 'px "Geist Mono", ui-monospace, monospace';
     cx.textBaseline = "middle";
@@ -1051,13 +1058,6 @@ footer{
   }) : null;
 
   if (ro){
-    const heroSel = document.querySelector(".hero .sel");
-    const dim = document.getElementById("dim");
-    if (heroSel && dim){
-      heroSel._dimOut = dim;
-      heroSel._dimBox = document.querySelector(".hero .sel-box");
-      ro.observe(heroSel);
-    }
     for (const body of document.querySelectorAll(".card .card-body")){
       body._dimOut = body.querySelector(".dim-out");
       ro.observe(body);
