@@ -36,8 +36,8 @@
   --rule:#CBCBC4;
   --rule-soft:#DEDED8;
   --edge:#8A8A83;          /* ruler ticks + control borders: >=3:1 non-text */
-  --dot:rgba(22,23,26,.12);
-  --dot-hot:rgba(192,62,15,.5);
+  --dot:rgba(22,23,26,.16);
+  --dot-hot:rgba(192,62,15,.62);
   --accent:#C03E0F;
   --select:#2E5BEA;
   --on-select:#FFFFFF;
@@ -91,8 +91,8 @@
   --rule:#34363C;
   --rule-soft:#26282D;
   --edge:#64676F;
-  --dot:rgba(233,233,228,.10);
-  --dot-hot:rgba(255,122,64,.55);
+  --dot:rgba(233,233,228,.13);
+  --dot-hot:rgba(255,122,64,.68);
   --accent:#FF7A40;
   --select:#7391FF;
   --on-select:#0E1220;
@@ -270,8 +270,11 @@ section{scroll-margin-top:calc(var(--gutter) + 46px + 24px)}
 }
 
 /* a query container, so the name fills the column even once it caps at --maxw
-   (viewport units keep growing past that cap and would overflow) */
-.hero .sel{container-type:inline-size}
+   (viewport units keep growing past that cap and would overflow). The
+   padding gives the name room from the marquee's edges: cqw sizing is based
+   on the container's content box, so the name auto-shrinks to leave that
+   gap rather than the marquee having to extend past its own edges for it. */
+.hero .sel{container-type:inline-size;padding:0 clamp(14px,2vw,32px)}
 .hero .sel-box{opacity:1}
 h1.name{
   margin:0;
@@ -282,6 +285,10 @@ h1.name{
   line-height:1;
   letter-spacing:0;
   white-space:nowrap;
+  text-align:center;   /* on mobile the two stacked words rarely render the same
+                           width at a shared font-size -- centering keeps each
+                           line's own left/right gap equal instead of dumping
+                           the shorter word's slack entirely on one side */
 }
 /* die-cut sticker slapped over the top-right corner of the selection */
 .sticker{
@@ -310,7 +317,7 @@ h1.name{
   transform-origin:0 50%;
 }
 .tbox{
-  position:absolute;inset:-14px -18px -14px 0;   /* flush left so the frame's edge lines up with the name's "N", not past it */
+  position:absolute;inset:-14px 0;   /* flush both sides so the margins either side of the text match */
   border:1.5px solid var(--select);
   pointer-events:none;
 }
@@ -731,7 +738,7 @@ footer{
   let G = 30;                   // ruler gutter, read from --gutter (shrinks on mobile)
   const SPACING = 26;           // dot grid pitch
   const R = 118;                // cursor influence radius
-  const PULL = 6;               // max attraction in px
+  const PULL = 8;               // max attraction in px
   const mqReduce = matchMedia("(prefers-reduced-motion: reduce)");
   let reduce = mqReduce.matches;
 
@@ -804,8 +811,25 @@ footer{
       }
     }
     readTokens();
+    alignLedeToI();
     settled = false;
     kick();
+  }
+
+  // the lede's frame should start under the "I" in "Nicole", not the "N" --
+  // measured live since the name's size (and so the "I"'s position) is
+  // fluid across breakpoints via cqw
+  function alignLedeToI(){
+    const tlayer = document.querySelector(".tlayer");
+    const sel = document.querySelector(".hero .sel");
+    const nameSpan = document.querySelector("h1.name span");
+    const text = nameSpan && nameSpan.firstChild;
+    if (!tlayer || !sel || !text || text.length < 2) return;
+    const range = document.createRange();
+    range.setStart(text, 1);
+    range.setEnd(text, 2);
+    const indent = range.getBoundingClientRect().left - sel.getBoundingClientRect().left;
+    tlayer.style.marginLeft = Math.max(0, indent) + "px";
   }
 
   function drawDots(){
@@ -855,8 +879,8 @@ footer{
     for (let i = 0; i < hot.length; i += 3){         // attracted dots read warmer + larger
       const n = hot[i + 2];
       ctx.beginPath();
-      ctx.arc(hot[i], hot[i + 1], 1.15 + n * 0.8, 0, 6.2832);
-      ctx.globalAlpha = 0.15 + n * 0.4;
+      ctx.arc(hot[i], hot[i + 1], 1.15 + n * 1.1, 0, 6.2832);
+      ctx.globalAlpha = 0.19 + n * 0.55;
       ctx.fillStyle = cHot;
       ctx.fill();
     }
@@ -1047,7 +1071,7 @@ footer{
   // the rulers are painted into a canvas, which takes no part in font swap \u2014
   // repaint once the webfont is actually available
   if (document.fonts && document.fonts.ready){
-    document.fonts.ready.then(() => { settled = false; kick(); });
+    document.fonts.ready.then(() => { alignLedeToI(); settled = false; kick(); });
   }
 
   scrollY = window.scrollY;
