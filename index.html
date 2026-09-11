@@ -135,6 +135,41 @@ body{
   font-family:var(--mono);font-size:8px;color:var(--ink-3);letter-spacing:.02em;
 }
 
+/* Figma-style custom cursor: only where a real mouse is in play (a CSS
+   cursor:url() can't carry live-updating text, so this is JS-positioned
+   instead, and only on devices that actually have a pointer worth
+   replacing -- touchscreens never get cursor:none or the chip at all).
+   Hidden unconditionally here first: the styles that turn it into a
+   fixed, floating chip only exist inside the media query below, so
+   without this a touch device would render it as a plain static block
+   sitting in normal document flow. */
+.cursor-chip{display:none}
+@media (hover:hover) and (pointer:fine){
+  /* !important: .burger/.motion-track set their own cursor:pointer, a
+     class selector that otherwise beats the universal selector's
+     specificity and would leave the native pointer showing on those two */
+  *{cursor:none!important}
+  .cursor-chip{
+    display:block;
+    position:fixed;top:0;left:0;z-index:9999;pointer-events:none;
+    opacity:0;transition:opacity .15s ease;
+    will-change:transform;
+  }
+  .cursor-chip.is-visible{opacity:1}
+  .cursor-chip svg{display:block;overflow:visible}
+  .cursor-chip path{
+    fill:var(--tag-blue);stroke:#FFFFFF;stroke-width:1.6;
+    stroke-linejoin:round;stroke-linecap:round;
+  }
+  .cursor-coords{
+    position:absolute;left:15px;top:18px;
+    font-family:var(--mono);font-size:10px;letter-spacing:.02em;
+    color:#FFFFFF;background:var(--tag-blue);
+    padding:2px 5px;white-space:nowrap;font-variant-numeric:tabular-nums;
+    border-radius:2px;
+  }
+}
+
 /* ---------- nav ---------- */
 .bar{
   position:fixed;top:0;left:0;right:0;height:46px;z-index:50;
@@ -594,6 +629,11 @@ footer{
 <canvas id="ruler-y" class="chrome" aria-hidden="true"></canvas>
 <div class="corner chrome" aria-hidden="true"></div>
 
+<div class="cursor-chip" id="cursorChip" aria-hidden="true">
+  <svg viewBox="-1 -1 18 24" width="18" height="24"><path d="M0 0 L0 17 L4.5 13.2 L7.5 19.5 L10.3 18.2 L7.3 12 L13.5 12 Z"/></svg>
+  <span class="cursor-coords" id="cursorCoords">0, 0</span>
+</div>
+
 <nav class="bar" id="bar" data-open="false">
   <a class="logo" href="#home" aria-label="Home"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFsAAABaCAMAAADgtNoOAAADAFBMVEXjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERFpfbk+AAABAHRSTlMAAQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyAhIiMkJSYnKCkqKywtLi8wMTIzNDU2Nzg5Ojs8PT4/QEFCQ0RFRkdISUpLTE1OT1BRUlNUVVZXWFlaW1xdXl9gYWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXp7fH1+f4CBgoOEhYaHiImKi4yNjo+QkZKTlJWWl5iZmpucnZ6foKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr/AwcLDxMXGx8jJysvMzc7P0NHS09TV1tfY2drb3N3e3+Dh4uPk5ebn6Onq6+zt7u/w8fLz9PX29/j5+vv8/f7/qVjM+gAABG1JREFUeNrVmU1oFEkUgB8isoiIyBIkSAgS5jCIeBIRzQ4eRBQkiIiEnBYJIo2GHESkEUSWJaR3WVgwSAZ/8CCSBpFhkSy9hGWRoLSIBC+mFURkAnaQEARDZrasn/6p6a6qrpiug+8wM1Wv+qs3r15Vva4CAEBM6nWEaIFWJNVYavQz9CBuDG6iC5APIfJYDVaHYaQAAJ4hE8z2ffbT5qo9FBvCScJGjE36rLWiKl+I9zxKQg5XZ7darTCLrjscO6ojj674j2+q5Zxa/fRVYprr8n/p6XEoQ/6Ohy/19vIpKEluJD7hBrVEQdwwgwl49GGC7bMemibM9sl3Df1RNvttGuA/lc2+mQZK6e7+P5nz5bPvGLR7MI1vrnb7/mpJbDvLPvoFoZlvgI003JMZdgB0wUrlNumqR0bY2LtZrDiBn2r3ZH0CmM3B75PKigQ98AG13zwY2ZvXXCCP9efYfoe7VeyelWiFW5wa7tVh20ibPcpvMPMTA1sL2ZY2eyqzf63OXju4UcW28C6t6e+Xgn10uWFV5P7WZy9K0oD3t85cz7DZbA+0/b2hTcdxfPjcL40FUR85Np1AWuxtRPW5jxWq1sPFQjbOhGw9n3QT1RRXsXe0sSRjx1mWr8fuI6qxjJ/2XZpeFrDjtcrVZFeJ6rpgIThgz3wRsGtAkzQt9m4JWxbf+MtvtbJjeaBLJIeJ6nehqssWj+UQytn9jZIZSyu775TG9jzag1c+ezDZL8EIO6SGZ9n3J0TymKieC1UTT7TZFem+tYYYTGdn2WzwhnxjbEHuUxIbDLKjGGyZY1tWi19QSmQD3ufz7HfzImnSLU2omv8oZCMj6wlhe8Lcpxy2JZyXJteqj02RUJ8uC1XNJcl+qbue7Fl7fHuegr37RFXG3nrk2A4p+1DEVsyd0WhIBOxenPqsHlHbHajm/L+48I+YPUxKkyp2TRjfCXsWF/4TsyntnmqtMsZOT8wMsPGZmHqNXYdPAg8V+2ThXiR/EdVcXHpW6G8NtkoK/E3PCo2wPQhVc36ddoMxdki/QWssO+WZDtvWjUHByidln2KuNsKG9CxMxp4pYE8W5D6OLff3I1yYVRwcjKvZjipO7uLCazF7jDS8omIH6hi8RI5ztgvZNOMeULADzMYvU1J2PyldE6HZFUS3ym62HErH8gfyzr76swBNX+bnoJDNZpBwLx5nJ/oj/ZWd3bH07R+eZtPyrAZbnsd2LShm/NwmJdsBqCtz5NqKFP2pUpSf1NVs2Pdegn6xqzD3CTv3Bnq4vIP/c5vPv8qD209Ob+AbnSSVfaJ8kGNXX7aXxrJR8eOxC1d/+zOW8Svna1uyTS5PNwahgF2SXKRUco8Ehs7tfWL4r2buG+jNXtPc/c73dS+VsENT7LpBuy2DbDDGDjrvojMdpjfKKN+I6QFFpxmQvZZ26JNubiniu9C6Cc89DQ6z33Xl7eprfTl2MkHtsr4sy6FGDqUtA/wa5zielVyRs4vJDhOd5B7djutceqT+Fc9RphVm8gQ+AAAAAElFTkSuQmCC" alt="" width="91" height="90"></a>
   <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="menu">
@@ -796,6 +836,9 @@ footer{
   const ctx = cv.getContext("2d");
   const rx = document.getElementById("ruler-x"), rxc = rx.getContext("2d");
   const ry = document.getElementById("ruler-y"), ryc = ry.getContext("2d");
+  const cursorChip = document.getElementById("cursorChip");
+  const cursorCoords = document.getElementById("cursorCoords");
+  const fineCursor = matchMedia("(hover:hover) and (pointer:fine)").matches;
 
   let dpr = 1, W = 0, H = 0, cols = 0, rows = 0;
   let rxW = 0, ryH = 0;         // each ruler's own drawn length
@@ -1009,6 +1052,11 @@ footer{
   function track(e){
     mx = e.clientX - originX;
     my = e.clientY - originY;
+    if (fineCursor && e.pointerType !== "touch"){
+      cursorChip.style.transform = "translate(" + e.clientX + "px," + e.clientY + "px)";
+      cursorChip.classList.add("is-visible");
+      cursorCoords.textContent = Math.max(0, Math.round(mx)) + ", " + Math.max(0, Math.round(my + scrollY));
+    }
     if (reduce) return;
     settled = false;
     kick();
@@ -1016,6 +1064,7 @@ footer{
   function release(){
     pDown = false;
     mx = my = -9999;              // let the field ease back to the grid
+    if (fineCursor) cursorChip.classList.remove("is-visible");
     settled = false;
     kick();
   }
