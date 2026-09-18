@@ -124,8 +124,14 @@ body{
 @media (hover:hover) and (pointer:fine){
   /* !important: .burger/.motion-track set their own cursor:pointer, a
      class selector that otherwise beats the universal selector's
-     specificity and would leave the native pointer showing on those two */
-  *{cursor:none!important}
+     specificity and would leave the native pointer showing on those two.
+     Scoped to body:has(.cursor-chip) rather than a bare *: this stylesheet
+     is shared by every page, but the chip + its tracking script only ship
+     with index.html -- without this scoping, any other page that links
+     styles.css (style-guide.html included) would hide the OS cursor with
+     nothing drawn in its place. Pages that don't include the chip element
+     keep their normal cursor automatically. */
+  body:has(.cursor-chip) *{cursor:none!important}
   .cursor-chip{
     display:block;
     position:fixed;top:0;left:0;z-index:9999;pointer-events:none;

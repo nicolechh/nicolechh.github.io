@@ -109,7 +109,7 @@ These are canvas- and JS-driven (see `index.html`'s inline script), not pure CSS
 
 - **Dot grid**: 26px pitch, reacts to a real pointer within a fixed radius; on touch it reacts *only* while the screen is actually held down (never on scroll or an idle finger) — this was a deliberate fix, don't regress it.
 - **Ruler**: shows a live cursor-position marker for a mouse, but never for touch (a touch jumps rather than glides toward a target, so the marker would just be visual noise). Hidden entirely ≤560px.
-- **Custom cursor**: a Figma-style arrowhead (`--tag-blue` fill, white outline) with live X/Y coordinates, replacing the OS cursor — gated to `(hover:hover) and (pointer:fine)` devices only. Touchscreens get neither `cursor:none` nor the chip.
+- **Custom cursor**: a Figma-style arrowhead (`--tag-blue` fill, white outline) with live X/Y coordinates, replacing the OS cursor — gated to `(hover:hover) and (pointer:fine)` devices only. Touchscreens get neither `cursor:none` nor the chip. The `cursor:none` rule in `styles.css` is itself scoped to `body:has(.cursor-chip)`, so a page that doesn't include the chip markup + script (most new pages won't) simply keeps its native cursor rather than hiding it with nothing drawn in its place — don't remove that scoping when touching this rule.
 
 ## Accessibility rules
 
