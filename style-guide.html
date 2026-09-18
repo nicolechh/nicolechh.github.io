@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="robots" content="noindex">
+<title>Design System — Nicole Chou</title>
+<link rel="icon" href="assets/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&family=Geist+Pixel&display=swap">
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* Guide-only scaffolding. Every token/color/component value below comes
+     from styles.css itself (via var(--...) or literal classes) -- nothing
+     here is a second copy of a design decision, only layout for showing it. */
+  body{padding:40px 0 0 0;max-width:960px;margin:0 auto;padding-left:clamp(20px,4vw,56px);padding-right:clamp(20px,4vw,56px)}
+  .g-head{
+    position:sticky;top:0;z-index:20;margin:0 calc(-1 * clamp(20px,4vw,56px));
+    padding:16px clamp(20px,4vw,56px);
+    display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    background:var(--paper);border-bottom:1px solid var(--rule);
+  }
+  .g-head h1{font-family:var(--name);font-weight:400;text-transform:uppercase;font-size:1.4rem;margin:0}
+  .g-head p{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin:4px 0 0}
+  .g-toggle{
+    font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+    background:none;border:1px solid var(--rule);color:var(--ink-2);padding:8px 14px;cursor:pointer;
+  }
+  .g-toggle:hover{border-color:var(--select);color:var(--select)}
+  .g-section{padding:56px 0;border-bottom:1px solid var(--rule)}
+  .g-section:last-child{border-bottom:0}
+  .g-section > h2{
+    font-family:var(--name);font-weight:400;text-transform:uppercase;
+    font-size:1.6rem;margin:0 0 8px;
+  }
+  .g-section > .g-note{color:var(--ink-2);max-width:64ch;margin:0 0 32px;font-size:.95rem;line-height:1.6}
+  .g-sub{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin:0 0 14px;padding-top:28px;border-top:1px solid var(--rule-soft)}
+  .g-sub:first-of-type{padding-top:0;border-top:0}
+
+  .g-swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+  .g-swatch{border:1px solid var(--rule-soft)}
+  .g-swatch-fill{height:56px;border-bottom:1px solid var(--rule-soft)}
+  .g-swatch-label{padding:8px 10px;font-family:var(--mono);font-size:10.5px;color:var(--ink-2)}
+  .g-swatch-label b{display:block;color:var(--ink);font-size:11px;margin-bottom:2px}
+
+  .g-type-row{display:flex;align-items:baseline;gap:20px;padding:16px 0;border-top:1px solid var(--rule-soft)}
+  .g-type-row:first-of-type{border-top:0}
+  .g-type-meta{flex:none;width:180px;font-family:var(--mono);font-size:10px;color:var(--ink-3);line-height:1.6}
+  .g-type-sample{flex:1;min-width:0;color:var(--ink)}
+
+  .g-row{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}
+  .g-demo{background:var(--paper-2);border:1px solid var(--rule-soft);padding:40px;flex:1;min-width:260px;display:flex;align-items:center;justify-content:center}
+  .g-spec{flex:none;width:260px;font-size:.85rem;color:var(--ink-2);line-height:1.7}
+  .g-spec code{font-family:var(--mono);font-size:.85em;background:var(--paper-2);padding:1px 5px;border:1px solid var(--rule-soft)}
+
+  .g-dotgrid-demo{
+    height:120px;background-image:radial-gradient(var(--dot) 1.15px, transparent 1.3px);
+    background-size:26px 26px;border:1px solid var(--rule-soft);
+  }
+  .g-ruler-demo{
+    height:24px;border:1px solid var(--rule);background:var(--chrome);
+    background-image:repeating-linear-gradient(90deg, var(--edge) 0 1px, transparent 1px 10px);
+    background-position:bottom left;background-size:100% 7px;background-repeat:repeat-x;
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  }
+
+  .g-checklist{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
+  .g-checklist li{display:flex;gap:10px;font-size:.92rem;color:var(--ink-2);line-height:1.55}
+  .g-checklist li::before{content:"—";flex:none;color:var(--select);font-family:var(--mono)}
+
+  @media (max-width:700px){
+    .g-type-row{flex-direction:column;gap:6px}
+    .g-type-meta{width:auto}
+  }
+</style>
+</head>
+<body>
+
+<div class="g-head">
+  <div>
+    <h1>Design System</h1>
+    <p>nicolechh.github.io — internal reference, not linked from the public site</p>
+  </div>
+  <button class="g-toggle" id="themeToggle" type="button">View: Light</button>
+</div>
+
+<p style="color:var(--ink-2);max-width:64ch;line-height:1.6;margin-top:32px">
+  This page renders with the site's actual <code style="font-family:var(--mono);background:var(--paper-2);padding:1px 5px;border:1px solid var(--rule-soft)">styles.css</code> — every color, type spec and component below is the real thing, not a description of it. If it looks right here, it'll look right on a new page. See <code style="font-family:var(--mono);background:var(--paper-2);padding:1px 5px;border:1px solid var(--rule-soft)">DESIGN-SYSTEM.md</code> in the repo for the full written reference, decisions, and the checklist for adding a new page or section.
+</p>
+
+<!-- ============ COLOR ============ -->
+<section class="g-section">
+  <h2>Color</h2>
+  <p class="g-note">Every color is a CSS custom property on <code style="font-family:var(--mono)">:root</code>, redefined for dark mode (both by <code style="font-family:var(--mono)">prefers-color-scheme</code> and by <code style="font-family:var(--mono)">[data-theme]</code> for a manual override). Never hardcode a hex value in new markup — reach for one of these.</p>
+
+  <p class="g-sub">Surface</p>
+  <div class="g-swatches">
+    <div class="g-swatch"><div class="g-swatch-fill" style="background:var(--paper)"></div><div class="g-swatch-label"><b>--paper</b>Page background</div></div>
+    <div class="g-swatch"><div class="g-swatch-fill" style="background:var(--paper-2)"></div><div class="g-swatch-label"><b>--paper-2</b>Recessed fills — thumbnails, dot canvas</div></div>
+    <div class="g-swatch"><div class="g-swatch-fill" style="background:var(--card)"></div><div class="g-swatch-label"><b>--card</b>Card / raised surfaces</div></div>
+    <div class="g-swatch"><div class="g-swatch-fill" style="background:var(--chrome)"></div><div class="g-swatch-label"><b>--chrome</b>Translucent glass — nav bar, ruler</div></div>
+    <div class="g-swatch"><div class="g-swatch-fill" style="background:var(--menu-bg)"></div><div class="g-swatch-label"><b>--menu-bg</b>Opaque glass — open mobile menu</div></div>
+  </div>
+
+  <p class="g-sub">Ink</p>
+  <div class="g-swatches">
+    <div class="g-swatch"><div class="g-swatch-fill" style="background:var(--ink)"></div><div class="g-swatch-label"><b>--ink</b>Primary text, headings</div></div>
+    <div class="g-swatch"><div class="g-swatch-fill" style="background:var(--ink-2)"></div><div class="g-swatch-label"><b>--ink-2</b>Body copy, secondary text</div></div>
+    <div class="g-swatch"><div class="g-swatch-fill" style="background:var(--ink-3)"></div><div class="g-swatch-label"><b>--ink-3</b>Tertiary — meta labels, captions</div></div>
+  </div>
+
+  <p class="g-sub">Structure</p>
+  <div class="g-swatches">
+    <div class="g-swatch"><div class="g-swatch-fill" style="background:var(--rule)"></div><div class="g-swatch-label"><b>--rule</b>Dividers, borders with contrast</div></div>
+    <div class="g-swatch"><div class="g-swatch-fill" style="background:var(--rule-soft)"></div><div class="g-swatch-label"><b>--rule-soft</b>Quiet borders — cards, thumbs</div></div>
+    <div class="g-swatch"><div class="g-swatch-fill" style="background:var(--edge)"></div><div class="g-swatch-label"><b>--edge</b>Ruler ticks, control borders (≥3:1 non-text)</div></div>
+  </div>
+
+  <p class="g-sub">Accent &amp; interactive</p>
+  <div class="g-swatches">
+    <div class="g-swatch"><div class="g-swatch-fill" style="background:var(--accent)"></div><div class="g-swatch-label"><b>--accent</b>Links, focus rings, hot dots</div></div>
+    <div class="g-swatch"><div class="g-swatch-fill" style="background:var(--select)"></div><div class="g-swatch-label"><b>--select</b>Marquee borders, hover states</div></div>
+    <div class="g-swatch"><div class="g-swatch-fill" style="background:var(--tag-blue)"></div><div class="g-swatch-label"><b>--tag-blue</b>Fixed (not theme-swapped) — see below</div></div>
+  </div>
+
+  <p style="font-size:.85rem;color:var(--ink-2);max-width:64ch;line-height:1.6;margin-top:24px">
+    <strong style="color:var(--ink)">--tag-blue is deliberately fixed</strong>, not swapped per theme like <code style="font-family:var(--mono)">--select</code> is. White text on <code style="font-family:var(--mono)">#2E5BEA</code> passes WCAG AA (~5.5:1) in both themes; <code style="font-family:var(--mono)">--select</code>'s dark-mode value (<code style="font-family:var(--mono)">#7391FF</code>) is a light tint meant to sit <em>on</em> a dark page, not carry white text itself. Any new component that fills a shape solid blue with white text on top should use <code style="font-family:var(--mono)">--tag-blue</code>, not <code style="font-family:var(--mono)">--select</code> — check contrast again if you introduce a new color/text pairing like this.
+  </p>
+</section>
+
+<!-- ============ TYPOGRAPHY ============ -->
+<section class="g-section">
+  <h2>Typography</h2>
+  <p class="g-note">Three families, one superfamily: Geist Pixel is a Geist sibling so it pairs by construction. Never introduce a fourth.</p>
+
+  <div class="g-type-row">
+    <div class="g-type-meta"><code style="font-family:var(--mono)">--name</code><br>Geist Pixel<br>Display only — hero name, h2, single weight</div>
+    <div class="g-type-sample"><span style="font-family:var(--name);font-weight:400;text-transform:uppercase;font-size:2.6rem;line-height:1">Selected Work</span></div>
+  </div>
+  <div class="g-type-row">
+    <div class="g-type-meta"><code style="font-family:var(--mono)">--display</code> / <code style="font-family:var(--mono)">--body</code><br>Geist<br>Card titles (600), running copy (400)</div>
+    <div class="g-type-sample">
+      <div style="font-family:var(--display);font-variation-settings:'wght' 600;font-size:1.14rem;letter-spacing:-.015em;margin-bottom:8px">Card title, weight 600, −0.015em tracking</div>
+      <div style="font-family:var(--body);font-size:1rem;color:var(--ink-2)">Running copy sits at 16px/1.55 by default — this sentence is exactly that.</div>
+    </div>
+  </div>
+  <div class="g-type-row">
+    <div class="g-type-meta"><code style="font-family:var(--mono)">--mono</code><br>Geist Mono<br>Labels, nav, meta, tags — always uppercase + tracked</div>
+    <div class="g-type-sample">
+      <div style="font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)">Nav link — 11px, .08em, uppercase</div>
+      <div style="font-family:var(--mono);font-size:9px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);margin-top:8px">Meta / card label — 9–10px, .05–.08em</div>
+    </div>
+  </div>
+
+  <p class="g-sub">Scale in use</p>
+  <div class="g-type-row">
+    <div class="g-type-meta">Hero name</div>
+    <div class="g-type-sample" style="font-size:.85rem;color:var(--ink-2)"><code style="font-family:var(--mono)">15.1cqw</code> desktop, <code style="font-family:var(--mono)">28.8cqw</code> ≤560px — sized to a container query, not the viewport, so it always fills its column</div>
+  </div>
+  <div class="g-type-row">
+    <div class="g-type-meta">h2 / section heads</div>
+    <div class="g-type-sample" style="font-size:.85rem;color:var(--ink-2)"><code style="font-family:var(--mono)">clamp(1.35rem, 2.8vw, 2rem)</code></div>
+  </div>
+  <div class="g-type-row">
+    <div class="g-type-meta">Lede / tag text</div>
+    <div class="g-type-sample" style="font-size:.85rem;color:var(--ink-2)"><code style="font-family:var(--mono)">clamp(1.15rem, 2vw, 1.65rem)</code> — shared by <code style="font-family:var(--mono)">.lede</code> and <code style="font-family:var(--mono)">.sticker</code> on purpose; keep them matched if either changes</div>
+  </div>
+  <div class="g-type-row">
+    <div class="g-type-meta">Body</div>
+    <div class="g-type-sample" style="font-size:.85rem;color:var(--ink-2)">16px base, card copy at <code style="font-family:var(--mono)">.9rem</code></div>
+  </div>
+</section>
+
+<!-- ============ SPACING & LAYOUT ============ -->
+<section class="g-section">
+  <h2>Spacing &amp; layout</h2>
+  <p class="g-note">Few hard numbers — most spacing is a <code style="font-family:var(--mono)">clamp()</code> so it scales with viewport rather than jumping at breakpoints.</p>
+  <ul class="g-checklist">
+    <li><code style="font-family:var(--mono)">--gutter</code> — 24px desktop, 0 ≤560px. Reserves room for the ruler frame; collapses to 0 once the ruler's hidden so margins stay symmetric on mobile.</li>
+    <li><code style="font-family:var(--mono)">--maxw</code> — 1180px. Caps <code style="font-family:var(--mono)">main</code>'s width; content padding is <code style="font-family:var(--mono)">clamp(20px, 4vw, 56px)</code> inside that.</li>
+    <li><code style="font-family:var(--mono)">--step</code> — 8px base unit, used sparingly for small fixed gaps.</li>
+    <li>Section rhythm is clamp-based throughout — e.g. <code style="font-family:var(--mono)">clamp(80px, 12vh, 120px)</code> bottom padding on <code style="font-family:var(--mono)">#work</code>. Match the existing clamp ranges in a section rather than inventing a fixed px gap for a new one.</li>
+  </ul>
+
+  <p class="g-sub">Breakpoints</p>
+  <ul class="g-checklist">
+    <li><strong style="color:var(--ink)">901px+</strong> — work grid goes 3-column with subgrid row alignment across cards</li>
+    <li><strong style="color:var(--ink)">≤900px</strong> — work grid and about-body drop to 1 column</li>
+    <li><strong style="color:var(--ink)">≤560px</strong> — "mobile": hero name stacks &amp; centers, ruler/gutter hidden, lede centers</li>
+    <li><strong style="color:var(--ink)">≤500px</strong> — nav collapses straight to the hamburger (deliberately the same threshold centered nav would start crowding the toggle — no in-between state)</li>
+  </ul>
+</section>
+
+<!-- ============ COMPONENTS ============ -->
+<section class="g-section">
+  <h2>Components</h2>
+
+  <p class="g-sub">Marquee (selection box)</p>
+  <div class="g-row">
+    <div class="g-demo">
+      <div class="sel" style="display:inline-block">
+        <div class="sel-box" style="opacity:1;position:relative;inset:0;display:inline-block;padding:22px 34px">
+          <i></i><i></i><i></i><i></i>
+          <span style="font-family:var(--display);font-size:1.3rem;color:var(--ink)">Selected content</span>
+        </div>
+      </div>
+    </div>
+    <div class="g-spec">
+      The core "design-tool selection" motif — <code>.sel-box</code>/<code>.tbox</code>. Solid 1–1.5px <code>--select</code> border, four corner-handle squares. Used on the hero name, the lede, and card hover/focus states. <strong style="color:var(--ink)">Always solid</strong>, never dashed — that changed early on and stuck.
+    </div>
+  </div>
+
+  <p class="g-sub">Tag / filled marquee</p>
+  <div class="g-row">
+    <div class="g-demo">
+      <p class="sticker" style="position:relative;top:auto;right:auto;transform:rotate(-3deg);display:inline-flex;align-items:center">
+        <i></i><i></i><i></i><i></i>New tag
+      </p>
+    </div>
+    <div class="g-spec">
+      Same corner-handle idea, but with a solid <code>--tag-blue</code> fill and bold white text instead of a transparent frame — this is <code>.sticker</code>, the "Product designer" tag's class. Border color matches the fill exactly (so it's structurally still a marquee, even though the border itself is invisible against the same-color fill). <strong style="color:var(--ink)">Always <code>--tag-blue</code></strong> for a filled marquee, never <code>--select</code> — see the color contrast note above.
+    </div>
+  </div>
+
+  <p class="g-sub">Card</p>
+  <div class="g-row">
+    <div class="g-demo" style="padding:24px">
+      <article class="card" style="max-width:280px">
+        <div class="card-label"><span>example-slug</span></div>
+        <div class="card-body">
+          <div class="thumb" style="display:flex;align-items:center;justify-content:center;color:var(--ink-3);font-family:var(--mono);font-size:10px">16:10 thumbnail</div>
+          <h3 style="position:relative">Project title goes here</h3>
+          <p>One sentence describing the outcome, not the process.</p>
+          <p class="meta"><span class="m-date">Mon 2026</span><span class="m-role">Role</span><span class="m-studio">Studio / context</span></p>
+        </div>
+      </article>
+    </div>
+    <div class="g-spec">
+      <code>.card</code> → <code>.card-body</code> (white/<code>--card</code> fill, <code>--rule-soft</code> border) → <code>.thumb</code> (16:10) → <code>h3</code> → description → <code>.meta</code> (date/role/studio, stacked). On ≥901px, three cards share row tracks via <code>subgrid</code> so thumbnail/title/description/meta all line up — don't break that by giving one card extra wrapper markup the others don't have.
+    </div>
+  </div>
+
+  <p class="g-sub">Section head</p>
+  <div class="g-row">
+    <div class="g-demo" style="display:block">
+      <div class="head" style="margin-bottom:0">
+        <h2 style="font-size:1.4rem">Section Name</h2>
+        <p class="head-note">Meta note</p>
+      </div>
+    </div>
+    <div class="g-spec">
+      <code>.head</code>: heading + small mono meta note, bottom rule, space-between. Every top-level section (<code>#work</code>, <code>#about</code>) opens with one. A new section should too.
+    </div>
+  </div>
+
+  <p class="g-sub">Motion toggle</p>
+  <div class="g-row">
+    <div class="g-demo">
+      <div class="motion">
+        <span class="motion-label" id="gMotionLabel">Reduce motion</span>
+        <button class="motion-track" type="button" role="switch" aria-checked="false" aria-labelledby="gMotionLabel" id="gMotionDemo">
+          <span class="motion-pill" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+    <div class="g-spec">
+      Visually a small 26×14 pill, but <code>.motion-track</code>'s real hit target is 44×44 (negative margin pulls the layout footprint back to the pill's size). Only the switch is clickable — the label is connected for accessible naming via <code>aria-labelledby</code>, not by wrapping it in the control, so clicking the text does nothing. This pattern — small visual, generous hit area, click scoped to the control only — is the template for any future toggle/switch.
+    </div>
+  </div>
+</section>
+
+<!-- ============ CHROME & SIGNATURE MOTIFS ============ -->
+<section class="g-section">
+  <h2>Chrome &amp; signature motifs</h2>
+  <p class="g-note">The "design tool" identity — dot grid, ruler, custom cursor. These are canvas/JS-driven on the real page (see <code style="font-family:var(--mono)">index.html</code>'s script), so what's below is a static swatch of the same tokens, not a live demo. Open the homepage to see them move.</p>
+
+  <p class="g-sub">Dot grid</p>
+  <div class="g-dotgrid-demo"></div>
+  <p style="font-size:.85rem;color:var(--ink-2);margin-top:10px">26px pitch, <code style="font-family:var(--mono)">--dot</code> resting / <code style="font-family:var(--mono)">--dot-hot</code> near a real (non-touch) pointer. Reacts only while a touch is actually held down — never on scroll or an idle finger.</p>
+
+  <p class="g-sub">Ruler</p>
+  <div class="g-ruler-demo"></div>
+  <p style="font-size:.85rem;color:var(--ink-2);margin-top:10px"><code style="font-family:var(--mono)">--chrome</code> glass + blur, <code style="font-family:var(--mono)">--edge</code> ticks, <code style="font-family:var(--mono)">--accent</code> cursor marker (mouse only, never for touch — a touch jumps rather than glides, so the marker would just be noise). Hidden entirely ≤560px.</p>
+
+  <p class="g-sub">Custom cursor</p>
+  <p style="font-size:.85rem;color:var(--ink-2)">A Figma-style arrowhead (<code style="font-family:var(--mono)">--tag-blue</code> fill, white outline) with live coordinates, replacing the OS cursor — but only on <code style="font-family:var(--mono)">(hover:hover) and (pointer:fine)</code> devices. Touchscreens never get <code style="font-family:var(--mono)">cursor:none</code> or the chip at all.</p>
+</section>
+
+<!-- ============ RULES ============ -->
+<section class="g-section">
+  <h2>Rules for adding a new page or section</h2>
+  <ul class="g-checklist">
+    <li>Link <code style="font-family:var(--mono)">styles.css</code> — don't paste or fork any of it into a new page's own <code style="font-family:var(--mono)">&lt;style&gt;</code>.</li>
+    <li>Colors, spacing, radii: reach for a token above. If nothing fits, that's a sign the system needs a new token — add it to <code style="font-family:var(--mono)">:root</code> (and its dark overrides) rather than hardcoding a one-off value in a selector.</li>
+    <li>Any new solid-fill-plus-text-on-top color pairing needs its own contrast check in both themes, the way <code style="font-family:var(--mono)">--tag-blue</code> was — don't assume an existing token carries over.</li>
+    <li>Hover styles go behind <code style="font-family:var(--mono)">@media (hover:hover)</code>; press/tap feedback uses <code style="font-family:var(--mono)">:active</code>; keyboard focus uses <code style="font-family:var(--mono)">:focus-visible</code> (or <code style="font-family:var(--mono)">:has(:focus-visible)</code> for a parent) — never <code style="font-family:var(--mono)">:focus-within</code>, which a touch tap triggers too.</li>
+    <li>Any custom control (toggle, button) needs a hit target of at least 24×24 (WCAG 2.5.8), ideally 44×44 (2.5.5) — expand the hit area with margin/padding rather than growing the visual control, the way <code style="font-family:var(--mono)">.motion-track</code> does.</li>
+    <li>Respect <code style="font-family:var(--mono)">prefers-reduced-motion</code> / the site's own reduce-motion toggle (<code style="font-family:var(--mono)">[data-motion="reduced"]</code>) for any new animation or transition.</li>
+    <li>New marquee-style chrome reuses <code style="font-family:var(--mono)">.sel-box</code>'s pattern (border + 4 handles); a new filled tag reuses <code style="font-family:var(--mono)">.sticker</code>'s. Don't invent a third variant of the same idea.</li>
+    <li>Check both themes and at least the 375px / 900px / 1200px widths before calling a new section done.</li>
+    <li>Update this page and <code style="font-family:var(--mono)">DESIGN-SYSTEM.md</code> if the new work introduces a genuinely new token or component — not for a one-off use of existing ones.</li>
+  </ul>
+</section>
+
+<script>
+  const toggle = document.getElementById("themeToggle");
+  const apply = t => {
+    if (t) document.documentElement.dataset.theme = t;
+    else delete document.documentElement.dataset.theme;
+    toggle.textContent = "View: " + (t === "dark" ? "Dark" : t === "light" ? "Light (forced)" : "Light");
+  };
+  let state = 0; // 0 = system, 1 = forced light, 2 = forced dark
+  toggle.addEventListener("click", () => {
+    state = (state + 1) % 3;
+    apply(state === 0 ? null : state === 1 ? "light" : "dark");
+  });
+
+  const demoBtn = document.getElementById("gMotionDemo");
+  demoBtn.addEventListener("click", () => {
+    const on = demoBtn.getAttribute("aria-checked") !== "true";
+    demoBtn.setAttribute("aria-checked", String(on));
+  });
+</script>
+
+</body>
+</html>

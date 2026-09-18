@@ -1,10 +1,14 @@
 # nicolechh.github.io
 
-Personal portfolio site for Nicole Chou — a single, hand-tuned static page
-(`index.html`) with a design-canvas aesthetic. No build step, no dependencies.
-Fonts load from Google Fonts; everything else is inline.
+Personal portfolio site for Nicole Chou — a hand-tuned static site with a
+design-canvas aesthetic (dot grid, rulers, marquee selection chrome, a custom
+cursor). No build step, no dependencies. Fonts load from Google Fonts;
+everything else is local.
 
 - **Live (GitHub Pages):** https://nicolechh.github.io/
+- **Design system:** [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) (written reference)
+  and [style-guide.html](style-guide.html) (live visual reference, same CSS
+  as the real site) — read these before adding a new page or section.
 - **Custom domain:** _not connected yet_ — see [Connecting a domain](#connecting-a-domain)
 
 ---
@@ -13,7 +17,10 @@ Fonts load from Google Fonts; everything else is inline.
 
 | Path | What it is |
 | --- | --- |
-| `index.html` | The whole site — markup, CSS, and the canvas/ruler script, in one file |
+| `styles.css` | The whole design system — every color, type, and component style. Every page links this; nothing forks it. |
+| `index.html` | The homepage — markup + the canvas/ruler/cursor script |
+| `style-guide.html` | Live visual reference for the design system (not linked from the public nav) |
+| `DESIGN-SYSTEM.md` | Written design system reference — tokens, components, rules, a checklist for new pages |
 | `404.html` | Custom not-found page (GitHub Pages serves this automatically) |
 | `assets/favicon.png` | Favicon (the seal mark) |
 | `assets/seal.png` | Same mark, kept separately for reuse |
@@ -30,17 +37,17 @@ Fonts load from Google Fonts; everything else is inline.
    (`Cmd+Shift+P`) → **Shell Command: Install 'code' command in PATH**.
 2. Open the folder:
    ```bash
-   code /Users/nicolechou/Desktop/claude/nicolechh.github.io
+   code /Users/nicolechou/Downloads/claude/nicolechh.github.io
    ```
 3. When VS Code prompts, install the **recommended extensions**
    (Live Server + Prettier — listed in `.vscode/extensions.json`).
 4. Right-click `index.html` → **Open with Live Server** for a live-reloading
    preview at `http://127.0.0.1:5500/`.
 
-Everything is in `index.html`:
-- `:root { ... }` near the top holds the colour + spacing tokens (light and dark).
-- `<style>` ends around the middle of the file; markup follows; the `<script>`
-  at the bottom draws the dot grid and rulers.
+Design tokens and every component's CSS live in `styles.css` — see
+[DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) before changing or adding to it.
+`index.html` itself holds only markup and the canvas/ruler/cursor `<script>`
+at the bottom.
 
 ---
 
@@ -114,8 +121,8 @@ At your DNS provider, add these records:
 
 ## Notes
 
-- The site is intentionally a single file — keep it that way unless there's a
-  real reason to split. It renders identically offline.
+- `styles.css` is the single source of truth for the design system — every
+  page links it, nothing forks it. See [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md).
 - A matching **Claude design canvas** exists for visual edits; changes there
   don't sync automatically — treat it as the design reference and mirror
-  intentional changes into `index.html`.
+  intentional changes into the actual site files.
