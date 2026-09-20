@@ -3,9 +3,31 @@
    a long-form article: nothing here duplicates a token or component that
    already exists in styles.css. See DESIGN-SYSTEM.md. */
 
+.cs-page{display:block}
+@media (min-width:1100px){
+  .cs-page{display:grid;grid-template-columns:160px minmax(0,760px);column-gap:40px;justify-content:center}
+}
+
+.cs-toc{display:none}
+@media (min-width:1100px){
+  .cs-toc{
+    display:flex;flex-direction:column;gap:2px;
+    padding-top:calc(46px + 40px + 52px);
+    position:sticky;top:76px;align-self:start;
+  }
+  .cs-toc a{
+    font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--ink-3);text-decoration:none;padding:7px 0 7px 14px;
+    border-left:2px solid var(--rule-soft);
+    transition:color .15s ease,border-color .15s ease;
+  }
+  .cs-toc a:hover{color:var(--ink)}
+  .cs-toc a.is-active{color:var(--select);border-left-color:var(--select)}
+}
+
 .cs-shell{max-width:760px;margin:0 auto;padding:0 clamp(20px,4vw,56px)}
 
-.cs-top{padding:calc(46px + 40px) 0 0}
+.cs-top{padding-top:calc(46px + 40px)}
 .cs-back{
   display:inline-flex;align-items:center;gap:6px;
   font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
@@ -13,11 +35,8 @@
 }
 .cs-back:hover{color:var(--select)}
 
-.cs-cover{
-  border:1px solid var(--rule-soft);background:var(--paper-2);
-  aspect-ratio:16/10;overflow:hidden;margin-bottom:28px;
-}
-.cs-cover img{display:block;width:100%;height:100%;object-fit:cover}
+.cs-cover{overflow:hidden;margin-bottom:28px}
+.cs-cover img{display:block;width:100%;height:auto}
 
 .cs-title{
   font-family:var(--name);font-weight:400;text-transform:uppercase;
@@ -35,10 +54,8 @@
 
 .cs-section{padding-bottom:56px}
 .cs-section-head{
-  display:flex;align-items:baseline;gap:12px;
   padding-bottom:10px;border-bottom:1px solid var(--rule);margin-bottom:22px;
 }
-.cs-section-num{font-family:var(--mono);font-size:11px;color:var(--select);letter-spacing:.04em;flex:none}
 .cs-section-head h2{
   font-family:var(--name);font-weight:400;text-transform:uppercase;
   font-size:clamp(1.15rem,2.2vw,1.5rem);margin:0;letter-spacing:.01em;
@@ -54,7 +71,7 @@
 .cs-section ul li::before{content:"—";position:absolute;left:0;color:var(--select);font-family:var(--mono)}
 .cs-section ul li strong{color:var(--ink);font-weight:500}
 
-.cs-media{border:1px solid var(--rule-soft);background:var(--paper-2);overflow:hidden;margin:20px 0}
+.cs-media{margin:20px 0}
 .cs-media img,.cs-media video{display:block;width:100%;height:auto}
 .cs-media-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:20px 0}
 .cs-media-row .cs-media{margin:0}
@@ -69,15 +86,34 @@
   text-transform:uppercase;color:var(--ink-3);font-style:normal;
 }
 
-.cs-nextprev{
-  display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
-  padding:32px 0;border-top:1px solid var(--rule);margin-top:20px;
+.cs-more{padding:48px 0 32px;border-top:1px solid var(--rule);margin-top:20px}
+.cs-more-title{
+  font-family:var(--name);font-weight:400;text-transform:uppercase;
+  font-size:clamp(1.15rem,2.2vw,1.5rem);margin:0 0 24px;letter-spacing:.01em;
 }
-.cs-nextprev a{
-  font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;
-  color:var(--ink-2);text-decoration:none;
+@media (min-width:901px){
+  .cs-more-grid{grid-template-columns:repeat(2,1fr)}
 }
-.cs-nextprev a:hover{color:var(--select)}
+
+.cs-media img{cursor:zoom-in}
+
+.cs-lightbox{
+  position:fixed;inset:0;background:rgba(0,0,0,.88);
+  display:flex;align-items:center;justify-content:center;
+  padding:40px;z-index:1000;
+  opacity:0;pointer-events:none;transition:opacity .15s ease;
+}
+.cs-lightbox.is-open{opacity:1;pointer-events:auto}
+.cs-lightbox-img{
+  max-width:100%;max-height:100%;object-fit:contain;
+  cursor:zoom-in;transition:transform .2s ease;
+}
+.cs-lightbox-img.is-zoomed{cursor:zoom-out;transform:scale(1.8)}
+.cs-lightbox-close{
+  position:fixed;top:20px;right:24px;
+  background:none;border:none;color:#fff;font-size:32px;line-height:1;
+  cursor:pointer;padding:8px;
+}
 
 @media (max-width:560px){
   .cs-facts{grid-template-columns:repeat(2,1fr)}

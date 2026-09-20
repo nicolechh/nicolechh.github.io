@@ -98,7 +98,7 @@
   <p class="g-sub">Surface</p>
   <div class="g-swatches">
     <div class="g-swatch"><div class="g-swatch-fill" style="background:var(--paper)"></div><div class="g-swatch-label"><b>--paper</b>Page background</div></div>
-    <div class="g-swatch"><div class="g-swatch-fill" style="background:var(--paper-2)"></div><div class="g-swatch-label"><b>--paper-2</b>Recessed fills — thumbnails, dot canvas</div></div>
+    <div class="g-swatch"><div class="g-swatch-fill" style="background:var(--paper-2)"></div><div class="g-swatch-label"><b>--paper-2</b>Recessed fills — dot canvas</div></div>
     <div class="g-swatch"><div class="g-swatch-fill" style="background:var(--card)"></div><div class="g-swatch-label"><b>--card</b>Card / raised surfaces</div></div>
     <div class="g-swatch"><div class="g-swatch-fill" style="background:var(--chrome)"></div><div class="g-swatch-label"><b>--chrome</b>Translucent glass — nav bar, ruler</div></div>
     <div class="g-swatch"><div class="g-swatch-fill" style="background:var(--menu-bg)"></div><div class="g-swatch-label"><b>--menu-bg</b>Opaque glass — open mobile menu</div></div>
@@ -114,7 +114,7 @@
   <p class="g-sub">Structure</p>
   <div class="g-swatches">
     <div class="g-swatch"><div class="g-swatch-fill" style="background:var(--rule)"></div><div class="g-swatch-label"><b>--rule</b>Dividers, borders with contrast</div></div>
-    <div class="g-swatch"><div class="g-swatch-fill" style="background:var(--rule-soft)"></div><div class="g-swatch-label"><b>--rule-soft</b>Quiet borders — cards, thumbs</div></div>
+    <div class="g-swatch"><div class="g-swatch-fill" style="background:var(--rule-soft)"></div><div class="g-swatch-label"><b>--rule-soft</b>Quiet borders — cards, dividers</div></div>
     <div class="g-swatch"><div class="g-swatch-fill" style="background:var(--edge)"></div><div class="g-swatch-label"><b>--edge</b>Ruler ticks, control borders (≥3:1 non-text)</div></div>
   </div>
 
@@ -230,7 +230,7 @@
       <article class="card" style="max-width:280px">
         <div class="card-label"><span>example-slug</span></div>
         <div class="card-body">
-          <div class="thumb" style="display:flex;align-items:center;justify-content:center;color:var(--ink-3);font-family:var(--mono);font-size:10px">16:10 thumbnail</div>
+          <div class="thumb" style="display:flex;align-items:center;justify-content:center;color:var(--ink-3);font-family:var(--mono);font-size:10px;aspect-ratio:16/10;border:1px dashed var(--rule-soft)">real photo goes here (placeholder only)</div>
           <h3 style="position:relative">Project title goes here</h3>
           <p>One sentence describing the outcome, not the process.</p>
           <p class="meta"><span class="m-date">Mon 2026</span><span class="m-role">Role</span><span class="m-studio">Studio / context</span></p>
@@ -238,7 +238,7 @@
       </article>
     </div>
     <div class="g-spec">
-      <code>.card</code> → <code>.card-body</code> (white/<code>--card</code> fill, <code>--rule-soft</code> border) → <code>.thumb</code> (16:10) → <code>h3</code> → description → <code>.meta</code> (date/role/studio, stacked). On ≥901px, three cards share row tracks via <code>subgrid</code> so thumbnail/title/description/meta all line up — don't break that by giving one card extra wrapper markup the others don't have.
+      <code>.card</code> → <code>.card-body</code> (white/<code>--card</code> fill, <code>--rule-soft</code> border) → <code>.thumb</code> → <code>h3</code> → description → <code>.meta</code> (date/role/studio, stacked). <code>.thumb</code> itself has no border or background — it's just a frame for a real <code>&lt;img&gt;</code> at its natural aspect ratio (this demo's dashed box is placeholder-only, since there's no real photo here). On ≥901px, three cards share row tracks via <code>subgrid</code> so thumbnail/title/description/meta all line up — don't break that by giving one card extra wrapper markup the others don't have.
     </div>
   </div>
 

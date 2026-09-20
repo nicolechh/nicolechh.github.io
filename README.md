@@ -21,7 +21,7 @@ everything else is local.
 | `index.html` | The homepage — markup + the canvas/ruler/cursor script |
 | `style-guide.html` | Live visual reference for the design system (not linked from the public nav) |
 | `DESIGN-SYSTEM.md` | Written design system reference — tokens, components, rules, a checklist for new pages |
-| `case-study.css`, `nav.js` | Shared article layout + nav behavior for pages under `case-studies/` |
+| `case-study.css`, `case-study.js`, `nav.js` | Shared article layout, lightbox/TOC behavior, and nav behavior for pages under `case-studies/` |
 | `case-studies/<slug>/` | One case study per work-section project — its own `index.html` and `Assets/` (images/video), source content alongside the published page |
 | `404.html` | Custom not-found page (GitHub Pages serves this automatically) |
 | `assets/favicon.png` | Favicon (the seal mark) |

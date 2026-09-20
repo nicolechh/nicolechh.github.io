@@ -141,6 +141,7 @@ These aren't optional polish — treat them as part of the system:
 | `style-guide.html` | Live visual reference for everything in this document |
 | `404.html` | Links `styles.css`; a small page-specific layout on top |
 | `case-study.css` | Article layout for case study pages — extends `styles.css`, doesn't duplicate it |
+| `case-study.js` | Shared behavior for case study pages: image lightbox + TOC scroll-spy |
 | `nav.js` | Shared nav bar behavior (menu + reduce-motion toggle) for pages without `index.html`'s dot-grid/cursor script |
 | `case-studies/<slug>/` | One case study per project — `index.html` + its own `Assets/` (source content lives alongside the published page) |
 | `DESIGN-SYSTEM.md` | This file |
@@ -149,10 +150,13 @@ These aren't optional polish — treat them as part of the system:
 
 Each project under `#work` links to `case-studies/<slug>/index.html` (slug matches the card's `.card-label`, e.g. `masking-in-boards`). A case study page:
 
-- Links `styles.css` + `case-study.css`, and `nav.js` for the nav bar (no dot-grid/ruler/cursor — that chrome is homepage-specific; see "Chrome & signature motifs" above).
+- Links `styles.css` + `case-study.css`, and `nav.js` + `case-study.js` (no dot-grid/ruler/cursor — that chrome is homepage-specific; see "Chrome & signature motifs" above).
+- `<main class="cs-page">` holds two children: `.cs-toc` (a sticky left-hand jump-to-section nav, shown only at `min-width:1100px` — there's no room for it below that, so it's just not rendered) and `.cs-shell.cs-top` (the actual article column, same 760px measure as before). `.cs-toc`'s links are hand-written to match each page's section ids; `case-study.js` highlights the current one on scroll via `IntersectionObserver`.
 - Opens with a cover image (the project's `Assets/00.*`, also used as the homepage card's thumbnail), title, one-line outcome, and a `.cs-facts` row (role/year/studio) — the same three facts shown on the card, kept in sync with it by hand since they're plain markup, not a shared template.
-- Numbered sections (`.cs-section` + `.cs-section-head`) mirror each case study's own source outline (00 index card → the cover + card content; 01 Summary through 08 Reflection). Images/video use `.cs-media` (single) or `.cs-media-row` (a set shown together); a pull quote uses `.cs-quote`.
+- Sections (`.cs-section` + `.cs-section-head`) mirror each case study's own source outline (00 index card → the cover + card content; 01 Summary through 08 Reflection) but the site never shows the number — only the heading (e.g. "Summary", not "01 · Summary"). The number stays in the source RTF only; don't add a `.cs-section-num` element back into the HTML.
+- Images/video use `.cs-media` (single) or `.cs-media-row` (a set shown together); neither has a border or background any more — the frame was cropping/boxing photos that don't share the site's own aspect ratio, so images now render at their natural size. Every asset except the cover gets a `.cs-caption` underneath (placeholder lorem ipsum until the source doc has real caption text — swap it in when the doc is updated). A pull quote uses `.cs-quote`.
+- Every `.cs-media img` is clickable — `case-study.js` opens it in a full-screen `.cs-lightbox`; clicking the enlarged image toggles a 1.8x zoom, and Escape/backdrop-click/the close button all dismiss it. Videos are unaffected (their native controls already cover this).
 - Large source images are re-exported as compressed, web-sized JPEGs (`sips -Z 1600 -s format jpeg`) rather than linking the multi-megabyte originals — do this for any new case study's assets too.
-- Ends with `.cs-nextprev` linking the adjacent case studies, then the same `<footer>` as every other page.
+- Ends with `.cs-more` ("View more work"): a two-card `.grid` showing the *other* two case studies (never the current one), reusing the exact homepage `.card` markup with paths adjusted to `../<slug>/`. Update this block on every page whenever a case study is added, removed, or retitled. Then the same `<footer>` as every other page.
 
-Adding a fourth case study: create `case-studies/<new-slug>/`, follow this structure, add its card to `#work` on the homepage (thumbnail + link to the new page), and add its URL to `sitemap.xml`.
+Adding a fourth case study: create `case-studies/<new-slug>/`, follow this structure, add its card to `#work` on the homepage (thumbnail + link to the new page) and to every other case study's `.cs-more` section, and add its URL to `sitemap.xml`.

@@ -39,7 +39,20 @@
   </div>
 </nav>
 
-<main class="cs-shell cs-top" lang="en">
+<main class="cs-page" lang="en">
+
+  <nav class="cs-toc" aria-label="Section navigation">
+    <a href="#summary">Summary</a>
+    <a href="#problem">The Problem</a>
+    <a href="#constraints">Constraints</a>
+    <a href="#decisions">The Decisions</a>
+    <a href="#craft">Craft &amp; System</a>
+    <a href="#ship">Ship &amp; Collaboration</a>
+    <a href="#outcome">The Outcome</a>
+    <a href="#reflection">Reflection</a>
+  </nav>
+
+  <div class="cs-shell cs-top">
 
   <a class="cs-back" href="../../index.html#work">← Selected Work</a>
 
@@ -55,10 +68,10 @@
   </dl>
 
   <section class="cs-section" id="summary">
-    <div class="cs-section-head"><span class="cs-section-num">01</span><h2>Summary</h2></div>
+    <div class="cs-section-head"><h2>Summary</h2></div>
     <div class="cs-media-row">
-      <div class="cs-media"><video src="Assets/01-1.mov" controls playsinline preload="metadata"></video></div>
-      <div class="cs-media"><video src="Assets/01-2.mov" controls playsinline preload="metadata"></video></div>
+      <div class="cs-media"><video src="Assets/01-1.mov" controls playsinline preload="metadata"></video><p class="cs-caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div>
+      <div class="cs-media"><video src="Assets/01-2.mov" controls playsinline preload="metadata"></video><p class="cs-caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div>
     </div>
     <p>Raspberry AI is a generative design platform for fashion designers, backed by a16z and used by brands like Steve Madden and Levi's. Its tools were strong individually but didn't explain themselves together, so nearly every new customer was onboarded personally by a Raspberry rep.</p>
     <p>I designed a guided tutorial system built around workflows, not features, covering both the classic platform and Boards, its new canvas workspace. The tools and canvas already existed; I designed the workflow sequences, step placement and content, and entry points on top. Classic shipped first, Boards followed; both live today.</p>
@@ -73,19 +86,19 @@
   </section>
 
   <section class="cs-section" id="problem">
-    <div class="cs-section-head"><span class="cs-section-num">02</span><h2>The Problem</h2></div>
+    <div class="cs-section-head"><h2>The Problem</h2></div>
     <p>New designers didn't start on Raspberry AI. They started on a call. A scheduled session with a Raspberry rep walking them through the platform.</p>
     <p>That call wasn't just teaching tools. It answered a bigger question: where does this fit into how I already work? Raspberry is built as separate tools, but a designer's work runs in workflows. Turning sketches into product images with multiple colourways crosses several tools in sequence. Without that shape, the platform read as fragmented features with no obvious connection.</p>
     <div class="cs-media-row">
-      <div class="cs-media"><img src="Assets/02-1.png" alt="" loading="lazy"></div>
-      <div class="cs-media"><img src="Assets/02-2.png" alt="" loading="lazy"></div>
+      <div class="cs-media"><img src="Assets/02-1.png" alt="" loading="lazy"><p class="cs-caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div>
+      <div class="cs-media"><img src="Assets/02-2.png" alt="" loading="lazy"><p class="cs-caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div>
     </div>
     <p>Raspberry raised the cost themselves, calling onboarding a significant drain on their team's time. They were also building Boards, a canvas workspace that worked nothing like the classic platform — new to everyone, including existing designers.</p>
     <p>Two problems, in that order: replace a human onboarding path, then teach an interaction model the first solution wasn't built for.</p>
   </section>
 
   <section class="cs-section" id="constraints">
-    <div class="cs-section-head"><span class="cs-section-num">03</span><h2>Constraints</h2></div>
+    <div class="cs-section-head"><h2>Constraints</h2></div>
     <ul>
       <li><strong>One tutorial experience, two interaction paradigms — designed two months apart.</strong> Classic shipped first; Boards came later, so the second system had to extend a pattern built before I knew what it would need to cover.</li>
       <li><strong>Tutorials had to cross tool boundaries.</strong> Raspberry scoped by workflow, not by feature, so no tutorial could live inside a single tool. Every step had to anchor to screens someone else designed.</li>
@@ -95,12 +108,12 @@
   </section>
 
   <section class="cs-section" id="decisions">
-    <div class="cs-section-head"><span class="cs-section-num">04</span><h2>The Decisions</h2></div>
+    <div class="cs-section-head"><h2>The Decisions</h2></div>
 
     <div class="cs-sub"><h3>1 — Teach the workflow, not the tool</h3></div>
     <div class="cs-media-row">
-      <div class="cs-media"><img src="Assets/04-1-1.png" alt="" loading="lazy"></div>
-      <div class="cs-media"><img src="Assets/04-1-2.png" alt="" loading="lazy"></div>
+      <div class="cs-media"><img src="Assets/04-1-1.png" alt="" loading="lazy"><p class="cs-caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div>
+      <div class="cs-media"><img src="Assets/04-1-2.png" alt="" loading="lazy"><p class="cs-caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div>
     </div>
     <p>The product is organized by tool but the work is organized by workflow.</p>
     <p>Per-tool tutorials were the cheaper answer, self-contained and easy to scope. A middle option existed too: per-tool tutorials and a map of how they connect. Workflow tutorials meant one tutorial running across several tools in sequence.</p>
@@ -109,34 +122,34 @@
 
     <div class="cs-sub"><h3>2 — Teach the canvas by walking through it, not by showing it</h3></div>
     <p>By the time Boards came back into scope, the classic tutorials had shipped. The question now was whether the existing pattern could stretch onto a canvas. Boards is an open canvas where a designer can do anything, in any order, or nothing at all.</p>
-    <div class="cs-media"><img src="Assets/04-2-1.png" alt="" loading="lazy"></div>
+    <div class="cs-media"><img src="Assets/04-2-1.png" alt="" loading="lazy"><p class="cs-caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div>
     <p>The first option was creating example files. A complete workflow laid out on a board, sketch through to recoloured product images, with notes around the canvas highlighting features and tips. A designer could duplicate it and use it as a playground.</p>
-    <div class="cs-media"><img src="Assets/04-2-2.png" alt="" loading="lazy"></div>
+    <div class="cs-media"><img src="Assets/04-2-2.png" alt="" loading="lazy"><p class="cs-caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div>
     <p>The second was to bring the classic app's event-based steps into Boards anyway, carrying over the notes from the first idea, walking a designer through the same sketch-to-recolour sequence, click by click, highlighting important points.</p>
     <p>I decided on the second: an example file shows a finished workflow, not how to get there, and that was the whole objective. A designer looking at a completed board sees what Raspberry can produce, not where it fits in their process.</p>
     <p>The first option was materially cheaper, and I knew that when I argued against it. Raspberry backed the call and spent the engineering time rather than ship something faster that only showed the destination.</p>
   </section>
 
   <section class="cs-section" id="craft">
-    <div class="cs-section-head"><span class="cs-section-num">05</span><h2>Craft &amp; System</h2></div>
+    <div class="cs-section-head"><h2>Craft &amp; System</h2></div>
 
     <div class="cs-sub"><h3>Components</h3></div>
     <div class="cs-media-row">
-      <div class="cs-media"><img src="Assets/05-1-1.png" alt="" loading="lazy"></div>
-      <div class="cs-media"><img src="Assets/05-1-2.png" alt="" loading="lazy"></div>
+      <div class="cs-media"><img src="Assets/05-1-1.png" alt="" loading="lazy"><p class="cs-caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div>
+      <div class="cs-media"><img src="Assets/05-1-2.png" alt="" loading="lazy"><p class="cs-caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div>
     </div>
     <p>Classic tutorials use tooltips; Boards needed something gentler for designers who already knew the platform, just not the canvas. I kept the progress tracker and swapped tooltips for canvas notes, ignorable by anyone who didn't want them. Notes were cut before release, so what shipped carries just the tracker and step sequence.</p>
 
     <div class="cs-sub"><h3>Four workflows, one pattern</h3></div>
     <div class="cs-media-row">
-      <div class="cs-media"><img src="Assets/05-2-1.png" alt="" loading="lazy"></div>
-      <div class="cs-media"><img src="Assets/05-2-2.png" alt="" loading="lazy"></div>
-      <div class="cs-media"><img src="Assets/05-2-3.png" alt="" loading="lazy"></div>
+      <div class="cs-media"><img src="Assets/05-2-1.png" alt="" loading="lazy"><p class="cs-caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div>
+      <div class="cs-media"><img src="Assets/05-2-2.png" alt="" loading="lazy"><p class="cs-caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div>
+      <div class="cs-media"><img src="Assets/05-2-3.png" alt="" loading="lazy"><p class="cs-caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div>
     </div>
     <p>Four workflows run on one pattern (entry point, tracker, step sequence), with each workflow just content dropped in, not a new design. A fifth is a content exercise, not a design one, which matters for whoever extends this later.</p>
 
     <div class="cs-sub"><h3>States</h3></div>
-    <div class="cs-media"><video src="Assets/05-3.mov" controls playsinline preload="metadata"></video></div>
+    <div class="cs-media"><video src="Assets/05-3.mov" controls playsinline preload="metadata"></video><p class="cs-caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div>
     <p><strong>Interrupted, resumed, and carried between tools.</strong> A designer who navigates away mid-sequence returns to the step they left, not the start, and progress carries across the whole workflow rather than resetting per tool.</p>
 
     <div class="cs-sub"><h3>Accessibility</h3></div>
@@ -148,14 +161,14 @@
   </section>
 
   <section class="cs-section" id="ship">
-    <div class="cs-section-head"><span class="cs-section-num">06</span><h2>Ship &amp; Collaboration</h2></div>
+    <div class="cs-section-head"><h2>Ship &amp; Collaboration</h2></div>
     <p>We ran handoff as working sessions rather than a document: I walked the Raspberry team through the prototype flows for both classic and Boards on call, answered questions live, and left annotations where the prototype couldn't carry the detail. I'd built those prototypes in Claude Code, making a live walk through possible rather than a spec review.</p>
-    <div class="cs-media"><img src="Assets/06.png" alt="" loading="lazy"></div>
+    <div class="cs-media"><img src="Assets/06.png" alt="" loading="lazy"><p class="cs-caption">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p></div>
     <p>Everything shipped except the canvas notes. Engineers were still building Boards while adding guided workflows on a short timeline, so the notes were cut. They still aren't in the product as of writing, and I don't know if that's a decision or a backlog.</p>
   </section>
 
   <section class="cs-section" id="outcome">
-    <div class="cs-section-head"><span class="cs-section-num">07</span><h2>The Outcome</h2></div>
+    <div class="cs-section-head"><h2>The Outcome</h2></div>
     <p>Both tutorial systems are live. I asked Raspberry for usage after the fact. In the classic workspace, where the data exists, 1,168 designers viewed the workflows page over 90 days: 558 picked a workflow, 390 reached Generate, 382 generated, 204 downloaded — 17.5% end to end.</p>
     <p>The shape matters more than the total. Almost nobody who starts a workflow fails to finish, but half who reach the page never start one: the sequences hold, the entry point leaks.</p>
     <p>The caveats matter more than the figures: neither "viewed" nor "completed" is instrumented, so page views and downloads only stand in. Finishing a workflow isn't the same as understanding where Raspberry fits — the actual objective — and this is classic only; nothing equivalent exists for Boards.</p>
@@ -163,22 +176,52 @@
   </section>
 
   <section class="cs-section" id="reflection">
-    <div class="cs-section-head"><span class="cs-section-num">08</span><h2>Reflection</h2></div>
+    <div class="cs-section-head"><h2>Reflection</h2></div>
     <p>I spent the design worrying about granularity: how finely to break each workflow into steps. I settled it by argument, with no data.</p>
     <p>The numbers indicate I was worrying about the wrong half. The loss is at the entry point, which I designed as a way in, not as a persuasion. I never asked which part was most likely to fail, and the answer was the part I'd thought about least.</p>
   </section>
 
-  <div class="cs-nextprev">
-    <a href="../guardrail-system/">← Guardrail AI: a system built to outgrow its creator</a>
-    <a href="../../index.html#about">Back to top →</a>
-  </div>
+  <section class="cs-more" aria-label="View more work">
+    <h2 class="cs-more-title">View more work</h2>
+    <div class="grid cs-more-grid">
+      <article class="card">
+        <div class="card-label"><span>masking-in-boards</span></div>
+        <div class="card-body">
+          <div class="sel-box" aria-hidden="true"><i></i><i></i><i></i><i></i><span class="sel-dim dim-out">320 &times; 200</span></div>
+          <div class="thumb">
+            <img src="../masking-in-boards/Assets/00.jpg" alt="" loading="lazy">
+          </div>
+        <h3><a href="../masking-in-boards/">Raspberry AI: masking on the canvas, not in a modal</a></h3>
+        <p>Multi-material masking, redesigned as a mode that leaves the rest of the workspace usable.</p>
+        <p class="meta"><span class="m-date">Apr 2026</span><span class="m-role">Product Designer</span><span class="m-studio">Completed at Interlude Studio</span></p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-label"><span>guardrail-system</span></div>
+        <div class="card-body">
+          <div class="sel-box" aria-hidden="true"><i></i><i></i><i></i><i></i><span class="sel-dim dim-out">320 &times; 200</span></div>
+          <div class="thumb">
+            <img src="../guardrail-system/Assets/00.jpg" alt="" loading="lazy">
+          </div>
+        <h3><a href="../guardrail-system/">Guardrail AI: a system built to outgrow its creator</a></h3>
+        <p>Audit, design system and redesign. Replaced accumulated tokens with a system we built a year of features on.</p>
+        <p class="meta"><span class="m-date">May 2025&ndash;2026</span><span class="m-role">Product Designer, Design System Lead</span><span class="m-studio">Completed at Interlude Studio</span></p>
+        </div>
+      </article>
+    </div>
+  </section>
+
 
   <footer>
     <span>&copy; 2026 Nicole Chou</span>
     <span>Set in Geist, Geist Mono &amp; Geist Pixel</span>
   </footer>
+
+  </div>
 </main>
 
 <script src="../../nav.js"></script>
+<script src="../../case-study.js"></script>
 </body>
 </html>
