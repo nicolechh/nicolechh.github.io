@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Guardrail AI: a system built to outgrow its creator — Nicole Chou</title>
+<meta name="description" content="Audit, design system and redesign; colour became something you select, not something you check.">
+<link rel="canonical" href="https://nicolechh.github.io/case-studies/guardrail-system/">
+<link rel="icon" href="../../assets/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&family=Geist+Pixel&display=swap">
+<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="../../case-study.css">
+</head>
+<body>
+
+<nav class="bar" id="bar" data-open="false">
+  <a class="logo" href="../../index.html#home" aria-label="Home"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFsAAABaCAMAAADgtNoOAAADAFBMVEXjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERFpfbk+AAABAHRSTlMAAQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyAhIiMkJSYnKCkqKywtLi8wMTIzNDU2Nzg5Ojs8PT4/QEFCQ0RFRkdISUpLTE1OT1BRUlNUVVZXWFlaW1xdXl9gYWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXp7fH1+f4CBgoOEhYaHiImKi4yNjo+QkZKTlJWWl5iZmpucnZ6foKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr/AwcLDxMXGx8jJysvMzc7P0NHS09TV1tfY2drb3N3e3+Dh4uPk5ebn6Onq6+zt7u/w8fLz9PX29/j5+vv8/f7/qVjM+gAABG1JREFUeNrVmU1oFEkUgB8isoiIyBIkSAgS5jCIeBIRzQ4eRBQkiIiEnBYJIo2GHESkEUSWJaR3WVgwSAZ/8CCSBpFhkSy9hGWRoLSIBC+mFURkAnaQEARDZrasn/6p6a6qrpiug+8wM1Wv+qs3r15Vva4CAEBM6nWEaIFWJNVYavQz9CBuDG6iC5APIfJYDVaHYaQAAJ4hE8z2ffbT5qo9FBvCScJGjE36rLWiKl+I9zxKQg5XZ7darTCLrjscO6ojj674j2+q5Zxa/fRVYprr8n/p6XEoQ/6Ohy/19vIpKEluJD7hBrVEQdwwgwl49GGC7bMemibM9sl3Df1RNvttGuA/lc2+mQZK6e7+P5nz5bPvGLR7MI1vrnb7/mpJbDvLPvoFoZlvgI003JMZdgB0wUrlNumqR0bY2LtZrDiBn2r3ZH0CmM3B75PKigQ98AG13zwY2ZvXXCCP9efYfoe7VeyelWiFW5wa7tVh20ibPcpvMPMTA1sL2ZY2eyqzf63OXju4UcW28C6t6e+Xgn10uWFV5P7WZy9K0oD3t85cz7DZbA+0/b2hTcdxfPjcL40FUR85Np1AWuxtRPW5jxWq1sPFQjbOhGw9n3QT1RRXsXe0sSRjx1mWr8fuI6qxjJ/2XZpeFrDjtcrVZFeJ6rpgIThgz3wRsGtAkzQt9m4JWxbf+MtvtbJjeaBLJIeJ6nehqssWj+UQytn9jZIZSyu775TG9jzag1c+ezDZL8EIO6SGZ9n3J0TymKieC1UTT7TZFem+tYYYTGdn2WzwhnxjbEHuUxIbDLKjGGyZY1tWi19QSmQD3ufz7HfzImnSLU2omv8oZCMj6wlhe8Lcpxy2JZyXJteqj02RUJ8uC1XNJcl+qbue7Fl7fHuegr37RFXG3nrk2A4p+1DEVsyd0WhIBOxenPqsHlHbHajm/L+48I+YPUxKkyp2TRjfCXsWF/4TsyntnmqtMsZOT8wMsPGZmHqNXYdPAg8V+2ThXiR/EdVcXHpW6G8NtkoK/E3PCo2wPQhVc36ddoMxdki/QWssO+WZDtvWjUHByidln2KuNsKG9CxMxp4pYE8W5D6OLff3I1yYVRwcjKvZjipO7uLCazF7jDS8omIH6hi8RI5ztgvZNOMeULADzMYvU1J2PyldE6HZFUS3ym62HErH8gfyzr76swBNX+bnoJDNZpBwLx5nJ/oj/ZWd3bH07R+eZtPyrAZbnsd2LShm/NwmJdsBqCtz5NqKFP2pUpSf1NVs2Pdegn6xqzD3CTv3Bnq4vIP/c5vPv8qD209Ob+AbnSSVfaJ8kGNXX7aXxrJR8eOxC1d/+zOW8Svna1uyTS5PNwahgF2SXKRUco8Ehs7tfWL4r2buG+jNXtPc/c73dS+VsENT7LpBuy2DbDDGDjrvojMdpjfKKN+I6QFFpxmQvZZ26JNubiniu9C6Cc89DQ6z33Xl7eprfTl2MkHtsr4sy6FGDqUtA/wa5zielVyRs4vJDhOd5B7djutceqT+Fc9RphVm8gQ+AAAAAElFTkSuQmCC" alt="" width="91" height="90"></a>
+  <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="menu">
+    <span class="burger-bars" aria-hidden="true"><span></span><span></span></span>
+    <span class="burger-label">Menu</span>
+  </button>
+  <div class="menu" id="menu">
+    <div class="menu-panel">
+      <div class="nav">
+        <a href="../../index.html#home">Home</a>
+        <a href="../../index.html#work">Work</a>
+        <a href="../../index.html#about">About</a>
+      </div>
+      <div class="motion">
+        <span class="motion-label" id="motion-label">Reduce motion</span>
+        <button class="motion-track" id="motion" type="button" role="switch" aria-checked="false" aria-labelledby="motion-label">
+          <span class="motion-pill" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main class="cs-shell cs-top" lang="en">
+
+  <a class="cs-back" href="../../index.html#work">← Selected Work</a>
+
+  <div class="cs-cover"><img src="Assets/00.jpg" alt="" width="1600" height="1000" loading="eager"></div>
+
+  <h1 class="cs-title">Guardrail AI: a system built to outgrow its creator</h1>
+  <p class="cs-outcome">Audit, design system and redesign; colour became something you select, not something you check.</p>
+
+  <dl class="cs-facts">
+    <div><dt>Role</dt><dd>Product Designer, Design System Lead</dd></div>
+    <div><dt>Year</dt><dd>May 2025–2026</dd></div>
+    <div><dt>Studio</dt><dd>Completed at Interlude Studio</dd></div>
+  </dl>
+
+  <section class="cs-section" id="summary">
+    <div class="cs-section-head"><span class="cs-section-num">01</span><h2>Summary</h2></div>
+    <div class="cs-media-row">
+      <div class="cs-media"><video src="Assets/01-1.mov" controls playsinline preload="metadata"></video></div>
+      <div class="cs-media"><video src="Assets/01-2.mov" controls playsinline preload="metadata"></video></div>
+    </div>
+    <p>Guardrail AI is a real-time onchain security platform that detects blockchain threats and helps teams respond. They came to us to improve the UX, build a scalable design system, and design mobile screens for a desktop-only product.</p>
+    <p>I created the design system foundation: colour, spacing, typography and writing guidelines, and tokens defined jointly with Guardrail's front-end developer for direct implementation. Over the next year we redesigned the product and shipped new features on the same foundation.</p>
+    <ul>
+      <li><strong>Role:</strong> Design system lead; audit and redesign</li>
+      <li><strong>Team:</strong> Audited and redesigned with Sabrina Wen and Robyn Dang at Interlude Studio. Design reviews with our team and Guardrail's engineers.</li>
+      <li><strong>Timeline:</strong> May 2025–2026 — design system foundation 3 weeks, initial redesign 3 months</li>
+      <li><strong>Scope:</strong> Audit, design system, redesign, responsive, ongoing feature design</li>
+      <li><strong>Platform:</strong> Web app; desktop first, mobile-friendly</li>
+      <li><strong>Status:</strong> Shipped; Guardrail has since been acquired by Rain</li>
+    </ul>
+  </section>
+
+  <section class="cs-section" id="problem">
+    <div class="cs-section-head"><span class="cs-section-num">02</span><h2>The Problem</h2></div>
+    <p>The audit turned up three things that looked like separate problems.</p>
+    <div class="cs-media-row">
+      <div class="cs-media"><img src="Assets/02-1.png" alt="" loading="lazy"></div>
+      <div class="cs-media"><img src="Assets/02-2.png" alt="" loading="lazy"></div>
+    </div>
+    <p>Colour hadn't been assigned so much as accumulated. No rule governed what any colour meant. The severity chip (1) held up best: colour-coded with a label, passing AA in both modes, though not AAA. The alert notice (2) and outlined button (3) passed AA in light but failed AA and AAA in dark. The dark value had been set once, by eye, not derived alongside its light counterpart — checked in one mode and shipped in both.</p>
+    <div class="cs-media"><img src="Assets/02-3.png" alt="" loading="lazy"></div>
+    <p>Icons came from more than one library at more than one size — sharp corners beside rounded ones, a set that read as assembled, not designed.</p>
+    <p>All three were the same fault: colour, mode, and iconography decided per screen instead of assigned by role from one library. The product looked assembled, not designed, because that's how it had been decided.</p>
+  </section>
+
+  <section class="cs-section" id="constraints">
+    <div class="cs-section-head"><span class="cs-section-num">03</span><h2>Constraints</h2></div>
+    <ul>
+      <li><strong>Systematizing a changing product.</strong> The system was built alongside the redesign, not before it, so the rules had to hold for screens still moving.</li>
+      <li><strong>The system had to be legible to code, not just to designers.</strong> Variables were going into the codebase as tokens, so the structure had to work for the developers building with it.</li>
+      <li><strong>Three designers, one system.</strong> Whatever I built had to work for colleagues immediately, not just me.</li>
+      <li><strong>Data density was not negotiable.</strong> The tables hold guards, alerts and threats, everything a responder triages.</li>
+    </ul>
+  </section>
+
+  <section class="cs-section" id="decisions">
+    <div class="cs-section-head"><span class="cs-section-num">04</span><h2>The Decisions</h2></div>
+
+    <div class="cs-sub"><h3>1 — A palette was the start, not the answer</h3></div>
+    <p>The first move was to define a palette, however, someone still chooses which swatch goes where, and choosing per screen was the actual fault. The palette was raw material, and a semantic layer went on top, defined together with Guardrail's front-end developer. Every token is described by where it's used (surface, component, input), what it's for (primary, secondary, plain, positive, warning, negative), how much attention it draws (high, medium, low saliency), how it's applied (background, border, text, icon), and its state. A full path might read <em>component / secondary / high / background / default</em> — the default background for a CTA in the secondary brand colour, weighted to draw the eye first.</p>
+    <div class="cs-media-row">
+      <div class="cs-media"><img src="Assets/04-1-1.png" alt="" loading="lazy"></div>
+      <div class="cs-media"><img src="Assets/04-1-2.png" alt="" loading="lazy"></div>
+      <div class="cs-media"><img src="Assets/04-1-3.png" alt="" loading="lazy"></div>
+    </div>
+    <p>Mode became a further axis of the same taxonomy, not a separate pass. Every token holds a light and dark value defined and checked together. Each value is verified against AA, so a failing token is caught before it reaches a screen.</p>
+    <p>The cost is that the taxonomy has to be learned before it can be used: five dimensions, long names, and a designer who wants one colour has to answer several questions to get it. Harder to use casually, much harder to use incorrectly. AAA was the aim on text, but reaching 7:1 would have narrowed the palette, so some settled for AA instead, keeping the range the product needed.</p>
+
+    <div class="cs-sub"><h3>2 — Two views, not one</h3></div>
+    <p>The received answer for a dense table on a small screen is to replace it with stacked cards or hidden columns. I kept the table, horizontal scroll and all, and added a list view beside it.</p>
+    <div class="cs-media"><video src="Assets/04-2-1.mov" controls playsinline preload="metadata"></video></div>
+    <p>Tables exist because comparison across columns is the task. Collapse it and you've removed what the table was for, not made it mobile. But at phone width a table is genuinely hard to read, so the list view covers other needs that aren't comparison.</p>
+    <div class="cs-media-row">
+      <div class="cs-media"><img src="Assets/04-2-2.png" alt="" loading="lazy"></div>
+      <div class="cs-media"><img src="Assets/04-2-3.png" alt="" loading="lazy"></div>
+      <div class="cs-media"><img src="Assets/04-2-4.png" alt="" loading="lazy"></div>
+    </div>
+    <p>The cost is two views to maintain, and a decision the viewer now has to make, minimized by the breakpoints:</p>
+    <ul>
+      <li><strong>Above 768px:</strong> table only, no button group.</li>
+      <li><strong>640–768px:</strong> the button group appears, defaulting to table.</li>
+      <li><strong>Below 640px:</strong> the same button group defaults to list. The option never disappears; someone who came to compare can still switch to table, they just have to do so.</li>
+    </ul>
+  </section>
+
+  <section class="cs-section" id="craft">
+    <div class="cs-section-head"><span class="cs-section-num">05</span><h2>Craft &amp; System</h2></div>
+
+    <div class="cs-sub"><h3>Retokenized each component</h3></div>
+    <div class="cs-media"><img src="Assets/05-1.png" alt="" loading="lazy"></div>
+    <p>Components started from Shipfaster UI, adapted per client, then re-tokenized with Guardrail's system rather than drawn from scratch.</p>
+
+    <div class="cs-sub"><h3>Spacing across two modes</h3></div>
+    <div class="cs-media"><img src="Assets/05-2.png" alt="" loading="lazy"></div>
+    <p>One scale, desktop and mobile, holding proportions across screen sizes and across three designers' work without anyone setting values by hand.</p>
+
+    <div class="cs-sub"><h3>Typography and writing guidelines</h3></div>
+    <div class="cs-media"><img src="Assets/05-3.png" alt="" loading="lazy"></div>
+    <p>Typography carries its own desktop and mobile guidelines, with writing rules too, so copy stopped drifting between screens.</p>
+    <p>Icons standardized with Lucide at a defined sizing scale. For most cases, size didn't need to be decided again.</p>
+
+    <div class="cs-sub"><h3>Colour Contrast</h3></div>
+    <div class="cs-media-row">
+      <div class="cs-media"><img src="Assets/05-4-1.png" alt="" loading="lazy"></div>
+      <div class="cs-media"><img src="Assets/05-4-2.png" alt="" loading="lazy"></div>
+    </div>
+    <p>The severity chip, alert notice, and outlined button now pass AAA in both light and dark mode.</p>
+
+    <div class="cs-sub"><h3>Before and after</h3></div>
+    <div class="cs-media-row">
+      <div class="cs-media"><img src="Assets/05-5-1.png" alt="" loading="lazy"></div>
+      <div class="cs-media"><img src="Assets/05-5-2.png" alt="" loading="lazy"></div>
+      <div class="cs-media"><img src="Assets/05-5-3.png" alt="" loading="lazy"></div>
+      <div class="cs-media"><img src="Assets/05-5-4.png" alt="" loading="lazy"></div>
+      <div class="cs-media"><img src="Assets/05-5-5.png" alt="" loading="lazy"></div>
+    </div>
+    <p>Screens from across the product, before the redesign and after.</p>
+  </section>
+
+  <section class="cs-section" id="ship">
+    <div class="cs-section-head"><span class="cs-section-num">06</span><h2>Ship &amp; Collaboration</h2></div>
+    <p>Guardrail's front-end developer and I defined the tokens together: taxonomy, naming, and values. A design library and codebase that need a translation layer is where the system comes apart. One vocabulary meant nothing to reconcile later.</p>
+    <div class="cs-media"><img src="Assets/06-1.png" alt="Visual of tokens in code" loading="lazy"></div>
+    <p>The point wasn't a cleaner handoff. It was that engineering could stop checking: no single-use tokens to lose, no verifying whether a value was right. The token defined what it was meant for.</p>
+    <p>The redesign shipped before the acquisition.</p>
+  </section>
+
+  <section class="cs-section" id="outcome">
+    <div class="cs-section-head"><span class="cs-section-num">07</span><h2>The Outcome</h2></div>
+    <p>The components the audit flagged (severity chip, alert notice, outlined button) now pass AAA in both light and dark mode. Every other component checked across the product passes at least AA, and most pass AAA.</p>
+    <p>The system was adopted immediately by the other two designers and extended for a year, covering cases I hadn't designed for and holding. Every new feature Guardrail shipped was built on this foundation.</p>
+    <p>It also survived the acquisition. Guardrail's front-end developer said it became the foundation for the next iteration of Rain's design system, with developers now writing around 90% less custom styling than before.</p>
+    <blockquote class="cs-quote">
+      "I worked with Nicole during my time as the lead frontend developer at Guardrail. She was instrumental in the creation of Guardrail's design system, which has since been transformed into the next step of the evolution of Rain's design system. A faulty foundation is something I knew would hurt in the long run – working with Nicole and her team helped us build a system that we could rely on. With it, developers are writing around 90%(!) less custom styling than usual, enabling us to ship stuff speedily!"
+      <cite>Dakota St. Laurent, Lead Front-End Developer, Guardrail (now a Rain company)</cite>
+    </blockquote>
+  </section>
+
+  <section class="cs-section" id="reflection">
+    <div class="cs-section-head"><span class="cs-section-num">08</span><h2>Reflection</h2></div>
+    <p>We built on Shipfaster UI and adapted it, so most of the three weeks went into re-tokenizing components and reassigning variables one at a time, rather than designing them. I'd do that for fewer: progress bars and switches could have waited. I'd still build the system alongside the redesign, just less of it up front, letting later screens decide what else it needed.</p>
+  </section>
+
+  <div class="cs-nextprev">
+    <a href="../masking-in-boards/">← Raspberry AI: masking on the canvas</a>
+    <a href="../workflow-tutorials/">Raspberry AI: teaching a platform to explain itself →</a>
+  </div>
+
+  <footer>
+    <span>&copy; 2026 Nicole Chou</span>
+    <span>Set in Geist, Geist Mono &amp; Geist Pixel</span>
+  </footer>
+</main>
+
+<script src="../../nav.js"></script>
+</body>
+</html>

@@ -291,6 +291,7 @@
 <!-- ============ RULES ============ -->
 <section class="g-section">
   <h2>Rules for adding a new page or section</h2>
+  <p class="g-note">A full worked example of a new page built on this system: any <a href="case-studies/masking-in-boards/" style="color:var(--select)">case study page</a> — long-form article layout (<code style="font-family:var(--mono)">case-study.css</code>) plus the shared nav bar (<code style="font-family:var(--mono)">nav.js</code>) on top of these same tokens, no dot-grid/cursor chrome. See <code style="font-family:var(--mono)">DESIGN-SYSTEM.md</code>'s "Case study pages" section.</p>
   <ul class="g-checklist">
     <li>Link <code style="font-family:var(--mono)">styles.css</code> — don't paste or fork any of it into a new page's own <code style="font-family:var(--mono)">&lt;style&gt;</code>.</li>
     <li>Colors, spacing, radii: reach for a token above. If nothing fits, that's a sign the system needs a new token — add it to <code style="font-family:var(--mono)">:root</code> (and its dark overrides) rather than hardcoding a one-off value in a selector.</li>
