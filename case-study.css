@@ -77,14 +77,19 @@
 .cs-media-row .cs-media{margin:0}
 .cs-caption{font-family:var(--mono);font-size:10px;letter-spacing:.03em;color:var(--ink-3);padding:10px 2px 0;line-height:1.5}
 
+.cs-quote-frame{margin:40px 0}
 .cs-quote{
-  border-left:2px solid var(--select);padding:4px 0 4px 24px;margin:32px 0;
+  margin:0;
   font-size:1.1rem;line-height:1.55;color:var(--ink);max-width:60ch;font-style:italic;
 }
 .cs-quote cite{
-  display:block;margin-top:12px;font-family:var(--mono);font-size:10px;letter-spacing:.05em;
+  display:flex;align-items:center;gap:10px;margin-top:16px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.05em;
   text-transform:uppercase;color:var(--ink-3);font-style:normal;
 }
+.cs-quote-avatar{width:32px;height:32px;border-radius:50%;object-fit:cover;flex:none}
+.cs-quote cite a{color:var(--ink-3);text-decoration:underline;text-underline-offset:2px}
+.cs-quote cite a:hover{color:var(--select)}
 
 .cs-more{padding:48px 0 32px;border-top:1px solid var(--rule);margin-top:20px}
 .cs-more-title{
