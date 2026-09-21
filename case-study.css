@@ -11,6 +11,11 @@
    unconditionally rather than only below 560px like styles.css does. */
 :root{--gutter:0px}
 
+/* Sidebar width, shared between .cs-toc's own fixed placement and the
+   left padding .cs-shell reserves to clear it -- keep the two in sync
+   if this changes. */
+:root{--cs-toc-w:230px}
+
 /* styles.css has a bare main{padding/max-width/margin} rule for every
    other page's <main> -- .cs-page IS a <main>, so it inherits that too
    unless reset here. Left alone, that stacks with .cs-shell's own
@@ -18,24 +23,26 @@
    page. .cs-shell (not .cs-page) is what carries the real width/padding
    now. */
 .cs-page{display:block;padding:0;max-width:none;margin:0}
-@media (min-width:1100px){
-  .cs-page{display:grid;grid-template-columns:230px minmax(0,760px);column-gap:40px;justify-content:center}
-}
 
 .cs-toc{display:none}
 @media (min-width:1100px){
+  /* True position:fixed, not sticky-in-a-grid -- the sidebar stays put
+     at a fixed spot in the viewport regardless of scroll, independent
+     of .cs-shell's own layout entirely. max-height/overflow-y is a
+     safety net for short viewports so a long section list can't run
+     off-screen with no way to reach the bottom links. */
   .cs-toc{
     display:flex;flex-direction:column;gap:0;
-    padding-top:calc(46px + 16px);
-    position:sticky;top:calc(46px + 16px);align-self:start;
+    position:fixed;left:clamp(20px,4vw,56px);top:calc(46px + 16px);
+    width:var(--cs-toc-w);
+    max-height:calc(100vh - (46px + 16px) - 24px);overflow-y:auto;
   }
-  /* Starts at calc(46px + 16px), not 0 -- 0 would be the top of .cs-toc's
-     own padding box, i.e. above .cs-top's padding-top and thus above
-     where the first link actually sits. bottom:0 needs no matching
-     offset since .cs-toc has no padding-bottom, so it already lands
-     exactly on the last link. */
+  /* top:0/bottom:0, not offset -- unlike the old sticky version, this
+     box has no padding-top standing in for the fixed-position offset
+     (top already places the whole box), so 0 here already lines up
+     with the first link and bottom:0 with the last one. */
   .cs-toc::before{
-    content:"";position:absolute;left:0;top:calc(46px + 16px);bottom:0;width:2px;
+    content:"";position:absolute;left:0;top:0;bottom:0;width:2px;
     background:var(--rule-soft);
   }
   .cs-toc a{
@@ -99,23 +106,22 @@
 .cs-toc-panel a.is-active{color:var(--select)}
 
 /* max-width matches main's own --maxw below 1100px -- the same margins
-   as every other page -- and only narrows to the 760px reading column
-   at 1100px+, where it's paired with .cs-toc and the cap is doing real
-   work (keeping the text column narrow while .cs-toc holds the freed
-   space), not just capping width for its own sake. */
+   as every other page. At 1100px+ the cap comes off entirely: the body
+   column fills whatever width is left beside the fixed sidebar instead
+   of stopping at a fixed reading measure -- individual paragraphs still
+   cap at 64ch (see .cs-section p) so running text doesn't stretch
+   edge-to-edge, but .cs-media-row and full-width images get to use the
+   extra room, which is the point (room for media to sit side by side
+   with the text instead of everything single-column). */
 .cs-shell{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,56px)}
 @media (min-width:1100px){
-  .cs-shell{max-width:760px}
+  .cs-shell{
+    max-width:none;margin:0;
+    padding-left:calc(clamp(20px,4vw,56px) + var(--cs-toc-w) + 40px);
+  }
 }
 
 .cs-top{padding-top:calc(46px + 16px)}
-.cs-back{
-  display:inline-flex;align-items:center;gap:8px;
-  font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;
-  color:var(--ink-3);text-decoration:none;margin-bottom:28px;
-}
-.cs-back:hover{color:var(--select)}
-.cs-back-icon{width:18px;height:18px;flex:none}
 
 .cs-section{scroll-margin-top:calc(46px + 16px)}
 @media (max-width:1099px){
