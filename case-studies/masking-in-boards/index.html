@@ -52,18 +52,21 @@
     <a href="#outcome">The Outcome</a>
     <a href="#reflection">Reflection</a>
   </nav>
-  <div class="cs-toc-mobile">
-    <select aria-label="Jump to section">
-      <option value="" selected disabled>Jump to section</option>
-      <option value="summary">Summary</option>
-      <option value="problem">The Problem</option>
-      <option value="constraints">Constraints</option>
-      <option value="decisions">The Decisions</option>
-      <option value="craft">Craft &amp; System</option>
-      <option value="ship">Ship &amp; Collaboration</option>
-      <option value="outcome">The Outcome</option>
-      <option value="reflection">Reflection</option>
-    </select>
+  <div class="cs-toc-mobile" id="csTocMobile" data-open="false">
+    <button class="cs-toc-trigger" type="button" id="csTocTrigger" aria-expanded="false" aria-controls="csTocPanel" aria-label="Jump to section">
+      <span class="cs-toc-trigger-label">Jump to section</span>
+      <svg class="cs-toc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+    </button>
+    <div class="cs-toc-panel" id="csTocPanel">
+      <a href="#summary">Summary</a>
+      <a href="#problem">The Problem</a>
+      <a href="#constraints">Constraints</a>
+      <a href="#decisions">The Decisions</a>
+      <a href="#craft">Craft &amp; System</a>
+      <a href="#ship">Ship &amp; Collaboration</a>
+      <a href="#outcome">The Outcome</a>
+      <a href="#reflection">Reflection</a>
+    </div>
   </div>
 
   <div class="cs-shell cs-top">
@@ -191,7 +194,7 @@
           </div>
         <h3><a href="../guardrail-system/">Guardrail AI: a system built to outgrow its creator</a></h3>
         <p>Audit, design system and redesign. Replaced accumulated tokens with a system we built a year of features on.</p>
-        <p class="meta"><span class="m-date">May 2025&ndash;2026</span><span class="m-role">Product Designer, Design System Lead</span><span class="m-studio">Completed at Interlude Studio</span></p>
+        <p class="meta"><span class="m-date">2025</span><span class="m-role">Product Designer, Design System Lead</span><span class="m-studio">Completed at Interlude Studio</span></p>
         </div>
       </article>
 
@@ -204,7 +207,7 @@
           </div>
         <h3><a href="../workflow-tutorials/">Raspberry AI: teaching a platform to explain itself</a></h3>
         <p>A guided tutorial system built around workflows, reducing one-to-one onboarding calls.</p>
-        <p class="meta"><span class="m-date">Feb &amp; Apr 2026</span><span class="m-role">Product Designer</span><span class="m-studio">Completed at Interlude Studio</span></p>
+        <p class="meta"><span class="m-date">2026</span><span class="m-role">Product Designer</span><span class="m-studio">Completed at Interlude Studio</span></p>
         </div>
       </article>
     </div>

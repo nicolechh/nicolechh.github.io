@@ -45,12 +45,46 @@
   });
 
   var toc = document.querySelector('.cs-toc');
-  var tocLinks = document.querySelectorAll('.cs-toc a');
   var tocIndicator = document.querySelector('.cs-toc-indicator');
+  var allTocLinks = document.querySelectorAll('.cs-toc a, .cs-toc-panel a');
   var sections = document.querySelectorAll('.cs-section[id]');
-  if (tocLinks.length && sections.length && 'IntersectionObserver' in window){
-    var linkFor = {};
-    tocLinks.forEach(function(a){ linkFor[a.getAttribute('href').slice(1)] = a; });
+
+  var tocMobile = document.getElementById('csTocMobile');
+  var tocTrigger = document.getElementById('csTocTrigger');
+  var tocTriggerLabel = tocTrigger ? tocTrigger.querySelector('.cs-toc-trigger-label') : null;
+
+  function setTocOpen(open){
+    if (!tocMobile) return;
+    tocMobile.dataset.open = String(open);
+    tocTrigger.setAttribute('aria-expanded', String(open));
+  }
+  if (tocTrigger){
+    tocTrigger.addEventListener('click', function(e){
+      e.stopPropagation();
+      setTocOpen(tocMobile.dataset.open !== 'true');
+    });
+    document.addEventListener('click', function(e){
+      if (tocMobile.dataset.open === 'true' && !tocMobile.contains(e.target)) setTocOpen(false);
+    });
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && tocMobile.dataset.open === 'true'){ setTocOpen(false); tocTrigger.focus(); }
+    });
+  }
+  document.querySelectorAll('.cs-toc-panel a').forEach(function(a){
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      setTocOpen(false);
+      var target = document.getElementById(a.getAttribute('href').slice(1));
+      if (target) target.scrollIntoView({block:'start'});
+    });
+  });
+
+  if (allTocLinks.length && sections.length && 'IntersectionObserver' in window){
+    var linksFor = {};
+    allTocLinks.forEach(function(a){
+      var id = a.getAttribute('href').slice(1);
+      (linksFor[id] = linksFor[id] || []).push(a);
+    });
     function moveIndicator(link){
       if (!tocIndicator || !toc) return;
       tocIndicator.style.opacity = '1';
@@ -59,24 +93,16 @@
     }
     var observer = new IntersectionObserver(function(entries){
       entries.forEach(function(entry){
-        var link = linkFor[entry.target.id];
-        if (!link || !entry.isIntersecting) return;
-        tocLinks.forEach(function(a){ a.classList.remove('is-active'); });
-        link.classList.add('is-active');
-        moveIndicator(link);
+        var links = linksFor[entry.target.id];
+        if (!links || !entry.isIntersecting) return;
+        allTocLinks.forEach(function(a){ a.classList.remove('is-active'); });
+        links.forEach(function(a){ a.classList.add('is-active'); });
+        var desktopLink = toc ? toc.querySelector('a[href="#' + entry.target.id + '"]') : null;
+        if (desktopLink) moveIndicator(desktopLink);
+        if (tocTriggerLabel) tocTriggerLabel.textContent = links[0].textContent;
       });
     }, {rootMargin:'-15% 0px -70% 0px'});
     sections.forEach(function(s){ observer.observe(s); });
-  }
-
-  var tocSelect = document.querySelector('.cs-toc-mobile select');
-  if (tocSelect){
-    tocSelect.addEventListener('change', function(){
-      var target = document.getElementById(tocSelect.value);
-      if (target) target.scrollIntoView({block:'start'});
-      tocSelect.selectedIndex = 0;
-      tocSelect.blur();
-    });
   }
 
 })();

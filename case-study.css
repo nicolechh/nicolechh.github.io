@@ -25,7 +25,7 @@
     background:var(--rule-soft);
   }
   .cs-toc a{
-    font-family:var(--mono);font-size:14px;letter-spacing:.06em;text-transform:uppercase;
+    font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;
     color:var(--ink-3);text-decoration:none;padding:7px 0 7px 14px;
     transition:color .15s ease;
   }
@@ -37,24 +37,43 @@
   }
 }
 
+/* Mirrors .menu/.menu-panel's own disclosure pattern (see styles.css)
+   so this reads as the same component: a solid-enough-to-read panel
+   over a backdrop blur, sliding open via max-height, not the browser's
+   own <select> chrome (which can't be styled to match). */
 .cs-toc-mobile{
-  display:flex;align-items:center;
-  position:fixed;top:46px;left:0;right:0;height:48px;z-index:50;
-  background:var(--menu-bg);border-bottom:1px solid var(--rule-soft);
-  padding:0 clamp(20px,4vw,56px);
+  position:fixed;top:46px;left:0;right:0;z-index:50;
 }
 @media (min-width:1100px){
   .cs-toc-mobile{display:none}
 }
-.cs-toc-mobile select{
-  appearance:none;-webkit-appearance:none;
-  width:100%;height:32px;
+.cs-toc-trigger{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  width:100%;height:48px;padding:0 clamp(20px,4vw,56px);
+  background:var(--paper);border:0;border-bottom:1px solid var(--rule-soft);
   font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;
-  color:var(--ink);background:var(--paper);
-  border:1px solid var(--rule-soft);padding:0 30px 0 10px;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23808088' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 6px center;background-size:16px;
+  color:var(--ink);cursor:pointer;text-align:left;
 }
+.cs-toc-chevron{width:16px;height:16px;flex:none;transition:transform .2s ease}
+.cs-toc-mobile[data-open="true"] .cs-toc-chevron{transform:rotate(180deg)}
+.cs-toc-panel{
+  overflow:hidden;max-height:0;visibility:hidden;
+  background:var(--menu-bg);
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  border-bottom:0 solid var(--rule);
+  transition:max-height .3s cubic-bezier(.4,0,.2,1),visibility 0s linear .3s;
+}
+.cs-toc-mobile[data-open="true"] .cs-toc-panel{
+  max-height:70vh;visibility:visible;border-bottom-width:1px;
+  transition:max-height .3s cubic-bezier(.4,0,.2,1),visibility 0s;
+}
+.cs-toc-panel a{
+  display:block;padding:11px clamp(20px,4vw,56px);
+  font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink-2);text-decoration:none;
+}
+.cs-toc-panel a:hover,.cs-toc-panel a:focus-visible{background:var(--select);color:var(--on-select)}
+.cs-toc-panel a.is-active{color:var(--select)}
 
 .cs-shell{max-width:760px;margin:0 auto;padding:0 clamp(20px,4vw,56px)}
 
