@@ -45,9 +45,13 @@
   }
   .cs-toc a:hover{color:var(--ink)}
   .cs-toc a.is-active{color:var(--select)}
+  /* transform/height animate the indicator sliding between sections as
+     you scroll; opacity is separate so case-study.js can fade it in on
+     first paint without also sliding/growing it in from a 0-height
+     starting point -- see moveIndicator()'s isFirstMove handling. */
   .cs-toc-indicator{
     position:absolute;left:0;top:0;width:2px;background:var(--select);
-    transition:transform .2s ease,height .2s ease;opacity:0;
+    transition:transform .2s ease,height .2s ease,opacity .3s ease;opacity:0;
   }
 }
 
@@ -153,7 +157,11 @@
 .cs-section p strong{color:var(--ink);font-weight:500}
 .cs-section ul{margin:0 0 16px;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:10px;max-width:64ch}
 .cs-section ul li{color:var(--ink-2);line-height:1.6;padding-left:16px;position:relative}
-.cs-section ul li::before{content:"—";position:absolute;left:0;color:var(--select);font-family:var(--mono)}
+/* Figma's component-instance marker: a small purple diamond (rotated
+   square), not a design token -- it's a deliberate reference to that
+   specific icon, not part of this site's own color system, so it's
+   hardcoded rather than pulled from :root. */
+.cs-section ul li::before{content:"";position:absolute;left:1px;top:.55em;width:8px;height:8px;background:#9747FF;transform:rotate(45deg)}
 .cs-section ul li strong{color:var(--ink);font-weight:500}
 
 .cs-media{margin:20px 0}

@@ -85,11 +85,25 @@
       var id = a.getAttribute('href').slice(1);
       (linksFor[id] = linksFor[id] || []).push(a);
     });
+    var indicatorPlaced = false;
     function moveIndicator(link){
       if (!tocIndicator || !toc) return;
+      // First placement (page load, Summary): jump straight to position/
+      // height with only opacity transitioning -- a plain fade in, not
+      // the bar sliding/growing in from the top. Pinned to opacity's own
+      // CSS duration explicitly (not just narrowing transition-property)
+      // so it doesn't inherit transform's shorter duration by cycling
+      // through a mismatched-length list. Later section changes keep
+      // the normal sliding transition (restored below).
+      if (!indicatorPlaced) tocIndicator.style.transition = 'opacity .3s ease';
       tocIndicator.style.opacity = '1';
       tocIndicator.style.transform = 'translateY(' + link.offsetTop + 'px)';
       tocIndicator.style.height = link.offsetHeight + 'px';
+      if (!indicatorPlaced){
+        tocIndicator.offsetHeight; // force layout so the transition override above applies before...
+        tocIndicator.style.transition = '';   // ...restoring the CSS-defined transitions for subsequent moves
+        indicatorPlaced = true;
+      }
     }
     function activate(id){
       var links = linksFor[id];
