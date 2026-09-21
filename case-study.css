@@ -107,7 +107,7 @@
 .cs-top{padding-top:calc(46px + 16px)}
 .cs-back{
   display:inline-flex;align-items:center;gap:8px;
-  font-family:var(--mono);font-size:14px;letter-spacing:.08em;text-transform:uppercase;
+  font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;
   color:var(--ink-3);text-decoration:none;margin-bottom:28px;
 }
 .cs-back:hover{color:var(--select)}
