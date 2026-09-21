@@ -44,17 +44,26 @@
     if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeLightbox();
   });
 
+  var toc = document.querySelector('.cs-toc');
   var tocLinks = document.querySelectorAll('.cs-toc a');
+  var tocIndicator = document.querySelector('.cs-toc-indicator');
   var sections = document.querySelectorAll('.cs-section[id]');
   if (tocLinks.length && sections.length && 'IntersectionObserver' in window){
     var linkFor = {};
     tocLinks.forEach(function(a){ linkFor[a.getAttribute('href').slice(1)] = a; });
+    function moveIndicator(link){
+      if (!tocIndicator || !toc) return;
+      tocIndicator.style.opacity = '1';
+      tocIndicator.style.transform = 'translateY(' + link.offsetTop + 'px)';
+      tocIndicator.style.height = link.offsetHeight + 'px';
+    }
     var observer = new IntersectionObserver(function(entries){
       entries.forEach(function(entry){
         var link = linkFor[entry.target.id];
         if (!link || !entry.isIntersecting) return;
         tocLinks.forEach(function(a){ a.classList.remove('is-active'); });
         link.classList.add('is-active');
+        moveIndicator(link);
       });
     }, {rootMargin:'-15% 0px -70% 0px'});
     sections.forEach(function(s){ observer.observe(s); });
