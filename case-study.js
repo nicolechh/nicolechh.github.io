@@ -91,15 +91,23 @@
       tocIndicator.style.transform = 'translateY(' + link.offsetTop + 'px)';
       tocIndicator.style.height = link.offsetHeight + 'px';
     }
+    function activate(id){
+      var links = linksFor[id];
+      if (!links) return;
+      allTocLinks.forEach(function(a){ a.classList.remove('is-active'); });
+      links.forEach(function(a){ a.classList.add('is-active'); });
+      var desktopLink = toc ? toc.querySelector('a[href="#' + id + '"]') : null;
+      if (desktopLink) moveIndicator(desktopLink);
+      if (tocTriggerLabel) tocTriggerLabel.textContent = links[0].textContent;
+    }
+    // Summary is active as soon as the page opens, before any scrolling
+    // (and before the observer's own first check) -- otherwise both the
+    // sidebar and the mobile trigger sit unhighlighted until the reader
+    // scrolls past the -15% rootMargin line.
+    activate(sections[0].id);
     var observer = new IntersectionObserver(function(entries){
       entries.forEach(function(entry){
-        var links = linksFor[entry.target.id];
-        if (!links || !entry.isIntersecting) return;
-        allTocLinks.forEach(function(a){ a.classList.remove('is-active'); });
-        links.forEach(function(a){ a.classList.add('is-active'); });
-        var desktopLink = toc ? toc.querySelector('a[href="#' + entry.target.id + '"]') : null;
-        if (desktopLink) moveIndicator(desktopLink);
-        if (tocTriggerLabel) tocTriggerLabel.textContent = links[0].textContent;
+        if (entry.isIntersecting) activate(entry.target.id);
       });
     }, {rootMargin:'-15% 0px -70% 0px'});
     sections.forEach(function(s){ observer.observe(s); });
