@@ -69,4 +69,14 @@
     sections.forEach(function(s){ observer.observe(s); });
   }
 
+  var tocSelect = document.querySelector('.cs-toc-mobile select');
+  if (tocSelect){
+    tocSelect.addEventListener('change', function(){
+      var target = document.getElementById(tocSelect.value);
+      if (target) target.scrollIntoView({block:'start'});
+      tocSelect.selectedIndex = 0;
+      tocSelect.blur();
+    });
+  }
+
 })();

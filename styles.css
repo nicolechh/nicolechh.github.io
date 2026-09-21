@@ -208,7 +208,7 @@ body{
 .motion{
   margin-left:auto;
   display:flex;align-items:center;gap:9px;
-  font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+  font-family:var(--mono);font-size:14px;letter-spacing:.08em;text-transform:uppercase;
   color:var(--ink-3);
 }
 /* the actual hit target: 44x44 (meets WCAG 2.5.5's AAA target size, well
@@ -587,7 +587,7 @@ footer{
   .motion{
     position:static;transform:none;
     width:100%;justify-content:space-between;
-    font-size:10px;   /* same as desktop's .motion */
+    font-size:14px;   /* same as desktop's .motion */
     padding:11px 12px;margin-top:5px;margin-left:0;
     border-top:1px solid var(--rule-soft);
   }

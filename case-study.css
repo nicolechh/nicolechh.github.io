@@ -5,7 +5,7 @@
 
 .cs-page{display:block}
 @media (min-width:1100px){
-  .cs-page{display:grid;grid-template-columns:180px minmax(0,760px);column-gap:40px;justify-content:center}
+  .cs-page{display:grid;grid-template-columns:230px minmax(0,760px);column-gap:40px;justify-content:center}
 }
 
 .cs-toc{display:none}
@@ -15,8 +15,13 @@
     padding-top:calc(46px + 16px);
     position:sticky;top:calc(46px + 16px);align-self:start;
   }
+  /* Starts at calc(46px + 16px), not 0 -- 0 would be the top of .cs-toc's
+     own padding box, i.e. above .cs-top's padding-top and thus above
+     where the first link actually sits. bottom:0 needs no matching
+     offset since .cs-toc has no padding-bottom, so it already lands
+     exactly on the last link. */
   .cs-toc::before{
-    content:"";position:absolute;left:0;top:0;bottom:0;width:2px;
+    content:"";position:absolute;left:0;top:calc(46px + 16px);bottom:0;width:2px;
     background:var(--rule-soft);
   }
   .cs-toc a{
@@ -32,15 +37,40 @@
   }
 }
 
+.cs-toc-mobile{
+  display:flex;align-items:center;
+  position:fixed;top:46px;left:0;right:0;height:48px;z-index:50;
+  background:var(--menu-bg);border-bottom:1px solid var(--rule-soft);
+  padding:0 clamp(20px,4vw,56px);
+}
+@media (min-width:1100px){
+  .cs-toc-mobile{display:none}
+}
+.cs-toc-mobile select{
+  appearance:none;-webkit-appearance:none;
+  width:100%;height:32px;
+  font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--ink);background:var(--paper);
+  border:1px solid var(--rule-soft);padding:0 30px 0 10px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23808088' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 6px center;background-size:16px;
+}
+
 .cs-shell{max-width:760px;margin:0 auto;padding:0 clamp(20px,4vw,56px)}
 
 .cs-top{padding-top:calc(46px + 16px)}
 .cs-back{
-  display:inline-flex;align-items:center;gap:6px;
-  font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:14px;letter-spacing:.08em;text-transform:uppercase;
   color:var(--ink-3);text-decoration:none;margin-bottom:28px;
 }
 .cs-back:hover{color:var(--select)}
+.cs-back-icon{width:18px;height:18px;flex:none}
+
+.cs-section{scroll-margin-top:calc(46px + 16px)}
+@media (max-width:1099px){
+  .cs-section{scroll-margin-top:calc(46px + 48px + 12px)}
+}
 
 .cs-cover{overflow:hidden;margin-bottom:28px}
 .cs-cover img{display:block;width:100%;height:auto}
@@ -128,7 +158,9 @@
   cursor:pointer;padding:8px;
 }
 
+@media (max-width:1099px){
+  .cs-top{padding-top:calc(46px + 48px + 12px)}
+}
 @media (max-width:560px){
   .cs-facts{column-gap:32px}
-  .cs-top{padding-top:calc(46px + 12px)}
 }
