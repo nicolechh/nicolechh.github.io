@@ -3,7 +3,21 @@
    a long-form article: nothing here duplicates a token or component that
    already exists in styles.css. See DESIGN-SYSTEM.md. */
 
-.cs-page{display:block}
+/* styles.css sets --gutter:24px on :root (collapsing to 0 only below
+   560px) so body has room on the left for the homepage's ruler/dot-grid
+   canvas. These pages never render that canvas, so the reserved gutter
+   is pure unwanted left-only padding on body here -- it's what made the
+   side margins look bigger than every other page above 560px. Zero it
+   unconditionally rather than only below 560px like styles.css does. */
+:root{--gutter:0px}
+
+/* styles.css has a bare main{padding/max-width/margin} rule for every
+   other page's <main> -- .cs-page IS a <main>, so it inherits that too
+   unless reset here. Left alone, that stacks with .cs-shell's own
+   padding one level in, doubling the side margins versus every other
+   page. .cs-shell (not .cs-page) is what carries the real width/padding
+   now. */
+.cs-page{display:block;padding:0;max-width:none;margin:0}
 @media (min-width:1100px){
   .cs-page{display:grid;grid-template-columns:230px minmax(0,760px);column-gap:40px;justify-content:center}
 }
@@ -75,7 +89,15 @@
 .cs-toc-panel a:hover,.cs-toc-panel a:focus-visible{background:var(--select);color:var(--on-select)}
 .cs-toc-panel a.is-active{color:var(--select)}
 
-.cs-shell{max-width:760px;margin:0 auto;padding:0 clamp(20px,4vw,56px)}
+/* max-width matches main's own --maxw below 1100px -- the same margins
+   as every other page -- and only narrows to the 760px reading column
+   at 1100px+, where it's paired with .cs-toc and the cap is doing real
+   work (keeping the text column narrow while .cs-toc holds the freed
+   space), not just capping width for its own sake. */
+.cs-shell{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,56px)}
+@media (min-width:1100px){
+  .cs-shell{max-width:760px}
+}
 
 .cs-top{padding-top:calc(46px + 16px)}
 .cs-back{
