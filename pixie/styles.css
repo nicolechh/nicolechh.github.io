@@ -456,6 +456,8 @@ kbd { font-family: inherit; padding: 0 4px; border: 2px solid currentColor; bord
   animation: bob 3s ease-in-out infinite;
 }
 .mascot.is-thinking { animation: wiggle 0.3s ease-in-out infinite; }
+/* face left, chin tilted up a little */
+.mascot > svg { transform: rotate(10deg) scaleX(-1); }
 .mascot .wings { transform-origin: 5px 9px; animation: flutter 0.5s ease-in-out infinite; }
 .mascot.is-thinking .wings { animation-duration: 0.18s; }
 .mascot .wand-star { transform-origin: 14.5px 3.5px; animation: twinkle-soft 1.6s ease-in-out infinite; }
