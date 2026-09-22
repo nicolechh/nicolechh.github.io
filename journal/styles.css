@@ -21,6 +21,7 @@
   --pause: #fff1a8;
   --stop: #ffc2b8;
   --accent: #b48ce6;
+  --skin: #ffe1cf;
   --shadow: rgba(61, 44, 94, 0.9);
   --star-1: #ffd36e;
   --star-2: #ff9ec7;
@@ -53,6 +54,7 @@
     --pause: #7a6230;
     --stop: #7a3040;
     --accent: #9b7ad1;
+    --skin: #e9c3ad;
     --shadow: rgba(0, 0, 0, 0.85);
     --star-1: #ffe29a;
     --star-2: #f5a3cf;
@@ -83,6 +85,7 @@
   --pause: #7a6230;
   --stop: #7a3040;
   --accent: #9b7ad1;
+  --skin: #e9c3ad;
   --shadow: rgba(0, 0, 0, 0.85);
   --star-1: #ffe29a;
   --star-2: #f5a3cf;
@@ -287,6 +290,8 @@ svg { display: block; fill: currentColor; }
 }
 .mascot svg { width: 100%; height: 100%; }
 .mascot.is-thinking { animation: wiggle 0.3s ease-in-out infinite; }
+.mascot .wings { transform-origin: 8px 9px; animation: flutter 0.5s ease-in-out infinite; }
+.mascot.is-thinking .wings { animation-duration: 0.18s; }
 
 /* Prompt card */
 .card {
@@ -422,6 +427,7 @@ kbd { font-family: inherit; padding: 0 4px; border: 2px solid currentColor; bord
 @keyframes spin-star { to { transform: rotate(360deg); } }
 @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 @keyframes wiggle { 0%,100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
+@keyframes flutter { 0%,100% { transform: scaleX(1); } 50% { transform: scaleX(0.82); } }
 @keyframes blink { 50% { opacity: 0; } }
 @keyframes pulse { 0%,100% { opacity: 0.45; } 50% { opacity: 1; } }
 

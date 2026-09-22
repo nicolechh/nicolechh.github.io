@@ -11,45 +11,52 @@
     set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
   };
 
-  /* ---------- Mascot: a pixel notebook ---------- */
+  /* ---------- Mascot: a pixel fairy ---------- */
   const MASCOT = [
-    "..oooooooooooo..",
-    "..obccccccccco..",
-    "..obcccccccsco..",
-    "..obccccccssso..",
-    "..obcccccccsco..",
-    "..obccccccccco..",
-    "..obccecccecco..",
-    "..obccecccecco..",
-    "..obckecccekco..",
-    "..obccceeeccco..",
-    "..obccccccccco..",
-    "..obccccccccco..",
-    "..oppppppppppo..",
-    "..oooooooooooo..",
-    "..........r.....",
-    ".........r.r....",
+    "......hhhh......",
+    ".....hhshhh.....",
+    "....hhhhhhhh..s.",
+    "....hfeffefh....",
+    ".s..hkffffkh....",
+    "....hffmmffh....",
+    ".ww..hffffh..ww.",
+    "wwww..dddd..wwww",
+    "wwwwaddddddawwww",
+    ".wwwwddddddwwww.",
+    "..ww.dddddd.ww..",
+    ".www.dddddd.www.",
+    ".ww.dddddddd.ww.",
+    "....dddddddd....",
+    ".....ff..ff.....",
+    ".....oo..oo.....",
   ];
 
   const MASCOT_FILL = {
-    o: "var(--screen-edge)",
-    b: "var(--label)",
-    c: "var(--accent)",
+    h: "var(--label)",
+    s: "var(--star-1)",
+    f: "var(--skin)",
+    a: "var(--skin)",
     e: "var(--screen-edge)",
     k: "var(--star-2)",
-    s: "var(--star-1)",
-    p: "var(--screen)",
-    r: "var(--star-2)",
+    m: "var(--star-2)",
+    d: "var(--accent)",
+    o: "var(--screen-edge)",
+    w: "var(--star-3)",
   };
 
   function drawMascot() {
-    let rects = "";
+    let body = "";
+    let wings = "";
     MASCOT.forEach((row, y) => {
       [...row].forEach((ch, x) => {
-        if (MASCOT_FILL[ch]) rects += `<rect x="${x}" y="${y}" width="1" height="1" fill="${MASCOT_FILL[ch]}"/>`;
+        if (!MASCOT_FILL[ch]) return;
+        const rect = `<rect x="${x}" y="${y}" width="1" height="1" fill="${MASCOT_FILL[ch]}"/>`;
+        if (ch === "w") wings += rect;
+        else body += rect;
       });
     });
-    $("mascot").innerHTML = `<svg viewBox="0 0 16 16" shape-rendering="crispEdges">${rects}</svg>`;
+    $("mascot").innerHTML =
+      `<svg viewBox="0 0 16 16" shape-rendering="crispEdges"><g class="wings">${wings}</g>${body}</svg>`;
   }
 
   /* ---------- Theme ---------- */
