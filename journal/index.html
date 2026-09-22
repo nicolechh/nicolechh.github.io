@@ -2,122 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Prompt Pixie</title>
-  <meta name="description" content="Random journal prompt generator for timed writing practice." />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='%23b48ce6' d='M8 0l2 6 6 2-6 2-2 6-2-6-6-2 6-2z'/></svg>" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Silkscreen&family=Pixelify+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
-  <script>
-    // Apply saved theme before paint to avoid a flash
-    try {
-      const t = localStorage.getItem("journalcize-theme");
-      if (t) document.documentElement.dataset.theme = t;
-    } catch (e) {}
-  </script>
+  <meta http-equiv="refresh" content="0; url=/pixie/" />
+  <link rel="canonical" href="/pixie/" />
+  <script>location.replace("/pixie/" + location.search + location.hash);</script>
 </head>
 <body>
-  <div class="console">
-    <!-- LEFT: controls -->
-    <aside class="controls">
-      <section class="panel panel--info">
-        <div class="screen screen--small">
-          <h1 class="brand">
-            <svg class="brand__icon" viewBox="0 0 8 8" aria-hidden="true" shape-rendering="crispEdges">
-              <path d="M3 0h2v1H3zM3 1h2v2H3zM0 3h8v2H0zM3 5h2v2H3zM3 7h2v1H3z" />
-            </svg>
-            Prompt Pixie
-          </h1>
-          <p class="blurb">Random prompt generator for daily journaling practice.</p>
-          <ol class="steps">
-            <li>Choose a depth</li>
-            <li>Reload until it speaks to you</li>
-            <li>Choose duration</li>
-            <li>Hit play &amp; write</li>
-          </ol>
-        </div>
-      </section>
-
-      <section class="panel panel--buttons">
-        <div class="segmented" role="radiogroup" aria-label="Prompt depth">
-          <button class="seg" role="radio" aria-checked="true" data-depth="light">Light</button>
-          <button class="seg" role="radio" aria-checked="false" data-depth="reflective">Reflect</button>
-          <button class="seg" role="radio" aria-checked="false" data-depth="deep">Deep</button>
-        </div>
-        <button class="btn btn--reload" id="reload">
-          Reload prompt
-          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></svg>
-        </button>
-      </section>
-
-      <section class="panel panel--timer">
-        <div class="timer">
-          <button class="btn btn--step" id="minus" aria-label="Decrease duration">
-            <svg viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M1 3h8v1H1zM2 4h6v1H2zM3 5h4v1H3zM4 6h2v1H4z"/></svg>
-          </button>
-          <div class="screen screen--timer">
-            <span id="time" aria-live="polite">10 : 00</span>
-            <div class="progress"><div class="progress__bar" id="progress"></div></div>
-          </div>
-          <button class="btn btn--step" id="plus" aria-label="Increase duration">
-            <svg viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M4 3h2v1H4zM3 4h4v1H3zM2 5h6v1H2zM1 6h8v1H1z"/></svg>
-          </button>
-        </div>
-        <div class="transport">
-          <button class="btn btn--play" id="play" aria-label="Start timer">
-            <svg viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M2 1h2v8H2zM4 2h2v6H4zM6 3h2v4H6zM8 4h1v2H8z"/></svg>
-          </button>
-          <button class="btn btn--pause" id="pause" aria-label="Pause timer">
-            <svg viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M2 1h2v8H2zM6 1h2v8H6z"/></svg>
-          </button>
-          <button class="btn btn--stop" id="stop" aria-label="Stop and reset timer">
-            <svg viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M2 2h6v6H2z"/></svg>
-          </button>
-        </div>
-      </section>
-    </aside>
-
-    <!-- RIGHT: main screen -->
-    <main class="panel panel--main">
-      <div class="screen screen--main" id="stage">
-        <button class="theme-toggle" id="theme" aria-label="Toggle dark mode" title="Toggle light / dark">
-          <svg class="icon-moon" viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M4 1h3v1H4zM3 2h2v1H3zM2 3h2v4H2zM3 7h2v1H3zM4 8h4v1H4zM7 7h2v1H7z"/></svg>
-          <svg class="icon-sun" viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M4 0h2v1H4zM4 9h2v1H4zM0 4h1v2H0zM9 4h1v2H9zM1 1h1v1H1zM8 1h1v1H8zM1 8h1v1H1zM8 8h1v1H8zM3 2h4v1H3zM2 3h6v4H2zM3 7h4v1H3z"/></svg>
-        </button>
-
-        <div class="mascot" id="mascot" aria-hidden="true"></div>
-
-        <article class="card" id="card" aria-live="polite">
-          <div class="card__content" id="content">
-            <dl class="prompt">
-              <div class="row"><dt>Write about:</dt><dd id="p-topic">&nbsp;</dd></div>
-              <div class="row"><dt>Through:</dt><dd id="p-form">&nbsp;</dd></div>
-              <div class="row"><dt>Include:</dt><dd id="p-detail">&nbsp;</dd></div>
-            </dl>
-            <div class="divider" aria-hidden="true">- - - ✦ - - -</div>
-            <blockquote class="quote">
-              <p id="quote-text"></p>
-              <cite id="quote-by"></cite>
-            </blockquote>
-          </div>
-          <div class="sparkles" id="sparkles" aria-hidden="true"></div>
-          <button class="copy" id="copy" title="Copy prompt">Copy</button>
-        </article>
-      </div>
-      <footer class="footer">
-        <span>Made with</span>
-        <span class="heart" aria-hidden="true">
-          <svg viewBox="0 0 8 7" shape-rendering="crispEdges"><path d="M1 0h2v1H1zM5 0h2v1H5zM0 1h8v3H0zM1 4h6v1H1zM2 5h4v1H2zM3 6h2v1H3z"/></svg>
-        </span>
-        <span>&amp; pixie dust</span>
-        <span class="kbd-hint">Press <kbd>R</kbd> to reload · <kbd>Space</kbd> to play/pause</span>
-      </footer>
-    </main>
-  </div>
-
-  <script src="prompts.js"></script>
-  <script src="app.js"></script>
+  <p>Prompt Pixie has moved to <a href="/pixie/">/pixie</a>.</p>
 </body>
 </html>
