@@ -129,7 +129,7 @@ body {
   font-family: "Pixelify Sans", ui-monospace, monospace;
   display: grid;
   place-items: center;
-  padding: 90px 130px 110px;
+  padding: 76px 130px 88px;
   overflow-x: hidden;
   transition: background-color 0.4s ease, color 0.4s ease;
 }
@@ -154,14 +154,13 @@ svg { display: block; fill: currentColor; }
 }
 
 .page {
-  --line: 32px;
+  --line: 28px;
   position: relative;
-  min-height: 672px;
-  padding: 64px 36px 72px 68px;
+  padding: 56px 36px 56px 68px;
   background-color: var(--paper);
   background-image:
     linear-gradient(to right, transparent 48px, var(--margin) 48px, var(--margin) 50px, transparent 50px),
-    repeating-linear-gradient(to bottom, transparent 0 30px, var(--rule) 30px 32px);
+    repeating-linear-gradient(to bottom, transparent 0 26px, var(--rule) 26px 28px);
   border: 3px solid var(--ink);
   transition: background-color 0.4s ease;
 }
@@ -321,9 +320,9 @@ svg { display: block; fill: currentColor; }
 .title {
   display: inline;
   margin: 0;
-  font-size: 40px;
+  font-size: 38px;
   font-weight: 600;
-  line-height: 64px;
+  line-height: 56px;
   color: var(--pen);
   background: linear-gradient(transparent 58%, var(--highlight) 58%, var(--highlight) 86%, transparent 86%);
 }
@@ -394,7 +393,7 @@ svg { display: block; fill: currentColor; }
 .btn--reload {
   margin-top: var(--line);
   width: 100%;
-  height: 58px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -407,11 +406,11 @@ svg { display: block; fill: currentColor; }
 .btn--reload.is-loading svg { animation: spin-star 0.9s linear infinite; }
 
 .timer { display: grid; grid-template-columns: 46px minmax(0, 1fr) 46px; gap: 10px; }
-.btn--step { background: var(--step); display: grid; place-items: center; padding: 0; height: 54px; }
+.btn--step { background: var(--step); display: grid; place-items: center; padding: 0; height: 48px; }
 .btn--step svg { width: 16px; height: 16px; }
 .clock {
   position: relative;
-  height: 54px;
+  height: 48px;
   display: grid;
   place-items: center;
   background: var(--paper);
@@ -429,13 +428,13 @@ svg { display: block; fill: currentColor; }
 .progress__bar { height: 100%; width: 0; background: var(--accent); transition: width 0.3s linear; }
 
 .transport { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
-.transport .btn { height: 48px; display: grid; place-items: center; }
+.transport .btn { height: 42px; display: grid; place-items: center; }
 .transport svg { width: 20px; height: 20px; }
 .btn--play { background: var(--play); }
 .btn--pause { background: var(--pause); }
 .btn--stop { background: var(--stop); }
 
-.kbd-hint { margin: 28px 0 0; font-family: "Silkscreen", monospace; font-size: 11px; color: var(--ink-soft); }
+.kbd-hint { margin: 18px 0 0; font-family: "Silkscreen", monospace; font-size: 11px; color: var(--ink-soft); }
 kbd { font-family: inherit; padding: 0 4px; border: 2px solid currentColor; border-radius: 3px; }
 
 .page-num {
@@ -489,7 +488,7 @@ dt::after { content: ":"; }
 dd {
   margin: 0;
   padding-left: 14px;
-  font-size: 25px;
+  font-size: 23px;
   font-weight: 500;
   line-height: var(--line);
   min-height: var(--line);
@@ -598,11 +597,11 @@ dd.is-typing::after { content: "▌"; color: var(--accent); animation: blink 0.7
   body { padding: 76px 16px 56px; }
   .book { grid-template-columns: 1fr; gap: 26px; padding: 14px 14px 22px; }
   .page--right { order: -1; }
-  .page { min-height: 0; padding: 48px 20px 64px 50px; }
+  .page { padding: 56px 20px 56px 50px; }
   .page, .page--left, .page--right { border-width: 3px; box-shadow: 6px 6px 0 -3px var(--paper-edge), 6px 6px 0 0 var(--ink); }
   .page { background-image:
     linear-gradient(to right, transparent 34px, var(--margin) 34px, var(--margin) 36px, transparent 36px),
-    repeating-linear-gradient(to bottom, transparent 0 30px, var(--rule) 30px 32px); }
+    repeating-linear-gradient(to bottom, transparent 0 26px, var(--rule) 26px 28px); }
   .page::before { display: none; }
   .rings, .ribbon { display: none; }
   .decor > * { display: none; }

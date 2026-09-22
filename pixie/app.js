@@ -327,6 +327,7 @@
     await typeInto($("p-topic"), next.topic, token);
     await typeInto($("p-form"), next.form, token);
     await typeInto($("p-detail"), next.detail, token);
+    if (token === typeToken) fitDesk();
   }
 
   $("reload").addEventListener("click", (e) => {
@@ -461,8 +462,27 @@
     }
   });
 
+
+  /* ---------- Fit the desk to the viewport on desktop ---------- */
+  const desk = document.querySelector(".desk");
+  function fitDesk() {
+    desk.style.zoom = "";
+    if (window.innerWidth <= 900) return;
+    const cs = getComputedStyle(document.body);
+    const availH = window.innerHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+    const scale = Math.min(1, availH / desk.offsetHeight);
+    if (scale < 1) desk.style.zoom = scale.toFixed(3);
+  }
+  let fitFrame;
+  window.addEventListener("resize", () => {
+    cancelAnimationFrame(fitFrame);
+    fitFrame = requestAnimationFrame(fitDesk);
+  });
+  if (document.fonts) document.fonts.ready.then(fitDesk);
+
   /* ---------- Init ---------- */
   drawMascot();
   render();
+  fitDesk();
   generate();
 })();
