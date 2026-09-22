@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Prompt Pixie</title>
-  <meta name="description" content="Random journal prompt generator for timed writing practice." />
+  <meta name="description" content="A pixel-art journal that hands you a fresh writing prompt, with a timer to write along." />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='%23b48ce6' d='M8 0l2 6 6 2-6 2-2 6-2-6-6-2 6-2z'/></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -19,102 +19,131 @@
   </script>
 </head>
 <body>
-  <div class="console">
-    <!-- LEFT: controls -->
-    <aside class="controls">
-      <section class="panel panel--info">
-        <div class="screen screen--small">
-          <h1 class="brand">
-            <svg class="brand__icon" viewBox="0 0 8 8" aria-hidden="true" shape-rendering="crispEdges">
+  <button class="theme-toggle" id="theme" aria-label="Toggle dark mode" title="Toggle light / dark">
+    <svg class="icon-moon" viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M4 1h3v1H4zM3 2h2v1H3zM2 3h2v4H2zM3 7h2v1H3zM4 8h4v1H4zM7 7h2v1H7z"/></svg>
+    <svg class="icon-sun" viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M4 0h2v1H4zM4 9h2v1H4zM0 4h1v2H0zM9 4h1v2H9zM1 1h1v1H1zM8 1h1v1H8zM1 8h1v1H1zM8 8h1v1H8zM3 2h4v1H3zM2 3h6v4H2zM3 7h4v1H3z"/></svg>
+  </button>
+
+  <div class="desk">
+    <!-- Desk decor (pixel sprites are drawn by app.js from data-sprite) -->
+    <div class="decor" aria-hidden="true">
+      <div class="sprite deco-pencil" data-sprite="pencil"></div>
+      <div class="sprite deco-pen" data-sprite="pen"></div>
+      <div class="deco-mug">
+        <div class="steam"><i></i><i></i><i></i></div>
+        <div class="sprite" data-sprite="mug"></div>
+      </div>
+      <div class="sticky sticky--yellow deco-note-1"><span class="tape tape--mint"></span>don't forget<br />to breathe ♥</div>
+      <div class="sticky sticky--pink deco-note-2">xo,<br />you</div>
+      <div class="sprite sticker deco-star" data-sprite="star"></div>
+      <div class="sprite sticker deco-heart" data-sprite="heart"></div>
+      <div class="sprite sticker deco-moon" data-sprite="moon"></div>
+      <div class="sprite sticker deco-flower" data-sprite="flower"></div>
+    </div>
+
+    <div class="book">
+      <div class="rings" aria-hidden="true"></div>
+      <div class="ribbon" aria-hidden="true"></div>
+
+      <!-- LEFT PAGE: title, how-to, controls -->
+      <section class="page page--left" aria-label="Controls">
+        <span class="tape tape--pink tape--tl" aria-hidden="true"></span>
+        <header class="title-block">
+          <h1 class="title">Prompt Pixie
+            <svg class="title__star" viewBox="0 0 8 8" aria-hidden="true" shape-rendering="crispEdges">
               <path d="M3 0h2v1H3zM3 1h2v2H3zM0 3h8v2H0zM3 5h2v2H3zM3 7h2v1H3z" />
             </svg>
-            Prompt Pixie
           </h1>
-          <p class="blurb">Random prompt generator for daily journaling practice.</p>
-          <ol class="steps">
-            <li>Choose a depth</li>
-            <li>Reload until it speaks to you</li>
-            <li>Choose duration</li>
-            <li>Hit play &amp; write</li>
+          <p class="subtitle">a tiny fairy who hands you journal prompts</p>
+        </header>
+
+        <div class="block">
+          <h2 class="label">how to</h2>
+          <ol class="howto">
+            <li>pick a depth</li>
+            <li>reload until it speaks to you</li>
+            <li>set your writing time</li>
+            <li>press play &amp; write!</li>
           </ol>
         </div>
-      </section>
 
-      <section class="panel panel--buttons">
-        <div class="segmented" role="radiogroup" aria-label="Prompt depth">
-          <button class="seg" role="radio" aria-checked="true" data-depth="light">Light</button>
-          <button class="seg" role="radio" aria-checked="false" data-depth="reflective">Reflect</button>
-          <button class="seg" role="radio" aria-checked="false" data-depth="deep">Deep</button>
+        <div class="block">
+          <h2 class="label" id="depth-label">depth</h2>
+          <div class="checks" role="radiogroup" aria-labelledby="depth-label">
+            <button class="seg" role="radio" aria-checked="true" data-depth="light">
+              <span class="box"><svg viewBox="0 0 7 6" shape-rendering="crispEdges"><path d="M1 0h2v1H1zM4 0h2v1H4zM0 1h7v2H0zM1 3h5v1H1zM2 4h3v1H2zM3 5h1v1H3z"/></svg></span>light
+            </button>
+            <button class="seg" role="radio" aria-checked="false" data-depth="reflective">
+              <span class="box"><svg viewBox="0 0 7 6" shape-rendering="crispEdges"><path d="M1 0h2v1H1zM4 0h2v1H4zM0 1h7v2H0zM1 3h5v1H1zM2 4h3v1H2zM3 5h1v1H3z"/></svg></span>reflect
+            </button>
+            <button class="seg" role="radio" aria-checked="false" data-depth="deep">
+              <span class="box"><svg viewBox="0 0 7 6" shape-rendering="crispEdges"><path d="M1 0h2v1H1zM4 0h2v1H4zM0 1h7v2H0zM1 3h5v1H1zM2 4h3v1H2zM3 5h1v1H3z"/></svg></span>deep
+            </button>
+          </div>
         </div>
+
         <button class="btn btn--reload" id="reload">
-          Reload prompt
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></svg>
+          new prompt
           <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></svg>
         </button>
-      </section>
 
-      <section class="panel panel--timer">
-        <div class="timer">
-          <button class="btn btn--step" id="minus" aria-label="Decrease duration">
-            <svg viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M1 3h8v1H1zM2 4h6v1H2zM3 5h4v1H3zM4 6h2v1H4z"/></svg>
-          </button>
-          <div class="screen screen--timer">
-            <span id="time" aria-live="polite">10 : 00</span>
-            <div class="progress"><div class="progress__bar" id="progress"></div></div>
+        <div class="block">
+          <h2 class="label">writing time</h2>
+          <div class="timer">
+            <button class="btn btn--step" id="minus" aria-label="Decrease duration">
+              <svg viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M1 4h8v2H1z"/></svg>
+            </button>
+            <div class="clock">
+              <span id="time" aria-live="polite">10 : 00</span>
+              <div class="progress"><div class="progress__bar" id="progress"></div></div>
+            </div>
+            <button class="btn btn--step" id="plus" aria-label="Increase duration">
+              <svg viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M1 4h8v2H1zM4 1h2v8H4z"/></svg>
+            </button>
           </div>
-          <button class="btn btn--step" id="plus" aria-label="Increase duration">
-            <svg viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M4 3h2v1H4zM3 4h4v1H3zM2 5h6v1H2zM1 6h8v1H1z"/></svg>
-          </button>
+          <div class="transport">
+            <button class="btn btn--play" id="play" aria-label="Start timer">
+              <svg viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M2 1h2v8H2zM4 2h2v6H4zM6 3h2v4H6zM8 4h1v2H8z"/></svg>
+            </button>
+            <button class="btn btn--pause" id="pause" aria-label="Pause timer">
+              <svg viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M2 1h2v8H2zM6 1h2v8H6z"/></svg>
+            </button>
+            <button class="btn btn--stop" id="stop" aria-label="Stop and reset timer">
+              <svg viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M2 2h6v6H2z"/></svg>
+            </button>
+          </div>
         </div>
-        <div class="transport">
-          <button class="btn btn--play" id="play" aria-label="Start timer">
-            <svg viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M2 1h2v8H2zM4 2h2v6H4zM6 3h2v4H6zM8 4h1v2H8z"/></svg>
-          </button>
-          <button class="btn btn--pause" id="pause" aria-label="Pause timer">
-            <svg viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M2 1h2v8H2zM6 1h2v8H6z"/></svg>
-          </button>
-          <button class="btn btn--stop" id="stop" aria-label="Stop and reset timer">
-            <svg viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M2 2h6v6H2z"/></svg>
-          </button>
-        </div>
+
+        <p class="kbd-hint"><kbd>R</kbd> new prompt · <kbd>space</kbd> play/pause</p>
+        <span class="page-num" id="page-left">— 12 —</span>
       </section>
-    </aside>
 
-    <!-- RIGHT: main screen -->
-    <main class="panel panel--main">
-      <div class="screen screen--main" id="stage">
-        <button class="theme-toggle" id="theme" aria-label="Toggle dark mode" title="Toggle light / dark">
-          <svg class="icon-moon" viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M4 1h3v1H4zM3 2h2v1H3zM2 3h2v4H2zM3 7h2v1H3zM4 8h4v1H4zM7 7h2v1H7z"/></svg>
-          <svg class="icon-sun" viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M4 0h2v1H4zM4 9h2v1H4zM0 4h1v2H0zM9 4h1v2H9zM1 1h1v1H1zM8 1h1v1H8zM1 8h1v1H1zM8 8h1v1H8zM3 2h4v1H3zM2 3h6v4H2zM3 7h4v1H3z"/></svg>
-        </button>
-
+      <!-- RIGHT PAGE: the prompt -->
+      <section class="page page--right" id="card" aria-live="polite" aria-label="Today's prompt">
+        <span class="tape tape--blue tape--tr" aria-hidden="true"></span>
         <div class="mascot" id="mascot" aria-hidden="true"></div>
-
-        <article class="card" id="card" aria-live="polite">
-          <div class="card__content" id="content">
-            <dl class="prompt">
-              <div class="row"><dt>Write about:</dt><dd id="p-topic">&nbsp;</dd></div>
-              <div class="row"><dt>Through:</dt><dd id="p-form">&nbsp;</dd></div>
-              <div class="row"><dt>Include:</dt><dd id="p-detail">&nbsp;</dd></div>
-            </dl>
-            <div class="divider" aria-hidden="true">- - - ✦ - - -</div>
+        <div class="card__content" id="content">
+          <p class="date" id="date"></p>
+          <dl class="prompt">
+            <div class="row"><dt>write about</dt><dd id="p-topic">&nbsp;</dd></div>
+            <div class="row"><dt>through</dt><dd id="p-form">&nbsp;</dd></div>
+            <div class="row"><dt>include</dt><dd id="p-detail">&nbsp;</dd></div>
+          </dl>
+          <div class="sticky sticky--quote">
+            <span class="tape tape--lilac"></span>
             <blockquote class="quote">
               <p id="quote-text"></p>
               <cite id="quote-by"></cite>
             </blockquote>
           </div>
-          <div class="sparkles" id="sparkles" aria-hidden="true"></div>
-          <button class="copy" id="copy" title="Copy prompt">Copy</button>
-        </article>
-      </div>
-      <footer class="footer">
-        <span>Made with</span>
-        <span class="heart" aria-hidden="true">
-          <svg viewBox="0 0 8 7" shape-rendering="crispEdges"><path d="M1 0h2v1H1zM5 0h2v1H5zM0 1h8v3H0zM1 4h6v1H1zM2 5h4v1H2zM3 6h2v1H3z"/></svg>
-        </span>
-        <span>&amp; pixie dust</span>
-        <span class="kbd-hint">Press <kbd>R</kbd> to reload · <kbd>Space</kbd> to play/pause</span>
-      </footer>
-    </main>
+        </div>
+        <button class="copy" id="copy" title="Copy prompt">copy</button>
+        <div class="sprite sticker page-sticker" data-sprite="star" aria-hidden="true"></div>
+        <div class="sparkles" id="sparkles" aria-hidden="true"></div>
+        <span class="page-num" id="page-right">— 13 —</span>
+      </section>
+    </div>
   </div>
 
   <script src="prompts.js"></script>

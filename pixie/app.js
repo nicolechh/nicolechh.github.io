@@ -63,6 +63,139 @@
       `<svg viewBox="0 0 16 16" shape-rendering="crispEdges"><g class="wings">${wings}</g>${body}<g class="wand-star">${star}</g></svg>`;
   }
 
+
+  /* ---------- Desk decor sprites ---------- */
+  const SPRITES = {
+    pencil: {
+      rows: [
+        "oooooooooooooooo....",
+        "oeebyyyyyyyyyyyyoo..",
+        "oeebYYYYYYYYYYYYwwlo",
+        "oeebyyyyyyyyyyyyoo..",
+        "oooooooooooooooo....",
+      ],
+      fill: { o: "var(--ink)", e: "var(--star-2)", b: "var(--ring)", y: "var(--star-1)", Y: "#e8b64c", w: "#f3d2a8", l: "var(--ink)" },
+    },
+    pen: {
+      rows: [
+        "oooooooooooooooooo....",
+        "ocggggcgbbbbbbbbbbooo.",
+        "occccccgbbbbbbbbbbnnno",
+        "occccccgbbbbbbbbbbooo.",
+        "oooooooooooooooooo....",
+      ],
+      fill: { o: "var(--ink)", c: "var(--label)", g: "var(--star-1)", b: "var(--accent)", n: "var(--star-1)" },
+    },
+    mug: {
+      rows: [
+        "oooooooooo..",
+        "oCCCCCCCCo..",
+        "ommmmmmmmooo",
+        "ommmhmmmmo.o",
+        "ommhhhmmmo.o",
+        "ommmhmmmmooo",
+        "ommmmmmmmo..",
+        ".ommmmmmo...",
+        "..oooooo....",
+      ],
+      fill: { o: "var(--ink)", C: "#8a5a44", m: "var(--tape-blue)", h: "var(--star-2)" },
+    },
+    heart: {
+      rows: [
+        ".ooo.ooo.",
+        "ohhhohhho",
+        "ohWhhhhho",
+        "ohhhhhhho",
+        ".ohhhhho.",
+        "..ohhho..",
+        "...oho...",
+        "....o....",
+      ],
+      fill: { o: "var(--ink)", h: "var(--star-2)", W: "#ffffff" },
+    },
+    star: {
+      rows: [
+        ".....o.....",
+        "....oso....",
+        "...ossso...",
+        "oooosssoooo",
+        ".ossssssso.",
+        "..ossssso..",
+        ".ossssssso.",
+        ".osso.osso.",
+        "oso.....oso",
+        "oo.......oo",
+      ],
+      fill: { o: "var(--ink)", s: "var(--star-1)" },
+    },
+    moon: {
+      rows: [
+        "...oo......",
+        "..ommo.....",
+        ".ommo......",
+        "ommmo......",
+        "ommmo......",
+        "ommmmo.....",
+        "ommmmooooo.",
+        "ommmmmmmmmo",
+        ".ommmmmmmo.",
+        "..ommmmmo..",
+        "...ooooo...",
+      ],
+      fill: { o: "var(--ink)", m: "var(--star-3)" },
+    },
+    flower: {
+      rows: [
+        ".....ooo.....",
+        "....opppo....",
+        "...opppppo...",
+        "..oopppppoo..",
+        ".oppopppoppo.",
+        "oppppcccppppo",
+        "oppppcccppppo",
+        "oppppcccppppo",
+        ".oppopppoppo.",
+        "..oopppppoo..",
+        "...opppppo...",
+        "....opppo....",
+        ".....ooo.....",
+      ],
+      fill: { o: "var(--ink)", p: "var(--tape-lilac)", c: "var(--star-1)" },
+    },
+  };
+
+  function pixelSvg(rows, fill) {
+    let rects = "";
+    rows.forEach((row, y) => {
+      [...row].forEach((ch, x) => {
+        if (fill[ch]) rects += `<rect x="${x}" y="${y}" width="1.02" height="1.02" fill="${fill[ch]}"/>`;
+      });
+    });
+    return `<svg viewBox="0 0 ${rows[0].length} ${rows.length}" shape-rendering="crispEdges">${rects}</svg>`;
+  }
+
+  document.querySelectorAll("[data-sprite]").forEach((el) => {
+    const s = SPRITES[el.dataset.sprite];
+    if (s) el.innerHTML = pixelSvg(s.rows, s.fill);
+  });
+
+  // Spiral binding
+  const rings = document.querySelector(".rings");
+  for (let i = 0; i < 13; i++) rings.appendChild(document.createElement("span"));
+
+  // Today's date, journal style
+  $("date").textContent = new Date()
+    .toLocaleDateString(undefined, { weekday: "long", month: "short", day: "numeric" })
+    .toLowerCase();
+
+  // Page numbers turn with each new prompt
+  let pageNo = 10 + Math.floor(Math.random() * 40) * 2;
+  function turnPage() {
+    pageNo += 2;
+    $("page-left").textContent = `— ${pageNo - 1} —`;
+    $("page-right").textContent = `— ${pageNo} —`;
+  }
+
   /* ---------- Theme ---------- */
   function currentTheme() {
     const set = document.documentElement.dataset.theme;
@@ -185,6 +318,7 @@
     $("p-detail").textContent = "";
     $("quote-text").textContent = next.quote[0];
     $("quote-by").textContent = next.quote[1];
+    turnPage();
     card.classList.remove("is-loading");
     reload.classList.remove("is-loading");
     $("mascot").classList.remove("is-thinking");
@@ -232,7 +366,7 @@
     $("play").disabled = state === "running";
     $("pause").disabled = state !== "running";
     $("stop").disabled = state === "idle";
-    document.querySelector(".screen--timer").classList.toggle("is-running", state === "running");
+    document.querySelector(".clock").classList.toggle("is-running", state === "running");
   }
 
   function setMinutes(m) {
@@ -244,7 +378,7 @@
 
   function play() {
     if (state === "running") return;
-    document.querySelector(".screen--timer").classList.remove("is-done");
+    document.querySelector(".clock").classList.remove("is-done");
     state = "running";
     endAt = Date.now() + remaining * 1000;
     tick = setInterval(() => {
@@ -273,7 +407,7 @@
     remaining = 0;
     render();
     $("progress").style.width = "100%";
-    const screen = document.querySelector(".screen--timer");
+    const screen = document.querySelector(".clock");
     screen.classList.add("is-done");
     chime();
     burstFrom($("card"), 16);
