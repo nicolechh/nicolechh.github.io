@@ -211,7 +211,7 @@ svg { display: block; fill: currentColor; }
 
 /* ---------- Timer ---------- */
 .panel--timer { display: flex; flex-direction: column; gap: 14px; }
-.timer { display: grid; grid-template-columns: 44px 1fr 44px; gap: 10px; align-items: stretch; }
+.timer { display: grid; grid-template-columns: 40px minmax(0, 1fr) 40px; gap: 8px; align-items: stretch; }
 .btn--step { background: var(--step); display: grid; place-items: center; padding: 0; }
 .btn--step svg { width: 18px; height: 18px; }
 .screen--timer {
@@ -219,9 +219,9 @@ svg { display: block; fill: currentColor; }
   place-items: center;
   padding: 10px 6px 14px;
   font-family: "Silkscreen", monospace;
-  font-size: 30px;
-  letter-spacing: 1px;
+  font-size: 26px;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
 .screen--timer.is-running #time { color: var(--label); }
 .screen--timer.is-done #time { animation: blink 0.5s steps(2) 6; }
