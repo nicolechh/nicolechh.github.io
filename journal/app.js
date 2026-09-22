@@ -11,24 +11,24 @@
     set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
   };
 
-  /* ---------- Mascot: a pixel fairy ---------- */
+  /* ---------- Mascot: a pixel fairy in profile, holding a wand ---------- */
   const MASCOT = [
-    "......hhhh......",
-    ".....hhshhh.....",
-    "....hhhhhhhh..s.",
-    "....hfeffefh....",
-    ".s..hkffffkh....",
-    "....hffmmffh....",
-    ".ww..hffffh..ww.",
-    "wwww..dddd..wwww",
-    "wwwwaddddddawwww",
-    ".wwwwddddddwwww.",
-    "..ww.dddddd.ww..",
-    ".www.dddddd.www.",
-    ".ww.dddddddd.ww.",
-    "....dddddddd....",
-    ".....ff..ff.....",
-    ".....oo..oo.....",
+    "......hhh.......",
+    ".....hhhhh..z...",
+    "....hhhhfff...s.",
+    "....hhhffef..sss",
+    "....hhhfkfff..s.",
+    "...hhh.fffm..l.z",
+    "www.hh.ff...a...",
+    "wwww..dddaaa....",
+    "wwwww.dddd......",
+    ".wwwwdddddd.....",
+    "..www.dddddd....",
+    ".wwww.dddddd....",
+    "wwww.dddddddd...",
+    ".ww..dddddddd...",
+    ".......f..f.....",
+    ".......oo.oo....",
   ];
 
   const MASCOT_FILL = {
@@ -42,21 +42,25 @@
     d: "var(--accent)",
     o: "var(--screen-edge)",
     w: "var(--star-3)",
+    l: "var(--ink-soft)",
+    z: "var(--star-1)",
   };
 
   function drawMascot() {
     let body = "";
     let wings = "";
+    let star = "";
     MASCOT.forEach((row, y) => {
       [...row].forEach((ch, x) => {
         if (!MASCOT_FILL[ch]) return;
         const rect = `<rect x="${x}" y="${y}" width="1" height="1" fill="${MASCOT_FILL[ch]}"/>`;
         if (ch === "w") wings += rect;
+        else if (ch === "s") star += rect;
         else body += rect;
       });
     });
     $("mascot").innerHTML =
-      `<svg viewBox="0 0 16 16" shape-rendering="crispEdges"><g class="wings">${wings}</g>${body}</svg>`;
+      `<svg viewBox="0 0 16 16" shape-rendering="crispEdges"><g class="wings">${wings}</g>${body}<g class="wand-star">${star}</g></svg>`;
   }
 
   /* ---------- Theme ---------- */

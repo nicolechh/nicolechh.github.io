@@ -290,8 +290,10 @@ svg { display: block; fill: currentColor; }
 }
 .mascot svg { width: 100%; height: 100%; }
 .mascot.is-thinking { animation: wiggle 0.3s ease-in-out infinite; }
-.mascot .wings { transform-origin: 8px 9px; animation: flutter 0.5s ease-in-out infinite; }
+.mascot .wings { transform-origin: 5px 9px; animation: flutter 0.5s ease-in-out infinite; }
 .mascot.is-thinking .wings { animation-duration: 0.18s; }
+.mascot .wand-star { transform-origin: 14.5px 3.5px; animation: twinkle-soft 1.6s ease-in-out infinite; }
+.mascot.is-thinking .wand-star { animation: spin-star 0.6s linear infinite; }
 
 /* Prompt card */
 .card {
