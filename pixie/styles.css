@@ -133,7 +133,10 @@ body {
   overflow-x: hidden;
   transition: background-color 0.4s ease, color 0.4s ease;
 }
-button { font: inherit; color: inherit; cursor: pointer; }
+/* pixel magic-wand cursor; hotspot is the centre of the star */
+html { cursor: url("wand-cursor.svg") 9 9, auto; }
+a, button:not([disabled]) { cursor: url("wand-cursor.svg") 9 9, pointer; }
+button { font: inherit; color: inherit; }
 svg { display: block; fill: currentColor; }
 .sprite svg { width: 100%; height: auto; }
 
@@ -388,7 +391,7 @@ svg { display: block; fill: currentColor; }
   outline: 3px dashed var(--accent);
   outline-offset: 3px;
 }
-.btn[disabled] { opacity: 0.5; cursor: default; filter: saturate(0.6); }
+.btn[disabled] { opacity: 0.5; cursor: url("wand-cursor.svg") 9 9, default; filter: saturate(0.6); }
 
 .btn--reload {
   margin-top: var(--line);
