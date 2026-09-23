@@ -6,6 +6,9 @@
   const STAR_COLORS = ["var(--star-1)", "var(--star-2)", "var(--star-3)", "var(--star-4)"];
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  // matches the tabbed single-page layout breakpoint in styles.css
+  const isTabbed = () => window.matchMedia("(max-width: 1100px)").matches;
+
   const store = {
     get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
     set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
@@ -371,7 +374,7 @@
 
   $("reload").addEventListener("click", (e) => {
     burstFrom(e.currentTarget, 8);
-    if (isPhone()) setTab("prompt");
+    if (isTabbed()) setTab("prompt");
     generate();
   });
 
@@ -504,7 +507,7 @@
   $("minus").addEventListener("click", () => setMinutes(minutes - 1));
   $("play").addEventListener("click", () => {
     play();
-    if (isPhone()) setTab("prompt");
+    if (isTabbed()) setTab("prompt");
   });
   $("pause").addEventListener("click", pause);
   $("stop").addEventListener("click", stop);
@@ -633,7 +636,7 @@
   const desk = document.querySelector(".desk");
   function fitDesk() {
     desk.style.zoom = "";
-    if (window.innerWidth <= 900) return;
+    if (isTabbed()) return;
     const cs = getComputedStyle(document.body);
     const availH = window.innerHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
     const scale = Math.min(1, availH / desk.offsetHeight);
@@ -669,12 +672,12 @@
 
 
   /* ---------- Phone tabs: "how to" and "prompt pixie" ---------- */
-  const isPhone = () => window.matchMedia("(max-width: 900px)").matches;
+
   const tabButtons = document.querySelectorAll(".tab");
   function setTab(name) {
     document.body.dataset.tab = name;
     tabButtons.forEach((t) => t.setAttribute("aria-selected", String(t.dataset.tab === name)));
-    if (isPhone()) window.scrollTo(0, 0);
+    if (isTabbed()) window.scrollTo(0, 0);
   }
   tabButtons.forEach((t) => t.addEventListener("click", () => setTab(t.dataset.tab)));
   // arrow keys move between tabs, as tablists do
@@ -691,7 +694,7 @@
     touchY = e.touches[0].clientY;
   }, { passive: true });
   document.querySelector(".book").addEventListener("touchend", (e) => {
-    if (touchX === null || !isPhone()) return;
+    if (touchX === null || !isTabbed()) return;
     const dx = e.changedTouches[0].clientX - touchX;
     const dy = e.changedTouches[0].clientY - touchY;
     touchX = null;
