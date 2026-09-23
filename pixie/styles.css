@@ -468,9 +468,8 @@ svg { display: block; fill: currentColor; }
   height: 48px;
   display: grid;
   place-items: center;
-  font-family: "VT323", "Pixelify Sans", monospace;
-  font-size: 44px;
-  letter-spacing: 1px;
+  font-family: "Silkscreen", monospace;
+  font-size: 26px;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
   color: var(--pen);
