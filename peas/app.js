@@ -212,9 +212,10 @@
         </span>
       </li>`).join("");
     $("empty").hidden = list.length > 0;
-    $("empty").querySelector("p").innerHTML = selected === today
-      ? "nothing planted yet today.<br />log a food above to start growing."
-      : "nothing logged on this day.<br />add a food above to backfill it.";
+    $("empty").querySelector("p").innerHTML =
+      selected === today ? "nothing planted yet today.<br />log a food above to start growing."
+      : selected < today ? "nothing logged on this day.<br />missed it? add foods above to backfill."
+      : "this day hasn't happened yet.<br />check back when it does.";
   }
 
   function renderRecent() {
@@ -561,9 +562,12 @@
       el.innerHTML = `<span class="art">${foodSvg(look)}</span><span>= <b>${fmtG((grams * per100) / 100)} g</b> fiber</span>`;
     } else if (chosen && chosen.isNew) {
       el.textContent = "fill in the label numbers ↑";
+    } else if (chosen) {
+      el.textContent = "add grams to see its fiber";
     } else {
-      el.textContent = "";
+      el.textContent = "pick a food to see its fiber";
     }
+    el.classList.toggle("is-empty", !el.querySelector(".art"));
   }
 
   foodInput.addEventListener("input", () => {

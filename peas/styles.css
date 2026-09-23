@@ -458,7 +458,7 @@ svg { display: block; fill: currentColor; }
   transition: background-color 0.4s ease, transform 0.2s ease;
 }
 .tile > .tape { top: -13px; left: 50%; width: 72px; margin-left: -36px; }
-.tile--today { background: var(--sticky-lime); transform: rotate(-0.8deg); display: flex; gap: 14px; align-items: flex-start; }
+.tile--today { background: var(--sticky-lime); transform: rotate(-0.8deg); display: grid; grid-template-columns: 92px minmax(0, 1fr); column-gap: 14px; align-content: start; align-items: end; }
 .tile--week { background: var(--sticky-mint); transform: rotate(0.7deg); }
 .tile--month { background: var(--sticky-sun); transform: rotate(-0.5deg); }
 .tile--streak { background: var(--sticky-sage); transform: rotate(0.9deg); }
@@ -475,7 +475,8 @@ svg { display: block; fill: currentColor; }
 .tile__sub { margin: 6px 0 0; font-size: 16px; color: var(--pen); }
 .tile__note { margin: 8px 0 0; font-family: "Silkscreen", monospace; font-size: 11px; line-height: 1.5; color: var(--ink-soft); min-height: 16px; }
 
-.pot { width: 92px; flex: none; align-self: flex-end; margin-bottom: -4px; }
+.pot { width: 92px; }
+.tile--today .tile__body { align-self: start; }
 .pot.is-grown svg { animation: bob 2.6s ease-in-out infinite; }
 
 .meter {
@@ -505,10 +506,11 @@ svg { display: block; fill: currentColor; }
 .dots span.is-future { opacity: 0.35; }
 .dots span.is-selected::after { content: ""; position: absolute; left: 50%; bottom: -9px; width: 4px; height: 4px; margin-left: -2px; background: var(--ink); }
 
-.goal-head { display: flex; align-items: center; gap: 4px; margin-top: 10px; }
+.goal-head { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
 .goal-head .label--mini { margin-top: 0; }
-.goal__value { margin: 0; font-family: "Silkscreen", monospace; font-size: 22px; line-height: 1.2; }
-.goal__value small { font-family: "Pixelify Sans", monospace; font-size: 15px; color: var(--ink-soft); }
+.goal__value { margin: 0; font-family: "Silkscreen", monospace; font-size: 17px; line-height: 22px; }
+.goal__value small { font-family: "Pixelify Sans", monospace; font-size: 14px; color: var(--ink-soft); }
+.goal-head .icon-btn { margin-left: -4px; }
 .icon-btn {
   width: 28px; height: 28px;
   display: grid; place-items: center;
@@ -630,6 +632,7 @@ svg { display: block; fill: currentColor; }
   min-height: 40px;
 }
 .preview .art { width: 40px; flex: none; animation: pop 0.3s steps(3); }
+.preview.is-empty { font-size: 16px; color: var(--ink-soft); }
 .preview b { font-family: "Silkscreen", monospace; font-weight: 400; font-size: 22px; color: var(--label); }
 .error { margin: 8px 0 0; font-family: "Silkscreen", monospace; font-size: 11px; color: var(--down); min-height: 0; }
 .error:empty { display: none; }
