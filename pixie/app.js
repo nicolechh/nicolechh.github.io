@@ -416,6 +416,13 @@
     $("m-time").classList.toggle("is-running", state === "running");
     $("m-toggle").classList.toggle("is-running", state === "running");
     $("m-toggle").setAttribute("aria-label", state === "running" ? "Pause timer" : "Start timer");
+    // and so does the timer popup
+    $("p-time").textContent = fmt(remaining);
+    $("p-plus").disabled = $("plus").disabled;
+    $("p-minus").disabled = $("minus").disabled;
+    $("p-stop").disabled = $("stop").disabled;
+    $("p-toggle").classList.toggle("is-running", state === "running");
+    $("p-toggle").setAttribute("aria-label", state === "running" ? "Pause timer" : "Start timer");
   }
 
   function setMinutes(m) {
@@ -497,6 +504,26 @@
   $("pause").addEventListener("click", pause);
   $("stop").addEventListener("click", stop);
   $("m-toggle").addEventListener("click", () => (state === "running" ? pause() : play()));
+
+  // Timer popup on phones
+  const pop = $("timer-pop");
+  function openTimerPop() {
+    pop.hidden = false;
+    $("p-done").focus();
+  }
+  function closeTimerPop() {
+    if (pop.hidden) return;
+    pop.hidden = true;
+    $("m-time").focus();
+  }
+  $("m-time").addEventListener("click", openTimerPop);
+  $("p-done").addEventListener("click", closeTimerPop);
+  pop.addEventListener("click", (e) => { if (e.target === pop) closeTimerPop(); });
+  pop.addEventListener("keydown", (e) => { if (e.key === "Escape") closeTimerPop(); });
+  $("p-plus").addEventListener("click", () => setMinutes(minutes + 1));
+  $("p-minus").addEventListener("click", () => setMinutes(minutes - 1));
+  $("p-toggle").addEventListener("click", () => (state === "running" ? pause() : play()));
+  $("p-stop").addEventListener("click", stop);
 
   /* ---------- Keyboard ---------- */
   document.addEventListener("keydown", (e) => {

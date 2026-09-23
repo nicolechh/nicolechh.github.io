@@ -649,6 +649,29 @@ dd.is-typing::after { content: "▌"; color: var(--accent); animation: blink 0.7
 /* ---------- Phone-only: tabs, theme option, quick bar ---------- */
 .tabs, .theme-block, .quickbar { display: none; }
 
+/* timer popup (opened from the phone quick bar) */
+.timer-pop {
+  position: fixed;
+  z-index: 40;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(20, 10, 40, 0.35);
+}
+.timer-pop[hidden] { display: none; }
+.timer-pop__card {
+  width: min(320px, 100%);
+  padding: 30px 22px 22px;
+  display: grid;
+  gap: 16px;
+}
+.timer-pop .label { line-height: 1; }
+.timer-pop__actions { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.timer-pop__actions .btn { height: 44px; display: grid; place-items: center; }
+.timer-pop .clock { font-size: 22px; }
+.btn--done { height: 42px; font-size: 19px; }
+
 /* ---------- Animations ---------- */
 @keyframes sparkle {
   0%   { transform: translate(-50%, -50%) scale(0) rotate(0deg); opacity: 0; }
@@ -723,12 +746,11 @@ dd.is-typing::after { content: "▌"; color: var(--accent); animation: blink 0.7
   .page { --line: 26px; padding: 52px 14px 48px 46px; }
   .page-num { bottom: 14px; }
   .title { line-height: 52px; }
-  .subtitle { display: none; }
   .checks { gap: 4px 10px; }
   .seg { gap: 8px; font-size: 17px; }
   .box { width: 20px; height: 20px; }
   .tick { width: 26px; height: 26px; top: -6px; }
-  .theme-block { display: flex; align-items: center; gap: 16px; }
+  .theme-block { display: block; }
   .clock { font-size: 21px; }
   .btn--reload { height: 46px; font-size: 19px; }
   .btn--step, .clock { height: 44px; }
@@ -769,7 +791,18 @@ dd.is-typing::after { content: "▌"; color: var(--accent); animation: blink 0.7
   }
   .quickbar .btn--reload { margin: 0; height: 46px; font-size: 18px; gap: 8px; white-space: nowrap; min-width: 0; }
   .quickbar .btn--toggle { height: 46px; display: grid; place-items: center; }
-  .quickbar__time { font-family: "Silkscreen", monospace; font-size: 17px; white-space: nowrap; color: var(--pen); }
+  .quickbar__time {
+    padding: 6px 2px;
+    border: 0;
+    background: none;
+    font-family: "Silkscreen", monospace;
+    font-size: 17px;
+    white-space: nowrap;
+    color: var(--pen);
+    text-decoration: underline dotted var(--label) 2px;
+    text-underline-offset: 6px;
+  }
+  .quickbar__time:focus-visible { outline: 2px dashed var(--accent); outline-offset: 3px; }
   .quickbar__time.is-running { color: var(--label); }
   .btn--toggle .icon--pause { display: none; }
   .btn--toggle.is-running { --hatch: var(--hatch-yellow); }
