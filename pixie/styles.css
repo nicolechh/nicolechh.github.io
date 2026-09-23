@@ -404,8 +404,9 @@ svg { display: block; fill: currentColor; }
   stroke-width: 3;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-dasharray: 1 2;
-  stroke-dashoffset: 1;
+  /* the tick path is ~30 units long; a fixed dash avoids pathLength, which Safari handles poorly */
+  stroke-dasharray: 40 80;
+  stroke-dashoffset: 40;
   opacity: 0;
   transition: stroke-dashoffset 0.35s ease, opacity 0.1s ease;
 }
@@ -723,7 +724,6 @@ dd.is-typing::after { content: "▌"; color: var(--accent); animation: blink 0.7
     box-shadow: 0 6px 0 var(--shadow);
   }
   .quickbar .btn--reload { margin: 0; height: 46px; font-size: 18px; gap: 8px; white-space: nowrap; min-width: 0; }
-  .quickbar .btn--reload > svg:not(.sketch-line):last-of-type { display: none; }
   .quickbar .btn--toggle { height: 46px; display: grid; place-items: center; }
   .quickbar__time { font-family: "Silkscreen", monospace; font-size: 17px; white-space: nowrap; color: var(--pen); }
   .quickbar__time.is-running { color: var(--label); }

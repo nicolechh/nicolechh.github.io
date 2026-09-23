@@ -53,7 +53,7 @@
     MASCOT.forEach((row, y) => {
       [...row].forEach((ch, x) => {
         if (!MASCOT_FILL[ch]) return;
-        const rect = `<rect x="${x}" y="${y}" width="1" height="1" fill="${MASCOT_FILL[ch]}"/>`;
+        const rect = `<rect x="${x}" y="${y}" width="1" height="1" style="fill:${MASCOT_FILL[ch]}"/>`;
         if (ch === "w") wings += rect;
         else if (ch === "s") star += rect;
         else body += rect;
@@ -188,7 +188,7 @@
     let rects = "";
     rows.forEach((row, y) => {
       [...row].forEach((ch, x) => {
-        if (fill[ch]) rects += `<rect x="${x}" y="${y}" width="1.02" height="1.02" fill="${fill[ch]}"/>`;
+        if (fill[ch]) rects += `<rect x="${x}" y="${y}" width="1.02" height="1.02" style="fill:${fill[ch]}"/>`;
       });
     });
     return `<svg viewBox="0 0 ${rows[0].length} ${rows.length}" shape-rendering="crispEdges">${rects}</svg>`;
