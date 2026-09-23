@@ -243,7 +243,7 @@ svg { display: block; fill: currentColor; }
 .deco-ladybug { width: 40px; left: -74px; top: 250px; transform: rotate(-18deg); }
 .deco-butterfly { width: 52px; right: -86px; top: 170px; animation: drift 6s ease-in-out infinite; }
 .deco-butterfly svg { animation: flap 0.6s steps(2) infinite; transform-origin: center; }
-.deco-note { width: 120px; left: -92px; top: 560px; transform: rotate(-7deg); text-align: center; }
+.deco-note { width: 120px; left: -112px; top: 560px; transform: rotate(-7deg); text-align: center; }
 .deco-leaf { width: 50px; right: -80px; top: 520px; transform: rotate(14deg); }
 .deco-berry { width: 42px; left: -64px; top: 90px; transform: rotate(10deg); }
 
