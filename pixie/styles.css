@@ -765,11 +765,12 @@ dd.is-typing::after { content: "▌"; color: var(--accent); animation: blink 0.7
   /* on phones the fairy perches on the book beside the tabs, visible on both pages */
   .page--right .mascot { display: none; }
   .mascot--perch {
-    position: relative;
-    top: auto; right: auto;
-    width: 64px; height: 64px;
-    margin: 0 4px -12px auto;
+    top: auto;
+    right: -2px;
+    bottom: -38px; /* feet dip over the top of the page */
+    width: 84px; height: 84px;
   }
+  .tab { flex-shrink: 0; white-space: nowrap; }
   .title { font-size: 32px; }
   dd { font-size: 21px; padding-left: 0; }
   .sticky--quote { margin-top: 8px; }
