@@ -716,23 +716,61 @@ svg { display: block; fill: currentColor; }
 .bars .bar-hit:hover + .bar, .bars .bar-hit:focus-visible + .bar { fill: var(--bar-hi); }
 .bars .soil { fill: var(--soil); }
 
-/* waffle: one square = one gram */
-.waffle {
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  gap: 6px;
-  max-width: 460px;
-  margin: 6px auto 0;
-}
-.waffle i {
-  aspect-ratio: 1;
-  border: 2px solid var(--ink);
-  background: var(--soil);
+/* day view: one bar, full = 100% of the daily goal */
+.daybar { padding: 8px 0 4px; }
+.daybar__readout { margin: 0 0 14px; font-size: 18px; }
+.daybar__readout b { font-family: "Silkscreen", monospace; font-weight: 400; font-size: 30px; color: var(--label); margin-right: 4px; }
+.daybar__readout span { color: var(--ink-soft); font-size: 16px; }
+.daybar__readout .daybar__bonus { color: var(--label); }
+.daybar__track {
   position: relative;
+  display: flex;
+  height: 58px;
+  border: 3px solid var(--ink);
+  background: repeating-linear-gradient(90deg, var(--soil) 0 10px, color-mix(in srgb, var(--soil) 80%, var(--ink)) 10px 12px);
+  box-shadow: 4px 4px 0 var(--shadow);
 }
-.waffle i.is-filled { animation: pop 0.25s steps(3) both; }
-.waffle i.is-bonus::after { content: ""; position: absolute; inset: 30%; background: #fffbe0; opacity: 0.85; }
-.waffle i:hover { outline: 2px solid var(--ink); outline-offset: 1px; }
+.daybar__seg {
+  position: relative;
+  height: 100%;
+  flex: none;
+  transform-origin: left center;
+  animation: grow 0.4s steps(6) both;
+}
+.daybar__seg + .daybar__seg { box-shadow: inset 3px 0 0 var(--ink); }
+.daybar__seg::after { content: ""; position: absolute; left: 6px; right: 6px; top: 6px; height: 5px; background: rgba(255, 255, 255, 0.35); }
+.daybar__seg:hover { filter: brightness(1.08); outline: 3px solid var(--ink); outline-offset: -3px; }
+.daybar__goal { position: absolute; top: -10px; bottom: -10px; width: 0; border-left: 3px dashed var(--goal-line); }
+.daybar__ticks { position: relative; height: 22px; margin-top: 10px; }
+.daybar__tick {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  font-family: "Silkscreen", monospace;
+  font-size: 11px;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+.daybar__tick::before { content: ""; position: absolute; left: 50%; top: -9px; width: 2px; height: 6px; background: var(--ink-soft); }
+.daybar__tick:first-child { transform: none; }
+.daybar__tick:first-child::before { left: 0; }
+.daybar__tick:last-child { transform: translateX(-100%); color: var(--goal-line); }
+.daybar__tick:last-child::before { left: auto; right: 0; background: var(--goal-line); }
+.daylist { list-style: none; margin: 0; padding: 0; width: 100%; }
+.daylist li {
+  display: grid;
+  grid-template-columns: 14px 24px minmax(0, 1fr) auto 52px;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 2px;
+  border-bottom: 2px dashed color-mix(in srgb, var(--ink-soft) 45%, transparent);
+  font-size: 16px;
+}
+.daylist .sw { width: 14px; height: 14px; border: 2px solid var(--ink); }
+.daylist .art { width: 24px; }
+.daylist__name { overflow-wrap: anywhere; }
+.daylist__g { font-family: "Silkscreen", monospace; font-size: 13px; color: var(--label); }
+.daylist__pct { font-family: "Silkscreen", monospace; font-size: 11px; color: var(--ink-soft); text-align: right; }
 
 /* month calendar */
 .cal { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
@@ -937,6 +975,7 @@ svg { display: block; fill: currentColor; }
 }
 @keyframes sway { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(8deg); } }
 @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+@keyframes grow { 0% { transform: scaleX(0); } 100% { transform: scaleX(1); } }
 @keyframes pop { 0% { transform: scale(0.4); } 100% { transform: scale(1); } }
 @keyframes sprout { 0% { opacity: 0; transform: translateY(6px); } 100% { opacity: 1; transform: none; } }
 @keyframes flap { 50% { transform: scaleX(0.6); } }

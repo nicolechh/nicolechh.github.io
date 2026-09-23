@@ -237,12 +237,15 @@
   /* ---------- Render: chart ---------- */
   function renderChart(totals) {
     document.querySelectorAll(".seg[data-view]").forEach((s) => s.setAttribute("aria-checked", String(s.dataset.view === view)));
-    if (view === "day") renderWaffle();
+    if (view === "day") renderDay();
     else if (view === "week") renderWeek(totals);
     else renderMonth(totals);
   }
 
-  function renderWaffle() {
+  // Day view: one horizontal bar where a full bar is 100% of the daily goal,
+  // split into a coloured section per food. Past the goal, the bar scales to the
+  // day's total and a marker shows where the goal sits.
+  function renderDay() {
     const goal = data.goal;
     const byFood = new Map();
     for (const e of data.entries.filter((x) => x.date === selected)) {
@@ -253,31 +256,40 @@
     }
     const foods = [...byFood.values()].sort((a, b) => b.fiber - a.fiber);
     const total = foods.reduce((s, f) => s + f.fiber, 0);
-    const dayName = selected === todayKey() ? "today" : fmtDate(selected, { weekday: "long", month: "short", day: "numeric" });
+    const today = todayKey();
+    const dayName = selected === today ? "today" : fmtDate(selected, { weekday: "long", month: "short", day: "numeric" });
+    const pctOfGoal = (g) => Math.round((g / goal) * 100);
 
-    $("chart-caption").textContent = `${dayName} · each square is 1 g of fiber · ${fmtG(total)} of ${goal} g`;
+    $("chart-caption").textContent = `${dayName} · ${fmtG(total)} of ${goal} g · ${pctOfGoal(total)}% of goal`;
     if (!total) {
-      $("chart").innerHTML = `<div class="chart-empty"><div><div class="empty__art">${potSvg(0)}</div><p>no fiber logged ${selected === todayKey() ? "yet today" : "on this day"}.<br />each gram you log fills a square of soil.</p></div></div>`;
+      $("chart").innerHTML = `<div class="chart-empty"><div><div class="empty__art">${potSvg(0)}</div><p>no fiber logged ${selected === today ? "yet today" : selected < today ? "on this day" : "yet"}.<br />log a food and it fills in the bar.</p></div></div>`;
       $("chart-legend").innerHTML = "";
       return;
     }
-    const cells = Math.min(150, Math.max(goal, Math.ceil(total)));
-    const owner = new Array(cells).fill(null);
-    let cum = 0, from = 0;
-    foods.forEach((f, i) => {
-      cum += f.fiber;
-      const to = Math.min(cells, Math.round(cum));
-      for (let c = from; c < to; c++) owner[c] = i;
-      from = Math.max(from, to);
-    });
-    $("chart").innerHTML = `<div class="waffle" role="img" aria-label="${fmtG(total)} of ${goal} grams of fiber">${owner.map((i, c) => {
-      if (i === null) return `<i data-tip="${c < goal ? "empty soil · still to grow" : ""}"></i>`;
-      const f = foods[i];
-      return `<i class="is-filled${c >= goal ? " is-bonus" : ""}" style="background:${foodColor(f.look)};animation-delay:${reduceMotion ? 0 : c * 12}ms" data-tip="${esc(f.name)}\n${fmtG(f.fiber)} g fiber"></i>`;
-    }).join("")}</div>`;
-    $("chart-legend").innerHTML = foods.map((f) =>
-      `<span class="legend-item"><span class="sw" style="background:${foodColor(f.look)}"></span><span class="art">${foodSvg(f.look)}</span>${esc(f.name)} <em>${fmtG(f.fiber)} g</em></span>`
-    ).join("") + (total > goal ? `<span class="legend-item"><span class="sw" style="background:var(--heat-3);position:relative"><span style="position:absolute;inset:3px;background:#fffbe0"></span></span><em>bonus beyond goal</em></span>` : "");
+
+    const scale = Math.max(goal, total);
+    const at = (g) => `${(g / scale) * 100}%`;
+    const segs = foods.map((f, i) =>
+      `<i class="daybar__seg" style="width:${at(f.fiber)};background:${foodColor(f.look)};animation-delay:${reduceMotion ? 0 : i * 90}ms" data-tip="${esc(f.name)}\n${fmtG(f.fiber)} g · ${pctOfGoal(f.fiber)}% of goal"></i>`
+    ).join("");
+    const ticks = [0, 0.25, 0.5, 0.75, 1].map((t) =>
+      `<span class="daybar__tick" style="left:${at(goal * t)}">${t === 1 ? `goal ${goal} g` : `${fmtG(goal * t)}`}</span>`
+    ).join("");
+    const over = total > goal;
+    $("chart").innerHTML = `
+      <div class="daybar" role="img" aria-label="${fmtG(total)} of ${goal} grams of fiber, ${pctOfGoal(total)}% of goal">
+        <p class="daybar__readout"><b>${pctOfGoal(total)}%</b> of your daily goal${over ? ` <span class="daybar__bonus">+${fmtG(total - goal)} g bonus ✿</span>` : ` <span>· ${fmtG(goal - total)} g to go</span>`}</p>
+        <div class="daybar__track">${segs}${over ? `<span class="daybar__goal" style="left:${at(goal)}"></span>` : ""}</div>
+        <div class="daybar__ticks">${ticks}</div>
+      </div>`;
+    $("chart-legend").innerHTML = `<ul class="daylist">${foods.map((f) => `
+      <li>
+        <span class="sw" style="background:${foodColor(f.look)}"></span>
+        <span class="art">${foodSvg(f.look)}</span>
+        <span class="daylist__name">${esc(f.name)}</span>
+        <span class="daylist__g">${fmtG(f.fiber)} g</span>
+        <span class="daylist__pct">${pctOfGoal(f.fiber)}%</span>
+      </li>`).join("")}</ul>`;
   }
 
   function renderWeek(totals) {
