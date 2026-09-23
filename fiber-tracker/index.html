@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fiber Patch</title>
+  <meta name="description" content="A pixel-art garden journal for tracking your daily, weekly and monthly fiber." />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Silkscreen&family=Pixelify+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    // Apply saved theme before paint to avoid a flash
+    try {
+      const t = localStorage.getItem("fiberpatch-theme");
+      if (t) document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  </script>
+</head>
+<body>
+  <button class="theme-toggle" id="theme" aria-label="Toggle dark mode" title="Toggle light / dark">
+    <svg class="icon-moon" viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M4 1h3v1H4zM3 2h2v1H3zM2 3h2v4H2zM3 7h2v1H3zM4 8h4v1H4zM7 7h2v1H7z"/></svg>
+    <svg class="icon-sun" viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M4 0h2v1H4zM4 9h2v1H4zM0 4h1v2H0zM9 4h1v2H9zM1 1h1v1H1zM8 1h1v1H8zM1 8h1v1H1zM8 8h1v1H8zM3 2h4v1H3zM2 3h6v4H2zM3 7h4v1H3z"/></svg>
+  </button>
+
+  <div class="garden">
+    <!-- Desk decor (pixel sprites are drawn by app.js from data-sprite) -->
+    <div class="decor" aria-hidden="true">
+      <div class="sprite sticker deco-ladybug" data-sprite="ladybug"></div>
+      <div class="sprite deco-butterfly" data-sprite="butterfly"></div>
+      <div class="sticky sticky--sun deco-note"><span class="tape tape--berry"></span>eat the<br />rainbow ♥</div>
+      <div class="sprite sticker deco-leaf" data-food="peas"></div>
+      <div class="sprite sticker deco-berry" data-food="strawberries"></div>
+    </div>
+
+    <!-- ===== Masthead ===== -->
+    <header class="masthead">
+      <div class="title-card">
+        <span class="tape tape--lime tape--tl" aria-hidden="true"></span>
+        <h1 class="title">Fiber Patch
+          <svg class="title__leaf" viewBox="0 0 8 8" aria-hidden="true" shape-rendering="crispEdges">
+            <path d="M5 0h3v1H5zM3 1h5v1H3zM2 2h5v1H2zM1 3h5v1H1zM1 4h4v1H1zM1 5h3v1H1zM0 6h2v1H0zM0 7h1v1H0z" />
+          </svg>
+        </h1>
+        <p class="subtitle">a tiny garden journal for your daily roughage</p>
+      </div>
+
+      <nav class="datebar" aria-label="Choose a day">
+        <button class="btn btn--step sketch" id="prev-day" aria-label="Previous day">
+          <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.6 4.2 C10.4 6.3 8.3 8.2 6.4 10.1 C8.4 12 10.4 13.9 12.8 15.9"/></svg>
+        </button>
+        <div class="datebar__label">
+          <span class="datebar__main" id="date-main"></span>
+          <span class="datebar__sub" id="date-sub"></span>
+        </div>
+        <button class="btn btn--step sketch" id="next-day" aria-label="Next day">
+          <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M7.4 4.2 C9.6 6.3 11.7 8.2 13.6 10.1 C11.6 12 9.6 13.9 7.2 15.9"/></svg>
+        </button>
+        <button class="btn btn--today sketch" id="go-today"><span class="btn__label">today</span></button>
+      </nav>
+    </header>
+
+    <!-- ===== Summary tiles ===== -->
+    <section class="stats" aria-label="Summary">
+      <article class="tile tile--today" aria-live="polite">
+        <span class="tape tape--mint" aria-hidden="true"></span>
+        <div class="pot" id="pot" aria-hidden="true"></div>
+        <div class="tile__body">
+          <h2 class="label" id="today-label">today</h2>
+          <p class="tile__big"><span id="today-total">0</span><small> g</small></p>
+          <p class="tile__sub">of <span id="today-goal">30</span> g goal</p>
+          <div class="meter" role="progressbar" aria-label="Progress to daily goal" aria-valuemin="0" aria-valuemax="100" id="today-meter"><i id="today-bar"></i></div>
+          <p class="tile__note" id="today-note"></p>
+        </div>
+      </article>
+
+      <article class="tile tile--week">
+        <span class="tape tape--lime" aria-hidden="true"></span>
+        <h2 class="label">this week</h2>
+        <p class="tile__big"><span id="week-total">0</span><small> g</small></p>
+        <p class="tile__sub"><span id="week-avg">0</span> g / day avg</p>
+        <div class="dots" id="week-dots" aria-hidden="true"></div>
+        <p class="tile__note" id="week-note"></p>
+      </article>
+
+      <article class="tile tile--month">
+        <span class="tape tape--sun" aria-hidden="true"></span>
+        <h2 class="label" id="month-label">this month</h2>
+        <p class="tile__big"><span id="month-total">0</span><small> g</small></p>
+        <p class="tile__sub"><span id="month-avg">0</span> g / day avg</p>
+        <p class="tile__note" id="month-note"></p>
+      </article>
+
+      <article class="tile tile--streak">
+        <span class="tape tape--moss" aria-hidden="true"></span>
+        <h2 class="label">streak</h2>
+        <p class="tile__big"><span id="streak">0</span><small id="streak-unit"> days</small></p>
+        <p class="tile__sub" id="streak-note">in a row on goal</p>
+        <h3 class="label label--mini" id="goal-label">daily goal</h3>
+        <div class="goal" role="group" aria-labelledby="goal-label">
+          <button class="btn btn--mini sketch" id="goal-minus" aria-label="Lower daily goal">
+            <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.6 C8 9.8 12 10.3 16.2 9.7"/></svg>
+          </button>
+          <span class="goal__value"><span id="goal">30</span> g</span>
+          <button class="btn btn--mini sketch" id="goal-plus" aria-label="Raise daily goal">
+            <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.6 C8 9.8 12 10.3 16.2 9.7 M10.3 3.8 C9.8 8 10.2 12 9.8 16.4"/></svg>
+          </button>
+        </div>
+      </article>
+    </section>
+
+    <!-- ===== Plate + chart ===== -->
+    <section class="main-grid">
+      <article class="card card--plate" aria-labelledby="plate-title">
+        <span class="tape tape--mint tape--tl" aria-hidden="true"></span>
+        <header class="card__head">
+          <h2 class="card__title" id="plate-title">today's plate</h2>
+          <span class="card__meta" id="plate-total"></span>
+        </header>
+
+        <form class="log" id="log" autocomplete="off" novalidate>
+          <div class="log__row">
+            <div class="field field--food">
+              <label class="label" for="food">food</label>
+              <span class="input sketch">
+                <span class="input__art" id="food-art" aria-hidden="true"></span>
+                <input id="food" type="text" placeholder="start typing… e.g. lentils" role="combobox"
+                  aria-autocomplete="list" aria-expanded="false" aria-controls="suggest" />
+              </span>
+              <ul class="suggest" id="suggest" role="listbox" hidden></ul>
+            </div>
+            <label class="field field--grams">
+              <span class="label">grams</span>
+              <span class="input sketch">
+                <input id="grams" type="number" inputmode="decimal" min="0" step="any" placeholder="100" />
+                <span class="input__unit">g</span>
+              </span>
+            </label>
+          </div>
+
+          <p class="portion" id="portion" hidden></p>
+
+          <div class="custom" id="custom" hidden>
+            <p class="custom__intro">new food! check its nutrition label:</p>
+            <div class="custom__row">
+              <span class="input input--sm sketch"><input id="custom-fiber" type="number" inputmode="decimal" min="0" step="any" placeholder="3" aria-label="grams of fiber per serving" /></span>
+              <span>g fiber per</span>
+              <span class="input input--sm sketch"><input id="custom-serving" type="number" inputmode="decimal" min="0" step="any" placeholder="40" aria-label="serving size in grams" /></span>
+              <span>g serving</span>
+            </div>
+          </div>
+
+          <label class="field field--date" id="date-field" hidden>
+            <span class="label">day</span>
+            <span class="input input--sm sketch"><input id="entry-date" type="date" /></span>
+          </label>
+
+          <div class="log__foot">
+            <p class="preview" id="preview" aria-live="polite"></p>
+            <button type="button" class="btn btn--ghost" id="cancel-edit" hidden><span class="btn__label">cancel</span></button>
+            <button type="submit" class="btn btn--add sketch" id="add">
+              <svg viewBox="0 0 8 8" aria-hidden="true" shape-rendering="crispEdges"><path d="M5 0h3v1H5zM3 1h5v1H3zM2 2h5v1H2zM1 3h5v1H1zM1 4h4v1H1zM1 5h3v1H1zM0 6h2v1H0zM0 7h1v1H0z"/></svg>
+              <span class="btn__label" id="add-label">plant it</span>
+            </button>
+          </div>
+          <p class="error" id="error" role="alert"></p>
+        </form>
+
+        <div class="recent" id="recent-wrap" hidden>
+          <span class="label">quick add</span>
+          <div class="chips" id="recent"></div>
+        </div>
+
+        <ul class="entries" id="entries" aria-label="Foods logged this day"></ul>
+        <div class="empty" id="empty" hidden>
+          <div class="empty__art" data-sprite="seed" aria-hidden="true"></div>
+          <p>nothing planted yet today.<br />log a food above to start growing.</p>
+        </div>
+      </article>
+
+      <article class="card card--chart" aria-labelledby="chart-title">
+        <span class="tape tape--sun tape--tr" aria-hidden="true"></span>
+        <header class="card__head">
+          <h2 class="card__title" id="chart-title">growth chart</h2>
+          <div class="checks" role="radiogroup" aria-label="Chart range">
+            <button class="seg" role="radio" aria-checked="false" data-view="day"><span class="box sketch"><svg class="tick" viewBox="0 0 24 24"><path pathLength="1" d="M4.5 12.5 C6.5 14.2 8 16.5 9.6 19 C12.5 12.8 16.5 7 22.5 1.5"/></svg></span>day</button>
+            <button class="seg" role="radio" aria-checked="true" data-view="week"><span class="box sketch"><svg class="tick" viewBox="0 0 24 24"><path pathLength="1" d="M4.5 12.5 C6.5 14.2 8 16.5 9.6 19 C12.5 12.8 16.5 7 22.5 1.5"/></svg></span>week</button>
+            <button class="seg" role="radio" aria-checked="false" data-view="month"><span class="box sketch"><svg class="tick" viewBox="0 0 24 24"><path pathLength="1" d="M4.5 12.5 C6.5 14.2 8 16.5 9.6 19 C12.5 12.8 16.5 7 22.5 1.5"/></svg></span>month</button>
+          </div>
+        </header>
+        <p class="chart__caption" id="chart-caption"></p>
+        <div class="chart" id="chart"></div>
+        <div class="chart__legend" id="chart-legend"></div>
+      </article>
+    </section>
+
+    <!-- ===== Top foods ===== -->
+    <section class="card card--top" aria-labelledby="top-title">
+      <span class="tape tape--berry tape--tl" aria-hidden="true"></span>
+      <header class="card__head">
+        <h2 class="card__title" id="top-title">top foods <small>ranked by fiber</small></h2>
+      </header>
+      <div class="charts-top">
+        <div class="toplist">
+          <h3 class="label" id="top-week-label">this week</h3>
+          <ol class="tracks" id="top-week" aria-labelledby="top-week-label"></ol>
+        </div>
+        <div class="toplist">
+          <h3 class="label" id="top-month-label">this month</h3>
+          <ol class="tracks" id="top-month" aria-labelledby="top-month-label"></ol>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="backup">
+        <span class="label">your data</span>
+        <p class="backup__note">saved privately in this browser only. back it up to move it to another device.</p>
+        <div class="backup__actions">
+          <button class="link" id="export">export backup</button>
+          <button class="link" id="import">import backup</button>
+          <input type="file" id="import-file" accept="application/json,.json" hidden />
+          <button class="link" id="sample">plant sample data</button>
+          <button class="link" id="clear-sample" hidden>clear sample data</button>
+        </div>
+      </div>
+      <p class="credit">made by nicole chou with claude code · fiber values approx., from USDA FoodData Central ·
+        check out my other work at <a href="https://nicolechh.github.io/">nicolechh.github.io</a></p>
+    </footer>
+  </div>
+
+  <div class="tip" id="tip" role="tooltip" hidden></div>
+  <div class="toast" id="toast" role="status" hidden>
+    <span id="toast-text"></span>
+    <button class="link" id="toast-undo">undo</button>
+  </div>
+
+  <script src="foods.js"></script>
+  <script src="store.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
