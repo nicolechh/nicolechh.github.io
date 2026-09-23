@@ -108,6 +108,7 @@
   let chosen = null;     // the food picked in the form
   let editingId = null;  // entry being edited
   const expanded = { week: false, month: false };
+  let rankBy = prefs.get("peapal-rank") === "grams" ? "grams" : "fiber";
 
   /* ---------- Render: date bar ---------- */
   const narrow = window.matchMedia("(max-width: 720px)");
@@ -186,8 +187,6 @@
     $("streak-note").textContent = streak === 0 ? "hit your goal to start one"
       : t(today) >= goal ? "in a row, including today" : "in a row · keep it going!";
     $("goal").textContent = goal;
-    $("goal-minus").disabled = goal <= 5;
-    $("goal-plus").disabled = goal >= 80;
   }
 
   /* ---------- Render: today's plate ---------- */
@@ -198,8 +197,9 @@
     const today = todayKey();
     const list = data.entries.filter((e) => e.date === selected).sort((a, b) => a.createdAt - b.createdAt);
     const total = list.reduce((s, e) => s + fiberOf(e), 0);
-    $("plate-title").textContent = selected === today ? "today's plate"
-      : `plate for ${fmtDate(selected, { weekday: "short", month: "short", day: "numeric" })}`;
+    const shortDay = fmtDate(selected, { weekday: "short", month: "short", day: "numeric" });
+    $("plate-title").textContent = selected === today ? "today's plate" : `plate for ${shortDay}`;
+    $("eaten-title").textContent = selected === today ? "eaten today" : `eaten on ${shortDay}`;
     $("plate-total").textContent = list.length ? `${fmtG(total)} g fiber · ${plural(list.length, "food", "foods")}` : "";
     $("entries").innerHTML = list.map((e) => `
       <li class="entry${e.id === editingId ? " is-editing" : ""}" data-id="${e.id}">
@@ -374,13 +374,14 @@
       cur.count += 1;
       m.set(key, cur);
     }
-    return [...m.values()].sort((a, b) => b.fiber - a.fiber || b.count - a.count);
+    return [...m.values()].sort((a, b) => b[rankBy] - a[rankBy] || b.count - a.count);
   }
 
   function renderTopList(which, start, end, prevStart, prevEnd, periodLabel) {
     const list = topFoods(start, end);
     const prevRank = new Map(topFoods(prevStart, prevEnd).map((f, i) => [f.key, i]));
-    const total = list.reduce((s, f) => s + f.fiber, 0);
+    const total = list.reduce((s, f) => s + f[rankBy], 0);
+    const byFiber = rankBy === "fiber";
     const el = $(`top-${which}`);
     $(`top-${which}-label`).textContent = periodLabel;
 
@@ -395,15 +396,15 @@
         : was > i ? `<span class="track__move up" aria-label="up ${was - i}">▲${was - i}</span>`
         : was < i ? `<span class="track__move down" aria-label="down ${i - was}">▼${i - was}</span>`
         : `<span class="track__move" aria-label="same spot">–</span>`;
-      const share = Math.round((f.fiber / total) * 100);
+      const share = Math.round((f[rankBy] / total) * 100);
       return `<li class="track${i === 0 ? " track--top" : ""}">
         <span class="track__rank">${i + 1}${move}</span>
         <span class="track__art">${foodSvg(f.look)}</span>
         <span class="track__meta">${i === 0 ? `<span class="crown">#1 ${esc(periodLabel)}</span>` : ""}
           <span class="track__name">${esc(f.name)}</span>
-          <span class="track__plays">${plural(f.count, "serving", "servings")} · ${fmtG(f.grams)} g eaten</span></span>
-        <span class="track__amt">${fmtG(f.fiber)} g</span>
-        <span class="track__share" data-tip="${share}% of your fiber ${esc(periodLabel)}"><i style="width:${(f.fiber / list[0].fiber) * 100}%;background:${foodColor(f.look)}"></i></span>
+          <span class="track__plays">${plural(f.count, "serving", "servings")} · ${byFiber ? `${fmtG(f.grams)} g eaten` : `${fmtG(f.fiber)} g fiber`}</span></span>
+        <span class="track__amt">${fmtG(f[rankBy])} g${byFiber ? "" : "<small> eaten</small>"}</span>
+        <span class="track__share" data-tip="${share}% of ${byFiber ? "your fiber" : "what you ate"} ${esc(periodLabel)}"><i style="width:${(f[rankBy] / list[0][rankBy]) * 100}%;background:${foodColor(f.look)}"></i></span>
       </li>`;
     }).join("") + (list.length > 5
       ? `<li class="more"><button type="button" class="link" data-expand="${which}">${expanded[which] ? "show top 5" : `show all ${Math.min(15, list.length)}`}</button></li>`
@@ -412,6 +413,8 @@
 
   function renderTop() {
     const today = todayKey();
+    $("top-sub").textContent = rankBy === "fiber" ? "ranked by fiber" : "ranked by amount eaten";
+    document.querySelectorAll(".seg[data-sort]").forEach((s) => s.setAttribute("aria-checked", String(s.dataset.sort === rankBy)));
     const ws = weekStart(selected);
     const ms = monthStart(selected);
     const prevMs = monthStart(addDays(ms, -1));
@@ -747,8 +750,61 @@
   $("next-day").addEventListener("click", () => select(addDays(selected, 1)));
   $("go-today").addEventListener("click", () => select(todayKey()));
 
-  $("goal-minus").addEventListener("click", () => { data.goal = Math.max(5, data.goal - 1); save(); renderAll(); });
-  $("goal-plus").addEventListener("click", () => { data.goal = Math.min(80, data.goal + 1); save(); renderAll(); });
+  /* ---------- Daily goal popup ---------- */
+  const goalDialog = $("goal-dialog");
+  const goalInput = $("goal-input");
+  const clampGoal = (n) => Math.min(80, Math.max(5, Math.round(n)));
+  function setGoalDraft(n) {
+    goalInput.value = clampGoal(n);
+    $("goal-error").textContent = "";
+    $("goal-minus").disabled = Number(goalInput.value) <= 5;
+    $("goal-plus").disabled = Number(goalInput.value) >= 80;
+  }
+  $("goal-edit").addEventListener("click", () => {
+    hideTip();
+    setGoalDraft(data.goal);
+    goalDialog.showModal();
+    goalInput.focus();
+    goalInput.select();
+  });
+  $("goal-minus").addEventListener("click", () => setGoalDraft((Number(goalInput.value) || data.goal) - 1));
+  $("goal-plus").addEventListener("click", () => setGoalDraft((Number(goalInput.value) || data.goal) + 1));
+  goalInput.addEventListener("input", () => {
+    $("goal-error").textContent = "";
+    const v = Number(goalInput.value);
+    $("goal-minus").disabled = v <= 5;
+    $("goal-plus").disabled = v >= 80;
+  });
+  goalDialog.querySelector(".presets").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-goal]");
+    if (b) setGoalDraft(Number(b.dataset.goal));
+  });
+  $("goal-cancel").addEventListener("click", () => goalDialog.close());
+  // click on the dimmed backdrop closes it too
+  goalDialog.addEventListener("click", (e) => { if (e.target === goalDialog) goalDialog.close(); });
+  $("goal-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const v = Number(goalInput.value);
+    if (!Number.isFinite(v) || v < 5 || v > 80) {
+      $("goal-error").textContent = "pick a goal between 5 and 80 g";
+      goalInput.focus();
+      return;
+    }
+    data.goal = clampGoal(v);
+    save();
+    goalDialog.close();
+    renderAll();
+    toast(`daily goal set to ${data.goal} g`);
+  });
+
+  document.querySelectorAll(".seg[data-sort]").forEach((s) =>
+    s.addEventListener("click", () => {
+      rankBy = s.dataset.sort;
+      prefs.set("peapal-rank", rankBy);
+      hideTip();
+      renderTop();
+    })
+  );
 
   document.querySelectorAll(".seg[data-view]").forEach((s) =>
     s.addEventListener("click", () => {
@@ -797,7 +853,7 @@
 
   /* ---------- Keyboard ---------- */
   document.addEventListener("keydown", (e) => {
-    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.metaKey || e.ctrlKey || e.altKey || $("goal-dialog").open) return;
     const tag = e.target.tagName;
     if (tag === "INPUT" || tag === "TEXTAREA") {
       if (e.key === "Escape" && editingId && suggest.hidden) resetForm();

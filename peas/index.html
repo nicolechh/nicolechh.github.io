@@ -43,7 +43,7 @@
             <path d="M5 0h3v1H5zM3 1h5v1H3zM2 2h5v1H2zM1 3h5v1H1zM1 4h4v1H1zM1 5h3v1H1zM0 6h2v1H0zM0 7h1v1H0z" />
           </svg>
         </h1>
-        <p class="subtitle">your little garden pal for counting fiber</p>
+        <p class="subtitle">your little garden for counting fiber</p>
       </div>
 
       <nav class="datebar" aria-label="Choose a day">
@@ -69,7 +69,7 @@
         <div class="tile__body">
           <h2 class="label" id="today-label">today</h2>
           <p class="tile__big"><span id="today-total">0</span><small> g</small></p>
-          <p class="tile__sub">of <span id="today-goal">30</span> g goal</p>
+          <p class="tile__sub">of <span class="num" id="today-goal">30</span> g goal</p>
           <div class="meter" role="progressbar" aria-label="Progress to daily goal" aria-valuemin="0" aria-valuemax="100" id="today-meter"><i id="today-bar"></i></div>
           <p class="tile__note" id="today-note"></p>
         </div>
@@ -79,7 +79,7 @@
         <span class="tape tape--lime" aria-hidden="true"></span>
         <h2 class="label">this week</h2>
         <p class="tile__big"><span id="week-total">0</span><small> g</small></p>
-        <p class="tile__sub"><span id="week-avg">0</span> g / day avg</p>
+        <p class="tile__sub"><span class="num" id="week-avg">0</span> g / day avg</p>
         <div class="dots" id="week-dots" aria-hidden="true"></div>
         <p class="tile__note" id="week-note"></p>
       </article>
@@ -88,7 +88,7 @@
         <span class="tape tape--sun" aria-hidden="true"></span>
         <h2 class="label" id="month-label">this month</h2>
         <p class="tile__big"><span id="month-total">0</span><small> g</small></p>
-        <p class="tile__sub"><span id="month-avg">0</span> g / day avg</p>
+        <p class="tile__sub"><span class="num" id="month-avg">0</span> g / day avg</p>
         <p class="tile__note" id="month-note"></p>
       </article>
 
@@ -97,16 +97,11 @@
         <h2 class="label">streak</h2>
         <p class="tile__big"><span id="streak">0</span><small id="streak-unit"> days</small></p>
         <p class="tile__sub" id="streak-note">in a row on goal</p>
-        <h3 class="label label--mini" id="goal-label">daily goal</h3>
-        <div class="goal" role="group" aria-labelledby="goal-label">
-          <button class="btn btn--mini sketch" id="goal-minus" aria-label="Lower daily goal">
-            <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.6 C8 9.8 12 10.3 16.2 9.7"/></svg>
-          </button>
-          <span class="goal__value"><span id="goal">30</span> g</span>
-          <button class="btn btn--mini sketch" id="goal-plus" aria-label="Raise daily goal">
-            <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.6 C8 9.8 12 10.3 16.2 9.7 M10.3 3.8 C9.8 8 10.2 12 9.8 16.4"/></svg>
-          </button>
+        <div class="goal-head">
+          <h3 class="label label--mini" id="goal-label">daily goal</h3>
+          <button type="button" class="icon-btn" id="goal-edit" aria-label="Edit daily goal" data-tip="edit goal"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4.2 15.8 C4.5 14.3 4.8 12.9 5.1 11.6 C8 8.6 10.8 5.8 13.5 3.3 C14.6 4.2 15.6 5.3 16.6 6.4 C13.8 9.2 11 12 8.2 14.8 C6.9 15.2 5.5 15.5 4.2 15.8 M11.8 5 C12.9 6 14 7.1 15 8.2"/></svg></button>
         </div>
+        <p class="goal__value"><span id="goal">30</span><small> g</small></p>
       </article>
     </section>
 
@@ -116,7 +111,6 @@
         <span class="tape tape--mint tape--tl" aria-hidden="true"></span>
         <header class="card__head">
           <h2 class="card__title" id="plate-title">today's plate</h2>
-          <span class="card__meta" id="plate-total"></span>
         </header>
 
         <form class="log" id="log" autocomplete="off" novalidate>
@@ -171,12 +165,6 @@
           <span class="label">quick add</span>
           <div class="chips" id="recent"></div>
         </div>
-
-        <ul class="entries" id="entries" aria-label="Foods logged this day"></ul>
-        <div class="empty" id="empty" hidden>
-          <div class="empty__art" data-sprite="seed" aria-hidden="true"></div>
-          <p>nothing planted yet today.<br />log a food above to start growing.</p>
-        </div>
       </article>
 
       <article class="card card--chart" aria-labelledby="chart-title">
@@ -195,11 +183,29 @@
       </article>
     </section>
 
+    <!-- ===== Everything logged on the selected day ===== -->
+    <section class="card card--eaten" aria-labelledby="eaten-title">
+      <span class="tape tape--lime tape--tr" aria-hidden="true"></span>
+      <header class="card__head">
+        <h2 class="card__title" id="eaten-title">eaten today</h2>
+        <span class="card__meta" id="plate-total"></span>
+      </header>
+      <ul class="entries" id="entries" aria-labelledby="eaten-title"></ul>
+      <div class="empty" id="empty" hidden>
+        <div class="empty__art" data-sprite="seed" aria-hidden="true"></div>
+        <p>nothing planted yet today.<br />log a food above to start growing.</p>
+      </div>
+    </section>
+
     <!-- ===== Top foods ===== -->
     <section class="card card--top" aria-labelledby="top-title">
       <span class="tape tape--berry tape--tl" aria-hidden="true"></span>
       <header class="card__head">
-        <h2 class="card__title" id="top-title">top foods <small>ranked by fiber</small></h2>
+        <h2 class="card__title" id="top-title">top foods <small id="top-sub">ranked by fiber</small></h2>
+        <div class="checks" role="radiogroup" aria-label="Rank top foods">
+          <button class="seg" role="radio" aria-checked="true" data-sort="fiber"><span class="box sketch"><svg class="tick" viewBox="0 0 24 24"><path pathLength="1" d="M4.5 12.5 C6.5 14.2 8 16.5 9.6 19 C12.5 12.8 16.5 7 22.5 1.5"/></svg></span>by fiber</button>
+          <button class="seg" role="radio" aria-checked="false" data-sort="grams"><span class="box sketch"><svg class="tick" viewBox="0 0 24 24"><path pathLength="1" d="M4.5 12.5 C6.5 14.2 8 16.5 9.6 19 C12.5 12.8 16.5 7 22.5 1.5"/></svg></span>by grams</button>
+        </div>
       </header>
       <div class="charts-top">
         <div class="toplist">
@@ -231,6 +237,32 @@
         check out my other work at <a href="https://nicolechh.github.io/">nicolechh.github.io</a></p>
     </footer>
   </div>
+
+  <dialog class="modal" id="goal-dialog" aria-labelledby="goal-dialog-title">
+    <form class="modal__body" id="goal-form" method="dialog" novalidate>
+      <span class="tape tape--moss tape--tl" aria-hidden="true"></span>
+      <h2 class="card__title" id="goal-dialog-title">daily fiber goal</h2>
+      <p class="modal__hint">most guidelines suggest about 25 g a day for women and 38 g for men.</p>
+      <div class="goal-edit">
+        <button type="button" class="btn btn--step sketch" id="goal-minus" aria-label="Lower goal by 1 gram"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.6 C8 9.8 12 10.3 16.2 9.7"/></svg></button>
+        <span class="input sketch goal-input">
+          <input id="goal-input" type="number" inputmode="numeric" min="5" max="80" step="1" aria-label="Daily goal in grams" />
+          <span class="input__unit">g / day</span>
+        </span>
+        <button type="button" class="btn btn--step sketch" id="goal-plus" aria-label="Raise goal by 1 gram"><svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.6 C8 9.8 12 10.3 16.2 9.7 M10.3 3.8 C9.8 8 10.2 12 9.8 16.4"/></svg></button>
+      </div>
+      <div class="chips presets" aria-label="Common goals">
+        <button type="button" class="chip" data-goal="25">25 g</button>
+        <button type="button" class="chip" data-goal="30">30 g</button>
+        <button type="button" class="chip" data-goal="38">38 g</button>
+      </div>
+      <p class="error" id="goal-error" role="alert"></p>
+      <div class="modal__foot">
+        <button type="button" class="btn btn--ghost" id="goal-cancel"><span class="btn__label">cancel</span></button>
+        <button type="submit" class="btn btn--add sketch" id="goal-save"><span class="btn__label">save goal</span></button>
+      </div>
+    </form>
+  </dialog>
 
   <div class="tip" id="tip" role="tooltip" hidden></div>
   <div class="toast" id="toast" role="status" hidden>

@@ -159,6 +159,12 @@ a, button:not([disabled]) { cursor: url("leaf-cursor.svg") 2 2, pointer; }
 input[type="text"], input[type="number"], input[type="date"] { cursor: text; }
 svg { display: block; fill: currentColor; }
 .sprite svg { width: 100%; height: auto; }
+/* numbers use the same pixel font as Prompt Pixie's timer */
+.num, .input input[type="number"], .cal__day b, .bars text, .tile__big {
+  font-family: "Silkscreen", monospace;
+  font-variant-numeric: tabular-nums;
+}
+.tile__sub .num { font-size: 14px; }
 
 .garden { position: relative; max-width: 1180px; margin: 0 auto; }
 
@@ -452,7 +458,7 @@ svg { display: block; fill: currentColor; }
   transition: background-color 0.4s ease, transform 0.2s ease;
 }
 .tile > .tape { top: -13px; left: 50%; width: 72px; margin-left: -36px; }
-.tile--today { background: var(--sticky-lime); transform: rotate(-0.8deg); display: flex; gap: 14px; align-items: flex-end; }
+.tile--today { background: var(--sticky-lime); transform: rotate(-0.8deg); display: flex; gap: 14px; align-items: flex-start; }
 .tile--week { background: var(--sticky-mint); transform: rotate(0.7deg); }
 .tile--month { background: var(--sticky-sun); transform: rotate(-0.5deg); }
 .tile--streak { background: var(--sticky-sage); transform: rotate(0.9deg); }
@@ -469,7 +475,7 @@ svg { display: block; fill: currentColor; }
 .tile__sub { margin: 6px 0 0; font-size: 16px; color: var(--pen); }
 .tile__note { margin: 8px 0 0; font-family: "Silkscreen", monospace; font-size: 11px; line-height: 1.5; color: var(--ink-soft); min-height: 16px; }
 
-.pot { width: 92px; flex: none; margin-bottom: -4px; }
+.pot { width: 92px; flex: none; align-self: flex-end; margin-bottom: -4px; }
 .pot.is-grown svg { animation: bob 2.6s ease-in-out infinite; }
 
 .meter {
@@ -499,8 +505,21 @@ svg { display: block; fill: currentColor; }
 .dots span.is-future { opacity: 0.35; }
 .dots span.is-selected::after { content: ""; position: absolute; left: 50%; bottom: -9px; width: 4px; height: 4px; margin-left: -2px; background: var(--ink); }
 
-.goal { display: flex; align-items: center; gap: 12px; margin-top: 4px; }
-.goal__value { font-family: "Silkscreen", monospace; font-size: 18px; min-width: 60px; text-align: center; }
+.goal-head { display: flex; align-items: center; gap: 4px; margin-top: 10px; }
+.goal-head .label--mini { margin-top: 0; }
+.goal__value { margin: 0; font-family: "Silkscreen", monospace; font-size: 22px; line-height: 1.2; }
+.goal__value small { font-family: "Pixelify Sans", monospace; font-size: 15px; color: var(--ink-soft); }
+.icon-btn {
+  width: 28px; height: 28px;
+  display: grid; place-items: center;
+  padding: 0;
+  border: 2px solid transparent;
+  background: none;
+  color: var(--ink-soft);
+}
+.icon-btn:hover { border-color: var(--ink); background: var(--paper); color: var(--pen); }
+.icon-btn:focus-visible { outline: 2px dashed var(--label); outline-offset: 2px; }
+.icon-btn .icon { width: 15px; height: 15px; }
 
 /* ---------- Main grid ---------- */
 .main-grid {
@@ -508,8 +527,9 @@ svg { display: block; fill: currentColor; }
   grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
   gap: 40px;
   margin-bottom: 44px;
-  align-items: start;
+  align-items: stretch;
 }
+.card--eaten { margin-bottom: 44px; }
 
 /* ---------- Log form ---------- */
 .log__row { display: grid; grid-template-columns: minmax(0, 1fr) 130px; gap: 18px; }
@@ -633,7 +653,15 @@ svg { display: block; fill: currentColor; }
 .chip .art { width: 20px; }
 
 /* entries */
-.entries { list-style: none; margin: 22px 0 0; padding: 0; border-top: 2px dashed var(--ink-soft); }
+.entries {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 48px;
+  border-top: 2px dashed var(--ink-soft);
+}
 .entry {
   display: grid;
   grid-template-columns: 40px minmax(0, 1fr) auto auto;
@@ -722,7 +750,7 @@ svg { display: block; fill: currentColor; }
   transition: transform 0.08s ease;
 }
 .cal__day:hover { transform: translateY(-2px); box-shadow: 0 3px 0 var(--shadow); }
-.cal__day b { font-weight: 400; font-size: 12px; align-self: flex-end; font-family: "Pixelify Sans", monospace; font-size: 14px; }
+.cal__day b { font-weight: 400; font-size: 13px; align-self: flex-end; }
 .cal__day.h1 { background: var(--heat-1); }
 .cal__day.h2 { background: var(--heat-2); }
 .cal__day.h3 { background: var(--heat-3); }
@@ -773,6 +801,7 @@ svg { display: block; fill: currentColor; }
 .track__meta { grid-area: meta; min-width: 0; }
 .track__name { display: block; font-size: 18px; line-height: 1.15; overflow-wrap: anywhere; }
 .track__plays { display: block; font-family: "Silkscreen", monospace; font-size: 10px; color: var(--ink-soft); margin-top: 3px; }
+.track__amt small { font-size: 10px; color: var(--ink-soft); }
 .track__amt { grid-area: amt; font-family: "Silkscreen", monospace; font-size: 15px; color: var(--label); white-space: nowrap; }
 .track__share { grid-area: share; height: 8px; border: 2px solid var(--ink); background: var(--paper); position: relative; }
 .track__share i { position: absolute; inset: 0 auto 0 0; }
@@ -812,6 +841,34 @@ svg { display: block; fill: currentColor; }
 .credit { margin: 0; font-family: "Silkscreen", monospace; font-size: 11px; line-height: 1.8; color: var(--ink-soft); }
 .credit a { color: var(--label); text-decoration: underline wavy; text-underline-offset: 3px; }
 .credit a:hover { color: var(--pen); }
+
+/* ---------- Goal popup ---------- */
+.modal {
+  width: min(440px, calc(100vw - 32px));
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overflow: visible;
+  color: var(--pen);
+}
+.modal::backdrop { background: rgba(20, 36, 24, 0.45); }
+.modal[open] .modal__body { animation: pop 0.25s steps(3); }
+.modal__body {
+  position: relative;
+  margin: 0;
+  padding: 32px 28px 24px;
+  background: var(--paper);
+  border: 3px solid var(--ink);
+  box-shadow: 6px 6px 0 var(--shadow);
+}
+.modal__hint { margin: 10px 0 0; font-size: 16px; line-height: 1.35; color: var(--ink-soft); }
+.goal-edit { display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px; gap: 14px; align-items: center; margin-top: 20px; }
+.goal-input { margin: 0; height: 48px; }
+.goal-input input { text-align: center; font-family: "Silkscreen", monospace; font-size: 24px; }
+.presets { margin-top: 16px; justify-content: center; }
+.presets .chip { padding: 3px 12px; font-family: "Silkscreen", monospace; font-size: 13px; }
+.modal__foot { display: flex; justify-content: flex-end; align-items: center; gap: 16px; margin-top: 22px; }
+.modal__foot .btn--add { min-width: 150px; height: 46px; font-size: 19px; }
 
 /* ---------- Tooltip & toast ---------- */
 .tip {
@@ -911,6 +968,7 @@ svg { display: block; fill: currentColor; }
   .preview { flex-basis: 100%; }
   .btn--add { flex: 1; }
   .charts-top { grid-template-columns: 1fr; gap: 28px; }
+  .entries { grid-template-columns: 1fr; }
   .backup { flex-direction: column; align-items: flex-start; }
   .backup__text { flex: none; }
   .backup__actions { justify-content: flex-start; }
