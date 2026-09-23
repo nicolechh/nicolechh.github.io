@@ -226,15 +226,23 @@
     if (set) return set;
     return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
   }
-  $("theme").addEventListener("click", () => {
-    const next = currentTheme() === "dark" ? "light" : "dark";
+  const themeChoices = document.querySelectorAll(".seg[data-theme-choice]");
+  function setTheme(next) {
     document.documentElement.dataset.theme = next;
     store.set("journalcize-theme", next);
-  });
+    syncThemeChoices();
+  }
+  function syncThemeChoices() {
+    const t = currentTheme();
+    themeChoices.forEach((b) => b.setAttribute("aria-checked", String(b.dataset.themeChoice === t)));
+  }
+  $("theme").addEventListener("click", () => setTheme(currentTheme() === "dark" ? "light" : "dark"));
+  themeChoices.forEach((b) => b.addEventListener("click", () => setTheme(b.dataset.themeChoice)));
+  syncThemeChoices();
 
   /* ---------- Depth ---------- */
   let depth = store.get("journalcize-depth") || "light";
-  const segs = document.querySelectorAll(".seg");
+  const segs = document.querySelectorAll(".seg[data-depth]");
   function setDepth(d) {
     depth = d;
     segs.forEach((s) => s.setAttribute("aria-checked", String(s.dataset.depth === d)));
@@ -358,6 +366,7 @@
 
   $("reload").addEventListener("click", (e) => {
     burstFrom(e.currentTarget, 8);
+    if (isPhone()) setTab("prompt");
     generate();
   });
 
@@ -481,7 +490,10 @@
 
   $("plus").addEventListener("click", () => setMinutes(minutes + 1));
   $("minus").addEventListener("click", () => setMinutes(minutes - 1));
-  $("play").addEventListener("click", play);
+  $("play").addEventListener("click", () => {
+    play();
+    if (isPhone()) setTab("prompt");
+  });
   $("pause").addEventListener("click", pause);
   $("stop").addEventListener("click", stop);
   $("m-toggle").addEventListener("click", () => (state === "running" ? pause() : play()));
@@ -622,6 +634,38 @@
       t.addEventListener("animationend", () => t.remove());
     });
   }
+
+
+  /* ---------- Phone tabs: "how to" and "prompt pixie" ---------- */
+  const isPhone = () => window.matchMedia("(max-width: 900px)").matches;
+  const tabButtons = document.querySelectorAll(".tab");
+  function setTab(name) {
+    document.body.dataset.tab = name;
+    tabButtons.forEach((t) => t.setAttribute("aria-selected", String(t.dataset.tab === name)));
+    if (isPhone()) window.scrollTo(0, 0);
+  }
+  tabButtons.forEach((t) => t.addEventListener("click", () => setTab(t.dataset.tab)));
+  // arrow keys move between tabs, as tablists do
+  document.querySelector(".tabs").addEventListener("keydown", (e) => {
+    if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+    const next = document.body.dataset.tab === "prompt" ? "howto" : "prompt";
+    setTab(next);
+    document.querySelector(`.tab[data-tab="${next}"]`).focus();
+  });
+  // swipe between pages like turning them
+  let touchX = null, touchY = null;
+  document.querySelector(".book").addEventListener("touchstart", (e) => {
+    touchX = e.touches[0].clientX;
+    touchY = e.touches[0].clientY;
+  }, { passive: true });
+  document.querySelector(".book").addEventListener("touchend", (e) => {
+    if (touchX === null || !isPhone()) return;
+    const dx = e.changedTouches[0].clientX - touchX;
+    const dy = e.changedTouches[0].clientY - touchY;
+    touchX = null;
+    if (Math.abs(dx) > 60 && Math.abs(dy) < 50) setTab(dx < 0 ? "prompt" : "howto");
+  }, { passive: true });
+  setTab("howto");
 
   /* ---------- Init ---------- */
   drawMascot();
