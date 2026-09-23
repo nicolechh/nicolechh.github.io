@@ -184,7 +184,7 @@
     while (t(k) >= goal) { streak++; k = addDays(k, -1); }
     $("streak").textContent = streak;
     $("streak-unit").textContent = streak === 1 ? " day" : " days";
-    $("streak-note").textContent = streak === 0 ? "hit your goal to start one"
+    $("streak-note").textContent = streak === 0 ? "hit your goal to start"
       : t(today) >= goal ? "in a row, including today" : "in a row · keep it going!";
     $("goal").textContent = goal;
   }
