@@ -460,8 +460,9 @@ svg { display: block; fill: currentColor; }
   height: 48px;
   display: grid;
   place-items: center;
-  font-size: 30px;
-  font-weight: 500;
+  font-family: "Jersey 10", "Pixelify Sans", monospace;
+  font-size: 40px;
+  letter-spacing: 1px;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
   color: var(--pen);
