@@ -562,6 +562,27 @@
   });
   if (document.fonts) document.fonts.ready.then(fitDesk);
 
+
+  /* ---------- Cursor sparkle trail ---------- */
+  if (!reduceMotion && window.matchMedia("(pointer: fine)").matches) {
+    let lastX = -99, lastY = -99, lastT = 0;
+    document.addEventListener("pointermove", (e) => {
+      const now = performance.now();
+      if (Math.hypot(e.clientX - lastX, e.clientY - lastY) < 12 || now - lastT < 28) return;
+      lastX = e.clientX; lastY = e.clientY; lastT = now;
+      const t = document.createElement("span");
+      t.className = "trail";
+      t.style.left = `${e.clientX + (Math.random() * 10 - 5)}px`;
+      t.style.top = `${e.clientY + (Math.random() * 10 - 5)}px`;
+      t.style.setProperty("--s", `${9 + Math.random() * 10}px`);
+      t.style.setProperty("--c", STAR_COLORS[Math.floor(Math.random() * STAR_COLORS.length)]);
+      t.style.setProperty("--dx", `${Math.random() * 20 - 10}px`);
+      t.innerHTML = `<svg viewBox="0 0 16 16"><path d="${STAR_PATH}"/></svg>`;
+      document.body.appendChild(t);
+      t.addEventListener("animationend", () => t.remove());
+    });
+  }
+
   /* ---------- Init ---------- */
   drawMascot();
   render();

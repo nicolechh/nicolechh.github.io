@@ -427,7 +427,7 @@ svg { display: block; fill: currentColor; }
   color: var(--pen);
   transition: transform 0.08s ease, opacity 0.2s ease;
 }
-.btn > svg:not(.sketch-line), .btn > span { position: relative; z-index: 2; }
+.btn > svg:not(.sketch-line), .btn__label { position: relative; z-index: 2; }
 .btn:hover .sketch-line .hatch { opacity: 1; }
 .btn:hover { transform: rotate(-0.6deg); }
 .btn:active, .btn.is-pressed { transform: translate(1px, 2px); }
@@ -451,7 +451,7 @@ svg { display: block; fill: currentColor; }
   font-weight: 500;
 }
 .btn--reload svg { width: 14px; height: 14px; color: var(--label); }
-.btn--reload.is-loading svg { animation: spin-star 0.9s linear infinite; }
+.btn--reload.is-loading > svg:not(.sketch-line) { animation: twinkle-soft 0.6s ease-in-out infinite; }
 
 .timer { display: grid; grid-template-columns: 46px minmax(0, 1fr) 46px; gap: 16px; }
 .btn--step { --hatch: var(--hatch-blue); display: grid; place-items: center; padding: 0; height: 48px; }
@@ -569,6 +569,7 @@ dd.is-typing::after { content: "▌"; color: var(--accent); animation: blink 0.7
 }
 .copy > .sketch-line { color: var(--ink-soft); }
 .copy:hover { color: var(--label); --hatch: var(--hatch-pink); }
+.copy .btn__label { position: relative; z-index: 2; }
 .copy:hover > .sketch-line { color: var(--label); }
 .page-sticker { position: absolute; z-index: 4; width: 34px; left: 70px; bottom: 14px; transform: rotate(-14deg); }
 
@@ -618,6 +619,24 @@ dd.is-typing::after { content: "▌"; color: var(--accent); animation: blink 0.7
 .credit--right { right: 18px; }
 .credit a { color: var(--label); text-decoration: underline wavy; text-underline-offset: 3px; }
 .credit a:hover { color: var(--pen); }
+
+/* ---------- Cursor sparkle trail ---------- */
+.trail {
+  position: fixed;
+  z-index: 60;
+  width: var(--s);
+  height: var(--s);
+  margin: calc(var(--s) / -2) 0 0 calc(var(--s) / -2);
+  color: var(--c);
+  pointer-events: none;
+  filter: drop-shadow(0 0 4px var(--c));
+  animation: trail 0.8s ease-out forwards;
+}
+.trail svg { width: 100%; height: 100%; }
+@keyframes trail {
+  0%   { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 1; }
+  100% { transform: translate(var(--dx), 22px) scale(0) rotate(120deg); opacity: 0; }
+}
 
 /* ---------- Animations ---------- */
 @keyframes sparkle {
