@@ -276,7 +276,7 @@
     // Ticks are percentages of the goal. Past the goal the whole bar squeezes so
     // 100% lands partway along, and the total percentage sits at the far end.
     const ticks = [0, 0.25, 0.5, 0.75, 1].map((t) =>
-      `<span class="daybar__tick${t === 1 ? " is-goal" : ""}" style="left:${at(goal * t)}">${t === 1 ? `100% · ${goal} g` : `${t * 100}%`}</span>`
+      `<span class="daybar__tick${t === 1 ? " is-goal" : ""}" style="left:${at(goal * t)}">${t * 100}%</span>`
     ).join("");
     $("chart").innerHTML = `
       <div class="daybar${over ? " is-over" : ""}${over && goal / total > 0.8 ? " goal-near-end" : ""}" role="img" aria-label="${fmtG(total)} of ${goal} grams of fiber, ${pctOfGoal(total)}% of goal">
