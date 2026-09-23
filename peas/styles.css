@@ -153,7 +153,10 @@ body {
   transition: background-color 0.4s ease, color 0.4s ease;
 }
 button, input { font: inherit; color: inherit; }
-button { cursor: pointer; }
+/* pixel leaf cursor; hotspot is the leaf's tip */
+html { cursor: url("leaf-cursor.svg") 2 2, auto; }
+a, button:not([disabled]) { cursor: url("leaf-cursor.svg") 2 2, pointer; }
+input[type="text"], input[type="number"], input[type="date"] { cursor: text; }
 svg { display: block; fill: currentColor; }
 .sprite svg { width: 100%; height: auto; }
 
@@ -364,7 +367,7 @@ svg { display: block; fill: currentColor; }
   outline: 2px dashed var(--label);
   outline-offset: 4px;
 }
-.btn[disabled] { opacity: 0.35; cursor: default; }
+.btn[disabled] { opacity: 0.35; cursor: url("leaf-cursor.svg") 2 2, default; }
 .btn[disabled]:hover { transform: none; }
 
 .btn--step { --hatch: var(--hatch-mint); display: grid; place-items: center; width: 44px; height: 44px; }
@@ -564,7 +567,7 @@ svg { display: block; fill: currentColor; }
   align-items: center;
   gap: 12px;
   padding: 6px 8px;
-  cursor: pointer;
+  cursor: url("leaf-cursor.svg") 2 2, pointer;
   font-size: 18px;
 }
 .suggest li[aria-selected="true"] { background: var(--sticky-lime); outline: 2px solid var(--ink); }
@@ -575,7 +578,7 @@ svg { display: block; fill: currentColor; }
 .suggest .tag { font-family: "Silkscreen", monospace; font-size: 10px; color: var(--ink-soft); margin-left: 6px; }
 .suggest .add-new { grid-template-columns: 34px 1fr; color: var(--label); }
 .suggest .add-new .plus { width: 30px; height: 30px; display: grid; place-items: center; border: 2px dashed var(--label); font-size: 20px; }
-.suggest .none { cursor: default; color: var(--ink-soft); font-size: 16px; grid-template-columns: 1fr; }
+.suggest .none { cursor: url("leaf-cursor.svg") 2 2, default; color: var(--ink-soft); font-size: 16px; grid-template-columns: 1fr; }
 
 .portion { margin: 10px 0 0; font-size: 16px; color: var(--ink-soft); }
 .portion button { font-size: 16px; }
@@ -678,7 +681,7 @@ svg { display: block; fill: currentColor; }
 .bars .base { stroke: var(--ink); stroke-width: 3; }
 .bars .goal { stroke: var(--goal-line); stroke-width: 3; stroke-dasharray: 8 6; }
 .bars .goal-label { fill: var(--goal-line); font-size: 12px; }
-.bars .bar-hit { fill: transparent; cursor: pointer; outline: none; }
+.bars .bar-hit { fill: transparent; cursor: url("leaf-cursor.svg") 2 2, pointer; outline: none; }
 .bars .bar-hit:hover + .bar, .bars .bar-hit:focus-visible + .bar { fill: var(--bar-hi); }
 .bars .soil { fill: var(--soil); }
 
