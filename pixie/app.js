@@ -331,6 +331,7 @@
     const reload = $("reload");
     card.classList.add("is-loading");
     reload.classList.add("is-loading");
+    $("m-reload").classList.add("is-loading");
     $("mascot").classList.add("is-thinking");
     spawnSparkles($("sparkles"), 18);
 
@@ -345,6 +346,7 @@
     turnPage();
     card.classList.remove("is-loading");
     reload.classList.remove("is-loading");
+    $("m-reload").classList.remove("is-loading");
     $("mascot").classList.remove("is-thinking");
     loading = false;
 
@@ -356,6 +358,14 @@
 
   $("reload").addEventListener("click", (e) => {
     burstFrom(e.currentTarget, 8);
+    generate();
+  });
+
+  // Phone quick bar: new prompt, bringing the prompt page back into view if needed
+  $("m-reload").addEventListener("click", (e) => {
+    burstFrom(e.currentTarget, 8);
+    // the prompt page comes first on phones, so head back to the top
+    if ($("card").getBoundingClientRect().top < 0) window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
     generate();
   });
 
@@ -392,6 +402,11 @@
     $("pause").disabled = state !== "running";
     $("stop").disabled = state === "idle";
     document.querySelector(".clock").classList.toggle("is-running", state === "running");
+    // phone quick bar mirrors the main timer
+    $("m-time").textContent = fmt(remaining);
+    $("m-time").classList.toggle("is-running", state === "running");
+    $("m-toggle").classList.toggle("is-running", state === "running");
+    $("m-toggle").setAttribute("aria-label", state === "running" ? "Pause timer" : "Start timer");
   }
 
   function setMinutes(m) {
@@ -469,6 +484,7 @@
   $("play").addEventListener("click", play);
   $("pause").addEventListener("click", pause);
   $("stop").addEventListener("click", stop);
+  $("m-toggle").addEventListener("click", () => (state === "running" ? pause() : play()));
 
   /* ---------- Keyboard ---------- */
   document.addEventListener("keydown", (e) => {

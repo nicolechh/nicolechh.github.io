@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Prompt Pixie</title>
   <meta name="description" content="A pixel-art journal that hands you a fresh writing prompt, with a timer to write along." />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
@@ -145,6 +145,20 @@
       </section>
     </div>
   </div>
+
+  <!-- Phone-only quick controls, pinned to the bottom of the screen -->
+  <nav class="quickbar" aria-label="Quick controls">
+    <button class="btn btn--reload sketch" id="m-reload">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></svg>
+      <span class="btn__label">new prompt</span>
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></svg>
+    </button>
+    <span class="quickbar__time" id="m-time" aria-hidden="true">10 : 00</span>
+    <button class="btn btn--play btn--toggle sketch" id="m-toggle" aria-label="Start timer">
+      <svg class="icon icon--play" viewBox="0 0 20 20" aria-hidden="true"><path d="M6.2 3.8 C6.5 8 5.9 12 6.3 16.4 C9.6 14.3 12.8 12.3 16 10.2 C12.8 8 9.4 5.9 5.8 4.1"/></svg>
+      <svg class="icon icon--pause" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4.2 C7.3 8 6.8 12 7.1 15.9 M13.1 3.9 C12.8 8 13.3 12 12.9 16.1"/></svg>
+    </button>
+  </nav>
 
   <footer class="credits">
     <p class="credit credit--left">made by nicole chou with claude code</p>
