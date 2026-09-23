@@ -5,7 +5,7 @@
    To add accounts + cross-device sync later, swap these two functions for calls to a backend
    (Supabase, Firebase, …) keyed by the signed-in user; app.js doesn't need to change. */
 (() => {
-  const KEY = "fiberpatch-v1";
+  const KEY = "beanbuddy-v1";
 
   const fresh = () => ({ version: 1, goal: 30, entries: [], customFoods: [] });
 

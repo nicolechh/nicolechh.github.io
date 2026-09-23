@@ -104,7 +104,7 @@
 
   /* ---------- State ---------- */
   let selected = todayKey();
-  let view = ["day", "week", "month"].includes(prefs.get("fiberpatch-view")) ? prefs.get("fiberpatch-view") : "week";
+  let view = ["day", "week", "month"].includes(prefs.get("beanbuddy-view")) ? prefs.get("beanbuddy-view") : "week";
   let chosen = null;     // the food picked in the form
   let editingId = null;  // entry being edited
   const expanded = { week: false, month: false };
@@ -753,7 +753,7 @@
   document.querySelectorAll(".seg[data-view]").forEach((s) =>
     s.addEventListener("click", () => {
       view = s.dataset.view;
-      prefs.set("fiberpatch-view", view);
+      prefs.set("beanbuddy-view", view);
       hideTip();
       renderChart(dayTotals());
       sketchify();
@@ -792,7 +792,7 @@
   $("theme").addEventListener("click", () => {
     const next = currentTheme() === "dark" ? "light" : "dark";
     document.documentElement.dataset.theme = next;
-    prefs.set("fiberpatch-theme", next);
+    prefs.set("beanbuddy-theme", next);
   });
 
   /* ---------- Keyboard ---------- */
@@ -814,7 +814,7 @@
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = `fiber-patch-backup-${todayKey()}.json`;
+    a.download = `bean-buddy-backup-${todayKey()}.json`;
     document.body.appendChild(a);
     a.click();
     a.remove();
@@ -828,7 +828,7 @@
     if (!file) return;
     try {
       const incoming = Store.normalize(JSON.parse(await file.text()));
-      if (!incoming.entries.length && !incoming.customFoods.length) { toast("that file doesn't look like a fiber patch backup"); return; }
+      if (!incoming.entries.length && !incoming.customFoods.length) { toast("that file doesn't look like a bean buddy backup"); return; }
       if (data.entries.length && !confirm(`Replace your current log (${data.entries.length} entries) with this backup (${incoming.entries.length} entries)?`)) return;
       data = incoming;
       save();

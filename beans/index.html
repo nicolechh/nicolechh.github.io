@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Fiber Patch</title>
-  <meta name="description" content="A pixel-art garden journal for tracking your daily, weekly and monthly fiber." />
+  <title>Bean Buddy</title>
+  <meta name="description" content="A pixel-art garden buddy for tracking your daily, weekly and monthly fiber." />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -13,7 +13,7 @@
   <script>
     // Apply saved theme before paint to avoid a flash
     try {
-      const t = localStorage.getItem("fiberpatch-theme");
+      const t = localStorage.getItem("beanbuddy-theme");
       if (t) document.documentElement.dataset.theme = t;
     } catch (e) {}
   </script>
@@ -38,12 +38,12 @@
     <header class="masthead">
       <div class="title-card">
         <span class="tape tape--lime tape--tl" aria-hidden="true"></span>
-        <h1 class="title">Fiber Patch
+        <h1 class="title">Bean Buddy
           <svg class="title__leaf" viewBox="0 0 8 8" aria-hidden="true" shape-rendering="crispEdges">
             <path d="M5 0h3v1H5zM3 1h5v1H3zM2 2h5v1H2zM1 3h5v1H1zM1 4h4v1H1zM1 5h3v1H1zM0 6h2v1H0zM0 7h1v1H0z" />
           </svg>
         </h1>
-        <p class="subtitle">a tiny garden journal for your daily roughage</p>
+        <p class="subtitle">your little garden pal for counting fiber</p>
       </div>
 
       <nav class="datebar" aria-label="Choose a day">
