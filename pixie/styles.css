@@ -15,6 +15,9 @@
   --rule: #cfe0f5;
   --margin: #f7b3c2;
   --ring: #d9d2e6;
+  --ring-hi: #ffffff;
+  --ring-shade: #aa9fc0;
+  --stitch: rgba(255, 255, 255, 0.7);
   --reload: #ffd0e2;
   --step: #cfe8ff;
   --play: #b8ecd3;
@@ -61,6 +64,9 @@
     --rule: rgba(165, 175, 235, 0.13);
     --margin: rgba(224, 154, 194, 0.32);
     --ring: #6c6385;
+  --ring-hi: #9a90b3;
+  --ring-shade: #4a4260;
+  --stitch: rgba(224, 154, 194, 0.4);
     --reload: #6a2f55;
     --step: #2c3a5c;
     --play: #2d5b52;
@@ -104,6 +110,9 @@
   --rule: rgba(165, 175, 235, 0.13);
   --margin: rgba(224, 154, 194, 0.32);
   --ring: #6c6385;
+  --ring-hi: #9a90b3;
+  --ring-shade: #4a4260;
+  --stitch: rgba(224, 154, 194, 0.4);
   --reload: #6a2f55;
   --step: #2c3a5c;
   --play: #2d5b52;
@@ -164,11 +173,20 @@ svg { display: block; fill: currentColor; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   background: var(--cover);
-  border: 3px solid var(--ink);
-  border-radius: 6px;
   padding: 18px 20px 26px;
-  box-shadow: 0 8px 0 var(--shadow);
+  /* pixel outline: four offset copies leave the corners notched, plus a stepped drop shadow */
+  box-shadow:
+    0 -4px 0 0 var(--ink), 0 4px 0 0 var(--ink), -4px 0 0 0 var(--ink), 4px 0 0 0 var(--ink),
+    0 12px 0 -4px var(--shadow), 0 8px 0 0 var(--shadow);
   transition: background-color 0.4s ease;
+}
+/* dashed pixel stitching around the cover */
+.book::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 3px dashed var(--stitch);
+  pointer-events: none;
 }
 
 .page {
@@ -203,8 +221,8 @@ svg { display: block; fill: currentColor; }
   width: 56px;
   pointer-events: none;
 }
-.page--left::before { right: 0; background: linear-gradient(to left, rgba(40, 20, 70, 0.12), transparent); }
-.page--right::before { left: 0; background: linear-gradient(to right, rgba(40, 20, 70, 0.12), transparent); }
+.page--left::before { right: 0; background: linear-gradient(to left, rgba(40, 20, 70, 0.13) 0 9px, rgba(40, 20, 70, 0.08) 9px 21px, rgba(40, 20, 70, 0.04) 21px 36px, transparent 36px); }
+.page--right::before { left: 0; background: linear-gradient(to right, rgba(40, 20, 70, 0.13) 0 9px, rgba(40, 20, 70, 0.08) 9px 21px, rgba(40, 20, 70, 0.04) 21px 36px, transparent 36px); }
 
 /* spiral rings */
 .rings {
@@ -218,15 +236,8 @@ svg { display: block; fill: currentColor; }
   justify-content: space-between;
   pointer-events: none;
 }
-.rings span {
-  display: block;
-  width: 54px;
-  height: 12px;
-  background: var(--ring);
-  border: 3px solid var(--ink);
-  border-radius: 6px;
-  box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.15);
-}
+.rings span { display: block; width: 54px; height: 15px; }
+.rings svg { width: 100%; height: 100%; }
 
 /* ribbon bookmark */
 .ribbon {
@@ -234,12 +245,7 @@ svg { display: block; fill: currentColor; }
   z-index: -1;
   top: calc(100% - 20px);
   left: calc(50% + 56px);
-  width: 22px;
-  height: 84px;
-  background: var(--label);
-  border: 3px solid var(--ink);
-  border-top: 0;
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 82%, 0 100%);
+  width: 24px;
   animation: sway 4s ease-in-out infinite;
   transform-origin: top center;
 }
@@ -249,18 +255,20 @@ svg { display: block; fill: currentColor; }
   position: absolute;
   z-index: 7;
   width: 96px;
-  height: 26px;
-  opacity: 0.88;
-  background: repeating-linear-gradient(45deg, var(--tc) 0 7px, color-mix(in srgb, var(--tc) 70%, white) 7px 14px);
-  clip-path: polygon(0 0, 4% 20%, 0 40%, 4% 60%, 0 80%, 4% 100%, 96% 100%, 100% 80%, 96% 60%, 100% 40%, 96% 20%, 100% 0);
+  height: 24px;
+  opacity: 0.9;
+  background: repeating-linear-gradient(90deg, var(--tc) 0 6px, color-mix(in srgb, var(--tc) 62%, white) 6px 12px);
+  clip-path: polygon(
+    0 0, 100% 0, 100% 25%, calc(100% - 4px) 25%, calc(100% - 4px) 50%, 100% 50%, 100% 75%,
+    calc(100% - 4px) 75%, calc(100% - 4px) 100%, 4px 100%, 4px 75%, 0 75%, 0 50%, 4px 50%, 4px 25%, 0 25%);
   pointer-events: none;
 }
 .tape--pink { --tc: var(--tape-pink); }
 .tape--blue { --tc: var(--tape-blue); }
 .tape--mint { --tc: var(--tape-mint); }
 .tape--lilac { --tc: var(--tape-lilac); }
-.tape--tl { top: -14px; left: 36px; transform: rotate(-7deg); }
-.tape--tr { top: -14px; right: 44px; transform: rotate(6deg); }
+.tape--tl { top: -12px; left: 36px; }
+.tape--tr { top: -12px; right: 44px; }
 
 .sticky {
   position: relative;
@@ -272,7 +280,7 @@ svg { display: block; fill: currentColor; }
   padding: 18px 14px 16px;
   transition: background-color 0.4s ease;
 }
-.sticky .tape { top: -14px; left: 50%; width: 70px; margin-left: -35px; transform: rotate(-3deg); clip-path: none; }
+.sticky .tape { top: -14px; left: 50%; width: 72px; margin-left: -36px; }
 .sticky--yellow { background: var(--sticky-yellow); }
 .sticky--pink { background: var(--sticky-pink); }
 .sticky--quote { background: var(--sticky-quote); }
@@ -460,8 +468,8 @@ svg { display: block; fill: currentColor; }
   height: 48px;
   display: grid;
   place-items: center;
-  font-family: "Jersey 10", "Pixelify Sans", monospace;
-  font-size: 40px;
+  font-family: "VT323", "Pixelify Sans", monospace;
+  font-size: 44px;
   letter-spacing: 1px;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
@@ -548,7 +556,6 @@ dd.is-typing::after { content: "▌"; color: var(--accent); animation: blink 0.7
   margin: auto auto 0;
   max-width: 380px;
   padding: 24px 22px 20px;
-  transform: rotate(-1.5deg);
   text-align: center;
 }
 .quote { margin: 0; }

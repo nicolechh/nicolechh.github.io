@@ -164,6 +164,26 @@
     },
   };
 
+  SPRITES.ring = {
+    rows: [
+      ".oooooooooooooooo.",
+      "orwwwwwwwwwwwwwwro",
+      "orrrrrrrrrrrrrrrro",
+      "oddddddddddddddddo",
+      ".oooooooooooooooo.",
+    ],
+    fill: { o: "var(--ink)", r: "var(--ring)", w: "var(--ring-hi)", d: "var(--ring-shade)" },
+  };
+  SPRITES.ribbon = {
+    rows: [
+      ...Array(24).fill("oRRRRRLo"),
+      "oRRooRLo",
+      "oRo..oRo",
+      "oo....oo",
+    ],
+    fill: { o: "var(--ink)", R: "var(--label)", L: "color-mix(in srgb, var(--label) 70%, white)" },
+  };
+
   function pixelSvg(rows, fill) {
     let rects = "";
     rows.forEach((row, y) => {
@@ -181,7 +201,11 @@
 
   // Spiral binding
   const rings = document.querySelector(".rings");
-  for (let i = 0; i < 13; i++) rings.appendChild(document.createElement("span"));
+  for (let i = 0; i < 13; i++) {
+    const ring = document.createElement("span");
+    ring.innerHTML = pixelSvg(SPRITES.ring.rows, SPRITES.ring.fill);
+    rings.appendChild(ring);
+  }
 
   // Today's date, journal style
   $("date").textContent = new Date()
