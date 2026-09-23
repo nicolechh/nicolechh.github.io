@@ -46,6 +46,10 @@
     z: "var(--star-1)",
   };
 
+  // one fairy sits in the prompt page; on phones a second one perches on the book by the tabs
+  const mascots = document.querySelectorAll(".mascot");
+  const visibleMascot = () => [...mascots].find((m) => m.offsetParent !== null) || mascots[0];
+
   function drawMascot() {
     let body = "";
     let wings = "";
@@ -59,8 +63,9 @@
         else body += rect;
       });
     });
-    $("mascot").innerHTML =
+    const svg =
       `<svg viewBox="0 0 16 16" shape-rendering="crispEdges"><g class="wings">${wings}</g>${body}<g class="wand-star">${star}</g></svg>`;
+    mascots.forEach((m) => (m.innerHTML = svg));
   }
 
 
@@ -340,7 +345,7 @@
     card.classList.add("is-loading");
     reload.classList.add("is-loading");
     $("m-reload").classList.add("is-loading");
-    $("mascot").classList.add("is-thinking");
+    mascots.forEach((m) => m.classList.add("is-thinking"));
     spawnSparkles($("sparkles"), 18);
 
     await new Promise((r) => setTimeout(r, reduceMotion ? 300 : 1100));
@@ -355,7 +360,7 @@
     card.classList.remove("is-loading");
     reload.classList.remove("is-loading");
     $("m-reload").classList.remove("is-loading");
-    $("mascot").classList.remove("is-thinking");
+    mascots.forEach((m) => m.classList.remove("is-thinking"));
     loading = false;
 
     await typeInto($("p-topic"), next.topic, token);
@@ -467,7 +472,7 @@
     screen.classList.add("is-done");
     chime();
     burstFrom($("card"), 16);
-    burstFrom($("mascot"), 10);
+    burstFrom(visibleMascot(), 10);
     setTimeout(() => {
       screen.classList.remove("is-done");
       remaining = minutes * 60;

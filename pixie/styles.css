@@ -504,7 +504,7 @@ kbd { font-family: inherit; padding: 0 4px; border: 2px solid currentColor; bord
 .page--right { display: flex; }
 .mascot {
   position: absolute;
-  z-index: 5;
+  z-index: 9; /* above washi tape, sparkles and page decorations */
   top: 22px; right: 26px;
   width: 104px; height: 104px;
   animation: bob 3s ease-in-out infinite;
@@ -762,8 +762,14 @@ dd.is-typing::after { content: "▌"; color: var(--accent); animation: blink 0.7
   .page::before { display: none; }
   .rings, .ribbon { display: none; }
   .decor > * { display: none; }
-  .mascot { width: 76px; height: 76px; top: 14px; right: 14px; }
-  .date { margin-right: 80px; }
+  /* on phones the fairy perches on the book beside the tabs, visible on both pages */
+  .page--right .mascot { display: none; }
+  .mascot--perch {
+    position: relative;
+    top: auto; right: auto;
+    width: 64px; height: 64px;
+    margin: 0 4px -12px auto;
+  }
   .title { font-size: 32px; }
   dd { font-size: 21px; padding-left: 0; }
   .sticky--quote { margin-top: 8px; }
