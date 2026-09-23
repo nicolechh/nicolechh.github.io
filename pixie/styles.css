@@ -242,8 +242,8 @@ svg { display: block; fill: currentColor; }
 /* ribbon bookmark */
 .ribbon {
   position: absolute;
-  z-index: -1;
-  top: calc(100% - 20px);
+  z-index: 1; /* above the cover stitching, emerging just below the page stacks */
+  top: calc(100% - 14px);
   left: calc(50% + 56px);
   width: 24px;
   animation: sway 4s ease-in-out infinite;
