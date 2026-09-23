@@ -272,14 +272,19 @@
     const segs = foods.map((f, i) =>
       `<i class="daybar__seg" style="width:${at(f.fiber)};background:${foodColor(f.look)};animation-delay:${reduceMotion ? 0 : i * 90}ms" data-tip="${esc(f.name)}\n${fmtG(f.fiber)} g · ${pctOfGoal(f.fiber)}% of goal"></i>`
     ).join("");
-    const ticks = [0, 0.25, 0.5, 0.75, 1].map((t) =>
-      `<span class="daybar__tick" style="left:${at(goal * t)}">${t === 1 ? `goal ${goal} g` : `${fmtG(goal * t)}`}</span>`
-    ).join("");
     const over = total > goal;
+    // Ticks are percentages of the goal. Past the goal the whole bar squeezes so
+    // 100% lands partway along, and the total percentage sits at the far end.
+    const ticks = [0, 0.25, 0.5, 0.75, 1].map((t) =>
+      `<span class="daybar__tick${t === 1 ? " is-goal" : ""}" style="left:${at(goal * t)}">${t === 1 ? `100% · ${goal} g` : `${t * 100}%`}</span>`
+    ).join("");
     $("chart").innerHTML = `
-      <div class="daybar" role="img" aria-label="${fmtG(total)} of ${goal} grams of fiber, ${pctOfGoal(total)}% of goal">
+      <div class="daybar${over ? " is-over" : ""}${over && goal / total > 0.8 ? " goal-near-end" : ""}" role="img" aria-label="${fmtG(total)} of ${goal} grams of fiber, ${pctOfGoal(total)}% of goal">
         <p class="daybar__readout"><b>${pctOfGoal(total)}%</b> of your daily goal${over ? ` <span class="daybar__bonus">+${fmtG(total - goal)} g bonus ✿</span>` : ` <span>· ${fmtG(goal - total)} g to go</span>`}</p>
-        <div class="daybar__track">${segs}${over ? `<span class="daybar__goal" style="left:${at(goal)}"></span>` : ""}</div>
+        <div class="daybar__track">
+          ${segs}
+          ${over ? `<span class="daybar__extra" style="left:${at(goal)}"></span><span class="daybar__goal" style="left:${at(goal)}"><em>goal met</em></span><span class="daybar__total">${pctOfGoal(total)}%</span>` : ""}
+        </div>
         <div class="daybar__ticks">${ticks}</div>
       </div>`;
     $("chart-legend").innerHTML = `<ul class="daylist">${foods.map((f) => `
