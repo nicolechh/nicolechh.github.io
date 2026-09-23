@@ -463,6 +463,89 @@
   });
 
 
+
+  /* ---------- Hand-drawn pixel outlines ---------- */
+  // Each .sketch element gets a slightly wobbly pen box, with lines that
+  // overshoot at the corners. Seeded per element so the wobble is stable.
+  function seeded(seed) {
+    return () => {
+      seed = (seed + 0x6d2b79f5) | 0;
+      let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+  }
+
+  function drawSketch(el, seed) {
+    const P = 3; // one "pixel" of pen line
+    const O = 2; // room for overshoot
+    const w = Math.max(4, Math.round(el.offsetWidth / P));
+    const h = Math.max(4, Math.round(el.offsetHeight / P));
+    const rnd = seeded(seed);
+    const pts = new Set();
+    const add = (x, y) => pts.add(`${x},${y}`);
+
+    const hEdge = (y0, dir) => {
+      const x0 = O - (rnd() < 0.5 ? 1 : 0);
+      const x1 = O + w - 1 + (rnd() < 0.6 ? 1 + Math.floor(rnd() * 2) : 0);
+      let off = 0;
+      for (let x = x0; x <= x1; x++) {
+        if (x > x0 + 3 && x < x1 - 3 && rnd() < 0.04) {
+          add(x, y0 + off); // join the step so the line stays unbroken
+          off = off ? 0 : dir;
+        }
+        add(x, y0 + off);
+      }
+    };
+    const vEdge = (x0, dir) => {
+      const y0 = O - (rnd() < 0.5 ? 1 : 0);
+      const y1 = O + h - 1 + (rnd() < 0.5 ? 1 : 0);
+      let off = 0;
+      for (let y = y0; y <= y1; y++) {
+        if (y > y0 + 3 && y < y1 - 3 && rnd() < 0.08) {
+          add(x0 + off, y);
+          off = off ? 0 : dir;
+        }
+        add(x0 + off, y);
+      }
+    };
+    hEdge(O, 1);
+    hEdge(O + h - 1, -1);
+    vEdge(O, 1);
+    vEdge(O + w - 1, -1);
+
+    let d = "";
+    pts.forEach((k) => {
+      const [x, y] = k.split(",");
+      d += `M${x} ${y}h1v1h-1z`;
+    });
+    let svg = el.querySelector(":scope > .sketch-line");
+    if (!svg) {
+      svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("class", "sketch-line");
+      svg.setAttribute("aria-hidden", "true");
+      svg.setAttribute("shape-rendering", "crispEdges");
+      el.appendChild(svg);
+    }
+    const W = w + O * 2, H = h + O * 2;
+    svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+    svg.style.left = `${-O * P}px`;
+    svg.style.top = `${-O * P}px`;
+    svg.style.width = `${W * P}px`;
+    svg.style.height = `${H * P}px`;
+    svg.innerHTML = `<path fill="currentColor" d="${d}"/>`;
+  }
+
+  const sketches = [...document.querySelectorAll(".sketch")];
+  const redrawSketches = () => sketches.forEach((el, i) => drawSketch(el, 1234 + i * 97));
+  if ("ResizeObserver" in window) {
+    const ro = new ResizeObserver((entries) => entries.forEach((e) => drawSketch(e.target, 1234 + sketches.indexOf(e.target) * 97)));
+    sketches.forEach((el) => ro.observe(el));
+  } else {
+    redrawSketches();
+    window.addEventListener("resize", redrawSketches);
+  }
+
   /* ---------- Fit the desk to the viewport on desktop ---------- */
   const desk = document.querySelector(".desk");
   function fitDesk() {

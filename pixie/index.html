@@ -71,18 +71,18 @@
           <h2 class="label" id="depth-label">depth</h2>
           <div class="checks" role="radiogroup" aria-labelledby="depth-label">
             <button class="seg" role="radio" aria-checked="true" data-depth="light">
-              <span class="box"><svg viewBox="0 0 7 6" shape-rendering="crispEdges"><path d="M1 0h2v1H1zM4 0h2v1H4zM0 1h7v2H0zM1 3h5v1H1zM2 4h3v1H2zM3 5h1v1H3z"/></svg></span>light
+              <span class="box sketch"><svg viewBox="0 0 7 6" shape-rendering="crispEdges"><path d="M1 0h2v1H1zM4 0h2v1H4zM0 1h7v2H0zM1 3h5v1H1zM2 4h3v1H2zM3 5h1v1H3z"/></svg></span>light
             </button>
             <button class="seg" role="radio" aria-checked="false" data-depth="reflective">
-              <span class="box"><svg viewBox="0 0 7 6" shape-rendering="crispEdges"><path d="M1 0h2v1H1zM4 0h2v1H4zM0 1h7v2H0zM1 3h5v1H1zM2 4h3v1H2zM3 5h1v1H3z"/></svg></span>reflect
+              <span class="box sketch"><svg viewBox="0 0 7 6" shape-rendering="crispEdges"><path d="M1 0h2v1H1zM4 0h2v1H4zM0 1h7v2H0zM1 3h5v1H1zM2 4h3v1H2zM3 5h1v1H3z"/></svg></span>reflect
             </button>
             <button class="seg" role="radio" aria-checked="false" data-depth="deep">
-              <span class="box"><svg viewBox="0 0 7 6" shape-rendering="crispEdges"><path d="M1 0h2v1H1zM4 0h2v1H4zM0 1h7v2H0zM1 3h5v1H1zM2 4h3v1H2zM3 5h1v1H3z"/></svg></span>deep
+              <span class="box sketch"><svg viewBox="0 0 7 6" shape-rendering="crispEdges"><path d="M1 0h2v1H1zM4 0h2v1H4zM0 1h7v2H0zM1 3h5v1H1zM2 4h3v1H2zM3 5h1v1H3z"/></svg></span>deep
             </button>
           </div>
         </div>
 
-        <button class="btn btn--reload" id="reload">
+        <button class="btn btn--reload sketch" id="reload">
           <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></svg>
           new prompt
           <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></svg>
@@ -91,25 +91,25 @@
         <div class="block">
           <h2 class="label">writing time</h2>
           <div class="timer">
-            <button class="btn btn--step" id="minus" aria-label="Decrease duration">
+            <button class="btn btn--step sketch" id="minus" aria-label="Decrease duration">
               <svg viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M1 4h8v2H1z"/></svg>
             </button>
-            <div class="clock">
+            <div class="clock sketch">
               <span id="time" aria-live="polite">10 : 00</span>
               <div class="progress"><div class="progress__bar" id="progress"></div></div>
             </div>
-            <button class="btn btn--step" id="plus" aria-label="Increase duration">
+            <button class="btn btn--step sketch" id="plus" aria-label="Increase duration">
               <svg viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M1 4h8v2H1zM4 1h2v8H4z"/></svg>
             </button>
           </div>
           <div class="transport">
-            <button class="btn btn--play" id="play" aria-label="Start timer">
+            <button class="btn btn--play sketch" id="play" aria-label="Start timer">
               <svg viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M2 1h2v8H2zM4 2h2v6H4zM6 3h2v4H6zM8 4h1v2H8z"/></svg>
             </button>
-            <button class="btn btn--pause" id="pause" aria-label="Pause timer">
+            <button class="btn btn--pause sketch" id="pause" aria-label="Pause timer">
               <svg viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M2 1h2v8H2zM6 1h2v8H6z"/></svg>
             </button>
-            <button class="btn btn--stop" id="stop" aria-label="Stop and reset timer">
+            <button class="btn btn--stop sketch" id="stop" aria-label="Stop and reset timer">
               <svg viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M2 2h6v6H2z"/></svg>
             </button>
           </div>
@@ -138,7 +138,7 @@
             </blockquote>
           </div>
         </div>
-        <button class="copy" id="copy" title="Copy prompt">copy</button>
+        <button class="copy sketch" id="copy" title="Copy prompt">copy</button>
         <div class="sprite sticker page-sticker" data-sprite="star" aria-hidden="true"></div>
         <div class="sparkles" id="sparkles" aria-hidden="true"></div>
         <span class="page-num" id="page-right">— 13 —</span>
