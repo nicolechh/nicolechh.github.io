@@ -71,13 +71,13 @@
           <h2 class="label" id="depth-label">depth</h2>
           <div class="checks" role="radiogroup" aria-labelledby="depth-label">
             <button class="seg" role="radio" aria-checked="true" data-depth="light">
-              <span class="box sketch"><svg viewBox="0 0 7 6" shape-rendering="crispEdges"><path d="M1 0h2v1H1zM4 0h2v1H4zM0 1h7v2H0zM1 3h5v1H1zM2 4h3v1H2zM3 5h1v1H3z"/></svg></span>light
+              <span class="box sketch"><svg class="tick" viewBox="0 0 24 24"><path pathLength="1" d="M4.5 12.5 C6.5 14.2 8 16.5 9.6 19 C12.5 12.8 16.5 7 22.5 1.5"/></svg></span>light
             </button>
             <button class="seg" role="radio" aria-checked="false" data-depth="reflective">
-              <span class="box sketch"><svg viewBox="0 0 7 6" shape-rendering="crispEdges"><path d="M1 0h2v1H1zM4 0h2v1H4zM0 1h7v2H0zM1 3h5v1H1zM2 4h3v1H2zM3 5h1v1H3z"/></svg></span>reflect
+              <span class="box sketch"><svg class="tick" viewBox="0 0 24 24"><path pathLength="1" d="M4.5 12.5 C6.5 14.2 8 16.5 9.6 19 C12.5 12.8 16.5 7 22.5 1.5"/></svg></span>reflect
             </button>
             <button class="seg" role="radio" aria-checked="false" data-depth="deep">
-              <span class="box sketch"><svg viewBox="0 0 7 6" shape-rendering="crispEdges"><path d="M1 0h2v1H1zM4 0h2v1H4zM0 1h7v2H0zM1 3h5v1H1zM2 4h3v1H2zM3 5h1v1H3z"/></svg></span>deep
+              <span class="box sketch"><svg class="tick" viewBox="0 0 24 24"><path pathLength="1" d="M4.5 12.5 C6.5 14.2 8 16.5 9.6 19 C12.5 12.8 16.5 7 22.5 1.5"/></svg></span>deep
             </button>
           </div>
         </div>
@@ -92,25 +92,25 @@
           <h2 class="label">writing time</h2>
           <div class="timer">
             <button class="btn btn--step sketch" id="minus" aria-label="Decrease duration">
-              <svg viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M1 4h8v2H1z"/></svg>
+              <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.6 C8 9.8 12 10.3 16.2 9.7"/></svg>
             </button>
             <div class="clock sketch">
               <span id="time" aria-live="polite">10 : 00</span>
               <div class="progress"><div class="progress__bar" id="progress"></div></div>
             </div>
             <button class="btn btn--step sketch" id="plus" aria-label="Increase duration">
-              <svg viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M1 4h8v2H1zM4 1h2v8H4z"/></svg>
+              <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.6 C8 9.8 12 10.3 16.2 9.7 M10.3 3.8 C9.8 8 10.2 12 9.8 16.4"/></svg>
             </button>
           </div>
           <div class="transport">
             <button class="btn btn--play sketch" id="play" aria-label="Start timer">
-              <svg viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M2 1h2v8H2zM4 2h2v6H4zM6 3h2v4H6zM8 4h1v2H8z"/></svg>
+              <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M6.2 3.8 C6.5 8 5.9 12 6.3 16.4 C9.6 14.3 12.8 12.3 16 10.2 C12.8 8 9.4 5.9 5.8 4.1"/></svg>
             </button>
             <button class="btn btn--pause sketch" id="pause" aria-label="Pause timer">
-              <svg viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M2 1h2v8H2zM6 1h2v8H6z"/></svg>
+              <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M7 4.2 C7.3 8 6.8 12 7.1 15.9 M13.1 3.9 C12.8 8 13.3 12 12.9 16.1"/></svg>
             </button>
             <button class="btn btn--stop sketch" id="stop" aria-label="Stop and reset timer">
-              <svg viewBox="0 0 10 10" aria-hidden="true" shape-rendering="crispEdges"><path d="M2 2h6v6H2z"/></svg>
+              <svg class="icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M4.9 5.3 C8.5 4.7 12 5.2 15.3 4.8 C15.5 8.5 15 12 15.4 15.3 C11.8 15.6 8.2 15 4.7 15.4 C5.1 11.8 4.6 8.5 5.1 4.9"/></svg>
             </button>
           </div>
         </div>

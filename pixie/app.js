@@ -464,9 +464,10 @@
 
 
 
-  /* ---------- Hand-drawn pixel outlines ---------- */
-  // Each .sketch element gets a slightly wobbly pen box, with lines that
-  // overshoot at the corners. Seeded per element so the wobble is stable.
+  /* ---------- Hand-drawn sketch outlines ---------- */
+  // Each .sketch element gets a rough pen box: every edge is drawn twice with
+  // slightly bowed strokes that overshoot the corners, plus loose diagonal
+  // colored-pencil hatching. Seeded per element so the drawing is stable.
   function seeded(seed) {
     return () => {
       seed = (seed + 0x6d2b79f5) | 0;
@@ -477,63 +478,61 @@
   }
 
   function drawSketch(el, seed) {
-    const P = 3; // one "pixel" of pen line
-    const O = 2; // room for overshoot
-    const w = Math.max(4, Math.round(el.offsetWidth / P));
-    const h = Math.max(4, Math.round(el.offsetHeight / P));
+    const pad = 8;
+    const w = el.offsetWidth;
+    const h = el.offsetHeight;
+    if (!w || !h) return;
     const rnd = seeded(seed);
-    const pts = new Set();
-    const add = (x, y) => pts.add(`${x},${y}`);
+    const j = (a) => (rnd() * 2 - 1) * a;
+    const f = (n) => n.toFixed(1);
 
-    const hEdge = (y0, dir) => {
-      const x0 = O - (rnd() < 0.5 ? 1 : 0);
-      const x1 = O + w - 1 + (rnd() < 0.6 ? 1 + Math.floor(rnd() * 2) : 0);
-      let off = 0;
-      for (let x = x0; x <= x1; x++) {
-        if (x > x0 + 3 && x < x1 - 3 && rnd() < 0.04) {
-          add(x, y0 + off); // join the step so the line stays unbroken
-          off = off ? 0 : dir;
-        }
-        add(x, y0 + off);
-      }
+    // one slightly bowed pen stroke from a to b, overshooting both ends
+    const stroke = (xa, ya, xb, yb, wobble) => {
+      const len = Math.hypot(xb - xa, yb - ya);
+      const ux = (xb - xa) / len, uy = (yb - ya) / len;
+      const o1 = 1 + rnd() * 3, o2 = 1 + rnd() * 4;
+      const sx = xa - ux * o1 + j(wobble), sy = ya - uy * o1 + j(wobble);
+      const ex = xb + ux * o2 + j(wobble), ey = yb + uy * o2 + j(wobble);
+      const bow = j(Math.min(2.5, 0.6 + len * 0.01));
+      const mx = (sx + ex) / 2 - uy * bow + j(0.6), my = (sy + ey) / 2 + ux * bow + j(0.6);
+      return `M${f(sx)} ${f(sy)}Q${f(mx)} ${f(my)} ${f(ex)} ${f(ey)}`;
     };
-    const vEdge = (x0, dir) => {
-      const y0 = O - (rnd() < 0.5 ? 1 : 0);
-      const y1 = O + h - 1 + (rnd() < 0.5 ? 1 : 0);
-      let off = 0;
-      for (let y = y0; y <= y1; y++) {
-        if (y > y0 + 3 && y < y1 - 3 && rnd() < 0.08) {
-          add(x0 + off, y);
-          off = off ? 0 : dir;
-        }
-        add(x0 + off, y);
-      }
-    };
-    hEdge(O, 1);
-    hEdge(O + h - 1, -1);
-    vEdge(O, 1);
-    vEdge(O + w - 1, -1);
 
-    let d = "";
-    pts.forEach((k) => {
-      const [x, y] = k.split(",");
-      d += `M${x} ${y}h1v1h-1z`;
-    });
+    const x0 = pad, y0 = pad, x1 = pad + w, y1 = pad + h;
+    const box = (wob) =>
+      stroke(x0, y0, x1, y0, wob) + stroke(x1, y0, x1, y1, wob) +
+      stroke(x1, y1, x0, y1, wob) + stroke(x0, y1, x0, y0, wob);
+    const ink1 = box(1.2);
+    const ink2 = box(1.8);
+
+    // hatching: "/" strokes clipped to a slightly inset box
+    const hx0 = x0 + 3, hy0 = y0 + 3, hx1 = x1 - 3, hy1 = y1 - 3;
+    const gap = Math.min(w, h) < 30 ? 4.5 : 6;
+    let hatch = "";
+    for (let c = hx0 + hy0 + gap / 2; c < hx1 + hy1; c += gap + j(0.8)) {
+      const sx = Math.max(hx0, c - hy1), ex = Math.min(hx1, c - hy0);
+      if (ex - sx < 2) continue;
+      const a = j(1.2), b = j(1.2);
+      hatch += `M${f(sx + a)} ${f(c - sx - a + j(0.8))}L${f(ex + b)} ${f(c - ex - b + j(0.8))}`;
+    }
+
     let svg = el.querySelector(":scope > .sketch-line");
     if (!svg) {
       svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
       svg.setAttribute("class", "sketch-line");
       svg.setAttribute("aria-hidden", "true");
-      svg.setAttribute("shape-rendering", "crispEdges");
       el.appendChild(svg);
     }
-    const W = w + O * 2, H = h + O * 2;
+    const W = w + pad * 2, H = h + pad * 2;
     svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
-    svg.style.left = `${-O * P}px`;
-    svg.style.top = `${-O * P}px`;
-    svg.style.width = `${W * P}px`;
-    svg.style.height = `${H * P}px`;
-    svg.innerHTML = `<path fill="currentColor" d="${d}"/>`;
+    svg.style.left = `${-pad}px`;
+    svg.style.top = `${-pad}px`;
+    svg.style.width = `${W}px`;
+    svg.style.height = `${H}px`;
+    svg.innerHTML =
+      `<path class="hatch" d="${hatch}"/>` +
+      `<path class="ink" d="${ink1}"/>` +
+      `<path class="ink ink--2" d="${ink2}"/>`;
   }
 
   const sketches = [...document.querySelectorAll(".sketch")];
