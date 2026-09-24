@@ -339,7 +339,7 @@
   padding:20px;background:var(--card);border:1px solid var(--rule-soft);
   transition:border-color .18s ease;
 }
-.cs-card-thumb{aspect-ratio:335/220;overflow:hidden;background:var(--paper-2)}
+.cs-card-thumb{aspect-ratio:335/220;overflow:hidden}
 .cs-card-thumb img{display:block;width:100%;height:100%;object-fit:cover}
 .cs-card-text{display:flex;flex-direction:column;gap:8px}
 /* Body/Card Title */
