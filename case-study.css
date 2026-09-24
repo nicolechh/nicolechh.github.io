@@ -235,6 +235,12 @@
   box-shadow:0 2px 8px rgba(0,0,0,.1);
 }
 .cs-asset img,.cs-asset video{display:block;width:100%;height:auto}
+/* Figma's Asset frame shape, filled like Figma's FILL mode, so media side
+   by side lines up. --ar is the desktop frame (900px+), --ar-m the mobile
+   frame; without --ar-m, mobile falls back to the media's natural shape. */
+.cs-asset[style*="--ar"]{aspect-ratio:var(--ar-m,auto)}
+@media (min-width:900px){ .cs-asset[style*="--ar"]{aspect-ratio:var(--ar)} }
+.cs-asset[style*="--ar"] > img,.cs-asset[style*="--ar"] > video{height:100%;object-fit:cover;object-position:var(--pos,50% 50%)}
 .cs-asset img{cursor:zoom-in}
 .cs-caption{
   font-family:var(--mono);font-weight:500;font-size:12px;line-height:1.4;
