@@ -43,7 +43,7 @@ All defined on `:root` in `styles.css` (light values match the Figma file's Colo
 
 | Use | Spec |
 |---|---|
-| Hero name | `15.1cqw` desktop, `28.8cqw` ≤560px — sized to a **container query**, not the viewport, so it fills its column at any width without a lookup table of breakpoints |
+| Hero name | `--nfs` on `.hero`: 180px at 1440 and fluid with the viewport at Figma's ratio (`(100vw − gutter) × .1271`, no fixed cap, so it keeps filling the screen as it grows), capped only by height on short, very wide windows. The tag's position, the room above the name and the gap to the lede are all multiples of `--nfs`, so the arrangement holds at every width; the tag and lede themselves stay fixed-size, as in Figma. ≤560px: two stacked lines at `min(96px, 28.8cqw)` |
 | h2 / section heads | 28px, Geist Pixel |
 | Lede | Geist Mono 400, 20px / 1.35, `--ink-2` |
 | Filled tag (`.sticker`) | Geist Mono 700, 22px, `.1em` tracking, uppercase |
