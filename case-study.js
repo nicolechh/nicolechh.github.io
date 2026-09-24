@@ -7,61 +7,29 @@
      hides the OS cursor only on pages that include .cursor-chip). No dot
      canvas here, so X/Y are page coordinates measured from the content's
      top-left, below the 46px nav; Y keeps counting as the page scrolls. */
-  /* Lightbox: images and videos both open here. Videos also land here
-     instead of native fullscreen -- Chromium's fullscreen button is hidden
-     (controlslist), and any other browser's fullscreen request is caught
-     below and redirected. */
+  /* Image lightbox. Videos keep their native controls: click to play/pause,
+     and the browser's own fullscreen. */
   var overlay = document.createElement('div');
   overlay.className = 'cs-lightbox';
-  overlay.innerHTML = '<button class="cs-lightbox-close" type="button" aria-label="Close">&times;</button><img class="cs-lightbox-img" alt=""><video class="cs-lightbox-video" controls playsinline controlslist="nofullscreen" disablepictureinpicture></video>';
+  overlay.innerHTML = '<button class="cs-lightbox-close" type="button" aria-label="Close">&times;</button><img class="cs-lightbox-img" alt="">';
   document.body.appendChild(overlay);
   var lbImg = overlay.querySelector('.cs-lightbox-img');
-  var lbVideo = overlay.querySelector('.cs-lightbox-video');
   var closeBtn = overlay.querySelector('.cs-lightbox-close');
   var zoomed = false;
-  var sourceVideo = null;   // the inline video the overlay is playing, if any
 
-  function showOverlay(){
-    overlay.classList.add('is-open');
-    document.body.style.overflow = 'hidden';
-  }
   function openLightbox(src, alt){
-    overlay.classList.remove('is-video');
     lbImg.src = src;
     lbImg.alt = alt || '';
     zoomed = false;
     lbImg.classList.remove('is-zoomed');
-    showOverlay();
-  }
-  function openVideo(v){
-    if (overlay.classList.contains('is-open') && sourceVideo === v) return;
-    sourceVideo = v;
-    var t = v.currentTime;
-    v.pause();
-    overlay.classList.add('is-video');
-    lbVideo.src = v.currentSrc || v.src;
-    var start = function(){
-      lbVideo.currentTime = t;
-      var p = lbVideo.play();
-      if (p && p.catch) p.catch(function(){});
-    };
-    if (lbVideo.readyState >= 1) start(); else lbVideo.addEventListener('loadedmetadata', start, {once:true});
-    showOverlay();
+    overlay.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
   }
   function closeLightbox(){
     overlay.classList.remove('is-open');
     document.body.style.overflow = '';
     zoomed = false;
     lbImg.classList.remove('is-zoomed');
-    if (sourceVideo){
-      // hand the playhead back so the inline video resumes where you left off
-      if (lbVideo.readyState >= 1) sourceVideo.currentTime = lbVideo.currentTime;
-      lbVideo.pause();
-      lbVideo.removeAttribute('src');
-      lbVideo.load();
-      sourceVideo = null;
-    }
-    overlay.classList.remove('is-video');
   }
 
   document.querySelectorAll('.cs-asset img').forEach(function(el){
@@ -70,39 +38,11 @@
     });
   });
 
-  // a click on a video's picture opens the overlay; its control bar still
-  // works inline (native controls report clicks on the video element too)
-  var CONTROL_BAR = 48;
-  var onVideoPicture = function(v, y){ return y < v.getBoundingClientRect().bottom - CONTROL_BAR; };
-  document.querySelectorAll('.cs-asset video').forEach(function(v){
-    v.setAttribute('controlslist', 'nofullscreen');
-    v.setAttribute('disablepictureinpicture', '');
-    v.addEventListener('click', function(e){
-      if (!onVideoPicture(v, e.clientY)) return;
-      e.preventDefault();
-      openVideo(v);
-    });
-    // iOS Safari's own video fullscreen
-    v.addEventListener('webkitbeginfullscreen', function(){
-      if (v.webkitExitFullscreen) v.webkitExitFullscreen();
-      openVideo(v);
-    });
-  });
-  var redirectFullscreen = function(){
-    var el = document.fullscreenElement || document.webkitFullscreenElement;
-    if (!el || el.tagName !== 'VIDEO') return;
-    if (document.exitFullscreen) document.exitFullscreen().catch(function(){});
-    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
-    if (el !== lbVideo) openVideo(el);
-  };
-  document.addEventListener('fullscreenchange', redirectFullscreen);
-  document.addEventListener('webkitfullscreenchange', redirectFullscreen);
-
   lbImg.addEventListener('click', function(e){
     e.stopPropagation();
     zoomed = !zoomed;
     lbImg.classList.toggle('is-zoomed', zoomed);
-    setCursorMode(e.target, e.clientY);
+    setCursorMode(e.target);
   });
   overlay.addEventListener('click', function(e){
     if (e.target === overlay) closeLightbox();
@@ -116,19 +56,13 @@
      hides the OS cursor only on pages that include .cursor-chip). No dot
      canvas here, so X/Y are page coordinates measured from the content's
      top-left, below the 46px nav; Y keeps counting as the page scrolls.
-     Over media it becomes a magnifier (zoom-out on a zoomed lightbox image). */
+     Over images it becomes a magnifier (zoom-out on a zoomed lightbox image). */
   var chip = document.getElementById('cursorChip');
-  function setCursorMode(target, y){
+  function setCursorMode(target){
     if (!chip) return;
     var mode = '';
     if (target.closest('.cs-lightbox-img')) mode = zoomed ? 'out' : 'in';
-    else {
-      var asset = target.closest('.cs-asset');
-      if (asset){
-        var v = asset.querySelector('video');
-        if (!v || onVideoPicture(v, y)) mode = 'in';
-      }
-    }
+    else if (target.closest('.cs-asset img')) mode = 'in';
     if (chip.dataset.zoom !== mode) chip.dataset.zoom = mode;
   }
   if (chip && matchMedia('(hover:hover) and (pointer:fine)').matches){
@@ -144,7 +78,7 @@
       if (e.pointerType === 'touch') return;
       lastX = e.clientX; lastY = e.clientY;
       paintChip();
-      setCursorMode(e.target, e.clientY);
+      setCursorMode(e.target);
       chip.classList.add('is-visible');
     }, {passive:true});
     window.addEventListener('scroll', function(){ if (lastX !== null) paintChip(); }, {passive:true});

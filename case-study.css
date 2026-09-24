@@ -175,6 +175,9 @@
 .cs-body{display:flex;flex-direction:column;gap:24px}
 .cs-sub{display:flex;flex-direction:column;gap:16px}
 .cs-sub-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 16px}
+/* desktop: every heading row in a pair is the switch's 36px tall, so the
+   media under a plain heading lines up with media under a heading+switch */
+@media (min-width:900px){ .cs-sub-head{min-height:36px} }
 /* Body/Sub Heading */
 .cs-sub h3,.cs-sub-head h3{
   font-family:var(--display);font-weight:600;font-variation-settings:"wght" 600;
@@ -435,10 +438,16 @@
   cursor:zoom-in;transition:transform .2s ease;
 }
 .cs-lightbox-img.is-zoomed{cursor:zoom-out;transform:scale(1.8)}
-.cs-lightbox-video{display:none;max-width:100%;max-height:100%;background:#000}
-.cs-lightbox.is-video .cs-lightbox-img{display:none}
-.cs-lightbox.is-video .cs-lightbox-video{display:block}
-.cs-asset video{cursor:zoom-in}
+/* phones: let the enlarged image use nearly the full width */
+@media (max-width:899px){
+  .cs-lightbox{padding:12px}
+  /* the image can now run under the close button, so give it a backing */
+  .cs-lightbox-close{
+    top:16px;right:16px;width:40px;height:40px;padding:0;
+    display:flex;align-items:center;justify-content:center;
+    font-size:26px;background:rgba(0,0,0,.55);border-radius:50%;
+  }
+}
 .cs-lightbox-close{
   position:fixed;top:20px;right:24px;
   background:none;border:none;color:#fff;font-size:32px;line-height:1;
