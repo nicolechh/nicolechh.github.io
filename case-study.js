@@ -1,5 +1,5 @@
-/* Shared behavior for pages under /case-studies/: image lightbox + TOC scroll-spy.
-   See DESIGN-SYSTEM.md. */
+/* Shared behavior for pages under /case-studies/: image lightbox, TOC
+   scroll-spy, and the image switches/carousels. See DESIGN-SYSTEM.md. */
 (function(){
 
   var overlay = document.createElement('div');
@@ -25,7 +25,7 @@
     lbImg.classList.remove('is-zoomed');
   }
 
-  document.querySelectorAll('.cs-media img').forEach(function(el){
+  document.querySelectorAll('.cs-asset img').forEach(function(el){
     el.addEventListener('click', function(){
       openLightbox(el.currentSrc || el.src, el.alt);
     });
@@ -42,6 +42,57 @@
   closeBtn.addEventListener('click', closeLightbox);
   document.addEventListener('keydown', function(e){
     if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeLightbox();
+  });
+
+  /* Image switches: a [data-switch] block holds Button Group buttons
+     (data-key/data-value) and figures tagged data-when="key=value ...";
+     only figures whose every condition matches the current state show.
+     A carousel is the same thing with a "slide" key driven by its dots
+     and arrows, so light/dark and slide combine without extra code. */
+  document.querySelectorAll('[data-switch]').forEach(function(root){
+    var state = {};
+    root.querySelectorAll('[data-key][aria-pressed="true"], [data-key][aria-current="true"]').forEach(function(b){
+      state[b.dataset.key] = b.dataset.value;
+    });
+    var slides = root.querySelectorAll('.cs-dot').length;
+    var prev = root.querySelector('[data-step="-1"]');
+    var next = root.querySelector('[data-step="1"]');
+
+    function render(){
+      root.querySelectorAll('[data-key]').forEach(function(b){
+        var on = state[b.dataset.key] === b.dataset.value;
+        b.setAttribute(b.classList.contains('cs-dot') ? 'aria-current' : 'aria-pressed', String(on));
+      });
+      root.querySelectorAll('[data-when]').forEach(function(el){
+        var show = el.dataset.when.split(' ').every(function(pair){
+          var kv = pair.split('=');
+          return state[kv[0]] === kv[1];
+        });
+        el.hidden = !show;
+        var video = el.querySelector('video');
+        if (!show && video) video.pause();
+      });
+      if (slides){
+        var i = Number(state.slide);
+        prev.disabled = i <= 1;
+        next.disabled = i >= slides;
+      }
+    }
+
+    root.addEventListener('click', function(e){
+      var b = e.target.closest('[data-key]');
+      if (b && root.contains(b)){
+        state[b.dataset.key] = b.dataset.value;
+        render();
+        return;
+      }
+      var step = e.target.closest('[data-step]');
+      if (step && root.contains(step)){
+        var n = Number(state.slide) + Number(step.dataset.step);
+        if (n >= 1 && n <= slides){ state.slide = String(n); render(); }
+      }
+    });
+    render();
   });
 
   var toc = document.querySelector('.cs-toc');
@@ -88,20 +139,15 @@
     var indicatorPlaced = false;
     function moveIndicator(link){
       if (!tocIndicator || !toc) return;
-      // First placement (page load, Summary): jump straight to position/
-      // height with only opacity transitioning -- a plain fade in, not
-      // the bar sliding/growing in from the top. Pinned to opacity's own
-      // CSS duration explicitly (not just narrowing transition-property)
-      // so it doesn't inherit transform's shorter duration by cycling
-      // through a mismatched-length list. Later section changes keep
-      // the normal sliding transition (restored below).
+      // First placement: fade in at position rather than sliding in from
+      // the top; later moves use the CSS transform/height transitions.
       if (!indicatorPlaced) tocIndicator.style.transition = 'opacity .3s ease';
       tocIndicator.style.opacity = '1';
       tocIndicator.style.transform = 'translateY(' + link.offsetTop + 'px)';
       tocIndicator.style.height = link.offsetHeight + 'px';
       if (!indicatorPlaced){
-        tocIndicator.offsetHeight; // force layout so the transition override above applies before...
-        tocIndicator.style.transition = '';   // ...restoring the CSS-defined transitions for subsequent moves
+        tocIndicator.offsetHeight; // flush so the override applies before it's restored
+        tocIndicator.style.transition = '';
         indicatorPlaced = true;
       }
     }
@@ -114,10 +160,6 @@
       if (desktopLink) moveIndicator(desktopLink);
       if (tocTriggerLabel) tocTriggerLabel.textContent = links[0].textContent;
     }
-    // Summary is active as soon as the page opens, before any scrolling
-    // (and before the observer's own first check) -- otherwise both the
-    // sidebar and the mobile trigger sit unhighlighted until the reader
-    // scrolls past the -15% rootMargin line.
     activate(sections[0].id);
     var observer = new IntersectionObserver(function(entries){
       entries.forEach(function(entry){
