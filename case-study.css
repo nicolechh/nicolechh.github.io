@@ -234,13 +234,19 @@
   border:1px solid var(--rule-soft);background:var(--paper-2);
   box-shadow:0 2px 8px rgba(0,0,0,.1);
 }
-/* frameless: for images that already carry their own framing/transparency */
-.cs-asset.is-bare{background:none;border:0;border-radius:0;box-shadow:none}
+/* frameless: for images that already carry their own framing/transparency.
+   Keeps the Asset shadow, but as drop-shadow() so it traces the image's
+   visible edges rather than a box around its transparent padding. */
+.cs-asset.is-bare{
+  background:none;border:0;border-radius:0;box-shadow:none;
+  overflow:visible;filter:drop-shadow(0 2px 8px rgba(0,0,0,.1));
+}
 .cs-asset img,.cs-asset video{display:block;width:100%;height:auto}
 /* Figma's Asset frame shape, filled like Figma's FILL mode, so media side
    by side lines up. --ar is the desktop frame (900px+), --ar-m the mobile
    frame; without --ar-m, mobile falls back to the media's natural shape. */
-.cs-asset[style*="--ar"]{aspect-ratio:var(--ar-m,auto)}
+/* min-height:0 so unclipped (.is-bare) media can't stretch the ratio box */
+.cs-asset[style*="--ar"]{aspect-ratio:var(--ar-m,auto);min-height:0}
 @media (min-width:900px){ .cs-asset[style*="--ar"]{aspect-ratio:var(--ar)} }
 .cs-asset[style*="--ar"] > img,.cs-asset[style*="--ar"] > video{height:100%;object-fit:cover;object-position:var(--pos,50% 50%)}
 .cs-asset img{cursor:zoom-in}
