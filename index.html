@@ -26,7 +26,17 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;700&family=Geist+Pixel&display=swap">
 
-<link rel="stylesheet" href="styles.css?v=efa608f7">
+<link rel="stylesheet" href="styles.css?v=514e2e0e">
+<script>
+  // Intro: start on the bare dot grid while the load-in wave plays (the main
+  // script reveals the page as it ends). Skipped under reduced motion and for
+  // deep links like #playground, which should land straight on their section.
+  // The timeout is a failsafe so content never stays hidden.
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches && !location.hash.slice(1)){
+    document.documentElement.classList.add("intro");
+    setTimeout(() => document.documentElement.classList.remove("intro"), 4000);
+  }
+</script>
 </head>
 
 <body>
@@ -272,6 +282,13 @@
   const WAVE_WIDTH = 90;         // softness of the band, px (gaussian sigma)
   let waveStart = reduce ? -Infinity : performance.now();
   let waveT = -1;                // front position this frame, 0..1; <0 = off
+  const REVEAL_AT = 0.8;         // wave progress at which the page fades in behind its tail
+  const root = document.documentElement;
+  function reveal(){
+    if (!root.classList.contains("intro")) return;
+    root.classList.remove("intro");
+    if (!reduce) root.classList.add("intro-in");
+  }
 
   function drawDots(){
     ctx.clearRect(0, 0, W, H);
@@ -282,6 +299,7 @@
 
     const elapsed = performance.now() - waveStart;
     waveT = reduce || elapsed > WAVE_MS ? -1 : elapsed / WAVE_MS;
+    if (waveT < 0 || waveT > REVEAL_AT) reveal();
     // ease-in-out so the wave rolls in, crosses, and rolls out
     const front = waveT < 0 ? 0 : -WAVE_WIDTH * 3 + (W + WAVE_WIDTH * 6) * (waveT < .5 ? 2 * waveT * waveT : 1 - Math.pow(-2 * waveT + 2, 2) / 2);
     const wave = [];
@@ -516,6 +534,7 @@
     document.documentElement.dataset.motion = on ? "reduced" : "full";
     if (on){
       for (const d of dots){ d.ox = 0; d.oy = 0; }   // snap the field back to the grid
+      reveal();
     }
     settled = false;
     kick();
