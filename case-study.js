@@ -30,7 +30,19 @@
     document.body.style.overflow = '';
     zoomed = false;
     lbImg.classList.remove('is-zoomed');
+    lbImg.style.transformOrigin = '';
   }
+  // Zoomed-in panning for a mouse: the pointer's position across the
+  // viewport sets the zoom origin, so pointing toward an edge brings that
+  // part of the image into view (and a click zooms in on the spot clicked).
+  function panTo(x, y){
+    var px = Math.min(100, Math.max(0, x / innerWidth * 100));
+    var py = Math.min(100, Math.max(0, y / innerHeight * 100));
+    lbImg.style.transformOrigin = px + '% ' + py + '%';
+  }
+  overlay.addEventListener('pointermove', function(e){
+    if (zoomed && e.pointerType === 'mouse') panTo(e.clientX, e.clientY);
+  });
 
   document.querySelectorAll('.cs-asset img').forEach(function(el){
     el.addEventListener('click', function(){
@@ -41,6 +53,7 @@
   lbImg.addEventListener('click', function(e){
     e.stopPropagation();
     zoomed = !zoomed;
+    if (zoomed && e.pointerType !== 'touch') panTo(e.clientX, e.clientY);
     lbImg.classList.toggle('is-zoomed', zoomed);
     setCursorMode(e.target);
   });
