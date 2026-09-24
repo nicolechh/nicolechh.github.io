@@ -18,6 +18,13 @@
   --cs-toc-w:230px;
   --cs-pad:clamp(20px,4vw,56px);
   --cs-top:clamp(24px,4vw,56px);
+  /* article column caps at Figma's 1098px; past that, sidebar + article
+     centre as one block and the side margins grow instead */
+  --cs-max:1098px;
+  --cs-inset:var(--cs-pad);
+}
+@media (min-width:1100px){
+  :root{--cs-inset:max(var(--cs-pad),calc((100vw - var(--cs-toc-w) - var(--cs-max)) / 2))}
 }
 
 /* ---------- nav (content per Figma; background treatment unchanged) ---------- */
@@ -48,7 +55,7 @@
 }
 @media (min-width:1100px){
   .cs-shell{
-    padding:var(--cs-top) var(--cs-pad) 0 calc(var(--cs-pad) + var(--cs-toc-w));
+    padding:var(--cs-top) var(--cs-inset) 0 calc(var(--cs-inset) + var(--cs-toc-w));
     gap:64px;
   }
 }
@@ -61,7 +68,7 @@
   /* position:fixed so it stays put while the article scrolls */
   .cs-toc{
     display:flex;flex-direction:column;
-    position:fixed;left:var(--cs-pad);top:calc(46px + var(--cs-top));z-index:5;
+    position:fixed;left:var(--cs-inset);top:calc(46px + var(--cs-top));z-index:5;
     width:var(--cs-toc-w);
     max-height:calc(100vh - 46px - var(--cs-top) - 24px);overflow-y:auto;
   }
@@ -231,7 +238,7 @@
 .cs-asset img{cursor:zoom-in}
 .cs-caption{
   font-family:var(--mono);font-weight:500;font-size:12px;line-height:1.4;
-  letter-spacing:.03em;color:var(--ink-3);margin:0;
+  letter-spacing:.03em;color:var(--ink-3);margin:0;text-align:center;
 }
 .cs-cover{margin:0}
 
@@ -358,7 +365,7 @@
 
 /* ---------- footer (Footer, Page=Case Study) ---------- */
 .cs-footer{
-  margin:36px var(--cs-pad) 0;padding:20px 0 56px;border-top:1px solid var(--rule);
+  margin:36px var(--cs-inset) 0;padding:20px 0 56px;border-top:1px solid var(--rule);
   display:grid;grid-template-columns:1fr;gap:8px;
   font-family:var(--mono);font-weight:500;color:var(--ink-3);
   text-transform:none;   /* styles.css's bare footer{} uppercases everything */
