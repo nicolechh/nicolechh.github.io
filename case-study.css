@@ -241,6 +241,9 @@
   background:none;border:0;border-radius:0;box-shadow:none;
   overflow:visible;filter:drop-shadow(0 2px 8px rgba(0,0,0,.1));
 }
+/* images with a solid background baked in: a shadow would only trace
+   the canvas rectangle, not the elements on it, so they get none */
+.cs-asset.is-bare.is-flat{filter:none}
 .cs-asset img,.cs-asset video{display:block;width:100%;height:auto}
 /* Figma's Asset frame shape, filled like Figma's FILL mode, so media side
    by side lines up. --ar is the desktop frame (900px+), --ar-m the mobile
