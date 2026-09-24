@@ -392,8 +392,9 @@
   .cs-foot-name{grid-area:name}
   .cs-foot-made{grid-area:made}
   .cs-foot-updated{grid-area:updated;margin:0;text-align:center}
-  .cs-foot-email{grid-area:email;justify-self:end}
-  .cs-foot-link{grid-area:link;justify-self:end}
+  /* .cs-footer-scoped to outrank .cs-footer a's mobile justify-self:start */
+  .cs-footer .cs-foot-email{grid-area:email;justify-self:end}
+  .cs-footer .cs-foot-link{grid-area:link;justify-self:end}
 }
 
 /* ---------- lightbox ---------- */
