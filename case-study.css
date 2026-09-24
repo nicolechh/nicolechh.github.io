@@ -408,6 +408,20 @@
   .cs-footer .cs-foot-link{grid-area:link;justify-self:end}
 }
 
+/* ---------- cursor chip: magnifier over media ---------- */
+/* case-study.js sets data-zoom="in"/"out" on the chip; the arrow swaps for
+   a magnifier in the chip's own colours, lens centred on the pointer */
+.cursor-chip .cursor-zoom{display:none;position:absolute;left:-9px;top:-9px;overflow:visible}
+.cursor-chip[data-zoom="in"] .cursor-arrow,.cursor-chip[data-zoom="out"] .cursor-arrow{display:none}
+.cursor-chip[data-zoom="in"] .cursor-zoom,.cursor-chip[data-zoom="out"] .cursor-zoom{display:block}
+.cursor-chip[data-zoom="out"] .cz-plus{display:none}
+.cursor-chip[data-zoom="in"] .cursor-coords,.cursor-chip[data-zoom="out"] .cursor-coords{left:18px;top:18px}
+.cursor-zoom line,.cursor-zoom circle{fill:none;stroke-linecap:round}
+.cursor-zoom .cz-handle-edge{stroke:#FFFFFF;stroke-width:5.6}
+.cursor-zoom .cz-handle{stroke:var(--tag-blue);stroke-width:3}
+.cursor-zoom .cz-lens{fill:var(--tag-blue);stroke:#FFFFFF;stroke-width:1.6}
+.cursor-zoom .cz-mark{stroke:#FFFFFF;stroke-width:1.8}
+
 /* ---------- lightbox ---------- */
 .cs-lightbox{
   position:fixed;inset:0;background:rgba(0,0,0,.88);
@@ -421,6 +435,10 @@
   cursor:zoom-in;transition:transform .2s ease;
 }
 .cs-lightbox-img.is-zoomed{cursor:zoom-out;transform:scale(1.8)}
+.cs-lightbox-video{display:none;max-width:100%;max-height:100%;background:#000}
+.cs-lightbox.is-video .cs-lightbox-img{display:none}
+.cs-lightbox.is-video .cs-lightbox-video{display:block}
+.cs-asset video{cursor:zoom-in}
 .cs-lightbox-close{
   position:fixed;top:20px;right:24px;
   background:none;border:none;color:#fff;font-size:32px;line-height:1;
