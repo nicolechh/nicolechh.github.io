@@ -1,6 +1,36 @@
-/* Shared behavior for pages under /case-studies/: image lightbox, TOC
-   scroll-spy, and the image switches/carousels. See DESIGN-SYSTEM.md. */
+/* Shared behavior for pages under /case-studies/: custom cursor, image
+   lightbox, TOC scroll-spy, and the image switches/carousels. See
+   DESIGN-SYSTEM.md. */
 (function(){
+
+  /* The homepage's Figma-style cursor chip (styled in styles.css, which
+     hides the OS cursor only on pages that include .cursor-chip). No dot
+     canvas here, so X/Y are page coordinates measured from the content's
+     top-left, below the 46px nav; Y keeps counting as the page scrolls. */
+  var chip = document.getElementById('cursorChip');
+  if (chip && matchMedia('(hover:hover) and (pointer:fine)').matches){
+    var chipX = document.getElementById('cursorX');
+    var chipY = document.getElementById('cursorY');
+    var lastX = null, lastY = null;
+    var paintChip = function(){
+      chip.style.transform = 'translate(' + lastX + 'px,' + lastY + 'px)';
+      chipX.textContent = 'X: ' + Math.max(0, Math.round(lastX));
+      chipY.textContent = 'Y: ' + Math.max(0, Math.round(lastY - 46 + scrollY));
+    };
+    window.addEventListener('pointermove', function(e){
+      if (e.pointerType === 'touch') return;
+      lastX = e.clientX; lastY = e.clientY;
+      paintChip();
+      chip.classList.add('is-visible');
+    }, {passive:true});
+    window.addEventListener('scroll', function(){ if (lastX !== null) paintChip(); }, {passive:true});
+    var hideChip = function(){ chip.classList.remove('is-visible'); };
+    // pointerout with no relatedTarget = the pointer left the window entirely
+    document.addEventListener('pointerout', function(e){
+      if (e.pointerType !== 'touch' && !e.relatedTarget) hideChip();
+    }, {passive:true});
+    window.addEventListener('blur', hideChip);
+  }
 
   var overlay = document.createElement('div');
   overlay.className = 'cs-lightbox';
