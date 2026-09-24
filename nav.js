@@ -23,7 +23,7 @@
     if (e.key === "Escape" && bar.dataset.open === "true"){ setMenu(false); burger.focus(); }
   });
   window.addEventListener("resize", () => {
-    if (document.documentElement.clientWidth > 500) setMenu(false);
+    if (document.documentElement.clientWidth > 640) setMenu(false);
   });
 
   const mqReduce = matchMedia("(prefers-reduced-motion: reduce)");

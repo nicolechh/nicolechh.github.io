@@ -5,11 +5,12 @@
    file per-page: a token or component changed here changes everywhere,
    which is the whole point. */
 :root{
-  --paper:#f8f8f6;
-  --paper-2:#F6F6F3;
-  --ink:#16171A;
-  --ink-2:#4D5055;
-  --ink-3:#686B74;
+  /* light values = the Figma file's Color variables */
+  --paper:#fcfcfc;
+  --paper-2:#f8f8f6;
+  --ink:#111214;
+  --ink-2:#3c3f43;
+  --ink-3:#52545b;
   --rule:#CBCBC4;
   --rule-soft:#DEDED8;
   --edge:#8A8A83;          /* ruler ticks + control borders: >=3:1 non-text */
@@ -27,10 +28,13 @@
      ON a dark page, not to carry white text itself, so reusing it here
      would fail contrast in dark mode */
   --tag-blue:#2E5BEA;
+  /* Figma's own component purple -- the Component Frame outline/label;
+     fixed in both themes like the tool it references */
+  --component:#9747FF;
 
   --gutter:24px;
   --step:8px;
-  --maxw:1180px;
+  --maxw:1268px;   /* 1156px content column (Figma) + main's 56px side padding */
 
   /* one superfamily: the pixel face is a Geist sibling, so it pairs by
      construction, and the sans/mono are drawn for UI legibility */
@@ -157,7 +161,7 @@ body{
 .bar{
   position:fixed;top:0;left:0;right:0;height:46px;z-index:50;
   display:flex;align-items:center;justify-content:flex-start;
-  gap:clamp(14px,2.4vw,26px);padding:0 14px;
+  gap:clamp(14px,2.4vw,26px);padding:0 20px;
   border-bottom:1px solid var(--rule-soft);
 }
 /* the toolbar and the ruler frame are the same pane of glass */
@@ -181,25 +185,26 @@ body{
 /* centred on the bar itself, so the wide toggle on the right doesn't shove
    the links off-centre the way space-between would */
 .nav{
-  display:flex;gap:clamp(1.1rem,2.6vw,2.2rem);
+  display:flex;gap:16px;   /* + each link's 4px side padding = Figma's 24px */
   position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
 }
+/* Lucide "menu" icon, no label; its three lines fold into an X while open */
 .burger{
   display:none;
-  margin-left:auto;
-  align-items:center;gap:8px;
-  width:auto;min-width:32px;min-height:32px;padding:0 6px;
+  margin-left:auto;margin-right:-14px;
+  align-items:center;justify-content:center;
+  padding:14px;   /* 44x44 hit target around the 16px icon */
   background:none;border:0;cursor:pointer;
-  font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
   color:var(--ink-2);
 }
-.burger-bars{display:flex;flex-direction:column;gap:4px;width:16px}
-.burger-bars span{
-  display:block;width:16px;height:2px;background:var(--ink-2);
-  transition:transform .22s cubic-bezier(.4,0,.2,1);
+.burger-icon{display:block;width:16px;height:16px;overflow:visible}
+.burger-icon line{
+  transform-box:fill-box;transform-origin:center;
+  transition:transform .22s cubic-bezier(.4,0,.2,1),opacity .15s ease;
 }
-#bar[data-open="true"] .burger-bars span:nth-child(1){transform:translateY(2.75px) rotate(45deg)}
-#bar[data-open="true"] .burger-bars span:nth-child(2){transform:translateY(-2.75px) rotate(-45deg)}
+#bar[data-open="true"] .burger-icon line:nth-child(1){transform:translateY(7px) rotate(45deg)}
+#bar[data-open="true"] .burger-icon line:nth-child(2){opacity:0}
+#bar[data-open="true"] .burger-icon line:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 .burger:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 /* .motion is a plain (non-interactive) row now -- only .motion-track,
    the switch itself, responds to clicks/taps. The label is connected for
@@ -248,7 +253,7 @@ body{
 .motion-track[aria-checked="true"] .motion-pill{border-color:var(--accent)}
 .motion-track[aria-checked="true"] .motion-pill::after{transform:translateY(-50%) translateX(11px);background:var(--accent)}
 .nav a{
-  font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:.08em;text-transform:uppercase;
   color:var(--ink-2);text-decoration:none;padding:6px 4px;position:relative;
   transition:color .18s ease;
 }
@@ -289,72 +294,53 @@ section{scroll-margin-top:calc(var(--gutter) + 46px + 24px)}
 }
 
 /* ---------- hero ---------- */
+/* Figma "Hero slot": the name block is centred with equal space above and
+   below, rather than filling the viewport. .hero is the query container the
+   name's size is measured against. */
 .hero{
-  /* body's own padding now clears the bar+ruler chrome (see body{} above),
-     so this only needs to account for the gap itself, not the bar again.
-     svh is fixed to the *smallest* possible viewport (address bar fully
-     expanded) -- safe, but on iOS Safari the actual visible area at load
-     is often already larger than that (chrome mid-collapse), so a hero
-     sized to svh comes up short and the next section peeks in at the
-     bottom. dvh tracks whatever the current visible area actually is. */
-  min-height:calc(100vh - 46px - var(--gutter));
-  min-height:calc(100svh - 46px - var(--gutter));
-  min-height:calc(100dvh - 46px - var(--gutter));
-  /* JS-measured window.innerHeight, set in build() -- the most reliable
-     source once it's run; the vh/svh/dvh lines above are the pre-JS/
-     no-JS fallback */
-  min-height:calc(var(--vh100, 100dvh) - 46px - var(--gutter));
-  display:flex;flex-direction:column;align-items:stretch;
-  justify-content:center;
-  /* short viewports: fall back to start rather than overflowing both edges */
-  justify-content:safe center;
-  gap:clamp(86px,10vh,112px);  /* clears the marquee inset, the size chip, and the tilted text box */
-  padding:clamp(40px,5vh,60px) 0 clamp(36px,7vh,72px);
-  text-align:left;
+  container-type:inline-size;
+  display:flex;flex-direction:column;align-items:center;
+  gap:55px;
+  padding:clamp(60px,8.5vw,122px) 0;
   position:relative;
 }
-
-/* a query container, so the name fills the column even once it caps at --maxw
-   (viewport units keep growing past that cap and would overflow). No
-   padding here now -- the heading has no marquee to leave room for, so it
-   fills the same width #work/#about's content does. */
-.hero .sel{container-type:inline-size}
+/* the name plus its tag; shrink-wraps the name so the tag and the lede can
+   be placed against the name's own width, like Figma's frame */
+.hero-frame{display:flex;flex-direction:column;align-items:stretch;gap:55px;max-width:100%}
+.hero .sel{padding-top:70px}
+/* Display/Hero Name: 120px, capped so the one-line name always fits */
 h1.name{
   margin:0;
   font-family:var(--name);
   font-weight:400;               /* Geist Pixel is single-weight */
   text-transform:uppercase;
-  font-size:15.1cqw;             /* tuned to the measured advance of the name */
-  line-height:1;
+  font-size:min(120px,15.1cqw);  /* the name measures ~6.6em */
+  line-height:1.3;
   letter-spacing:0;
   white-space:nowrap;
   text-align:center;   /* on mobile the two stacked words rarely render the same
-                           width at a shared font-size -- centering keeps each
-                           line's own left/right gap equal instead of dumping
-                           the shorter word's slack entirely on one side */
+                           width -- centering keeps each line's gaps even */
+  color:var(--ink);
 }
 /* a marquee tag, not a die-cut sticker: solid fill in the same blue as
-   every other marquee's border (so border+fill are literally the same
-   colour, per spec, even though that makes the border itself invisible)
-   with bold white text. Fixed --tag-blue rather than --select, since
-   --select's dark-mode value can't carry white text at AA contrast --
-   see the --tag-blue definition. */
+   every other marquee's border, bold white text. Fixed --tag-blue rather
+   than --select, since --select's dark value can't carry white text at AA
+   contrast -- see the --tag-blue definition. Mono/Tag. */
 .sticker{
   position:absolute;z-index:3;margin:0;
-  top:0;right:0;
-  transform:translate(0,calc(-58% - 36px)) rotate(5deg);
-  transform-origin:100% 50%;
+  top:0;right:13px;
+  transform:rotate(5deg);
   font-family:var(--mono);
-  font-size:clamp(1.15rem,2vw,1.65rem);font-weight:700;   /* matches .lede */
+  font-size:22px;line-height:1;font-weight:700;
   letter-spacing:.1em;text-transform:uppercase;
   color:#FFFFFF;
   background:var(--tag-blue);
   border:1.5px solid var(--tag-blue);
   padding:9px 17px;
+  white-space:nowrap;
 }
 /* corner handles, same idea as .sel-box/.tbox's, so this reads as a
-   marquee too -- paper-coloured fill (punching through the solid blue)
-   with a border in the same blue */
+   marquee too -- paper-coloured fill with a border in the same blue */
 .sticker i{
   position:absolute;width:6px;height:6px;
   background:var(--paper);border:1.5px solid var(--tag-blue);
@@ -363,19 +349,20 @@ h1.name{
 .sticker i:nth-child(2){right:-3.5px;top:-3.5px}
 .sticker i:nth-child(3){left:-3.5px;bottom:-3.5px}
 .sticker i:nth-child(4){right:-3.5px;bottom:-3.5px}
-/* the lede's frame, tilted the same way the "Product designer" tag is */
+/* the lede's frame, tilted opposite the tag; starts 6.4% in from the
+   name's left edge, where Figma places it */
 .tlayer{
   position:relative;
   align-self:flex-start;
   width:max-content;      /* hug the line(s) so the box wraps the text, not the column */
   max-width:100%;
-  margin-top:-24px;
-  padding:0 clamp(14px,2vw,28px);   /* room between the text and the frame's left/right edges */
+  margin-left:6.4%;
+  padding:14px 24px;
   transform:rotate(-1.8deg);
   transform-origin:0 50%;
 }
 .tbox{
-  position:absolute;inset:-14px 0;
+  position:absolute;inset:0;
   border:1.5px solid var(--select);
   pointer-events:none;
 }
@@ -387,97 +374,118 @@ h1.name{
 .tbox i:nth-child(2){right:-4.25px;top:-4.25px}
 .tbox i:nth-child(3){left:-4.25px;bottom:-4.25px}
 .tbox i:nth-child(4){right:-4.25px;bottom:-4.25px}
+/* Display/Lede */
 .lede{
   margin:0;
-  font-size:clamp(1.15rem,2vw,1.65rem);
-  line-height:1.35;
+  font-family:var(--mono);font-weight:400;
+  font-size:20px;line-height:1.35;
   color:var(--ink-2);
   text-wrap:pretty;
 }
 
-/* ---------- section head ---------- */
+/* ---------- section head (Section Head, Type=Home) ---------- */
 .head{
   display:flex;align-items:center;justify-content:space-between;gap:clamp(12px,2vw,22px);
-  padding-bottom:14px;border-bottom:1px solid var(--rule);margin-bottom:34px;flex-wrap:wrap;
+  padding-bottom:16px;border-bottom:1px solid var(--rule);margin-bottom:40px;flex-wrap:wrap;
 }
+/* Display/Section Head */
 h2{
   font-family:var(--name);
   font-weight:400;                 /* Geist Pixel is single-weight */
   text-transform:uppercase;
-  font-size:clamp(1.35rem,2.8vw,2rem);
-  letter-spacing:.01em;line-height:1;margin:0;
+  font-size:28px;
+  letter-spacing:0;line-height:1;margin:0;color:var(--ink);
 }
 .head-note{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
 
-/* ---------- work ---------- */
-#work{padding-bottom:clamp(80px,12vh,120px)}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(18px,2.4vw,32px)}
-.card{position:relative;display:flex;flex-direction:column;gap:0}
-.card-label{
-  display:flex;align-items:baseline;gap:10px;
-  font-family:var(--mono);font-size:9px;letter-spacing:.05em;
-  color:var(--ink-3);margin-bottom:6px;transition:color .18s ease;
-}
+/* ---------- sections ---------- */
+#work{padding:80px 0}
+#playground{padding:0 0 80px}
+#about{padding:0 0 40px}
+
+/* ---------- card (Figma "Work Card") ---------- */
+/* Shared by the homepage grid and each case study's "See more work". */
+.grid{display:grid;grid-template-columns:1fr;gap:24px}
+@media (min-width:700px){ .grid{grid-template-columns:1fr 1fr} }
+.card{position:relative;display:flex}
 .card-body{
   position:relative;flex:1;
-  display:flex;flex-direction:column;
+  display:flex;flex-direction:column;gap:16px;
+  padding:20px;
   background:var(--card);
   border:1px solid var(--rule-soft);
-  padding:clamp(13px,1.3vw,17px);
   transition:border-color .18s ease;
+}
+.thumb{aspect-ratio:1.52;overflow:hidden}
+.thumb img{display:block;width:100%;height:100%;object-fit:cover}
+.card-text{display:flex;flex-direction:column;gap:8px}
+/* Body/Card Title */
+h3{
+  font-family:var(--display);
+  font-variation-settings:"wght" 600;
+  font-weight:600;font-size:18px;letter-spacing:-.015em;
+  margin:0;line-height:1.28;color:var(--ink);
+}
+h3 a{color:inherit;text-decoration:none}
+.card h3 a::after{content:"";position:absolute;inset:-10px;z-index:1}
+/* Body/Card Copy */
+.card-text p{margin:0;font-size:14px;line-height:1.5;color:var(--ink-2)}
+/* Mono/Card Meta: date left, role right */
+.card .meta{
+  margin:auto 0 0;padding-top:16px;border-top:1px solid var(--rule-soft);
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  font-family:var(--mono);font-weight:500;font-size:11px;line-height:1;
+  letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);
 }
 /* hover only where a real pointer can hover — otherwise a tap on a touch
    screen leaves the card stuck in its hover state until you tap elsewhere */
 @media (hover:hover){
-  .card:hover .card-label{color:var(--select)}
   .card:hover .card-body{border-color:var(--rule)}
   .card:hover .sel-box{opacity:1}
 }
-/* :active covers the touch case on purpose: it only applies while the finger
-   (or mouse button) is actually down, and browsers drop it the moment the
-   touch ends or turns into a scroll — so tapping shows the same treatment,
-   and it can't get stuck the way :hover/:focus-within did */
-.card:active .card-label{color:var(--select)}
+/* :active covers the touch case: browsers drop it the moment a touch ends
+   or turns into a scroll, so it can't get stuck the way :hover can */
 .card:active .card-body{border-color:var(--rule)}
 .card:active .sel-box{opacity:1}
-/* keyboard focus still gets the treatment; :focus-visible (not :focus-within)
-   so a touch tap that focuses the link doesn't trigger it */
-.card:has(:focus-visible) .card-label{color:var(--select)}
+/* keyboard focus gets it too; :focus-visible so a touch tap doesn't */
 .card:has(:focus-visible) .card-body{border-color:var(--rule)}
 .card:has(:focus-visible) .sel-box{opacity:1}
-.card .sel-box{inset:-9px}
-.card .sel-box i{background:var(--card)}
-.thumb{overflow:hidden}
-.thumb svg{display:block;width:100%;height:100%}
-.thumb img{display:block;width:100%;height:auto}
-h3{
-  font-family:var(--display);
-  font-variation-settings:"wght" 600;
-  font-weight:600;font-size:1.14rem;letter-spacing:-.015em;
-  margin:16px 0 0;line-height:1.2;
-}
-h3 a{color:inherit;text-decoration:none}
-h3 a::after{content:"";position:absolute;inset:-12px;z-index:1}
-.card p{margin:7px 0 0;font-size:.9rem;color:var(--ink-2);line-height:1.5}
-.card-body > p:not(.meta){margin-bottom:20px}
-.card .meta{
-  margin-top:auto;padding-top:18px;border-top:1px solid var(--rule-soft);
-  font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;
-  color:var(--ink-2);
-  /* stacked rather than inline: role lengths differ per card, so an inline row
-     wraps on some cards and not others and the three footers stop matching.
-     Two fixed lines reads as one spec block at every breakpoint. */
-  display:flex;flex-direction:column;align-items:flex-start;gap:5px;
-}
-.card .m-date{flex:none;white-space:nowrap;font-weight:500;color:var(--ink)}
-.card .m-role{color:var(--ink-2);text-wrap:balance}
-.card .m-studio{color:var(--ink-3);margin-top:3px}
+.card .sel-box{inset:-10px}
+.card .sel-box i{background:var(--paper)}
 
 /* ---------- about ---------- */
-#about{padding-bottom:clamp(70px,10vh,110px)}
-.about-body{display:grid;grid-template-columns:1.25fr .75fr;gap:clamp(28px,5vw,72px);align-items:start}
-.about-body p{margin:0 0 16px;max-width:60ch;color:var(--ink-2)}
-.about-body p strong{color:var(--ink);font-weight:500}
+.about-body{display:flex;align-items:center;justify-content:center;gap:64px;padding-bottom:8px}
+.about-prose{flex:0 1 580px;display:flex;flex-direction:column;gap:16px}
+.about-prose p{margin:0;color:var(--ink)}
+.about-prose a{color:var(--select);text-decoration:none;border-bottom:1px solid transparent}
+.about-prose a:hover{border-bottom-color:currentColor}
+/* "Currently obsessed with:" + the pixel icons; the list wraps as one unit */
+.obsessions{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.obs-list{display:inline-flex;flex-wrap:wrap;align-items:center;gap:4px}
+.obs{display:inline-flex;align-items:center;gap:6px}
+.obs img{width:20px;height:20px;flex:none}
+
+/* Component Frame: an image framed like a selected Figma component --
+   purple outline, white corner handles, component icon + name above */
+.cframe{flex:none;width:366px;margin:0;display:flex;flex-direction:column;gap:6px;transform:rotate(-2.44deg)}
+.cframe-label{
+  display:flex;align-items:center;gap:4px;
+  font-family:var(--mono);font-weight:500;font-size:12px;line-height:16px;letter-spacing:.06em;
+  color:var(--component);
+}
+.cframe-label svg{width:14px;height:14px;flex:none}
+.cframe-img{position:relative;aspect-ratio:366/337;outline:1px solid var(--component)}
+.cframe-img img{display:block;width:100%;height:100%;object-fit:cover}
+.cframe-img i{
+  position:absolute;width:7px;height:7px;
+  background:var(--paper);border:1px solid var(--component);
+}
+.cframe-img i:nth-of-type(1){left:-3.5px;top:-3.5px}
+.cframe-img i:nth-of-type(2){right:-3.5px;top:-3.5px}
+.cframe-img i:nth-of-type(3){left:-3.5px;bottom:-3.5px}
+.cframe-img i:nth-of-type(4){right:-3.5px;bottom:-3.5px}
+
+/* legacy: style-guide.html's colophon list */
 .spec{border-top:1px solid var(--rule);padding-top:12px}
 .spec dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:7px 18px;
   font-family:var(--mono);font-size:10px;letter-spacing:.04em;font-variant-numeric:tabular-nums}
@@ -486,36 +494,53 @@ h3 a::after{content:"";position:absolute;inset:-12px;z-index:1}
 .spec a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent}
 .spec a:hover{border-bottom-color:var(--accent)}
 
+/* ---------- footer (Footer, Page=Home) ---------- */
 footer{
-  border-top:1px solid var(--rule);padding:16px 0 30px;
+  border-top:1px solid var(--rule);padding:20px 0 30px;
   display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
   font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);
 }
+.site-footer{
+  display:grid;grid-template-columns:1fr;gap:16px;
+  padding:20px 0 24px;
+  font-weight:500;text-transform:none;
+}
+.site-footer > p{margin:0}
+/* Mono/Label */
+.foot-name{font-size:12px;line-height:16px;letter-spacing:.06em}
+/* Mono/Head Note */
+.foot-note,.foot-made{font-size:10px;line-height:10px;letter-spacing:.08em;text-transform:uppercase}
+@media (min-width:700px){
+  .site-footer{
+    grid-template-columns:1fr 1fr;
+    grid-template-areas:"name made" "clock updated";
+    gap:8px 16px;align-items:center;
+    padding-bottom:80px;
+  }
+  .foot-name{grid-area:name}
+  .foot-made{grid-area:made;text-align:right;font-size:12px;line-height:16px;letter-spacing:.06em;text-transform:none}
+  .foot-updated{grid-area:updated;text-align:right}
+  .foot-clock{grid-area:clock}
+}
 
-/* Multi-column only: the three cards share row tracks via subgrid, so the
-   thumbnail, title, description and footer rows line up across all of them.
-   Without it a longer role wraps, that one footer grows, and because footers
-   are bottom-pinned only its divider rides up. */
-@media (min-width:901px){
-  .grid{grid-template-rows:auto auto auto auto auto}
-  .card{display:grid;grid-template-rows:subgrid;grid-row:span 5;row-gap:0}
-  .card-body{display:grid;grid-template-rows:subgrid;grid-row:span 4;row-gap:0}
-  .card .meta{margin-top:0}
-}
-@media (max-width:900px){
-  .grid{grid-template-columns:1fr;gap:40px}
-  .about-body{grid-template-columns:1fr}
-}
 @media (max-width:560px){
-  h1.name{white-space:normal;font-size:28.8cqw}   /* longest word measures 3.42em */
+  /* Display/Hero Name Mobile: the words stack, 96px, tighter leading */
+  h1.name{white-space:normal;font-size:min(96px,28.8cqw);line-height:.97}   /* longest word measures 3.42em */
   h1.name span{display:block}
+  .hero{gap:34px}
+  .hero-frame{gap:34px}
+  .hero .sel{padding-top:88px}
+  .sticker{right:0}
   .lede{max-width:14em;text-wrap:balance;text-align:center}   /* wrap into a tight, even column so .tlayer's box hugs it */
-  .tlayer{align-self:center}   /* alignLedeToI() skips the margin-left nudge below this width, leaving centering to this */
-  /* the base rule's top/bottom padding use different clamp() ranges (tuned
-     for desktop's proportions), which left content on mobile a bit off
-     centre within the full-height hero -- equal padding here actually
-     centers it */
-  .hero{padding:clamp(36px,6vh,64px) 0}
+  .tlayer{align-self:center;margin-left:0}
+}
+@media (max-width:699px){
+  #work{padding:56px 0}
+  #playground,#about{padding:0 0 56px}
+  .head{margin-bottom:24px}
+  .about-body{flex-direction:column;align-items:stretch;gap:24px}
+  .cframe{width:100%;transform:none}
+  .about-prose{flex:none}
 }
 @media (max-width:560px){
   /* the gutter's only job was reserving room for the ruler frame; with the
@@ -524,14 +549,13 @@ footer{
      equal margins on both sides */
   :root{--gutter:0px}
   #ruler-x,#ruler-y,.corner{display:none}
-  .sticker{transform:translate(0,calc(-58% - 36px)) rotate(5deg);padding:7px 13px}
 }
-/* the bar is viewport minus the gutter, so centred links clear the toggle
-   only above ~490px of viewport — go straight to the hamburger at that
-   point instead of an in-between state where the nav de-centers into flow
-   order while the toggle stays put; the two would only be one narrow step
-   apart from colliding, and it read as the layout hiccupping. */
-@media (max-width:500px){
+/* the bar is viewport minus the gutter, so centred links (Home, Work,
+   Playground, About) clear the reduce-motion toggle only above ~620px of
+   viewport — go straight to the hamburger at that point instead of an
+   in-between state where the nav de-centers into flow order while the
+   toggle stays put. */
+@media (max-width:640px){
   .burger{display:flex}
   /* stays in the DOM so it can animate; `visibility` (not display) keeps the
      links out of the tab order while closed. The blurred panel is one level
@@ -581,7 +605,7 @@ footer{
      that has to be undone here or it pulls the links out of .menu-panel's
      flex flow entirely, leaving just .motion to size the dropdown */
   .nav{position:static;top:auto;left:auto;transform:none;flex-direction:column;gap:0;width:100%}
-  .nav a{font-size:11px;padding:11px 12px;width:100%}   /* same as desktop's .nav a -- stated explicitly rather than left to inheritance */
+  .nav a{font-size:12px;padding:11px 12px;width:100%}   /* same as desktop's .nav a -- stated explicitly rather than left to inheritance */
   .nav a::after{display:none}
   .nav a:hover,.nav a:focus-visible{background:var(--select);color:var(--on-select)}
   .motion{

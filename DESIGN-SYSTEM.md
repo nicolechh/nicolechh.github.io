@@ -16,7 +16,7 @@ Three fonts, one superfamily: **Geist** (body/display), **Geist Mono** (labels, 
 
 ## Tokens
 
-All defined on `:root` in `styles.css`, redefined for dark mode both by `prefers-color-scheme` and by `[data-theme]` (for a manual override, e.g. from a future theme toggle).
+All defined on `:root` in `styles.css` (light values match the Figma file's Color variables), redefined for dark mode both by `prefers-color-scheme` and by `[data-theme]` (for a manual override, e.g. from a future theme toggle).
 
 ### Color
 
@@ -31,7 +31,8 @@ All defined on `:root` in `styles.css`, redefined for dark mode both by `prefers
 | `--rule` / `--rule-soft` | Dividers (higher contrast) / quiet borders (cards, thumbs) |
 | `--edge` | Ruler ticks, control borders — kept at ≥3:1 against its background (non-text contrast) |
 | `--accent` | Links, focus rings, the "hot" dot color, the ruler's cursor marker |
-| `--select` | Marquee borders, hover/select states |
+| `--select` | Marquee borders, hover/select states, the load-in wave's dots, About links |
+| `--component` | `#9747FF` — Figma's component purple; only the About photo's component frame |
 | `--tag-blue` | **Fixed, not theme-swapped** — see below |
 | `--dot` / `--dot-hot` | Dot-grid resting / near-cursor colors |
 | `--on-select` | Text color on an `--select`-filled surface |
@@ -43,30 +44,31 @@ All defined on `:root` in `styles.css`, redefined for dark mode both by `prefers
 | Use | Spec |
 |---|---|
 | Hero name | `15.1cqw` desktop, `28.8cqw` ≤560px — sized to a **container query**, not the viewport, so it fills its column at any width without a lookup table of breakpoints |
-| h2 / section heads | `clamp(1.35rem, 2.8vw, 2rem)`, Geist Pixel |
-| Lede / filled tag | `clamp(1.15rem, 2vw, 1.65rem)` — shared by `.lede` and `.sticker` deliberately; keep them matched if either changes |
-| Card title (h3) | Geist, weight 600 (`font-variation-settings:"wght" 600`), `-0.015em` tracking |
-| Body copy | 16px / 1.55 base; card copy at `0.9rem` |
-| Mono labels (nav, meta, card labels) | 9–11px, `0.05–0.08em` tracking, always uppercase |
+| h2 / section heads | 28px, Geist Pixel |
+| Lede | Geist Mono 400, 20px / 1.35, `--ink-2` |
+| Filled tag (`.sticker`) | Geist Mono 700, 22px, `.1em` tracking, uppercase |
+| Card title (h3) | Geist 18px, weight 600, line-height 1.28 |
+| Body copy | 16px / 1.55 base; card description 14px / 1.5 in `--ink-2` |
+| Mono labels (nav, card meta, footer) | 10–12px, `0.05–0.08em` tracking, uppercase (nav links are 12px / 500) |
 
 ### Spacing & layout
 
 | Token | Value | Notes |
 |---|---|---|
 | `--gutter` | 24px desktop, 0 ≤560px | Reserves room for the ruler frame; collapses once the ruler's hidden so mobile margins stay symmetric left/right |
-| `--maxw` | 1180px | Caps `main`'s width |
+| `--maxw` | 1268px | Caps `main`'s width — Figma's 1156px content column plus `main`'s 56px side padding |
 | `--step` | 8px | Base unit for small fixed gaps |
 
-Content padding inside `main` is `clamp(20px, 4vw, 56px)`. Section rhythm (padding between sections, gaps within them) is `clamp()`-based throughout — e.g. `clamp(80px, 12vh, 120px)` under `#work`. **Match the existing clamp ranges when adding a section rather than inventing a fixed pixel gap** — a hardcoded value won't scale the way its neighbors do.
+Content padding inside `main` is `clamp(20px, 4vw, 56px)`. Homepage section rhythm follows Figma's fixed values: `#work` 80px top and bottom, `#playground` 80px below, `#about` 40px below, each dropping to 56px below 700px; `.head` sits 40px above its content (24px below 700px). The hero's own vertical padding is `clamp(60px, 8.5vw, 122px)`. **Reuse these values when adding a homepage section** rather than inventing a new gap.
 
 ### Breakpoints
 
 | Width | What changes |
 |---|---|
-| ≥901px | Work grid is 3-column; cards share row tracks via CSS `subgrid` so thumbnail/title/description/meta line up across all three |
-| ≤900px | Work grid and about-body drop to 1 column |
-| ≤560px | "Mobile": hero name stacks and centers, ruler + gutter hidden, lede centers, hero padding becomes symmetric top/bottom |
-| ≤500px | Nav collapses straight to the hamburger — deliberately the *same* threshold where a centered nav would start crowding the reduce-motion toggle, so there's no in-between state where links de-center into flow order while the toggle stays pinned right |
+| ≥700px | Card grids (`#work`, `#playground`) are 2-column; About sits photo-left, text-right; the footer is a 2×2 grid |
+| ≤699px | Card grids drop to 1 column, About stacks (photo on top, untilted), footer stacks, section padding tightens to 56px |
+| ≤640px | Nav collapses to the hamburger (`index.html`'s script and `nav.js` both close the menu past 640px — keep the two numbers and the CSS in sync) |
+| ≤560px | "Mobile": hero name stacks and centers, ruler + gutter hidden, lede centers |
 
 ## Components
 
@@ -74,17 +76,17 @@ Content padding inside `main` is `clamp(20px, 4vw, 56px)`. Section rhythm (paddi
 
 The core motif: a solid 1–1.5px `--select` border with four small corner-handle squares (see style guide for the live demo). Used on the hero name, the lede's frame, and card hover/focus states. **Always solid, never dashed** — an earlier version used dashed borders; it changed and should stay changed.
 
-Card marquees also carry a `.sel-dim` label (mono, `--select` background, `--on-select` text) reporting the element's measured size, via a `ResizeObserver` — a nod to a design tool's own selection readout.
+A purple variant, `.cframe` (Figma's **Component Frame**), wraps the About photo: a `--component` outline with handles, a component-icon label above ("hi, i'm nicole!"), tilted −2.44°. It's for photos only, not a third selection style for UI.
 
 ### Tag / filled marquee — `.sticker`
 
 Same corner-handle idea, but with a solid `--tag-blue` fill and bold white text instead of a transparent frame (the "Product designer" tag). Border color matches the fill exactly — the border is structurally still there (and still reads as "marquee" via the handles) even though it's invisible against the same-color fill. **Any new filled tag reuses this class**, not a new pill/badge pattern.
 
-### Card — `.card` → `.card-body` → `.thumb` / `h3` / description / `.meta`
+### Card — `.card` → `.card-body` → `.thumb` + `.card-text` (`h3`, description) + `.meta`
 
-White (`--card`) fill, `--rule-soft` border. `.thumb` is a 16:10 area (SVG illustrations in the current cards use the same color tokens as everything else — `fill="var(--rule)"` etc. — so a thumbnail SVG re-themes automatically with the rest of the page). `.meta` stacks date/role/studio rather than running them inline, so a longer role on one card doesn't wrap while the others don't and throw off the shared baseline.
+Figma's **Work Card**, shared by the homepage's `#work` and `#playground` grids and every case study's "See more work" row. `--card` fill, `--rule-soft` border, 20px padding, 16px gaps. `.thumb` is a 1.52:1 image with no fill or border of its own (the thumbnails carry their own framing). `.meta` is one row, date left and role right, above a `--rule-soft` top border. Hover / press / keyboard focus darken the border to `--rule` and show the `.sel-box` marquee 10px outside the card.
 
-On ≥901px the three cards use CSS `subgrid` to align rows across the whole set — **don't give one card extra wrapper markup the others don't have**, or the row alignment breaks.
+Playground cards (Prompt Pixie, Pea Pal) use the same card with the role slot reading "Made with Claude Code". A new side project goes there, not in `#work`.
 
 Interaction states are deliberately split three ways:
 - **Hover** (`@media (hover:hover)` only) — a tap on a touchscreen must never leave a card stuck in its hover state.
@@ -95,11 +97,11 @@ Any new interactive element that needs hover/press/keyboard states should follow
 
 ### Section head — `.head`
 
-Heading (Geist Pixel) + small mono meta note, space-between, bottom rule. Every top-level section opens with one (`Selected Work` / `Updated Sep 2026`, `About` / `Colophon`). A new top-level section should too, for the same reason every section has the same vertical rhythm.
+Heading (Geist Pixel, 28px) over a bottom rule. Every top-level section opens with one (`Selected Work`, `Playground`, `About`), and a new one should too, so every section keeps the same vertical rhythm. `.head-note` (a small mono note at the right) is still supported, but the current sections don't use it.
 
 ### Nav / motion toggle
 
-The nav bar (`.bar`) is a full-width, fixed, translucent glass strip (`--chrome` + blur) that turns opaque (`--menu-bg`) only while the mobile menu is open. Below ~500px it collapses straight to a hamburger — see Breakpoints above for why there's no intermediate state.
+The nav bar (`.bar`) is a full-width, fixed, translucent glass strip (`--chrome` + blur) that turns opaque (`--menu-bg`) only while the mobile menu is open. Links are Home / Work / Playground / About on every page. At 640px and below the links collapse to a hamburger (a Lucide `menu` icon whose lines animate into an X while open).
 
 The reduce-motion switch (`.motion-track`) is the reference pattern for **any future toggle or button-sized control**: visually a 26×14 pill, but its real hit target is 44×44 (negative margin pulls the layout footprint back down to the pill's visual size so it doesn't widen the row). It meets WCAG 2.5.5 (AAA, 44×44) well past the 2.5.8 (AA) 24×24 minimum. Only the switch itself is clickable — the label is wired up for accessible naming via `aria-labelledby`, not by wrapping it in the control, so clicking the text does nothing. **Expand a control's hit area with margin, never by inflating the visible control.**
 
@@ -108,8 +110,13 @@ The reduce-motion switch (`.motion-track`) is the reference pattern for **any fu
 These are canvas- and JS-driven (see `index.html`'s inline script), not pure CSS, so a new page that wants them has to bring the corresponding markup + script along, not just link `styles.css`. Notes if you do:
 
 - **Dot grid**: 26px pitch, reacts to a real pointer within a fixed radius; on touch it reacts *only* while the screen is actually held down (never on scroll or an idle finger) — this was a deliberate fix, don't regress it.
+- **Load-in wave**: on every load/reload, a band of `--select` dots sweeps left→right across the grid (`WAVE_MS` 2.2s, eased) with a sine-wobbled crest, then the grid settles and the render loop sleeps again. Skipped entirely under reduced motion (OS setting or the toggle).
 - **Ruler**: shows a live cursor-position marker for a mouse, but never for touch (a touch jumps rather than glides toward a target, so the marker would just be visual noise). Hidden entirely ≤560px.
 - **Custom cursor**: a Figma-style arrowhead (`--tag-blue` fill, white outline) with live X/Y coordinates, replacing the OS cursor — gated to `(hover:hover) and (pointer:fine)` devices only. Touchscreens get neither `cursor:none` nor the chip. The `cursor:none` rule in `styles.css` is itself scoped to `body:has(.cursor-chip)`, so a page that doesn't include the chip markup + script (most new pages won't) simply keeps its native cursor rather than hiding it with nothing drawn in its place — don't remove that scoping when touching this rule. The homepage and the case study pages carry the chip: `index.html` measures X/Y from the dot canvas; `case-study.js` (which has no canvas) measures page coordinates from the content's top-left below the 46px nav, and keeps Y updating as the page scrolls.
+
+### Footer — `.site-footer`
+
+Figma's **Footer** (Page=Home): name, "Made with Claude Code & Figma", "Last updated: …", and "San Francisco Bay Area" plus a live Pacific-time clock. The clock is `clock.js`, which fills every `[data-clock]` once a second; the case study footer (`.cs-footer`) uses the same script. Update the "Last updated" date on the homepage and all case studies together.
 
 ## Accessibility rules
 
@@ -138,11 +145,13 @@ These aren't optional polish — treat them as part of the system:
 |---|---|
 | `styles.css` | The entire design system — every token and component style |
 | `index.html` | The homepage; links `styles.css`, adds its own canvas/cursor script |
-| `style-guide.html` | Live visual reference for everything in this document |
+| `style-guide.html` | Visual reference — **stale since the Sep 2026 homepage rebuild** (still shows the old card, burger and lede); refresh it before relying on it |
 | `404.html` | Links `styles.css`; a small page-specific layout on top |
 | `case-study.css` | Article layout for case study pages — extends `styles.css`, doesn't duplicate it |
 | `case-study.js` | Shared behavior for case study pages: image lightbox, TOC scroll-spy, light/dark + viewport image switches, carousels |
 | `nav.js` | Shared nav bar behavior (menu + reduce-motion toggle) for pages without `index.html`'s dot-grid/cursor script |
+| `clock.js` | Live Pacific-time clock for the footers (`[data-clock]`) |
+| `assets/` | Homepage-only images: `about-nicole.webp` (the Figma crop), `pixel/*.svg` (16×16 obsession icons) |
 | `case-studies/<slug>/` | One case study per project — `index.html` + its own `Assets/` (source content lives alongside the published page) |
 | `DESIGN-SYSTEM.md` | This file |
 
@@ -150,8 +159,8 @@ These aren't optional polish — treat them as part of the system:
 
 Each project under `#work` links to `case-studies/<slug>/index.html` (slug matches the card's `.card-label`, e.g. `masking-in-boards`). The Figma design system file is the source of truth for these pages: the "CS - *" frames (1440 desktop), "Mobile - CS *" frames (375), and the alternate-state frames beside them (light/dark, tablet/mobile viewport, before/after slides). Copy, captions, colours and type come from there; the source RTFs are regenerated from the published page, not edited separately. A case study page:
 
-- Uses Figma's light-mode Color variables, which `case-study.css` restates on `:root` (`--paper`, `--paper-2`, `--ink`, `--ink-2`, `--ink-3`) — only these pages load that file, so the homepage keeps `styles.css`'s older values until it's updated to match. Dark values already matched Figma, and `styles.css`'s dark selectors outrank the plain `:root` override.
-- Keeps the site's own nav background treatment (glass `.bar`, solid while the menu is open) — Figma can't express that, so only the nav's *content* follows Figma: 20px side padding, 12px links, and a Lucide `menu` icon with no "Menu" label (the three lines animate into an X while open). `.cs-toc-mobile` sits at `z-index:49`, one under `.bar`, so the open site menu drops over the section dropdown instead of behind it.
+- Uses the same tokens as the homepage; `styles.css` now holds Figma's light values, so `case-study.css` no longer overrides them.
+- Keeps the site's own nav background treatment (glass `.bar`, solid while the menu is open) — Figma can't express that, so only the nav's *content* follows Figma. That styling (20px side padding, 12px links, Lucide `menu` icon) now lives in `styles.css` and is shared with the homepage. `.cs-toc-mobile` sits at `z-index:49`, one under `.bar`, so the open site menu drops over the section dropdown instead of behind it.
 
 - Links `styles.css` + `case-study.css`, and `nav.js` + `case-study.js` (no dot-grid or ruler — that chrome is homepage-specific; see "Chrome & signature motifs" above — but the custom cursor chip is included, markup right after `<body>`). Because there's no ruler, `case-study.css` also sets `:root{--gutter:0px}` unconditionally — `body`'s own padding reserves `--gutter` on the left for the ruler frame on every page (only collapsing to 0 below 560px, see the table above), and left alone that bled a left-only 24px into these pages between 560–1100px even though they render nothing that needs the room. Zeroing it here keeps side margins symmetric and equal to the clamp-only margin every other page already gets below 560px.
 - `.cs-page` is itself a `<main>`, so without a reset it would also pick up styles.css's bare `main{padding/max-width/margin}` rule meant for every other page's own `<main>` — stacked on top of `.cs-shell`'s own padding one level in, that doubled the side margins. `.cs-page{padding:0;max-width:none;margin:0}` clears it; `.cs-shell` (not `.cs-page`) is what actually carries the page's width and side padding now.
@@ -169,7 +178,7 @@ Each project under `#work` links to `case-studies/<slug>/index.html` (slug match
 - List bullets (`.cs-list li::before`) are the Figma **Bullet Point** component: an 8px `--accent` diamond aligned to the first line. Bold lead-ins are `<strong>` at 700, same colour as the text.
 - Every `.cs-asset img` opens in the `.cs-lightbox` overlay; clicking the enlarged image toggles a 1.8x zoom centred where you clicked, and while zoomed a mouse pans by pointing: the pointer's position across the viewport sets the zoom origin, so moving toward any edge brings that part of the image into view. Escape, a backdrop click, or the close button dismisses it. Below 900px the overlay's margin is 12px so the image nearly fills the phone's width, and the close button gets a dark circular backing since the image can run under it. With the custom cursor, the chip turns into a magnifier over images (`data-zoom="in"`, and `"out"` over a zoomed lightbox image). Videos keep their native controls, fullscreen included — click to play/pause — and each has a `poster` (its first frame, `Assets/web/<name>-poster.webp`) so it shows its opening frame instead of a blank fill before playing. Regenerate a poster whenever its video changes (first frame via AVFoundation's `AVAssetImageGenerator`; there's no ffmpeg on this machine).
 - Source images stay full-size in `Assets/`; pages link web-sized WebP copies in `Assets/web/` (max 2200px wide — retina for the 1098px column — quality 82, alpha kept; Pillow: `Image.open(...)` → `.convert("RGBA" or "RGB")` → `.save(..., "WEBP", quality=82)`, since `sips` can't write WebP). Regenerate the copy whenever a source image changes. Figma stores images downscaled to 4096px, so its image hashes won't match the full-size files — compare aspect ratios, not hashes, when matching Figma assets to local ones.
-- Ends with a rule, then `.cs-more` ("See more work"): two `.cs-card`s (Figma's **Work Card**: thumbnail, title, description, date/role row; hover shows the marquee `.sel-box`) for the *other* two case studies, never the current one. Update this block on every page whenever a case study is added, removed, or retitled. Then `.cs-footer` (Figma's **Footer**, Page=Case Study): name, email and LinkedIn, last-updated date, and "Made with…" — three columns on desktop, stacked on mobile, full page width outside `.cs-shell`.
-- `case-study.css` and `case-study.js` are linked with a `?v=<md5 first 8>` query — GitHub Pages caches for 10 minutes and phones hold stale CSS/JS otherwise. Re-stamp it on all three pages whenever either file changes.
+- Ends with a rule, then `.cs-more` ("See more work"): two of the shared `.card`s (see Card above) for the *other* two case studies, never the current one. Update this block on every page whenever a case study is added, removed, or retitled. Then `.cs-footer` (Figma's **Footer**, Page=Case Study): name / made-with in the left column, last-updated and the live clock (`clock.js`) centred, email / LinkedIn on the right; stacked on mobile, full page width outside `.cs-shell`.
+- Every page's local CSS/JS (`styles.css`, `nav.js`, `clock.js`, `case-study.css`, `case-study.js`) is linked with a `?v=<md5 first 8>` query — GitHub Pages caches for 10 minutes and phones hold stale CSS/JS otherwise. Re-stamp every page that links a file whenever that file changes.
 
 Adding a fourth case study: create `case-studies/<new-slug>/`, follow this structure, add its card to `#work` on the homepage (thumbnail + link to the new page) and to every other case study's `.cs-more` section, and add its URL to `sitemap.xml`.

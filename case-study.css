@@ -4,15 +4,7 @@
    the homepage never loads this file, so anything here only reaches the
    case studies. See DESIGN-SYSTEM.md. */
 
-/* Figma's light-mode Color variables. Only the values that differ from
-   styles.css are restated; dark mode already matches Figma, and
-   styles.css's dark selectors outrank this plain :root. */
 :root{
-  --paper:#fcfcfc;
-  --paper-2:#f8f8f6;
-  --ink:#111214;
-  --ink-2:#3c3f43;
-  --ink-3:#52545b;
   /* no ruler canvas on these pages, so no reserved left gutter */
   --gutter:0px;
   --cs-toc-w:230px;
@@ -26,23 +18,6 @@
 @media (min-width:1100px){
   :root{--cs-inset:max(var(--cs-pad),calc((100vw - var(--cs-toc-w) - var(--cs-max)) / 2))}
 }
-
-/* ---------- nav (content per Figma; background treatment unchanged) ---------- */
-.bar{padding:0 20px}
-.nav{gap:16px}
-.nav a{font-size:12px}
-.burger{
-  padding:14px;margin-right:-14px;min-width:0;min-height:0;
-  color:var(--ink-2);
-}
-.burger-icon{display:block;width:16px;height:16px;overflow:visible}
-.burger-icon line{
-  transform-box:fill-box;transform-origin:center;
-  transition:transform .22s cubic-bezier(.4,0,.2,1),opacity .15s ease;
-}
-#bar[data-open="true"] .burger-icon line:nth-child(1){transform:translateY(7px) rotate(45deg)}
-#bar[data-open="true"] .burger-icon line:nth-child(2){opacity:0}
-#bar[data-open="true"] .burger-icon line:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 
 /* ---------- page shell ---------- */
 /* styles.css gives every <main> padding/max-width; .cs-shell carries it here.
@@ -347,42 +322,6 @@
 @media (min-width:900px){
   .cs-cards{display:grid;grid-template-columns:1fr 1fr;gap:32px}
 }
-.cs-card{position:relative;display:flex}
-.cs-card-body{
-  position:relative;flex:1;display:flex;flex-direction:column;gap:16px;
-  padding:20px;background:var(--card);border:1px solid var(--rule-soft);
-  transition:border-color .18s ease;
-}
-.cs-card-thumb{aspect-ratio:335/220;overflow:hidden}
-.cs-card-thumb img{display:block;width:100%;height:100%;object-fit:cover}
-.cs-card-text{display:flex;flex-direction:column;gap:8px}
-/* Body/Card Title */
-.cs-card h3{
-  font-family:var(--display);font-weight:600;font-variation-settings:"wght" 600;
-  font-size:18px;line-height:1.28;letter-spacing:-.015em;margin:0;color:var(--ink);
-}
-.cs-card h3 a{color:inherit;text-decoration:none}
-.cs-card h3 a::after{content:"";position:absolute;inset:-10px;z-index:1}
-/* Body/Card Copy */
-.cs-card-text p{margin:0;font-size:14px;line-height:1.5;color:var(--ink-2)}
-/* Mono/Label */
-.cs-card-meta{
-  margin:auto 0 0;padding-top:16px;border-top:1px solid var(--rule-soft);
-  display:flex;justify-content:space-between;align-items:center;gap:12px;
-  font-family:var(--mono);font-weight:500;font-size:12px;line-height:16px;
-  letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);
-}
-.cs-card .sel-box{inset:-10px}
-.cs-card .sel-box i{background:var(--paper)}
-@media (hover:hover){
-  .cs-card:hover .cs-card-body{border-color:var(--rule)}
-  .cs-card:hover .sel-box{opacity:1}
-}
-.cs-card:active .cs-card-body{border-color:var(--rule)}
-.cs-card:active .sel-box{opacity:1}
-.cs-card:has(:focus-visible) .cs-card-body{border-color:var(--rule)}
-.cs-card:has(:focus-visible) .sel-box{opacity:1}
-
 /* ---------- footer (Footer, Page=Case Study) ---------- */
 .cs-footer{
   margin:36px var(--cs-inset) 0;padding:20px 0 56px;border-top:1px solid var(--rule);
@@ -395,17 +334,19 @@
 .cs-footer a{color:var(--select);text-decoration:none;justify-self:start}
 .cs-footer a:hover{text-decoration:underline}
 .cs-foot-note{font-size:10px;line-height:10px;letter-spacing:.08em;text-transform:uppercase}
-.cs-foot-updated{margin-top:12px}
+.cs-foot-made{margin-top:8px}                          /* 16px between the two groups */
+.cs-foot-updated,.cs-foot-clock{margin-top:4px}      /* 12px within the second */
 @media (min-width:900px){
   .cs-footer{
     margin-top:64px;
     grid-template-columns:1fr auto 1fr;
-    grid-template-areas:"name updated email" "made updated link";
+    grid-template-areas:"name updated email" "made clock link";
     column-gap:16px;align-items:center;
   }
   .cs-foot-name{grid-area:name}
-  .cs-foot-made{grid-area:made}
+  .cs-foot-made{grid-area:made;margin:0}
   .cs-foot-updated{grid-area:updated;margin:0;text-align:center}
+  .cs-foot-clock{grid-area:clock;margin:0;text-align:center}
   /* .cs-footer-scoped to outrank .cs-footer a's mobile justify-self:start */
   .cs-footer .cs-foot-email{grid-area:email;justify-self:end}
   .cs-footer .cs-foot-link{grid-area:link;justify-self:end}
