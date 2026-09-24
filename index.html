@@ -28,14 +28,22 @@
 
 <link rel="stylesheet" href="styles.css?v=602e393d">
 <script>
-  // Intro: every load starts on the bare dot grid while the load-in wave
-  // plays; the main script reveals the page once the wave has left. Skipped
-  // under reduced motion. The timeout is a failsafe so content never stays
-  // hidden (the wave only ever plays while .intro is on).
-  if (!matchMedia("(prefers-reduced-motion: reduce)").matches){
-    document.documentElement.classList.add("intro");
-    setTimeout(() => document.documentElement.classList.remove("intro"), 3500);
-  }
+  // Intro: an initial visit or a refresh starts on the bare dot grid while
+  // the load-in wave plays; the main script reveals the page once the wave
+  // has left. Skipped when arriving from another page on this site (e.g. a
+  // case study's nav links to #work), on back/forward, and under reduced
+  // motion. The timeout is a failsafe so content never stays hidden (the
+  // wave only ever plays while .intro is on).
+  (() => {
+    const navType = (performance.getEntriesByType("navigation")[0] || {}).type;
+    let fromSite = false;
+    try { fromSite = new URL(document.referrer).origin === location.origin; } catch (e) {}
+    const freshLoad = navType === "reload" || (navType === "navigate" && !fromSite);
+    if (freshLoad && !matchMedia("(prefers-reduced-motion: reduce)").matches){
+      document.documentElement.classList.add("intro");
+      setTimeout(() => document.documentElement.classList.remove("intro"), 3500);
+    }
+  })();
 </script>
 </head>
 
