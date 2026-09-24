@@ -97,11 +97,13 @@ body{
 }
 
 /* ---------- canvas layers ---------- */
-/* the ruler frame now sits below the full-width bar, so everything here
-   is offset by its 46px height */
+/* the ruler frame now sits below the full-width bar, so the rulers are
+   offset by its 46px height. The dot canvas covers the whole viewport so the
+   homepage intro's grid fills it edge to edge; the script anchors the grid to
+   the ruler's origin and stops drawing under the chrome once it's shown. */
 #dots{
-  position:fixed; inset:calc(46px + var(--gutter)) 0 0 var(--gutter);
-  width:calc(100% - var(--gutter)); height:calc(100% - 46px - var(--gutter));
+  position:fixed; inset:0;
+  width:100%; height:100%;
   z-index:0; pointer-events:none;
 }
 .chrome{position:fixed;z-index:60;pointer-events:none}
@@ -295,11 +297,21 @@ section{scroll-margin-top:calc(var(--gutter) + 46px + 24px)}
 
 /* ---------- hero ---------- */
 /* Figma "Hero slot": the name block is centred with equal space above and
-   below, rather than filling the viewport. .hero is the query container the
-   name's size is measured against. */
+   below, in a hero that fills the first screen. .hero is the query container
+   the name's size is measured against. */
 .hero{
   container-type:inline-size;
+  /* always fills the first screen below the bar + ruler. svh is the safe
+     floor (address bar expanded), dvh tracks the real visible area on iOS,
+     and --vh100 (window.innerHeight, set by index.html's build()) is the
+     most reliable once the script has run; the padding stays as the minimum */
+  min-height:calc(100vh - 46px - var(--gutter));
+  min-height:calc(100svh - 46px - var(--gutter));
+  min-height:calc(100dvh - 46px - var(--gutter));
+  min-height:calc(var(--vh100, 100dvh) - 46px - var(--gutter));
   display:flex;flex-direction:column;align-items:center;
+  justify-content:center;
+  justify-content:safe center;   /* short viewports: fall back to start rather than overflowing both edges */
   gap:55px;
   padding:clamp(60px,8.5vw,122px) 0;
   position:relative;

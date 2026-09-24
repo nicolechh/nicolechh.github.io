@@ -26,15 +26,15 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;700&family=Geist+Pixel&display=swap">
 
-<link rel="stylesheet" href="styles.css?v=514e2e0e">
+<link rel="stylesheet" href="styles.css?v=ff2f3ed5">
 <script>
-  // Intro: start on the bare dot grid while the load-in wave plays (the main
-  // script reveals the page as it ends). Skipped under reduced motion and for
-  // deep links like #playground, which should land straight on their section.
-  // The timeout is a failsafe so content never stays hidden.
-  if (!matchMedia("(prefers-reduced-motion: reduce)").matches && !location.hash.slice(1)){
+  // Intro: every load starts on the bare dot grid while the load-in wave
+  // plays; the main script reveals the page once the wave has left. Skipped
+  // under reduced motion. The timeout is a failsafe so content never stays
+  // hidden (the wave only ever plays while .intro is on).
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches){
     document.documentElement.classList.add("intro");
-    setTimeout(() => document.documentElement.classList.remove("intro"), 4000);
+    setTimeout(() => document.documentElement.classList.remove("intro"), 4500);
   }
 </script>
 </head>
@@ -138,7 +138,7 @@
           <div class="sel-box" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <div class="thumb"><img src="pixie/thumb.webp" alt="" width="1600" height="1056" loading="lazy"></div>
           <div class="card-text">
-            <h3><a href="pixie/">Prompt Pixie: A Prompt Generating Journal</a></h3>
+            <h3><a href="pixie/" target="_blank" rel="noopener">Prompt Pixie: A Prompt Generating Journal</a></h3>
             <p>Randomized journal prompts with a built-in timer.</p>
           </div>
           <p class="meta"><span>2026</span><span>Made with Claude Code</span></p>
@@ -149,7 +149,7 @@
           <div class="sel-box" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <div class="thumb"><img src="peas/thumb.webp" alt="" width="1600" height="1056" loading="lazy"></div>
           <div class="card-text">
-            <h3><a href="peas/">Pea Pal: A Fiber Tracking Garden</a></h3>
+            <h3><a href="peas/" target="_blank" rel="noopener">Pea Pal: A Fiber Tracking Garden</a></h3>
             <p>Log meals, track daily fiber, and see your top foods.</p>
           </div>
           <p class="meta"><span>2026</span><span>Made with Claude Code</span></p>
@@ -187,7 +187,8 @@
 <script>
 (() => {
   let G = 30;                   // ruler gutter, read from --gutter (shrinks on mobile)
-  const SPACING = 26;           // dot grid pitch
+  const SPACING = 20;           // dot grid pitch (divides the ruler's 10px ticks)
+  const DOT_R = 1.05;           // resting dot radius
   const R = 118;                // cursor influence radius
   const PULL = 8;               // max attraction in px
   const mqReduce = matchMedia("(prefers-reduced-motion: reduce)");
@@ -208,7 +209,7 @@
 
   let dpr = 1, W = 0, H = 0, cols = 0, rows = 0;
   let rxW = 0, ryH = 0;         // each ruler's own drawn length
-  let originX = 0, originY = 0; // where the dot canvas sits in viewport space
+  let originX = 0, originY = 0; // the ruler's 0,0 in viewport space; dot + cursor coords are relative to it
   let dots = [];                // {bx, by, ox, oy} base + current offset
   let mx = -9999, my = -9999;   // cursor in canvas space
   let scrollY = 0;
@@ -255,18 +256,26 @@
     // no unit-semantics ambiguity to get wrong
     document.documentElement.style.setProperty("--vh100", window.innerHeight + "px");
     readGutter();
+    // the canvas covers the whole viewport so the intro's grid fills it edge
+    // to edge; the grid itself stays anchored to the ruler's origin, below
+    // the 46px bar and right of the gutter (0 on mobile, where the ruler hides)
+    const gut = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--gutter")) || 0;
     const dz = fit(cv, ctx);
-    W = dz[0]; H = dz[1]; originX = dz[2]; originY = dz[3];
+    W = dz[0]; H = dz[1]; originX = gut; originY = 46 + gut;
+    ctx.setTransform(dpr, 0, 0, dpr, originX * dpr, originY * dpr);
     rxW = fit(rx, rxc)[0];
     ryH = fit(ry, ryc)[1];
 
-    cols = Math.ceil(W / SPACING) + 2;
-    rows = Math.ceil(H / SPACING) + 2;
+    // columns/rows reach back past the origin into the chrome strips, plus
+    // a spare row below for the scroll phase shift
+    const c0 = -Math.ceil(originX / SPACING), r0 = -Math.ceil(originY / SPACING);
+    cols = Math.ceil((W - originX) / SPACING) + 2 - c0;
+    rows = Math.ceil((H - originY) / SPACING) + 2 - r0;
     dots = new Array(cols * rows);
     let i = 0;
     for (let r = 0; r < rows; r++){
       for (let c = 0; c < cols; c++){
-        dots[i++] = { bx: c * SPACING, by: r * SPACING, ox: 0, oy: 0 };
+        dots[i++] = { bx: (c + c0) * SPACING, by: (r + r0) * SPACING, ox: 0, oy: 0 };
       }
     }
     readTokens();
@@ -274,35 +283,51 @@
     kick();
   }
 
-  /* Intro wave: on every load a band of blue dots sweeps left to right
-     across the grid, its front rippling up and down like a wave, lifting
-     and swelling the dots it passes before they settle back to grey.
-     Skipped entirely under reduced motion. */
+  /* Intro wave: on every load the page starts as the bare grid (the <head>
+     script's .intro) and a band of blue dots sweeps left to right across it,
+     its front rippling up and down like a wave, lifting and swelling the
+     dots it passes before they settle back to grey. Once the wave is fully
+     off-screen the page fades in. The wave only ever plays while .intro is
+     on, so it never runs over visible content. Skipped under reduced motion. */
   const WAVE_MS = 2200;          // time for the front to cross the viewport
   const WAVE_WIDTH = 90;         // softness of the band, px (gaussian sigma)
-  let waveStart = reduce ? -Infinity : performance.now();
-  let waveT = -1;                // front position this frame, 0..1; <0 = off
-  const REVEAL_AT = 0.8;         // wave progress at which the page fades in behind its tail
+  const WAVE_SWAY = 70;          // how far the crest wanders left/right with y
+  const WAVE_REACH = WAVE_WIDTH * 2.6 + WAVE_SWAY;   // past this from the crest a dot is no longer blue
+  const STRIP_FADE_MS = 500;     // matches the chrome's intro-fade: dots under it fade out as it fades in
   const root = document.documentElement;
+  let waveStart = root.classList.contains("intro") ? performance.now() : -Infinity;
+  let waveT = -1;                // front position this frame, 0..1; <0 = off
+  let revealAt = root.classList.contains("intro") ? Infinity : -Infinity;
   function reveal(){
     if (!root.classList.contains("intro")) return;
     root.classList.remove("intro");
     if (!reduce) root.classList.add("intro-in");
+    revealAt = reduce ? -Infinity : performance.now();
   }
 
   function drawDots(){
-    ctx.clearRect(0, 0, W, H);
+    // drawing space is ruler-relative: the viewport spans -origin..W-origin
+    const minX = -originX, minY = -originY, maxX = W - originX, maxY = H - originY;
+    ctx.clearRect(minX, minY, W, H);
     // grid scrolls with the page: shift the whole field by the scroll remainder
     const phase = -(scrollY % SPACING);
     const ease = reduce ? 1 : 0.16;
     let maxMove = 0;
 
-    const elapsed = performance.now() - waveStart;
-    waveT = reduce || elapsed > WAVE_MS ? -1 : elapsed / WAVE_MS;
-    if (waveT < 0 || waveT > REVEAL_AT) reveal();
-    // ease-in-out so the wave rolls in, crosses, and rolls out
-    const front = waveT < 0 ? 0 : -WAVE_WIDTH * 3 + (W + WAVE_WIDTH * 6) * (waveT < .5 ? 2 * waveT * waveT : 1 - Math.pow(-2 * waveT + 2, 2) / 2);
+    const now = performance.now();
+    const intro = root.classList.contains("intro");
+    const elapsed = now - waveStart;
+    waveT = reduce || !intro || elapsed > WAVE_MS ? -1 : elapsed / WAVE_MS;
+    // ease-in-out so the wave rolls in, crosses, and rolls out; it starts and
+    // ends a full reach past either edge so it enters and leaves off-screen
+    const front = waveT < 0 ? 0 : minX - WAVE_REACH + (W + WAVE_REACH * 2) * (waveT < .5 ? 2 * waveT * waveT : 1 - Math.pow(-2 * waveT + 2, 2) / 2);
+    if (intro && (waveT < 0 || front - WAVE_REACH > maxX)) reveal();
+    // dots under the nav bar / ruler (y or x < 0) only show while the chrome
+    // is hidden, then fade out as it fades in, so the glass bar looks as it always has
+    if (!intro && revealAt === Infinity) revealAt = -Infinity;   // the <head> failsafe revealed the page, not us
+    const stripA = intro ? 1 : Math.max(0, 1 - (now - revealAt) / STRIP_FADE_MS);
     const wave = [];
+    const strip = new Path2D();
 
     ctx.beginPath();                       // resting dots \u2014 one fill
     const hot = [];
@@ -311,10 +336,13 @@
       const x = d.bx, y = d.by + phase;
       let tx = 0, ty = 0, near = 0;
 
+      const under = x < 0 || y < 0;
+      if (under && stripA <= 0) continue;
+
       if (waveT >= 0){
         // the front curves with y and drifts over time, so it reads as a
         // rolling wave rather than a straight wipe
-        const crest = front + 70 * Math.sin(y / 150 + waveT * 7);
+        const crest = front + WAVE_SWAY * Math.sin(y / 150 + waveT * 7);
         const dxw = x - crest;
         const k = Math.exp(-(dxw * dxw) / (2 * WAVE_WIDTH * WAVE_WIDTH));
         if (k > 0.04){
@@ -342,22 +370,28 @@
       if (m > maxMove) maxMove = m;
 
       const px = x + d.ox, py = y + d.oy;
-      if (px < -8 || px > W + 8 || py < -8 || py > H + 8) continue;
+      if (px < minX - 8 || px > maxX + 8 || py < minY - 8 || py > maxY + 8) continue;
 
-      if (near > 0.08){
+      if (near > 0.08 && !under){
         hot.push(px, py, near);
       } else {
-        ctx.moveTo(px + 1.15, py);
-        ctx.arc(px, py, 1.15, 0, 6.2832);
+        const path = under ? strip : ctx;
+        path.moveTo(px + DOT_R, py);
+        path.arc(px, py, DOT_R, 0, 6.2832);
       }
     }
     ctx.fillStyle = cDot;
     ctx.fill();
+    if (stripA > 0){
+      ctx.globalAlpha = stripA;
+      ctx.fill(strip);
+      ctx.globalAlpha = 1;
+    }
 
     for (let i = 0; i < hot.length; i += 3){         // attracted dots read warmer + larger
       const n = hot[i + 2];
       ctx.beginPath();
-      ctx.arc(hot[i], hot[i + 1], 1.15 + n * 1.1, 0, 6.2832);
+      ctx.arc(hot[i], hot[i + 1], DOT_R + n * 1.1, 0, 6.2832);
       ctx.globalAlpha = 0.19 + n * 0.55;
       ctx.fillStyle = cHot;
       ctx.fill();
@@ -365,13 +399,13 @@
     for (let i = 0; i < wave.length; i += 3){        // the wave: blue, swelling with its strength
       const k = wave[i + 2];
       ctx.beginPath();
-      ctx.arc(wave[i], wave[i + 1], 1.15 + k * 1.6, 0, 6.2832);
+      ctx.arc(wave[i], wave[i + 1], DOT_R + k * 1.6, 0, 6.2832);
       ctx.globalAlpha = 0.25 + k * 0.75;
       ctx.fillStyle = cWave;
       ctx.fill();
     }
     ctx.globalAlpha = 1;
-    settled = reduce || (waveT < 0 && maxMove < 0.04 && mx < -1000);
+    settled = reduce || (intro ? false : waveT < 0 && stripA <= 0 && maxMove < 0.04 && mx < -1000);
   }
 
   function ticks(cx, len, cross, offset, horiz, thick){
