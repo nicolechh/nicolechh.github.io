@@ -165,6 +165,8 @@ svg { display: block; fill: currentColor; }
   font-variant-numeric: tabular-nums;
 }
 .tile__sub .num { font-size: 14px; }
+/* digits found inside Pixelify text (wrapped by app.js) */
+.digit { font-family: "Silkscreen", monospace; font-size: 0.84em; font-variant-numeric: tabular-nums; }
 
 .garden { position: relative; max-width: 1180px; margin: 0 auto; }
 

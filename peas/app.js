@@ -1111,7 +1111,46 @@
     }
   }, 60000);
 
+  /* ---------- Pixel digits ----------
+     Every number uses Silkscreen, the Prompt Pixie timer font, whose 5 reads more
+     clearly than Pixelify's. Numbers inside Pixelify text are wrapped in a span
+     whenever the page renders new text. */
+  const DIGIT_RUN = /\d+(?:[.,:]\d+)*%?/g;
+  const NO_DIGITIZE = new Set(["SCRIPT", "STYLE", "TEXTAREA", "INPUT", "OPTION", "TITLE"]);
+  function digitize(root) {
+    const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode(node) {
+        const el = node.parentElement;
+        if (!el || !/\d/.test(node.nodeValue) || NO_DIGITIZE.has(el.tagName) || el.closest("svg, .digit")) return NodeFilter.FILTER_REJECT;
+        return getComputedStyle(el).fontFamily.includes("Silkscreen") ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT;
+      },
+    });
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    for (const node of nodes) {
+      const text = node.nodeValue;
+      const frag = document.createDocumentFragment();
+      let last = 0;
+      text.replace(DIGIT_RUN, (match, i) => {
+        frag.append(text.slice(last, i));
+        const span = document.createElement("span");
+        span.className = "digit";
+        span.textContent = match;
+        frag.append(span);
+        last = i + match.length;
+      });
+      frag.append(text.slice(last));
+      node.replaceWith(frag);
+    }
+  }
+  let digitFrame = 0;
+  new MutationObserver(() => {
+    cancelAnimationFrame(digitFrame);
+    digitFrame = requestAnimationFrame(() => digitize(document.body));
+  }).observe(document.body, { childList: true, subtree: true, characterData: true });
+
   /* ---------- Init ---------- */
   resetForm();
   renderAll();
+  digitize(document.body);
 })();
