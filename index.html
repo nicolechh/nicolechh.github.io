@@ -26,7 +26,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;700&family=Geist+Pixel&display=swap">
 
-<link rel="stylesheet" href="styles.css?v=602e393d">
+<link rel="stylesheet" href="styles.css?v=814551f5">
 <script>
   // Intro: an initial visit or a refresh starts on the bare dot grid while
   // the load-in wave plays; the main script reveals the page once the wave
@@ -42,6 +42,14 @@
     if (freshLoad && !matchMedia("(prefers-reduced-motion: reduce)").matches){
       document.documentElement.classList.add("intro");
       setTimeout(() => document.documentElement.classList.remove("intro"), 3500);
+    }
+    // arriving at a #section (e.g. from a case study's nav): jump straight
+    // there instead of smooth-scrolling from the top mid page-transition;
+    // in-page nav clicks get their smooth scroll back once the page has loaded
+    if (location.hash){
+      const root = document.documentElement;
+      root.style.scrollBehavior = "auto";
+      addEventListener("load", () => requestAnimationFrame(() => { root.style.scrollBehavior = ""; }), { once: true });
     }
   })();
 </script>
