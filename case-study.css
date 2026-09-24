@@ -234,6 +234,8 @@
   border:1px solid var(--rule-soft);background:var(--paper-2);
   box-shadow:0 2px 8px rgba(0,0,0,.1);
 }
+/* frameless: for images that already carry their own framing/transparency */
+.cs-asset.is-bare{background:none;border:0;border-radius:0;box-shadow:none}
 .cs-asset img,.cs-asset video{display:block;width:100%;height:auto}
 /* Figma's Asset frame shape, filled like Figma's FILL mode, so media side
    by side lines up. --ar is the desktop frame (900px+), --ar-m the mobile
@@ -301,7 +303,7 @@
 .cs-quote-box{
   position:relative;margin:0 auto;max-width:600px;
   border:1.5px solid var(--select);padding:28px;
-  transform:rotate(-2.34deg);
+  transform:rotate(2.34deg);
   display:flex;flex-direction:column;gap:14px;
 }
 .cs-quote-box > i{
@@ -316,13 +318,13 @@
 .cs-quote{margin:0;font-size:17.6px;line-height:1.55;color:var(--ink)}
 .cs-cite{display:flex;align-items:center;gap:10px}
 .cs-cite img{width:32px;height:32px;border-radius:50%;object-fit:cover;flex:none}
-.cs-cite span{
+.cs-cite-text{
   display:flex;flex-direction:column;gap:4px;
   font-family:var(--mono);font-weight:500;font-size:12px;line-height:16px;
   letter-spacing:.08em;text-transform:uppercase;font-style:normal;color:var(--ink);
 }
-.cs-cite span span{color:var(--ink-3)}
-.cs-cite a{color:inherit;text-decoration:none;border-bottom:1px solid transparent}
+.cs-cite-org{color:var(--ink-3)}
+.cs-cite a{color:var(--select);text-decoration:none;border-bottom:1px solid transparent}
 .cs-cite a:hover{border-bottom-color:currentColor}
 
 /* ---------- more work (Work Card) ---------- */
