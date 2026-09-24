@@ -266,6 +266,18 @@ body{
 }
 .nav a:hover,.nav a:focus-visible{color:var(--ink)}
 .nav a:hover::after,.nav a:focus-visible::after{transform:scaleX(1)}
+
+/* Text links everywhere get the nav's hover underline: a 1px line that
+   grows from the left with the same timing. Drawn as a background rather
+   than the nav's absolutely-positioned ::after so it follows a link that
+   wraps onto a second line; it takes the link's own colour. Add any new
+   inline-link context to this list rather than giving it its own hover. */
+.about-prose a,.spec a,.back-link,.cs-facts dd a,.cs-cite a,.cs-footer a{
+  text-decoration:none;
+  background:linear-gradient(currentColor,currentColor) 0 100% / 0 1px no-repeat;
+  transition:background-size .22s cubic-bezier(.4,0,.2,1);
+}
+:is(.about-prose a,.spec a,.back-link,.cs-facts dd a,.cs-cite a,.cs-footer a):is(:hover,:focus-visible){background-size:100% 1px}
 a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 
 /* ---------- shell ---------- */
@@ -469,8 +481,7 @@ h3 a{color:inherit;text-decoration:none}
 .about-body{display:flex;align-items:center;justify-content:center;gap:64px;padding-bottom:8px}
 .about-prose{flex:0 1 580px;display:flex;flex-direction:column;gap:16px}
 .about-prose p{margin:0;color:var(--ink)}
-.about-prose a{color:var(--select);text-decoration:none;border-bottom:1px solid transparent}
-.about-prose a:hover{border-bottom-color:currentColor}
+.about-prose a{color:var(--select)}
 /* "Currently obsessed with:" + the pixel icons; the list wraps as one unit */
 .obsessions{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
 .obs-list{display:inline-flex;flex-wrap:wrap;align-items:center;gap:4px}
@@ -503,8 +514,7 @@ h3 a{color:inherit;text-decoration:none}
   font-family:var(--mono);font-size:10px;letter-spacing:.04em;font-variant-numeric:tabular-nums}
 .spec dt{color:var(--ink-3);text-transform:uppercase}
 .spec dd{margin:0;color:var(--ink-2)}
-.spec a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent}
-.spec a:hover{border-bottom-color:var(--accent)}
+.spec a{color:var(--accent)}
 
 /* ---------- footer (Footer, Page=Home) ---------- */
 footer{

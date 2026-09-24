@@ -26,7 +26,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;700&family=Geist+Pixel&display=swap">
 
-<link rel="stylesheet" href="styles.css?v=ff2f3ed5">
+<link rel="stylesheet" href="styles.css?v=602e393d">
 <script>
   // Intro: every load starts on the bare dot grid while the load-in wave
   // plays; the main script reveals the page once the wave has left. Skipped
@@ -34,7 +34,7 @@
   // hidden (the wave only ever plays while .intro is on).
   if (!matchMedia("(prefers-reduced-motion: reduce)").matches){
     document.documentElement.classList.add("intro");
-    setTimeout(() => document.documentElement.classList.remove("intro"), 4500);
+    setTimeout(() => document.documentElement.classList.remove("intro"), 3500);
   }
 </script>
 </head>
@@ -289,9 +289,10 @@
      dots it passes before they settle back to grey. Once the wave is fully
      off-screen the page fades in. The wave only ever plays while .intro is
      on, so it never runs over visible content. Skipped under reduced motion. */
-  const WAVE_MS = 2200;          // time for the front to cross the viewport
-  const WAVE_WIDTH = 90;         // softness of the band, px (gaussian sigma)
-  const WAVE_SWAY = 70;          // how far the crest wanders left/right with y
+  const WAVE_MS = 1500;          // time for the band to cross and clear the viewport
+  const WAVE_WIDTH = 150;        // softness of the band, px (gaussian sigma) -- wide, so it covers a lot at once
+  const WAVE_SWAY = 90;          // how far the crest wanders left/right with y
+  const WAVE_IN_MS = 250;        // the band starts on-screen and fades up over this
   const WAVE_REACH = WAVE_WIDTH * 2.6 + WAVE_SWAY;   // past this from the crest a dot is no longer blue
   const STRIP_FADE_MS = 500;     // matches the chrome's intro-fade: dots under it fade out as it fades in
   const root = document.documentElement;
@@ -318,9 +319,12 @@
     const intro = root.classList.contains("intro");
     const elapsed = now - waveStart;
     waveT = reduce || !intro || elapsed > WAVE_MS ? -1 : elapsed / WAVE_MS;
-    // ease-in-out so the wave rolls in, crosses, and rolls out; it starts and
-    // ends a full reach past either edge so it enters and leaves off-screen
-    const front = waveT < 0 ? 0 : minX - WAVE_REACH + (W + WAVE_REACH * 2) * (waveT < .5 ? 2 * waveT * waveT : 1 - Math.pow(-2 * waveT + 2, 2) / 2);
+    // near-linear sweep (a touch of sine ease) keeps the peak speed low for a
+    // calm pass: the band starts centred on the left edge, fading up, and ends
+    // a full reach past the right edge so it's gone before the page appears
+    const p = waveT < 0 ? 0 : 0.7 * waveT + 0.3 * (0.5 - 0.5 * Math.cos(Math.PI * waveT));
+    const front = minX + (W + WAVE_REACH) * p;
+    const waveIn = Math.min(1, elapsed / WAVE_IN_MS);
     if (intro && (waveT < 0 || front - WAVE_REACH > maxX)) reveal();
     // dots under the nav bar / ruler (y or x < 0) only show while the chrome
     // is hidden, then fade out as it fades in, so the glass bar looks as it always has
@@ -342,11 +346,11 @@
       if (waveT >= 0){
         // the front curves with y and drifts over time, so it reads as a
         // rolling wave rather than a straight wipe
-        const crest = front + WAVE_SWAY * Math.sin(y / 150 + waveT * 7);
+        const crest = front + WAVE_SWAY * Math.sin(y / 180 + elapsed * 0.0028);
         const dxw = x - crest;
-        const k = Math.exp(-(dxw * dxw) / (2 * WAVE_WIDTH * WAVE_WIDTH));
+        const k = waveIn * Math.exp(-(dxw * dxw) / (2 * WAVE_WIDTH * WAVE_WIDTH));
         if (k > 0.04){
-          const lift = -7 * k * Math.sin(dxw / 40 + 1.2);
+          const lift = -8 * k * Math.sin(dxw / 60 + 1.2);
           wave.push(x, y + lift, k);
           continue;
         }
@@ -587,7 +591,7 @@
   build();
 })();
 </script>
-<script src="clock.js?v=aa6794ba"></script>
+<script src="clock.js?v=afe9466a"></script>
 
 </body>
 </html>
