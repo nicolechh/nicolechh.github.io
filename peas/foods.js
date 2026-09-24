@@ -425,6 +425,20 @@
       "oooooooooo..",
       "............",
     ],
+    can: [
+      "..oooooooo..",
+      ".okkkwwkkko.",
+      ".oxxxxxxxxo.",
+      ".ocaaggaabo.",
+      ".ocagGGgabo.",
+      ".ocarrrrabo.",
+      ".ocrdrrdrbo.",
+      ".ocrrrdrrbo.",
+      ".ocardrrabo.",
+      ".ocaarraabo.",
+      ".oxxxxxxxxo.",
+      "..oooooooo..",
+    ],
     popcorn: [
       "..oo.ooo.o..",
       ".owwowwwowo.",
@@ -447,6 +461,7 @@
     jar: { w: "#fffaf0", x: "#6cc24a", l: "#6cc24a", k: "#ffffff" },
     packet: { w: "#fffaf0", x: "#6cc24a" },
     choc: { k: "#dfe3ea", x: "#3f8f35", w: "#fffaf0" },
+    can: { k: "#e8e8f0", w: "#a8a8b8", x: "#c4c4d0" },
     broccoli: { e: "#b8e08a" },
     mushroom: { e: "#f5ead8", E: "#d8c8a8" },
     leaf: { e: "#2a6e2a" },
@@ -561,6 +576,15 @@
   // Palette for foods people add themselves
   const CUSTOM_LOOK = { shape: "bowl", pal: { a: "#9ad06a", d: "#6aa040", c: "#d0f0b0" } };
 
+  // Custom sprites for foods people add themselves, matched by name.
+  // Only the picture changes; the fiber numbers stay whatever they entered.
+  const NAMED_LOOKS = [
+    { match: /wild\s*wonder/i, shape: "can", pal: { a: "#ff9ec4", b: "#e46a9e", c: "#ffd4e6", r: "#e8303a", d: "#ffe07a", chart: "#f27aac" } },
+  ];
+  const BUILTIN_IDS = new Set(RAW.map((r) => r[0]));
+  const resolveLook = (food) =>
+    (!BUILTIN_IDS.has(food.id) && NAMED_LOOKS.find((l) => l.match.test(food.name || ""))) || food;
+
   function pixelSvg(rows, fill) {
     let rects = "";
     rows.forEach((row, y) => {
@@ -573,6 +597,7 @@
 
   const cache = new Map();
   function foodSvg(food) {
+    food = resolveLook(food);
     const shape = food.shape || CUSTOM_LOOK.shape;
     const pal = food.pal || CUSTOM_LOOK.pal;
     const key = shape + JSON.stringify(pal);
@@ -581,7 +606,7 @@
   }
 
   // Main colour of a food, used for chart segments (`chart` overrides colours too dark to read)
-  const foodColor = (food) => { const p = food.pal || CUSTOM_LOOK.pal; return p.chart || p.a || "#6cc24a"; };
+  const foodColor = (food) => { const p = resolveLook(food).pal || CUSTOM_LOOK.pal; return p.chart || p.a || "#6cc24a"; };
 
   window.FIBER = { FOODS, SHAPES, CUSTOM_LOOK, pixelSvg, foodSvg, foodColor };
 })();
