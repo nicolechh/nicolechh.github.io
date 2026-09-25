@@ -347,7 +347,6 @@
     const reload = $("reload");
     card.classList.add("is-loading");
     reload.classList.add("is-loading");
-    $("m-reload").classList.add("is-loading");
     mascots.forEach((m) => m.classList.add("is-thinking"));
     spawnSparkles($("sparkles"), 18);
 
@@ -362,7 +361,6 @@
     turnPage();
     card.classList.remove("is-loading");
     reload.classList.remove("is-loading");
-    $("m-reload").classList.remove("is-loading");
     mascots.forEach((m) => m.classList.remove("is-thinking"));
     loading = false;
 
@@ -374,15 +372,6 @@
 
   $("reload").addEventListener("click", (e) => {
     burstFrom(e.currentTarget, 8);
-    if (isTabbed()) setTab("prompt");
-    generate();
-  });
-
-  // Phone quick bar: new prompt, bringing the prompt page back into view if needed
-  $("m-reload").addEventListener("click", (e) => {
-    burstFrom(e.currentTarget, 8);
-    // the prompt page comes first on phones, so head back to the top
-    if ($("card").getBoundingClientRect().top < 0) window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
     generate();
   });
 
@@ -419,18 +408,6 @@
     $("pause").disabled = state !== "running";
     $("stop").disabled = state === "idle";
     document.querySelector(".clock").classList.toggle("is-running", state === "running");
-    // phone quick bar mirrors the main timer
-    $("m-time").textContent = fmt(remaining);
-    $("m-time").classList.toggle("is-running", state === "running");
-    $("m-toggle").classList.toggle("is-running", state === "running");
-    $("m-toggle").setAttribute("aria-label", state === "running" ? "Pause timer" : "Start timer");
-    // and so does the timer popup
-    $("p-time").textContent = fmt(remaining);
-    $("p-plus").disabled = $("plus").disabled;
-    $("p-minus").disabled = $("minus").disabled;
-    $("p-stop").disabled = $("stop").disabled;
-    $("p-toggle").classList.toggle("is-running", state === "running");
-    $("p-toggle").setAttribute("aria-label", state === "running" ? "Pause timer" : "Start timer");
   }
 
   function setMinutes(m) {
@@ -505,34 +482,9 @@
 
   $("plus").addEventListener("click", () => setMinutes(minutes + 1));
   $("minus").addEventListener("click", () => setMinutes(minutes - 1));
-  $("play").addEventListener("click", () => {
-    play();
-    if (isTabbed()) setTab("prompt");
-  });
+  $("play").addEventListener("click", play);
   $("pause").addEventListener("click", pause);
   $("stop").addEventListener("click", stop);
-  $("m-toggle").addEventListener("click", () => (state === "running" ? pause() : play()));
-
-  // Timer popup on phones
-  const pop = $("timer-pop");
-  function openTimerPop() {
-    pop.hidden = false;
-    $("p-done").focus();
-  }
-  function closeTimerPop() {
-    if (pop.hidden) return;
-    pop.hidden = true;
-    $("m-time").focus();
-  }
-  $("m-time").addEventListener("click", openTimerPop);
-  $("p-done").addEventListener("click", closeTimerPop);
-  pop.addEventListener("click", (e) => { if (e.target === pop) closeTimerPop(); });
-  pop.addEventListener("keydown", (e) => { if (e.key === "Escape") closeTimerPop(); });
-  $("p-plus").addEventListener("click", () => setMinutes(minutes + 1));
-  $("p-minus").addEventListener("click", () => setMinutes(minutes - 1));
-  $("p-toggle").addEventListener("click", () => (state === "running" ? pause() : play()));
-  $("p-stop").addEventListener("click", stop);
-
   /* ---------- Keyboard ---------- */
   document.addEventListener("keydown", (e) => {
     if (e.metaKey || e.ctrlKey || e.altKey) return;
@@ -701,6 +653,20 @@
     if (Math.abs(dx) > 60 && Math.abs(dy) < 50) setTab(dx < 0 ? "prompt" : "howto");
   }, { passive: true });
   setTab("howto");
+
+
+  /* ---------- Tabbed layout: "new prompt" and the timer live on the prompt page ---------- */
+  const movable = [$("reload"), $("timer-block")].map((el) => ({ el, parent: el.parentNode, next: el.nextElementSibling }));
+  function placeControls() {
+    if (isTabbed()) {
+      movable.forEach(({ el }) => $("prompt-controls").appendChild(el));
+    } else {
+      // restore in reverse so each element's original next sibling is back in place first
+      [...movable].reverse().forEach(({ el, parent, next }) => parent.insertBefore(el, next));
+    }
+  }
+  window.matchMedia("(max-width: 1100px)").addEventListener("change", placeControls);
+  placeControls();
 
   /* ---------- Init ---------- */
   drawMascot();
