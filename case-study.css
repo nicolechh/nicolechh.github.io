@@ -229,6 +229,13 @@
 .cs-asset[style*="--ar"]{aspect-ratio:var(--ar-m,auto);min-height:0}
 @media (min-width:900px){ .cs-asset[style*="--ar"]{aspect-ratio:var(--ar)} }
 .cs-asset[style*="--ar"] > img,.cs-asset[style*="--ar"] > video{height:100%;object-fit:cover;object-position:var(--pos,50% 50%)}
+/* The browser's own video fullscreen: show the whole video, letterboxed on
+   black, instead of the page frame's cover crop, and give the OS cursor
+   back -- the custom cursor chip lives in the page, which fullscreen covers,
+   so styles.css's cursor:none would otherwise leave no cursor at all.
+   One rule per prefix: an unknown pseudo-class would void a combined list. */
+.cs-asset video:fullscreen{object-fit:contain!important;object-position:50% 50%!important;background:#000;cursor:auto!important}
+.cs-asset video:-webkit-full-screen{object-fit:contain!important;object-position:50% 50%!important;background:#000;cursor:auto!important}
 .cs-asset img{cursor:zoom-in}
 .cs-caption{
   font-family:var(--mono);font-weight:500;font-size:12px;line-height:1.4;
