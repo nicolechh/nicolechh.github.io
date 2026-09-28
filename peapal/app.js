@@ -1156,8 +1156,7 @@
   playLoader();
 
   /* ---------- Loading screen: salad ingredients drop into a bowl ----------
-     The full salad plays on the first visit of a session; later reloads get a
-     quicker version. Clicking or pressing any key skips ahead. */
+     Clicking or pressing any key skips ahead. */
   async function playLoader() {
     const loader = $("loader");
     if (!loader) return;
@@ -1174,13 +1173,7 @@
     ];
     const SLOTS = [-58, 24, -18, 62, -66, 8]; // x offsets from the bowl's centre
 
-    let repeat = false;
-    try {
-      repeat = sessionStorage.getItem("peapal-loaded") === "1";
-      sessionStorage.setItem("peapal-loaded", "1");
-    } catch (e) {}
-    const steps = reduceMotion ? [] : repeat ? STEPS.slice(0, 3) : STEPS;
-    const gap = repeat ? 220 : 320;
+    const steps = reduceMotion ? [] : STEPS;
 
     let skipped = false;
     const skip = () => { skipped = true; };
@@ -1197,13 +1190,13 @@
       item.style.setProperty("--r", `${Math.round(Math.random() * 50 - 25)}deg`);
       item.innerHTML = foodSvg(findFood(id));
       pile.appendChild(item);
-      await wait(gap);
+      await wait(320);
     }
     if (steps.length && !skipped) {
-      await wait(repeat ? 200 : 320);
+      await wait(320);
       text.textContent = "tossing it all together";
       loader.classList.add("is-tossing");
-      await wait(repeat ? 380 : 560);
+      await wait(560);
     }
     if (document.fonts) await Promise.race([document.fonts.ready, wait(1200)]);
     loader.classList.add("is-done");
