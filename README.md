@@ -5,7 +5,7 @@ design-canvas aesthetic (dot grid, rulers, marquee selection chrome, a custom
 cursor). No build step, no dependencies. Fonts load from Google Fonts;
 everything else is local.
 
-- **Live (GitHub Pages):** https://nicolechh.github.io/
+- **Live (GitHub Pages):** https://nicolec.xyz/ (custom domain via the `CNAME` file; https://nicolechh.github.io/ redirects there)
 - **Design system:** [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) (written reference)
   and [style-guide.html](style-guide.html) (live visual reference, same CSS
   as the real site) — read these before adding a new page or section.

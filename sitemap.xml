@@ -1,27 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://nicolechh.github.io/</loc>
+    <loc>https://nicolec.xyz/</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://nicolechh.github.io/case-studies/masking-in-boards/</loc>
+    <loc>https://nicolec.xyz/case-studies/masking-in-boards/</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://nicolechh.github.io/case-studies/guardrail-system/</loc>
+    <loc>https://nicolec.xyz/case-studies/guardrail-system/</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://nicolechh.github.io/case-studies/workflow-tutorials/</loc>
+    <loc>https://nicolec.xyz/case-studies/workflow-tutorials/</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://nicolec.xyz/pixie/</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://nicolec.xyz/peas/</loc>
+    <lastmod>2026-09-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
 </urlset>
