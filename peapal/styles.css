@@ -994,6 +994,72 @@ svg { display: block; fill: currentColor; }
 }
 .burst svg { width: 100%; height: 100%; }
 
+/* ---------- Loading screen: a salad comes together ---------- */
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 4px;
+  padding: 16px;
+  background-color: var(--desk);
+  background-image: radial-gradient(var(--desk-dots) 2px, transparent 2px);
+  background-size: 22px 22px;
+  transition: opacity 0.35s ease, visibility 0.35s;
+  /* failsafe: never block the page if the script doesn't run */
+  animation: loader-gone 0.3s 6s forwards;
+}
+.loader.is-done { opacity: 0; visibility: hidden; }
+.loader__title {
+  margin: 14px 0 0;
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 44px;
+  background: linear-gradient(transparent 58%, var(--highlight) 58%, var(--highlight) 86%, transparent 86%);
+}
+.loader__stage { position: relative; width: 260px; height: 220px; }
+.loader__bowl { position: absolute; z-index: 2; left: 50%; bottom: 0; width: 224px; transform: translateX(-50%); }
+.loader__bowl svg { width: 100%; height: auto; }
+/* ingredients land around the rim, their lower half hidden behind the bowl */
+.loader__pile { position: absolute; z-index: 1; left: 50%; bottom: 52px; width: 0; height: 0; }
+.loader__item {
+  position: absolute;
+  left: var(--x);
+  bottom: 0;
+  width: 72px;
+  margin-left: -36px;
+  transform: translateY(var(--y)) rotate(var(--r));
+  animation: loader-drop 0.5s both;
+}
+.loader__item svg { width: 100%; height: auto; }
+.loader.is-tossing .loader__stage { animation: loader-toss 0.5s steps(2); }
+.loader.is-tossing .loader__item { animation: loader-hop 0.5s steps(3); }
+.loader__text { margin: 2px 0 0; min-height: 28px; font-size: 20px; color: var(--pen); }
+.loader__dots i { font-style: normal; animation: loader-dot 1s steps(1) infinite; }
+.loader__dots i:nth-child(2) { animation-delay: 0.2s; }
+.loader__dots i:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes loader-drop {
+  0%   { transform: translateY(-240px) rotate(0deg); opacity: 0; animation-timing-function: steps(5); }
+  12%  { opacity: 1; }
+  65%  { transform: translateY(calc(var(--y) + 6px)) rotate(var(--r)); animation-timing-function: steps(2); }
+  82%  { transform: translateY(calc(var(--y) - 10px)) rotate(var(--r)); animation-timing-function: steps(2); }
+  100% { transform: translateY(var(--y)) rotate(var(--r)); opacity: 1; }
+}
+@keyframes loader-toss {
+  0%, 100% { transform: none; }
+  25% { transform: rotate(-4deg); }
+  75% { transform: rotate(4deg); }
+}
+@keyframes loader-hop {
+  0%, 100% { transform: translateY(var(--y)) rotate(var(--r)); }
+  50% { transform: translateY(calc(var(--y) - 22px)) rotate(calc(var(--r) * -1)); }
+}
+@keyframes loader-dot { 0%, 100% { opacity: 0; } 30%, 80% { opacity: 1; } }
+@keyframes loader-gone { to { opacity: 0; visibility: hidden; } }
+
 /* ---------- Animations ---------- */
 @keyframes trail {
   0%   { transform: translate(0, 0) rotate(0deg) scale(1); opacity: 1; }

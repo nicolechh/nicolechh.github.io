@@ -1153,4 +1153,61 @@
   resetForm();
   renderAll();
   digitize(document.body);
+  playLoader();
+
+  /* ---------- Loading screen: salad ingredients drop into a bowl ----------
+     The full salad plays on the first visit of a session; later reloads get a
+     quicker version. Clicking or pressing any key skips ahead. */
+  async function playLoader() {
+    const loader = $("loader");
+    if (!loader) return;
+    const pile = $("loader-pile");
+    const text = $("loader-text");
+    const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+    const STEPS = [
+      ["lettuce", "washing the lettuce"],
+      ["tomato", "slicing tomatoes"],
+      ["carrot", "chopping carrots"],
+      ["peas", "popping peas"],
+      ["avocado", "scooping avocado"],
+      ["broccoli", "tossing in broccoli"],
+    ];
+    const SLOTS = [-58, 24, -18, 62, -66, 8]; // x offsets from the bowl's centre
+
+    let repeat = false;
+    try {
+      repeat = sessionStorage.getItem("peapal-loaded") === "1";
+      sessionStorage.setItem("peapal-loaded", "1");
+    } catch (e) {}
+    const steps = reduceMotion ? [] : repeat ? STEPS.slice(0, 3) : STEPS;
+    const gap = repeat ? 220 : 320;
+
+    let skipped = false;
+    const skip = () => { skipped = true; };
+    loader.addEventListener("click", skip);
+    document.addEventListener("keydown", skip, { once: true });
+
+    for (let i = 0; i < steps.length && !skipped; i++) {
+      const [id, line] = steps[i];
+      text.textContent = line;
+      const item = document.createElement("span");
+      item.className = "loader__item";
+      item.style.setProperty("--x", `${SLOTS[i] + Math.round(Math.random() * 8 - 4)}px`);
+      item.style.setProperty("--y", `${-Math.floor(i / 2) * 12}px`); // the pile rises as it fills
+      item.style.setProperty("--r", `${Math.round(Math.random() * 50 - 25)}deg`);
+      item.innerHTML = foodSvg(findFood(id));
+      pile.appendChild(item);
+      await wait(gap);
+    }
+    if (steps.length && !skipped) {
+      await wait(repeat ? 200 : 320);
+      text.textContent = "tossing it all together";
+      loader.classList.add("is-tossing");
+      await wait(repeat ? 380 : 560);
+    }
+    if (document.fonts) await Promise.race([document.fonts.ready, wait(1200)]);
+    loader.classList.add("is-done");
+    document.removeEventListener("keydown", skip);
+    setTimeout(() => loader.remove(), 500);
+  }
 })();
