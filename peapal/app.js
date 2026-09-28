@@ -10,6 +10,7 @@
   const prefs = {
     get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
     set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+    remove(k) { try { localStorage.removeItem(k); } catch (e) {} },
   };
 
   let data = Store.load();
@@ -186,7 +187,6 @@
     $("streak-unit").textContent = streak === 1 ? " day" : " days";
     $("streak-note").textContent = streak === 0 ? "hit your goal to start"
       : t(today) >= goal ? "in a row, including today" : "in a row · keep it going!";
-    $("goal").textContent = goal;
   }
 
   /* ---------- Render: today's plate ---------- */
@@ -771,23 +771,38 @@
   $("next-day").addEventListener("click", () => select(addDays(selected, 1)));
   $("go-today").addEventListener("click", () => select(todayKey()));
 
-  /* ---------- Daily goal popup ---------- */
-  const goalDialog = $("goal-dialog");
+  /* ---------- Settings popup: appearance + daily goal ----------
+     Appearance previews live while the popup is open; cancel puts it back,
+     save keeps it. "match device" follows the system light/dark setting. */
+  const settings = $("settings-dialog");
   const goalInput = $("goal-input");
   const clampGoal = (n) => Math.min(80, Math.max(5, Math.round(n)));
+  const savedTheme = () => { const t = prefs.get("peapal-theme"); return t === "light" || t === "dark" ? t : "auto"; };
+  let draftTheme = "auto";
+
+  function applyTheme(choice) {
+    if (choice === "auto") delete document.documentElement.dataset.theme;
+    else document.documentElement.dataset.theme = choice;
+    document.querySelectorAll(".seg[data-theme-choice]").forEach((s) =>
+      s.setAttribute("aria-checked", String(s.dataset.themeChoice === choice)));
+  }
   function setGoalDraft(n) {
     goalInput.value = clampGoal(n);
     $("goal-error").textContent = "";
     $("goal-minus").disabled = Number(goalInput.value) <= 5;
     $("goal-plus").disabled = Number(goalInput.value) >= 80;
   }
-  $("goal-edit").addEventListener("click", () => {
+
+  $("settings-open").addEventListener("click", () => {
     hideTip();
+    draftTheme = savedTheme();
+    applyTheme(draftTheme);
     setGoalDraft(data.goal);
-    goalDialog.showModal();
-    goalInput.focus();
-    goalInput.select();
+    settings.showModal();
   });
+  document.querySelectorAll(".seg[data-theme-choice]").forEach((s) =>
+    s.addEventListener("click", () => { draftTheme = s.dataset.themeChoice; applyTheme(draftTheme); })
+  );
   $("goal-minus").addEventListener("click", () => setGoalDraft((Number(goalInput.value) || data.goal) - 1));
   $("goal-plus").addEventListener("click", () => setGoalDraft((Number(goalInput.value) || data.goal) + 1));
   goalInput.addEventListener("input", () => {
@@ -796,14 +811,16 @@
     $("goal-minus").disabled = v <= 5;
     $("goal-plus").disabled = v >= 80;
   });
-  goalDialog.querySelector(".presets").addEventListener("click", (e) => {
+  settings.querySelector(".presets").addEventListener("click", (e) => {
     const b = e.target.closest("[data-goal]");
     if (b) setGoalDraft(Number(b.dataset.goal));
   });
-  $("goal-cancel").addEventListener("click", () => goalDialog.close());
-  // click on the dimmed backdrop closes it too
-  goalDialog.addEventListener("click", (e) => { if (e.target === goalDialog) goalDialog.close(); });
-  $("goal-form").addEventListener("submit", (e) => {
+  $("settings-cancel").addEventListener("click", () => settings.close());
+  // clicking the dimmed backdrop closes it too
+  settings.addEventListener("click", (e) => { if (e.target === settings) settings.close(); });
+  // however it closes (cancel, Esc, backdrop), undo any unsaved appearance preview
+  settings.addEventListener("close", () => applyTheme(savedTheme()));
+  $("settings-form").addEventListener("submit", (e) => {
     e.preventDefault();
     const v = Number(goalInput.value);
     if (!Number.isFinite(v) || v < 5 || v > 80) {
@@ -811,11 +828,14 @@
       goalInput.focus();
       return;
     }
+    if (draftTheme === "auto") prefs.remove("peapal-theme");
+    else prefs.set("peapal-theme", draftTheme);
+    const goalChanged = clampGoal(v) !== data.goal;
     data.goal = clampGoal(v);
     save();
-    goalDialog.close();
+    settings.close();
     renderAll();
-    toast(`daily goal set to ${data.goal} g`);
+    toast(goalChanged ? `settings saved · daily goal ${data.goal} g` : "settings saved");
   });
 
   document.querySelectorAll(".seg[data-sort]").forEach((s) =>
@@ -860,21 +880,9 @@
     renderTop();
   });
 
-  /* ---------- Theme ---------- */
-  function currentTheme() {
-    const set = document.documentElement.dataset.theme;
-    if (set) return set;
-    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-  }
-  $("theme").addEventListener("click", () => {
-    const next = currentTheme() === "dark" ? "light" : "dark";
-    document.documentElement.dataset.theme = next;
-    prefs.set("peapal-theme", next);
-  });
-
   /* ---------- Keyboard ---------- */
   document.addEventListener("keydown", (e) => {
-    if (e.metaKey || e.ctrlKey || e.altKey || $("goal-dialog").open) return;
+    if (e.metaKey || e.ctrlKey || e.altKey || $("settings-dialog").open) return;
     const tag = e.target.tagName;
     if (tag === "INPUT" || tag === "TEXTAREA") {
       if (e.key === "Escape" && editingId && suggest.hidden) resetForm();
