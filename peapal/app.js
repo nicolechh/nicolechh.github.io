@@ -1161,16 +1161,8 @@
     const loader = $("loader");
     if (!loader) return;
     const pile = $("loader-pile");
-    const text = $("loader-text");
     const wait = (ms) => new Promise((r) => setTimeout(r, ms));
-    const STEPS = [
-      ["lettuce", "washing the lettuce"],
-      ["tomato", "slicing tomatoes"],
-      ["carrot", "chopping carrots"],
-      ["peas", "popping peas"],
-      ["avocado", "scooping avocado"],
-      ["broccoli", "tossing in broccoli"],
-    ];
+    const STEPS = ["lettuce", "tomato", "carrot", "peas", "avocado", "broccoli"];
     const SLOTS = [-58, 24, -18, 62, -66, 8]; // x offsets from the bowl's centre
 
     const steps = reduceMotion ? [] : STEPS;
@@ -1181,8 +1173,7 @@
     document.addEventListener("keydown", skip, { once: true });
 
     for (let i = 0; i < steps.length && !skipped; i++) {
-      const [id, line] = steps[i];
-      text.textContent = line;
+      const id = steps[i];
       const item = document.createElement("span");
       item.className = "loader__item";
       item.style.setProperty("--x", `${SLOTS[i] + Math.round(Math.random() * 8 - 4)}px`);
@@ -1194,7 +1185,6 @@
     }
     if (steps.length && !skipped) {
       await wait(320);
-      text.textContent = "tossing it all together";
       loader.classList.add("is-tossing");
       await wait(560);
     }

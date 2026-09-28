@@ -1037,9 +1037,9 @@ svg { display: block; fill: currentColor; }
 .loader.is-tossing .loader__stage { animation: loader-toss 0.5s steps(2); }
 .loader.is-tossing .loader__item { animation: loader-hop 0.5s steps(3); }
 .loader__text { margin: 2px 0 0; min-height: 28px; font-size: 20px; color: var(--pen); }
-.loader__dots i { font-style: normal; animation: loader-dot 1s steps(1) infinite; }
-.loader__dots i:nth-child(2) { animation-delay: 0.2s; }
-.loader__dots i:nth-child(3) { animation-delay: 0.4s; }
+.loader__dots i { font-style: normal; opacity: 0; animation: loader-dot-1 1.2s steps(1) infinite; }
+.loader__dots i:nth-child(2) { animation-name: loader-dot-2; }
+.loader__dots i:nth-child(3) { animation-name: loader-dot-3; }
 
 @keyframes loader-drop {
   0%   { transform: translateY(-240px) rotate(0deg); opacity: 0; animation-timing-function: steps(5); }
@@ -1057,7 +1057,9 @@ svg { display: block; fill: currentColor; }
   0%, 100% { transform: translateY(var(--y)) rotate(var(--r)); }
   50% { transform: translateY(calc(var(--y) - 22px)) rotate(calc(var(--r) * -1)); }
 }
-@keyframes loader-dot { 0%, 100% { opacity: 0; } 30%, 80% { opacity: 1; } }
+@keyframes loader-dot-1 { 0% { opacity: 0; } 25%, 100% { opacity: 1; } }
+@keyframes loader-dot-2 { 0% { opacity: 0; } 50%, 100% { opacity: 1; } }
+@keyframes loader-dot-3 { 0% { opacity: 0; } 75%, 100% { opacity: 1; } }
 @keyframes loader-gone { to { opacity: 0; visibility: hidden; } }
 
 /* ---------- Animations ---------- */
