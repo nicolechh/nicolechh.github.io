@@ -160,7 +160,7 @@ These aren't optional polish — treat them as part of the system:
 | `nav.js` | Shared nav bar behavior (menu + reduce-motion toggle) for pages without `index.html`'s dot-grid/cursor script |
 | `clock.js` | Live Pacific-time clock for the footers (`[data-clock]`) |
 | `assets/` | Homepage-only images: `about-nicole.webp` (the Figma crop), `pixel/*.svg` (16×16 obsession icons) |
-| `pixie/`, `peapal/` | The Playground apps (Prompt Pixie, PeaPal): official pages of the site (in `sitemap.xml`, with canonical + link-preview tags on nicolec.xyz, preview image = their `thumb.webp`) but self-contained — their own styles, fonts and scripts, not `styles.css`. The Playground cards open them in a new tab. `peas/` is only a redirect to `peapal/`, kept so old links keep working |
+| `pixie/`, `peapal/` | The Playground apps (Prompt Pixie, PeaPal): official pages of the site (in `sitemap.xml`, with canonical + link-preview tags on nicolec.xyz, preview image = their `thumb.webp`) but self-contained — their own styles, fonts and scripts, not `styles.css`. The Playground cards open them in a new tab. |
 | `case-studies/<slug>/` | One case study per project — `index.html` + its own `Assets/` (source content lives alongside the published page) |
 | `DESIGN-SYSTEM.md` | This file |
 
