@@ -86,7 +86,7 @@ Same corner-handle idea, but with a solid `--tag-blue` fill and bold white text 
 
 Figma's **Work Card**, shared by the homepage's `#work` and `#playground` grids and every case study's "See more work" row. `--card` fill, `--rule-soft` border, 20px padding, 16px gaps. `.thumb` is a 1.52:1 image with no fill or border of its own (the thumbnails carry their own framing). `.meta` is one row, date left and role right, above a `--rule-soft` top border. Hover / press / keyboard focus darken the border to `--rule` and show the `.sel-box` marquee 10px outside the card.
 
-Playground cards (Prompt Pixie, Pea Pal) use the same card with the role slot reading "Made with Claude Code", and their links open in a new tab (`target="_blank" rel="noopener"`) since they're separate apps. A new side project goes there, not in `#work`.
+Playground cards (Prompt Pixie, PeaPal) use the same card with the role slot reading "Made with Claude Code", and their links open in a new tab (`target="_blank" rel="noopener"`) since they're separate apps. A new side project goes there, not in `#work`.
 
 Interaction states are deliberately split three ways:
 - **Hover** (`@media (hover:hover)` only) — a tap on a touchscreen must never leave a card stuck in its hover state.
@@ -160,7 +160,7 @@ These aren't optional polish — treat them as part of the system:
 | `nav.js` | Shared nav bar behavior (menu + reduce-motion toggle) for pages without `index.html`'s dot-grid/cursor script |
 | `clock.js` | Live Pacific-time clock for the footers (`[data-clock]`) |
 | `assets/` | Homepage-only images: `about-nicole.webp` (the Figma crop), `pixel/*.svg` (16×16 obsession icons) |
-| `pixie/`, `peas/` | The Playground apps (Prompt Pixie, Pea Pal): official pages of the site (in `sitemap.xml`, with canonical + link-preview tags on nicolec.xyz, preview image = their `thumb.webp`) but self-contained — their own styles, fonts and scripts, not `styles.css`. The Playground cards open them in a new tab |
+| `pixie/`, `peapal/` | The Playground apps (Prompt Pixie, PeaPal): official pages of the site (in `sitemap.xml`, with canonical + link-preview tags on nicolec.xyz, preview image = their `thumb.webp`) but self-contained — their own styles, fonts and scripts, not `styles.css`. The Playground cards open them in a new tab. `peas/` is only a redirect to `peapal/`, kept so old links keep working |
 | `case-studies/<slug>/` | One case study per project — `index.html` + its own `Assets/` (source content lives alongside the published page) |
 | `DESIGN-SYSTEM.md` | This file |
 

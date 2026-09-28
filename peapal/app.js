@@ -891,7 +891,7 @@
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = `pea-pal-backup-${todayKey()}.json`;
+    a.download = `peapal-backup-${todayKey()}.json`;
     document.body.appendChild(a);
     a.click();
     a.remove();
@@ -905,7 +905,7 @@
     if (!file) return;
     try {
       const incoming = Store.normalize(JSON.parse(await file.text()));
-      if (!incoming.entries.length && !incoming.customFoods.length) { toast("that file doesn't look like a pea pal backup"); return; }
+      if (!incoming.entries.length && !incoming.customFoods.length) { toast("that file doesn't look like a peapal backup"); return; }
       if (data.entries.length && !confirm(`Replace your current log (${data.entries.length} entries) with this backup (${incoming.entries.length} entries)?`)) return;
       data = incoming;
       save();
