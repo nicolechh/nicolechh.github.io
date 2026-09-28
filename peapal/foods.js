@@ -439,6 +439,20 @@
       ".oxxxxxxxxo.",
       "..oooooooo..",
     ],
+    granola: [
+      "............",
+      "............",
+      "............",
+      ".oooooooooo.",
+      "odadddaddado",
+      "ocacnaccacno",
+      "oanacdnaacao",
+      "obcaancacnbo",
+      "obbbbbbbbbbo",
+      ".oooooooooo.",
+      "............",
+      "............",
+    ],
     popcorn: [
       "..oo.ooo.o..",
       ".owwowwwowo.",
@@ -579,6 +593,7 @@
   // Custom sprites for foods people add themselves, matched by name.
   // Only the picture changes; the fiber numbers stay whatever they entered.
   const NAMED_LOOKS = [
+    { match: /kind\s*bar/i, shape: "granola", pal: { a: "#d9a55a", b: "#b07a3a", c: "#f2d49c", n: "#8a5a34", d: "#5a3420" } },
     { match: /wild\s*wonder/i, shape: "can", pal: { a: "#ff9ec4", b: "#e46a9e", c: "#ffd4e6", r: "#e8303a", d: "#ffe07a", chart: "#f27aac" } },
   ];
   const BUILTIN_IDS = new Set(RAW.map((r) => r[0]));
