@@ -131,7 +131,7 @@
   letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);
 }
 .cs-facts dd{margin:0;font-size:14.7px;line-height:1.4;color:var(--ink)}
-.cs-facts dd a{color:inherit;background-size:100% 1px}   /* Figma shows the client link underlined at rest */
+.cs-facts dd a{color:var(--select)}   /* standard link colour; underline on hover via styles.css */
 @media (max-width:899px){
   .cs-facts{display:grid;grid-template-columns:1fr 1fr;gap:14px}
   .cs-facts.is-stacked{grid-template-columns:1fr}
