@@ -119,8 +119,11 @@
 /* Body/CS Outcome: 17px -> 20px */
 .cs-outcome{
   font-size:clamp(17px,calc(15.94px + .282vw),20px);line-height:1.5;
-  color:var(--ink-2);margin:0;max-width:580px;   /* same measure as all body text */
+  color:var(--ink-2);margin:0;
 }
+/* One line while every column fits side by side, otherwise a vertical
+   stack -- never a partial wrap. case-study.js measures the columns and
+   sets data-fit; without it the row simply wraps. */
 .cs-facts{
   display:flex;flex-wrap:wrap;gap:14px 64px;margin:0;
   padding:16px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
@@ -132,10 +135,9 @@
 }
 .cs-facts dd{margin:0;font-size:14.7px;line-height:1.4;color:var(--ink)}
 .cs-facts dd a{color:var(--select)}   /* standard link colour; underline on hover via styles.css */
-@media (max-width:899px){
-  .cs-facts{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  .cs-facts.is-stacked{grid-template-columns:1fr}
-}
+.cs-facts[data-fit="row"]{flex-wrap:nowrap}
+.cs-facts[data-fit="row"] > div{flex:none}
+.cs-facts[data-fit="stack"]{flex-direction:column;gap:14px}
 
 /* ---------- sections ---------- */
 .cs-section{display:flex;flex-direction:column;gap:16px;scroll-margin-top:calc(46px + 48px + 12px)}
