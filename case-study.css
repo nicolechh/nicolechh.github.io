@@ -195,6 +195,13 @@
 @media (min-width:900px){
   .cs-pair{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
 }
+/* Constraints: two columns where they fit (900px+, as in Figma), one below;
+   the list spans the article but each item keeps the 580px body measure */
+.cs-list.is-grid{max-width:none}
+.cs-list.is-grid > li{max-width:580px}
+@media (min-width:900px){
+  .cs-list.is-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+}
 
 /* ---------- media (Asset component + Mono/Caption) ---------- */
 .cs-figure{margin:0;display:flex;flex-direction:column;gap:8px;min-width:0}
