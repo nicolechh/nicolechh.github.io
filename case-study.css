@@ -152,6 +152,9 @@
 /* desktop: every heading row in a pair is the switch's 36px tall, so the
    media under a plain heading lines up with media under a heading+switch */
 @media (min-width:1280px){ .cs-sub-head{min-height:36px} }
+/* single column: a switch drops onto its own line, left-aligned under the
+   heading, the way a standalone switch (e.g. Decision 2's Viewport) sits */
+@media (max-width:1279px){ .cs-sub-head{flex-direction:column;align-items:flex-start} }
 /* Body/Sub Heading */
 .cs-sub h3,.cs-sub-head h3{
   font-family:var(--display);font-weight:600;font-variation-settings:"wght" 600;
