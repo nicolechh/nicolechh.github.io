@@ -228,26 +228,30 @@
     sections.forEach(function(s){ observer.observe(s); });
   }
 
-  /* Facts row (Role, Timeline, Status, Client, Agency): one line while all
-     the columns fit side by side, otherwise stacked vertically, never a
-     partial wrap. The width it needs is each column's natural width plus
-     the 64px gaps from case-study.css; re-checked whenever the row's width
+  /* Facts (Role, Timeline, Status, Client, Agency): one line while every
+     item fits side by side (natural widths + the 64px gaps), else two equal
+     columns 14px apart while the widest item fits half the width (the
+     markup's two .cs-facts-col groups), else one column -- never a partial
+     wrap. Gaps match case-study.css. Re-checked whenever the row's width
      changes, and re-measured once the webfonts have loaded. */
   var facts = document.querySelector('.cs-facts');
   if (facts){
-    var FACTS_GAP = 64;
-    var factCols = [].slice.call(facts.children);
-    var factsNeed = 0;
+    var FACTS_GAP = 64, FACTS_COL_GAP = 14;
+    var factItems = [].slice.call(facts.querySelectorAll('.cs-facts-col > div'));
+    var needRow = 0, needTwo = 0;
     var measureFacts = function(){
-      factsNeed = factCols.reduce(function(sum, col){
-        col.style.width = 'max-content';
-        var w = col.getBoundingClientRect().width;
-        col.style.width = '';
-        return sum + w;
-      }, 0) + FACTS_GAP * (factCols.length - 1);
+      var widths = factItems.map(function(item){
+        item.style.width = 'max-content';
+        var w = item.getBoundingClientRect().width;
+        item.style.width = '';
+        return w;
+      });
+      needRow = widths.reduce(function(a, b){ return a + b; }, 0) + FACTS_GAP * (widths.length - 1);
+      needTwo = 2 * Math.max.apply(null, widths) + FACTS_COL_GAP;
     };
     var fitFacts = function(){
-      facts.dataset.fit = facts.clientWidth >= Math.ceil(factsNeed) ? 'row' : 'stack';
+      var w = facts.clientWidth;
+      facts.dataset.fit = w >= Math.ceil(needRow) ? 'row' : w >= Math.ceil(needTwo) ? 'two' : 'stack';
     };
     measureFacts(); fitFacts();
     if (window.ResizeObserver) new ResizeObserver(fitFacts).observe(facts);
