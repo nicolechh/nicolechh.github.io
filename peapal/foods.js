@@ -593,6 +593,7 @@
   // Custom sprites for foods people add themselves, matched by name.
   // Only the picture changes; the fiber numbers stay whatever they entered.
   const NAMED_LOOKS = [
+    { match: /kimchi/i, shape: "jar", pal: { a: "#d9452b", d: "#f3d8a6", b: "#a8321f", l: "#e8e8f0", x: "#d9452b", w: "#fffaf0" } },
     { match: /granola/i, shape: "bowl", pal: { a: "#b07a3a", d: "#7a4e24", c: "#d9a55a" } },
     { match: /kind\s*bar/i, shape: "granola", pal: { a: "#d9a55a", b: "#b07a3a", c: "#f2d49c", n: "#8a5a34", d: "#5a3420" } },
     { match: /wild\s*wonder/i, shape: "can", pal: { a: "#ff9ec4", b: "#e46a9e", c: "#ffd4e6", r: "#e8303a", d: "#ffe07a", chart: "#f27aac" } },
