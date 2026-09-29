@@ -151,7 +151,7 @@
 .cs-sub-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 16px}
 /* desktop: every heading row in a pair is the switch's 36px tall, so the
    media under a plain heading lines up with media under a heading+switch */
-@media (min-width:900px){ .cs-sub-head{min-height:36px} }
+@media (min-width:1280px){ .cs-sub-head{min-height:36px} }
 /* Body/Sub Heading */
 .cs-sub h3,.cs-sub-head h3{
   font-family:var(--display);font-weight:600;font-variation-settings:"wght" 600;
@@ -174,11 +174,17 @@
 }
 .cs-listblock{display:flex;flex-direction:column;gap:10px}
 
-/* Rows: DOM order is the mobile (375) reading order. At 900px+ they
+/* Section layouts go side by side at 1280px+, not the 900px the rest of the
+   page uses: with the 230px TOC beside the article (1100px+), two columns
+   any narrower left the images too small to read. Below 1280 everything
+   stacks at full article width. Rows, pairs, the Constraints grid, the
+   desktop --ar frames and sub-head alignment all switch together.
+
+   Rows: DOM order is the mobile (375) reading order. At 1280px+ they
    become Figma's two-column rows; .is-flip sends the first child (the
    media, first on mobile) to the right-hand column. */
 .cs-row{display:flex;flex-direction:column;gap:16px}
-@media (min-width:900px){
+@media (min-width:1280px){
   .cs-row{display:grid;grid-template-columns:var(--cols,584fr 490fr);gap:24px;align-items:center}
   .cs-row.is-flip{--cols:490fr 584fr}
   .cs-row.is-flip > :first-child{order:2}
@@ -192,14 +198,14 @@
   .cs-row.is-woven > .cs-figure{grid-column:2;grid-row:1 / -1;align-self:center}
 }
 .cs-pair{display:flex;flex-direction:column;gap:24px}
-@media (min-width:900px){
+@media (min-width:1280px){
   .cs-pair{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
 }
-/* Constraints: two columns where they fit (900px+, as in Figma), one below;
+/* Constraints: two columns where they fit (1280px+, as in Figma), one below;
    the list spans the article but each item keeps the 580px body measure */
 .cs-list.is-grid{max-width:none}
 .cs-list.is-grid > li{max-width:580px}
-@media (min-width:900px){
+@media (min-width:1280px){
   .cs-list.is-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 }
 
@@ -226,11 +232,11 @@
 .cs-asset.is-bare.is-flat{filter:none}
 .cs-asset img,.cs-asset video{display:block;width:100%;height:auto}
 /* Figma's Asset frame shape, filled like Figma's FILL mode, so media side
-   by side lines up. --ar is the desktop frame (900px+), --ar-m the mobile
+   by side lines up. --ar is the desktop frame (1280px+, with the side-by-side layouts), --ar-m the mobile
    frame; without --ar-m, mobile falls back to the media's natural shape. */
 /* min-height:0 so unclipped (.is-bare) media can't stretch the ratio box */
 .cs-asset[style*="--ar"]{aspect-ratio:var(--ar-m,auto);min-height:0}
-@media (min-width:900px){ .cs-asset[style*="--ar"]{aspect-ratio:var(--ar)} }
+@media (min-width:1280px){ .cs-asset[style*="--ar"]{aspect-ratio:var(--ar)} }
 .cs-asset[style*="--ar"] > img,.cs-asset[style*="--ar"] > video{height:100%;object-fit:cover;object-position:var(--pos,50% 50%)}
 /* The browser's own video fullscreen: show the whole video, letterboxed on
    black, instead of the page frame's cover crop, and give the OS cursor
@@ -275,7 +281,7 @@
 /* ---------- carousel (Carousel Arrow + Carousel Dot) ---------- */
 .cs-carousel{display:flex;flex-direction:column;gap:12px}
 .cs-carousel-controls{display:flex;align-items:center;justify-content:center;gap:12px}
-@media (min-width:900px){ .cs-carousel-controls{gap:16px} }
+@media (min-width:1280px){ .cs-carousel-controls{gap:16px} }
 .cs-arrow{
   display:flex;align-items:center;justify-content:center;
   width:36px;height:36px;padding:0;border-radius:50%;
