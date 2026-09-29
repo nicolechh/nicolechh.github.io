@@ -119,7 +119,7 @@
 /* Body/CS Outcome: 17px -> 20px */
 .cs-outcome{
   font-size:clamp(17px,calc(15.94px + .282vw),20px);line-height:1.5;
-  color:var(--ink-2);margin:0;
+  color:var(--ink-2);margin:0;max-width:580px;   /* same measure as all body text */
 }
 .cs-facts{
   display:flex;flex-wrap:wrap;gap:14px 64px;margin:0;
@@ -194,10 +194,6 @@
 .cs-pair{display:flex;flex-direction:column;gap:24px}
 @media (min-width:900px){
   .cs-pair{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
-}
-.cs-list.is-grid{max-width:none}
-@media (min-width:900px){
-  .cs-list.is-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 }
 
 /* ---------- media (Asset component + Mono/Caption) ---------- */
