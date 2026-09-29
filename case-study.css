@@ -214,7 +214,9 @@
 .cs-figure[hidden]{display:none}
 /* narrow (portrait) media keeps its Figma width and centres */
 .cs-figure.is-narrow{width:min(var(--w,100%),100%);margin-inline:auto}
-@media (max-width:899px){ .cs-figure.is-narrow{width:min(var(--wm,var(--w,100%)),100%)} }
+/* phones take the Figma mobile width (--wm); from 700px the stacked layout
+   has room for the desktop width (--w), capped by the column in two-column rows */
+@media (max-width:699px){ .cs-figure.is-narrow{width:min(var(--wm,var(--w,100%)),100%)} }
 .cs-asset{
   display:block;overflow:hidden;border-radius:8px;
   border:1px solid var(--rule-soft);background:var(--paper-2);
