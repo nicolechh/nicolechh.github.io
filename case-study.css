@@ -312,8 +312,14 @@
   border:1.5px solid var(--select);padding:28px;
   display:flex;flex-direction:column;gap:14px;
 }
-/* tilted on desktop only -- Figma's mobile quote sits straight */
-@media (min-width:900px){ .cs-quote-box{transform:rotate(2.34deg)} }
+/* tilted and centred beside the text in the two-column layout only; stacked
+   (below 1280px, and in Figma's mobile frame) it sits straight and
+   left-aligned with the rest of the section */
+@media (min-width:1280px){ .cs-quote-box{transform:rotate(2.34deg)} }
+@media (max-width:1279px){
+  .cs-quote-wrap{padding-inline:0}
+  .cs-quote-box{margin-inline:0}
+}
 .cs-quote-box > i{
   position:absolute;width:7px;height:7px;
   background:var(--paper-2);border:1.5px solid var(--select);
