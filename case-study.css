@@ -295,6 +295,12 @@
 
 /* ---------- carousel (Carousel Arrow + Carousel Dot) ---------- */
 .cs-carousel{display:flex;flex-direction:column;gap:12px}
+/* a "New Feature" carousel slide: a live-text label matching the Before /
+   After labels baked into the redesign images (Geist 600, ink, above the
+   media's left edge), then the desktop + mobile videos as a row */
+.cs-feature-label{margin:0;font-family:var(--display);font-weight:600;font-variation-settings:"wght" 600;font-size:17px;line-height:1.2;letter-spacing:-.01em;color:var(--ink)}
+.cs-feature .cs-row{gap:12px}
+@media (min-width:1280px){ .cs-feature .cs-row{gap:24px} }
 .cs-carousel-controls{display:flex;align-items:center;justify-content:center;gap:12px}
 @media (min-width:1280px){ .cs-carousel-controls{gap:16px} }
 .cs-arrow{
