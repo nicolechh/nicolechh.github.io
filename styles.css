@@ -43,26 +43,9 @@
   --display:"Geist",system-ui,-apple-system,sans-serif;
   --name:"Geist Pixel","Geist",system-ui,sans-serif;
 }
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --paper:#131417;
-    --paper-2:#191A1E;
-    --ink:#E9E9E4;
-    --ink-2:#A4A6AE;
-    --ink-3:#82858D;
-    --rule:#34363C;
-    --rule-soft:#26282D;
-    --edge:#64676F;
-    --dot:rgba(233,233,228,.10);
-    --dot-hot:rgba(255,122,64,.55);
-    --accent:#FF7A40;
-    --select:#7391FF;
-    --on-select:#0E1220;
-    --chrome:rgba(25,26,30,.82);
-    --menu-bg:#191A1E;
-    --card:#1B1C20;
-  }
-}
+/* The portfolio is always light: it does not follow the system dark-mode
+   setting (Prompt Pixie and PeaPal, which have their own styles, do). The
+   dark values below only apply if a page opts in with data-theme="dark". */
 :root[data-theme="dark"]{
   --paper:#131417;
   --paper-2:#191A1E;

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="light dark">
+<meta name="color-scheme" content="light">
 
 <title>Nicole Chou — Product Designer</title>
 <meta name="description" content="Nicole Chou is a product designer who thinks in systems and designs for people.">
@@ -24,14 +24,13 @@
 
 <link rel="icon" href="assets/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="assets/favicon.png">
-<meta name="theme-color" content="#fcfcfc" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#131417" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#fcfcfc">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;700&family=Geist+Pixel&display=swap">
 
-<link rel="stylesheet" href="styles.css?v=606c8405">
+<link rel="stylesheet" href="styles.css?v=fbacbe16">
 <script>
   // Intro: an initial visit or a refresh starts on the bare dot grid while
   // the load-in wave plays; the main script reveals the page once the wave
@@ -556,7 +555,6 @@
     if (document.documentElement.clientWidth > 640) setMenu(false);
     clearTimeout(rt); rt = setTimeout(build, 120);
   });
-  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { readTokens(); settled = false; kick(); });
 
   // collapsed menu
   const bar = document.getElementById("bar");

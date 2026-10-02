@@ -16,7 +16,7 @@ Three fonts, one superfamily: **Geist** (body/display), **Geist Mono** (labels, 
 
 ## Tokens
 
-All defined on `:root` in `styles.css` (light values match the Figma file's Color variables), redefined for dark mode both by `prefers-color-scheme` and by `[data-theme]` (for a manual override, e.g. from a future theme toggle).
+All defined on `:root` in `styles.css` (light values match the Figma file's Color variables). The portfolio and case studies are **always light**: they deliberately don't follow the system dark-mode setting (`color-scheme: light` on every page). Dark values are kept under `:root[data-theme="dark"]` only, for a possible future manual toggle. Prompt Pixie and PeaPal are separate: they follow the visitor's system setting unless the visitor picks a theme in the app.
 
 ### Color
 
