@@ -133,7 +133,7 @@
       <div class="cs-row is-even is-top">
         <div class="cs-text">
           <p>Guardrail is a real-time onchain security platform that detects blockchain threats and helps teams respond. They came to us to improve the UX, build a scalable design system, and design mobile screens for a desktop-only product.</p>
-          <p>I created the design system foundation: colour, spacing, typography and writing guidelines, and tokens defined jointly with Guardrail's front-end developer for direct implementation. Over the next year we redesigned the product and shipped new features on the same foundation.</p>
+          <p>I created the design system foundation: color, spacing, typography and writing guidelines, and tokens defined jointly with Guardrail's front-end developer for direct implementation. Over the next year we redesigned the product and shipped new features on the same foundation.</p>
         </div>
         <ul class="cs-list">
           <li><strong>Team</strong>: Audited and redesigned with Sabrina Wen and Robyn Dang. Design reviews with our team and Guardrail's engineers.</li>
@@ -155,15 +155,15 @@
             <button type="button" data-key="mode" data-value="dark" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg>Dark</button>
           </div>
         </div>
-        <figure class="cs-figure" data-when="mode=dark"><div class="cs-asset is-bare"><img src="Assets/web/02-1.webp" width="2200" height="875" alt="" loading="lazy"></div><figcaption class="cs-caption">Colour contrast of the severity chip, alert notice, and outlined button in dark mode</figcaption></figure>
-        <figure class="cs-figure" data-when="mode=light" hidden><div class="cs-asset is-bare"><img src="Assets/web/02-2.webp" width="2200" height="875" alt="" loading="lazy"></div><figcaption class="cs-caption">Colour contrast of the severity chip, alert notice, and outlined button in light mode</figcaption></figure>
+        <figure class="cs-figure" data-when="mode=dark"><div class="cs-asset is-bare"><img src="Assets/web/02-1.webp" width="2200" height="875" alt="" loading="lazy"></div><figcaption class="cs-caption">Color contrast of the severity chip, alert notice, and outlined button in dark mode</figcaption></figure>
+        <figure class="cs-figure" data-when="mode=light" hidden><div class="cs-asset is-bare"><img src="Assets/web/02-2.webp" width="2200" height="875" alt="" loading="lazy"></div><figcaption class="cs-caption">Color contrast of the severity chip, alert notice, and outlined button in light mode</figcaption></figure>
       </div>
       <div class="cs-row is-woven" style="--rows:4">
         <p style="grid-row:2">The audit turned up three things that looked like separate problems.</p>
-        <p style="grid-row:3">Colour hadn’t been assigned so much as accumulated. No rule governed what any colour meant. The severity chip (1) held up best: colour-coded with a label, passing AA in both modes. The alert notice (2) and outlined button (3) passed AA in light but failed in dark. The dark value had been set once by eye, not derived alongside its light counterpart.</p>
+        <p style="grid-row:3">Color hadn’t been assigned so much as accumulated. No rule governed what any color meant. The severity chip (1) held up best: color-coded with a label, passing AA in both modes. The alert notice (2) and outlined button (3) passed AA in light but failed in dark. The dark value had been set once by eye, not derived alongside its light counterpart.</p>
         <figure class="cs-figure"><div class="cs-asset"><img src="Assets/web/02-3.webp" width="1800" height="1596" alt="" loading="lazy"></div><figcaption class="cs-caption">Icons with inconsistent styling</figcaption></figure>
         <p style="grid-row:4">Icons came from more than one library at more than one size — sharp corners beside rounded ones, a set that read as assembled, not designed.</p>
-        <p style="grid-row:5"><strong>All three were the same fault: colour, mode, and iconography decided per screen instead of assigned by role from one library.</strong> The product looked assembled, not designed, because that’s how it had been put together.</p>
+        <p style="grid-row:5"><strong>All three were the same fault: color, mode, and iconography decided per screen instead of assigned by role from one library.</strong> The product looked assembled, not designed, because that’s how it had been put together.</p>
       </div>
     </div>
   </section>
@@ -200,14 +200,14 @@
                 <li>Its state (default, hover, pressed, focus, disabled)</li>
               </ul>
             </div>
-            <p>A full path might read <code>component / secondary / high / background / default</code>, the default background for a CTA in the secondary brand colour, weighted to draw the eye first.</p>
+            <p>A full path might read <code>component / secondary / high / background / default</code>, the default background for a CTA in the secondary brand color, weighted to draw the eye first.</p>
           </div>
         </div>
         <div class="cs-row is-flip">
-          <figure class="cs-figure"><div class="cs-asset is-bare"><img src="Assets/web/04-1-3.webp" width="2200" height="1454" alt="" loading="lazy"></div><figcaption class="cs-caption">Alert notice colours in light and dark mode</figcaption></figure>
+          <figure class="cs-figure"><div class="cs-asset is-bare"><img src="Assets/web/04-1-3.webp" width="2200" height="1454" alt="" loading="lazy"></div><figcaption class="cs-caption">Alert notice colors in light and dark mode</figcaption></figure>
           <div class="cs-text">
             <p>Mode became a further axis of the same taxonomy, not a separate pass. Every token holds a light and dark value defined and checked together. Each value is verified against AA, so a failing token is caught before it reaches a screen.</p>
-            <p>The cost is that the taxonomy has to be learned before it’s used: five dimensions, long names, and a designer who wants one colour has to answer several questions to get it. <strong>Harder to use casually, much harder to use incorrectly.</strong> AAA was the aim on text, but reaching 7:1 would have narrowed the palette, so some settled for AA instead, keeping the range the product needed.</p>
+            <p>The cost is that the taxonomy has to be learned before it’s used: five dimensions, long names, and a designer who wants one color has to answer several questions to get it. <strong>Harder to use casually, much harder to use incorrectly.</strong> AAA was the aim on text, but reaching 7:1 would have narrowed the palette, so some settled for AA instead, keeping the range the product needed.</p>
           </div>
         </div>
       </div>
@@ -268,7 +268,7 @@
         </div>
         <div class="cs-sub" data-switch>
           <div class="cs-sub-head">
-            <h3>Colour Contrast</h3>
+            <h3>Color Contrast</h3>
             <div class="cs-switch">
               <span class="cs-switch-label" id="mode-contrast">Mode</span>
               <div class="bgroup" role="group" aria-labelledby="mode-contrast">
