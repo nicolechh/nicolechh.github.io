@@ -109,15 +109,26 @@
         <div><dt>Agency</dt><dd><a href="https://interlude.studio/" target="_blank" rel="noopener">Interlude</a></dd></div>
       </dl>
     </div>
-    <figure class="cs-figure cs-cover"><div class="cs-asset is-bare"><img src="Assets/web/00.webp" width="2200" height="1455" alt="" loading="eager"></div></figure>
+    <figure class="cs-figure cs-cover"><div class="cs-asset is-bare"><img src="Assets/web/00.webp?v=18ded51e" width="2200" height="1455" alt="" loading="eager"></div></figure>
   </header>
 
   <section class="cs-section" id="summary">
     <div class="cs-section-head"><h2>Summary</h2></div>
     <div class="cs-body">
-      <div class="cs-row is-top" style="--cols:790fr 284fr">
-        <figure class="cs-figure"><div class="cs-asset" style="--ar:790/513;--ar-m:335/216"><video src="Assets/01-1.mov" poster="Assets/web/01-1-poster.webp" controls playsinline preload="metadata"></video></div><figcaption class="cs-caption">Prototype of Guards on desktop</figcaption></figure>
-        <figure class="cs-figure is-narrow" style="--w:420px;--wm:235px"><div class="cs-asset" style="--ar:284/513;--ar-m:235/425"><video src="Assets/01-2.mov" poster="Assets/web/01-2-poster.webp" controls playsinline preload="metadata"></video></div><figcaption class="cs-caption">Prototype of Guards on mobile</figcaption></figure>
+      <div class="cs-sub" data-switch>
+        <div class="cs-switch">
+          <span class="cs-switch-label" id="mode-summary">Mode</span>
+          <div class="bgroup" role="group" aria-labelledby="mode-summary">
+            <button type="button" data-key="mode" data-value="light" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>Light</button>
+            <button type="button" data-key="mode" data-value="dark" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></svg>Dark</button>
+          </div>
+        </div>
+        <div class="cs-row is-top" style="--cols:790fr 284fr">
+          <figure class="cs-figure" data-when="mode=light"><div class="cs-asset" style="--ar:790/513;--ar-m:335/216"><video src="Assets/01-1.mov?v=6ca76a4d" poster="Assets/web/01-1-poster.webp?v=7fa178bd" controls playsinline preload="metadata"></video></div><figcaption class="cs-caption">Claude Design prototype on desktop</figcaption></figure>
+          <figure class="cs-figure" data-when="mode=dark" hidden><div class="cs-asset" style="--ar:790/513;--ar-m:335/216"><video src="Assets/01-3.mov?v=7e9b9e76" poster="Assets/web/01-3-poster.webp?v=ed5a7a61" controls playsinline preload="metadata"></video></div><figcaption class="cs-caption">Claude Design prototype on desktop</figcaption></figure>
+          <figure class="cs-figure is-narrow" style="--w:420px;--wm:235px" data-when="mode=light"><div class="cs-asset" style="--ar:284/513;--ar-m:235/425"><video src="Assets/01-2.mov?v=ba54e8df" poster="Assets/web/01-2-poster.webp?v=f321eef8" controls playsinline preload="metadata"></video></div><figcaption class="cs-caption">Claude Design prototype on mobile</figcaption></figure>
+          <figure class="cs-figure is-narrow" style="--w:420px;--wm:235px" data-when="mode=dark" hidden><div class="cs-asset" style="--ar:284/513;--ar-m:235/425"><video src="Assets/01-4.mov?v=91459b04" poster="Assets/web/01-4-poster.webp?v=64078744" controls playsinline preload="metadata"></video></div><figcaption class="cs-caption">Claude Design prototype on mobile</figcaption></figure>
+        </div>
       </div>
       <div class="cs-row is-even is-top">
         <div class="cs-text">
@@ -226,9 +237,9 @@
               <button type="button" data-key="view" data-value="mobile" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>&lt;640</button>
             </div>
           </div>
-          <figure class="cs-figure" data-when="view=desktop"><div class="cs-asset is-bare"><img src="Assets/web/04-2-2.webp" width="2200" height="1498" alt="" loading="lazy"></div><figcaption class="cs-caption">Example screen with table only, no button group</figcaption></figure>
-          <figure class="cs-figure is-narrow" style="--w:540px" data-when="view=tablet" hidden><div class="cs-asset is-bare"><img src="Assets/web/04-2-3.webp" width="1490" height="2061" alt="" loading="lazy"></div><figcaption class="cs-caption">Example screen with button group defaulting to table</figcaption></figure>
-          <figure class="cs-figure is-narrow" style="--w:306px;--wm:258px" data-when="view=mobile" hidden><div class="cs-asset is-bare"><img src="Assets/web/04-2-4.webp" width="788" height="1633" alt="" loading="lazy"></div><figcaption class="cs-caption">Example screen with button group defaulting to list</figcaption></figure>
+          <figure class="cs-figure" data-when="view=desktop"><div class="cs-asset is-bare"><img src="Assets/web/04-2-2.webp?v=a1e3a2b8" width="2200" height="1498" alt="" loading="lazy"></div><figcaption class="cs-caption">Example screen with table only, no button group</figcaption></figure>
+          <figure class="cs-figure is-narrow" style="--w:540px" data-when="view=tablet" hidden><div class="cs-asset is-bare"><img src="Assets/web/04-2-3.webp?v=823ec6c4" width="1490" height="2061" alt="" loading="lazy"></div><figcaption class="cs-caption">Example screen with button group defaulting to table</figcaption></figure>
+          <figure class="cs-figure is-narrow" style="--w:306px;--wm:258px" data-when="view=mobile" hidden><div class="cs-asset is-bare"><img src="Assets/web/04-2-4.webp?v=18a03709" width="788" height="1633" alt="" loading="lazy"></div><figcaption class="cs-caption">Example screen with button group defaulting to list</figcaption></figure>
         </div>
       </div>
     </div>
@@ -283,8 +294,8 @@
             </div>
           </div>
           <div aria-live="polite">
-            <figure class="cs-figure is-narrow" style="--w:926px" data-when="mode=light slide=1"><div class="cs-asset is-bare is-flat"><img src="Assets/web/05-5-1.webp" width="2200" height="2347" alt="" loading="lazy"></div><figcaption class="cs-caption">Before and after of the Alerts page in light mode</figcaption></figure>
-            <figure class="cs-figure is-narrow" style="--w:926px" data-when="mode=dark slide=1" hidden><div class="cs-asset is-bare is-flat"><img src="Assets/web/05-5-2.webp" width="2200" height="2347" alt="" loading="lazy"></div><figcaption class="cs-caption">Before and after of the Alerts page in dark mode</figcaption></figure>
+            <figure class="cs-figure is-narrow" style="--w:926px" data-when="mode=light slide=1"><div class="cs-asset is-bare is-flat"><img src="Assets/web/05-5-1.webp?v=ffbd0641" width="2200" height="2347" alt="" loading="lazy"></div><figcaption class="cs-caption">Before and after of the Alerts page in light mode</figcaption></figure>
+            <figure class="cs-figure is-narrow" style="--w:926px" data-when="mode=dark slide=1" hidden><div class="cs-asset is-bare is-flat"><img src="Assets/web/05-5-2.webp?v=4549939f" width="2200" height="2347" alt="" loading="lazy"></div><figcaption class="cs-caption">Before and after of the Alerts page in dark mode</figcaption></figure>
             <figure class="cs-figure is-narrow" style="--w:926px" data-when="mode=light slide=2" hidden><div class="cs-asset is-bare is-flat"><img src="Assets/web/05-5-3.webp" width="2200" height="2347" alt="" loading="lazy"></div><figcaption class="cs-caption">Before and after of the Alert Information drawer in light mode</figcaption></figure>
             <figure class="cs-figure is-narrow" style="--w:926px" data-when="mode=dark slide=2" hidden><div class="cs-asset is-bare is-flat"><img src="Assets/web/05-5-4.webp" width="2200" height="2347" alt="" loading="lazy"></div><figcaption class="cs-caption">Before and after of the Alert Information drawer in dark mode</figcaption></figure>
             <figure class="cs-figure is-narrow" style="--w:926px" data-when="mode=light slide=3" hidden><div class="cs-asset is-bare is-flat"><img src="Assets/web/05-5-5.webp" width="2200" height="3009" alt="" loading="lazy"></div><figcaption class="cs-caption">Before and after of Create Guard in light mode (the original Create Guard didn’t have light mode)</figcaption></figure>
