@@ -305,7 +305,7 @@
 
   /* Intro wave: on every load the page starts as the bare grid (the <head>
      script's .intro) and a band of blue dots sweeps left to right across it,
-     its front rippling up and down like a wave, lifting and swelling the
+     its front rippling up and down like a wave, lifting and tinting the
      dots it passes before they settle back to grey. Once the wave is fully
      off-screen the page fades in. The wave only ever plays while .intro is
      on, so it never runs over visible content. Skipped under reduced motion. */
@@ -420,10 +420,10 @@
       ctx.fillStyle = cHot;
       ctx.fill();
     }
-    for (let i = 0; i < wave.length; i += 3){        // the wave: blue, swelling with its strength
+    for (let i = 0; i < wave.length; i += 3){        // the wave: blue, more opaque where it is strongest; dots keep their resting size
       const k = wave[i + 2];
       ctx.beginPath();
-      ctx.arc(wave[i], wave[i + 1], DOT_R + k * 1.6, 0, 6.2832);
+      ctx.arc(wave[i], wave[i + 1], DOT_R, 0, 6.2832);
       ctx.globalAlpha = 0.25 + k * 0.75;
       ctx.fillStyle = cWave;
       ctx.fill();
