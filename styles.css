@@ -34,7 +34,7 @@
 
   --gutter:24px;
   --step:8px;
-  --maxw:1268px;   /* 1156px content column (Figma) + main's 56px side padding */
+  --maxw:1512px;   /* 1400px content column + main's 56px side padding; wider than Figma's 1156 so the homepage cards can grow (≈419px at 1440, up to ≈450px) */
 
   /* one superfamily: the pixel face is a Geist sibling, so it pairs by
      construction, and the sans/mono are drawn for UI legibility */

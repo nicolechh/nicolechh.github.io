@@ -56,7 +56,7 @@ All defined on `:root` in `styles.css` (light values match the Figma file's Colo
 | Token | Value | Notes |
 |---|---|---|
 | `--gutter` | 24px desktop, 0 ≤560px | Reserves room for the ruler frame; collapses once the ruler's hidden so mobile margins stay symmetric left/right |
-| `--maxw` | 1268px | Caps `main`'s width — Figma's 1156px content column plus `main`'s 56px side padding |
+| `--maxw` | 1512px | Caps `main`'s width — a 1400px content column plus `main`'s 56px side padding. Deliberately wider than Figma's 1156px column so the homepage cards can grow (≈419px at a 1440 window, up to ≈450px); case studies keep their own 1098px article width |
 | `--step` | 8px | Base unit for small fixed gaps |
 
 Content padding inside `main` is `clamp(20px, 4vw, 56px)`. Homepage section rhythm follows Figma's fixed values: `#work` 80px top and bottom, `#playground` 80px below, `#about` 40px below, each dropping to 56px below 700px; `.head` sits 40px above its content (24px below 700px). The hero always fills the first screen below the bar + ruler (`min-height` from `--vh100`, the JS-measured `innerHeight`, with svh/dvh fallbacks) with its content centred; its `clamp(60px, 8.5vw, 122px)` padding is the minimum on short screens. **Reuse these values when adding a homepage section** rather than inventing a new gap.
@@ -65,7 +65,7 @@ Content padding inside `main` is `clamp(20px, 4vw, 56px)`. Homepage section rhyt
 
 | Width | What changes |
 |---|---|
-| ≥1100px | Card grids (`#work`, `#playground`) are 3-column (Figma's 369px cards, 24px gaps; Playground's two cards fill the first two tracks) |
+| ≥1100px | Card grids (`#work`, `#playground`) are 3-column (24px gaps; Playground's two cards fill the first two tracks) |
 | ≥700px | Card grids are 2-column; About sits photo-left, text-right; the footer is a 2×2 grid |
 | ≤699px | Card grids drop to 1 column, About stacks (photo on top, untilted), footer stacks, section padding tightens to 56px |
 | ≤640px | Nav collapses to the hamburger (`index.html`'s script and `nav.js` both close the menu past 640px — keep the two numbers and the CSS in sync) |
