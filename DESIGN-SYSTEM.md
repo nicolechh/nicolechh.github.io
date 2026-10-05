@@ -65,7 +65,8 @@ Content padding inside `main` is `clamp(20px, 4vw, 56px)`. Homepage section rhyt
 
 | Width | What changes |
 |---|---|
-| ≥700px | Card grids (`#work`, `#playground`) are 2-column; About sits photo-left, text-right; the footer is a 2×2 grid |
+| ≥1100px | Card grids (`#work`, `#playground`) are 3-column (Figma's 369px cards, 24px gaps; Playground's two cards fill the first two tracks) |
+| ≥700px | Card grids are 2-column; About sits photo-left, text-right; the footer is a 2×2 grid |
 | ≤699px | Card grids drop to 1 column, About stacks (photo on top, untilted), footer stacks, section padding tightens to 56px |
 | ≤640px | Nav collapses to the hamburger (`index.html`'s script and `nav.js` both close the menu past 640px — keep the two numbers and the CSS in sync) |
 | ≤560px | "Mobile": hero name stacks and centers, ruler + gutter hidden, lede centers |
@@ -84,7 +85,7 @@ Same corner-handle idea, but with a solid `--tag-blue` fill and bold white text 
 
 ### Card — `.card` → `.card-body` → `.thumb` + `.card-text` (`h3`, description) + `.meta`
 
-Figma's **Work Card**, shared by the homepage's `#work` and `#playground` grids and every case study's "See more work" row. `--card` fill, `--rule-soft` border, 20px padding, 16px gaps. `.thumb` is a 1.52:1 image with no fill or border of its own (the thumbnails carry their own framing). `.meta` is one row, date left and role right, above a `--rule-soft` top border. Hover / press / keyboard focus darken the border to `--rule` and show the `.sel-box` marquee 10px outside the card.
+Figma's **Work Card**, shared by the homepage's `#work` and `#playground` grids and every case study's "See more work" row. `--card` fill, `--rule-soft` border, 20px padding, 16px gaps. `.thumb` is a 3:2 image with no fill or border of its own (the thumbnails carry their own framing). `.meta` is one row, date left and role right, above a `--rule-soft` top border. Hover / press / keyboard focus darken the border to `--rule` and show the `.sel-box` marquee 10px outside the card.
 
 Playground cards (Prompt Pixie, PeaPal) use the same card with the role slot reading "Made with Claude Code", and their links open in a new tab (`target="_blank" rel="noopener"`) since they're separate apps. A new side project goes there, not in `#work`.
 
