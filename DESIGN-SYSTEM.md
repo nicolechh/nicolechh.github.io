@@ -77,7 +77,7 @@ Content padding inside `main` is `clamp(20px, 4vw, 56px)`. Homepage section rhyt
 
 The core motif: a solid 1–1.5px `--select` border with four small corner-handle squares (see style guide for the live demo). Used on the hero name, the lede's frame, and card hover/focus states. **Always solid, never dashed** — an earlier version used dashed borders; it changed and should stay changed.
 
-A purple variant, `.cframe` (Figma's **Component Frame**), wraps the About photo: a `--component` outline with handles, a component-icon label above ("hi, i'm nicole!"), tilted −2.44°. It's for photos only, not a third selection style for UI.
+A purple variant, `.cframe` (Figma's **Component Frame**), wraps the About photos: a `--component` outline with handles and a component-icon label above ("hi, i'm nicole!", "home — taipei, taiwan"). On desktop the two sit in `.about-photos`, Figma's overlapping 524×425 collage: each frame is placed with Figma's x/y/width (as % of the box) and rotated about its top-left corner like Figma does (−2.45° and +2.63°), so the pair scales as one. 700–999px the collage centres above the text; on phones the photos stack straight and full width. It's for photos only, not a third selection style for UI.
 
 ### Tag / filled marquee — `.sticker`
 
