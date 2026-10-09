@@ -51,6 +51,38 @@
   .lob-sum .lob-kiosk{grid-column:1 / 5;grid-row:2;align-self:start}
   .lob-sum .lob-demo{grid-column:6 / 8;grid-row:2;align-self:start}
 }
+/* Rows (Figma): from 1280px the text centres on the image itself, not the
+   image + caption, so it sits up by the caption's height (--cap) */
+@media (min-width:1280px){
+  .cs-row.lob-mid{align-items:center}
+  .cs-row.lob-mid > .cs-text{margin-bottom:var(--cap,25px)}
+}
+/* Decision 1 icons: a centred pair; Figma mobile stacks them left-aligned */
+.cs-figs.lob-icons{justify-content:center}
+@media (max-width:699px){
+  .cs-figs.lob-icons{flex-direction:column;align-items:flex-start;gap:24px}
+  .cs-figs.lob-icons > .cs-figure.is-narrow{flex:none;width:min(var(--wm),100%)}
+}
+/* Problem quotes (Figma's 1098-wide Quotes frame): quote 1 at x14 y52 tilted
+   up, quote 2 at x547 y0 tilted down and overlapping it. Figma rotates about
+   the top-left corner. Stacked, straight and left-aligned below 1280px. */
+.lob-quotes{display:flex;flex-direction:column;gap:16px}
+@media (min-width:1280px){
+  .lob-quotes{display:grid;grid-template-columns:14fr 533fr 4fr 533fr 14fr;align-items:start}
+  .lob-quotes > .cs-quote-wrap{grid-row:1;padding:0;min-width:0}
+  .lob-quotes > :first-child{grid-column:2 / 4;margin-top:52px}
+  .lob-quotes > :last-child{grid-column:3 / 5}
+  .lob-quotes .cs-quote-box{max-width:none;margin:0;background:var(--paper);transform-origin:0 0}
+  .lob-quotes > :first-child .cs-quote-box{transform:rotate(-2.61deg)}
+  .lob-quotes > :last-child .cs-quote-box{transform:rotate(2.56deg)}
+}
+/* Outcome: two 541 columns 16 apart; the quote is 451 wide, centred beside
+   the KPIs */
+@media (min-width:1280px){
+  .cs-row.lob-out{column-gap:16px}
+  .lob-out .cs-quote-wrap{padding:0}
+  .lob-out .cs-quote-box{width:83.4%;max-width:none;transform:rotate(2.56deg)}
+}
 </style>
 </head>
 <body>
@@ -164,7 +196,7 @@
   <section class="cs-section" id="problem">
     <div class="cs-section-head"><h2>The Problem</h2></div>
     <div class="cs-body">
-      <div class="cs-row is-top">
+      <div class="cs-row lob-mid">
         <figure class="cs-figure"><div class="cs-asset"><img src="Assets/web/02-interviews.webp?v=6f9adbc8" width="2200" height="1179" alt="" loading="lazy"></div><figcaption class="cs-caption">Interview findings conducted by team members</figcaption></figure>
         <div class="cs-text">
           <p><strong>The brief: How might Loblaw Digital create a seamless and engaging way-finding system that empowers customers to efficiently locate and discover products in-store that align with their personal preferences, such as Canadian-made goods or diabetes-friendly options?</strong></p>
@@ -172,7 +204,7 @@
           <p>Our market scan, including my audit below, found apps lack real-time aisle-level navigation and most way-finding is costly to maintain.</p>
         </div>
       </div>
-      <div class="cs-row is-even is-top">
+      <div class="lob-quotes">
         <div class="cs-quote-wrap">
           <figure class="cs-quote-box">
             <i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i>
@@ -215,11 +247,11 @@
       <div class="cs-sub">
         <h3>1 — Give Lola a distinct icon</h3>
         <p class="cs-note"><strong>My decision</strong>, made after test round one.</p>
-        <div class="cs-figs">
-          <figure class="cs-figure is-narrow" style="--w:394px;--wm:170px"><div class="cs-asset is-bare"><img src="Assets/web/dec1-before-mic.webp" width="1024" height="941" alt="" loading="lazy"></div><figcaption class="cs-caption">Before: a mic with existing UI colors</figcaption></figure>
-          <figure class="cs-figure is-narrow" style="--w:394px;--wm:170px"><div class="cs-asset is-bare"><img src="Assets/web/dec1-after-L.webp" width="1024" height="941" alt="" loading="lazy"></div><figcaption class="cs-caption">After: an “L” with an audio mark and distinct colors</figcaption></figure>
+        <div class="cs-figs lob-icons">
+          <figure class="cs-figure is-narrow" style="--w:394px;--wm:260px"><div class="cs-asset is-bare"><img src="Assets/web/dec1-before-mic.webp" width="1024" height="941" alt="" loading="lazy"></div><figcaption class="cs-caption">Before: a mic with existing UI colors</figcaption></figure>
+          <figure class="cs-figure is-narrow" style="--w:394px;--wm:260px"><div class="cs-asset is-bare"><img src="Assets/web/dec1-after-L.webp" width="1024" height="941" alt="" loading="lazy"></div><figcaption class="cs-caption">After: an “L” with an audio mark and distinct colors</figcaption></figure>
         </div>
-        <div class="cs-row is-top">
+        <div class="cs-row lob-mid" style="--cols:490fr 584fr">
           <div class="cs-text">
             <p>Before: the mic icon blended into the UI and users weren’t sure it was the AI assistant. Five of six round-one testers missed it or found it unclear.</p>
             <p><strong>After: an ‘L’ for Lola with an audio mark, in colors chosen to stand out and give Lola an identity.</strong> It also had to work as a floating button, since mentors pushed voice AI as the solution.</p>
@@ -232,7 +264,7 @@
         <h3>2 — Introduce Lola with a full page, not a tooltip</h3>
         <p class="cs-note"><strong>My decision</strong>, made after test round two.</p>
         <figure class="cs-figure"><div class="cs-asset is-bare"><img src="Assets/web/dec2-before-tooltips.webp" width="1024" height="358" alt="" loading="lazy"></div><figcaption class="cs-caption">Before: Lola is only introduced with a tooltip and in the chat</figcaption></figure>
-        <div class="cs-row is-top">
+        <div class="cs-row lob-mid" style="--cols:580fr 494fr;--cap:42px">
           <div class="cs-text">
             <p>Before: only subtle tooltips pointed to Lola, with no context on what it is. In round two, testers still asked what it was, and one questioned whether people would want AI reading their data.</p>
             <p><strong>After: an onboarding intro to Lola that gives initial guidance and clarifies its role, followed by a permission request before any data is accessed.</strong></p>
@@ -244,7 +276,7 @@
       <div class="cs-sub">
         <h3>3 — A hands-free guide, with a kiosk for non-smartphone users</h3>
         <p class="cs-note">A team decision.</p>
-        <div class="cs-row is-top">
+        <div class="cs-row lob-mid" style="--cap:42px">
           <figure class="cs-figure"><div class="cs-asset is-bare"><img src="Assets/web/dec3-directions.webp" width="953" height="1024" alt="" loading="lazy"></div><figcaption class="cs-caption">Version 1 of the three directions we took to mentors: mobile app, cart clip-on, and kiosk</figcaption></figure>
           <div class="cs-text">
             <p>We started with smart glasses, then a clip-on, and landed on the phone shoppers already carry. Glasses raise hygiene concerns, don’t suit prescription wearers, and don’t exist off the shelf. A clip-on duplicated the phone. My competitor research raised concerns for hardware costs: Cust2Mate bolts sensors onto carts, ALDIgo rigs cameras across the ceiling.</p>
@@ -310,9 +342,9 @@
   <section class="cs-section" id="outcome">
     <div class="cs-section-head"><h2>The Outcome</h2></div>
     <div class="cs-body">
-      <div class="cs-row is-top" style="--cols:541fr 451fr">
+      <div class="cs-row is-even lob-out">
         <div class="cs-text">
-          <p>KPIs we would measure:</p>
+          <p><strong>KPIs we would measure:</strong></p>
           <ul class="cs-list">
             <li>Kiosk QR code scans and downloads per week, plus conversion rate</li>
             <li>App downloads in the eight weeks before and after the kiosk launches</li>
@@ -328,9 +360,9 @@
           </figure>
         </div>
       </div>
-      <div class="cs-row is-even is-top">
+      <div class="cs-row is-even is-top lob-out">
         <div class="cs-text">
-          <p>Limitations:</p>
+          <p><strong>Limitations:</strong></p>
           <ul class="cs-list">
             <li>Accurate aisle and inventory data: a route to an empty shelf is worse than no route</li>
             <li>Training for staff and shoppers: there’s a learning curve and not everyone knows how to use voice assistance</li>
@@ -339,7 +371,7 @@
           </ul>
         </div>
         <div class="cs-text">
-          <p>Next steps:</p>
+          <p><strong>Next steps:</strong></p>
           <ul class="cs-list">
             <li>Run pilot tests in select stores to measure the KPIs and interview shoppers about the impact on their shopping time, product discovery and satisfaction</li>
             <li>Refine AI capabilities to balance helpfulness with non-intrusiveness, since testers missed or misread Lola and some questioned AI using their data</li>
