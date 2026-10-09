@@ -39,6 +39,18 @@
 .cs-figs>.cs-figure{flex:1 1 0;min-width:0;margin:0}
 .cs-figs>.cs-figure.is-narrow{flex:0 1 var(--w);width:auto}
 @media (max-width:699px){.cs-figs{gap:12px}}
+/* Summary (Figma): DOM is the mobile order (mobile video, kiosk, demo, text).
+   From 1280px: row 1 = mobile video + text, centred (358 + 24 + 580 of 1098);
+   row 2 = kiosk + demo at 537 each. Column tracks are Figma's x positions. */
+.lob-sum{display:flex;flex-direction:column;gap:24px}
+.lob-sum .lob-mob{align-self:center}
+@media (min-width:1280px){
+  .lob-sum{display:grid;grid-template-columns:68fr 358fr 24fr 87fr 24fr 469fr 68fr;column-gap:0;row-gap:24px;align-items:center}
+  .lob-sum .lob-mob{grid-column:2;grid-row:1;width:100%}
+  .lob-sum .lob-text{grid-column:4 / 7;grid-row:1}
+  .lob-sum .lob-kiosk{grid-column:1 / 5;grid-row:2;align-self:start}
+  .lob-sum .lob-demo{grid-column:6 / 8;grid-row:2;align-self:start}
+}
 </style>
 </head>
 <body>
@@ -130,24 +142,22 @@
   <section class="cs-section" id="summary">
     <div class="cs-section-head"><h2>Summary</h2></div>
     <div class="cs-body">
-      <div class="cs-row is-top" style="--cols:284fr 790fr">
-        <figure class="cs-figure is-narrow" style="--w:420px;--wm:235px"><div class="cs-asset" style="--ar:284/513;--ar-m:236/426"><video src="Assets/01-1.mp4?v=45363bab" poster="Assets/web/01-1-poster.webp?v=d0394d41" controls playsinline preload="metadata"></video></div><figcaption class="cs-caption">Mobile app prototype</figcaption></figure>
-        <figure class="cs-figure"><div class="cs-asset" style="--ar:790/513;--ar-m:335/218"><video src="Assets/01-2.mp4?v=e7f8aa91" poster="Assets/web/01-2-poster.webp?v=bed89a83" controls playsinline preload="metadata"></video></div><figcaption class="cs-caption">In-store kiosk app prototype</figcaption></figure>
-      </div>
-      <div class="cs-row is-top">
-        <figure class="cs-figure"><div class="cs-asset" style="--ar:584/378;--ar-m:335/217"><video src="Assets/01-3.mp4?v=415220ea" poster="Assets/web/01-3-poster.webp?v=83cbbd28" controls playsinline preload="metadata"></video></div><figcaption class="cs-caption">Example of Lola’s in-store navigation and recommendations using the app</figcaption></figure>
-        <div class="cs-text">
-          <p>Loblaw Digital’s brief for our MDEI final project: how can AI help shoppers find what matters to them beyond static signage? We designed Lola, a voice-assisted guide inside the PC Express app, plus an in-store kiosk for shoppers without it.</p>
-          <p>With two teammates, we mapped out the flows for Scenario A (sign-up, preferences, lists), then I built the prototype for Scenario B, AI navigation and product discovery, including the app’s voice assistant feature. After our mentor suggested making voice the primary feature, I incorporated it into the prototype for Scenario A. I also researched competitors and ran a usability test each round.</p>
-          <ul class="cs-list">
-            <li><strong>Team</strong>: MDEI students Arwa Haggag, Evangelyn Alexander, Francesca Ferrario, Karen SueAnn Yao, Patrick Duran Yutiga, and Wahba Alsawaf, along with our mentors Markus Grupp and Kael Karlo Cruz from Loblaw Digital</li>
-            <li><strong>Scope</strong>: Research, prototyping, two test rounds, final pitch</li>
-            <li><strong>Platform</strong>: Mobile app (extending PC Express) and in-store kiosk app</li>
-          </ul>
-          <p>See our full pitch deck <a href="https://www.canva.com/design/DAGkv3KiCUM/Wszm-r9oO0pd2yErkuwckw/view?utm_content=DAGkv3KiCUM&amp;utm_campaign=designshare&amp;utm_medium=link&amp;utm_source=viewer" target="_blank" rel="noopener">here</a>.</p>
+      <div class="lob-sum">
+        <figure class="cs-figure is-narrow lob-mob" style="--w:420px;--wm:236px"><div class="cs-asset" style="--ar:358/639;--ar-m:236/426"><video src="Assets/01-1.mp4?v=45363bab" poster="Assets/web/01-1-poster.webp?v=d0394d41" controls playsinline preload="metadata"></video></div><figcaption class="cs-caption">Mobile app prototype</figcaption></figure>
+        <figure class="cs-figure lob-kiosk"><div class="cs-asset" style="--ar:537/332;--ar-m:335/218"><video src="Assets/01-2.mp4?v=e7f8aa91" poster="Assets/web/01-2-poster.webp?v=bed89a83" controls playsinline preload="metadata"></video></div><figcaption class="cs-caption">In-store kiosk app prototype</figcaption></figure>
+        <figure class="cs-figure lob-demo"><div class="cs-asset" style="--ar:537/332;--ar-m:335/217"><video src="Assets/01-3.mp4?v=415220ea" poster="Assets/web/01-3-poster.webp?v=83cbbd28" controls playsinline preload="metadata"></video></div><figcaption class="cs-caption">Example of Lola’s in-store navigation and recommendations using the app</figcaption></figure>
+        <div class="cs-text lob-text">
+            <p>Loblaw Digital’s brief for our MDEI final project: how can AI help shoppers find what matters to them beyond static signage? We designed Lola, a voice-assisted guide inside the PC Express app, plus an in-store kiosk for shoppers without it.</p>
+            <p>With two teammates, we mapped out the flows for Scenario A (sign-up, preferences, lists), then I built the prototype for Scenario B, AI navigation and product discovery, including the app’s voice assistant feature. After our mentor suggested making voice the primary feature, I incorporated it into the prototype for Scenario A. I also researched competitors and ran a usability test each round.</p>
+            <ul class="cs-list">
+              <li><strong>Team</strong>: MDEI students Arwa Haggag, Evangelyn Alexander, Francesca Ferrario, Karen SueAnn Yao, Patrick Duran Yutiga, and Wahba Alsawaf, along with our mentors Markus Grupp and Kael Karlo Cruz from Loblaw Digital</li>
+              <li><strong>Scope</strong>: Research, prototyping, two test rounds, final pitch</li>
+              <li><strong>Platform</strong>: Mobile app (extending PC Express) and in-store kiosk app</li>
+            </ul>
+            <p>See our full pitch deck <a href="https://www.canva.com/design/DAGkv3KiCUM/Wszm-r9oO0pd2yErkuwckw/view?utm_content=DAGkv3KiCUM&amp;utm_campaign=designshare&amp;utm_medium=link&amp;utm_source=viewer" target="_blank" rel="noopener">here</a>.</p>
+            <p class="cs-caption cs-disclaimer">Disclaimer: Loblaw Digital and Loblaws brand elements, as well as other company images, were used for academic purposes only</p>
         </div>
       </div>
-      <p class="cs-caption cs-disclaimer">Disclaimer: Loblaw Digital and Loblaws brand elements, as well as other company images, were used for academic purposes only.</p>
     </div>
   </section>
 
