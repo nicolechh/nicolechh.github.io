@@ -32,7 +32,7 @@ All defined on `:root` in `styles.css` (light values match the Figma file's Colo
 | `--edge` | Ruler ticks, control borders — kept at ≥3:1 against its background (non-text contrast) |
 | `--accent` | Links, focus rings, the "hot" dot color, the ruler's cursor marker |
 | `--select` | Marquee borders, hover/select states, the load-in wave's dots, About links |
-| `--component` | `#9747FF` — Figma's component purple; only the About photo's component frame |
+| `--component` | `#9747FF` — Figma's component purple; the About photos' and Loblaw audit cards' component frames |
 | `--tag-blue` | **Fixed, not theme-swapped** — see below |
 | `--dot` / `--dot-hot` | Dot-grid resting / near-cursor colors |
 | `--on-select` | Text color on an `--select`-filled surface |
@@ -76,7 +76,7 @@ Content padding inside `main` is `clamp(20px, 4vw, 56px)`. Homepage section rhyt
 
 The core motif: a solid 1–1.5px `--select` border with four small corner-handle squares (see style guide for the live demo). Used on the hero name, the lede's frame, and card hover/focus states. **Always solid, never dashed** — an earlier version used dashed borders; it changed and should stay changed.
 
-A purple variant, `.cframe` (Figma's **Component Frame**), wraps the About photos: a `--component` outline with handles and a component-icon label above ("hi, i'm nicole!", "home — taipei, taiwan"). On desktop the two sit in `.about-photos`, Figma's overlapping 524×425 collage: each frame is placed with Figma's x/y/width (as % of the box) and rotated about its top-left corner like Figma does (−2.45° and +2.63°), so the pair scales as one. 700–999px the collage centres above the text; on phones the photos stack straight and full width. It's for photos only, not a third selection style for UI.
+A purple variant, `.cframe` (Figma's **Component Frame**), wraps the About photos: a `--component` outline with handles and a component-icon label above ("hi, i'm nicole!", "home — taipei, taiwan"). On desktop the two sit in `.about-photos`, Figma's overlapping 524×425 collage: each frame is placed with Figma's x/y/width (as % of the box) and rotated about its top-left corner like Figma does (−2.45° and +2.63°), so the pair scales as one. 700–999px the collage centres above the text; on phones the photos stack straight and full width. It's for photos only, not a third selection style for UI. The Loblaw competitor audit reuses it around each `.cs-audit-card` (unfilled, 1px `--rule-soft` border, 20px padding, 4px-radius 310:157 image); three across from 1100px, stacked and capped at 580px below.
 
 ### Tag / filled marquee — `.sticker`
 
