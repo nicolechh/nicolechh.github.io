@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Loblaw Digital: Talk, Shop, Discover - AI Voice Assistant for Grocery Navigation — Nicole Chou</title>
+<meta name="description" content="Voice-assisted way-finding for the PC Express app and in-store kiosks. Final project for the MDEI program at the University of Waterloo.">
+<link rel="canonical" href="https://nicolec.xyz/case-studies/loblaw-voice-assistant/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Nicole Chou">
+<meta property="og:title" content="Loblaw Digital: Talk, Shop, Discover - AI Voice Assistant for Grocery Navigation — Nicole Chou">
+<meta property="og:description" content="Voice-assisted way-finding for the PC Express app and in-store kiosks. Final project for the MDEI program at the University of Waterloo.">
+<meta property="og:url" content="https://nicolec.xyz/case-studies/loblaw-voice-assistant/">
+<meta property="og:image" content="https://nicolec.xyz/case-studies/loblaw-voice-assistant/Assets/web/og.jpg?v=51404b26">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Screens from the case study Loblaw Digital: Talk, Shop, Discover - AI Voice Assistant for Grocery Navigation">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../../assets/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;700&family=Geist+Pixel&display=swap">
+<link rel="stylesheet" href="../../styles.css?v=c614eb24">
+<link rel="stylesheet" href="../../case-study.css?v=b0579d25">
+<style>
+.cs-audit{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+@media (max-width:699px){.cs-audit{grid-template-columns:1fr}}
+.cs-audit-card{display:flex;flex-direction:column;gap:12px;padding:16px;background:var(--paper-2);border:1px solid var(--rule-soft);border-radius:8px}
+.cs-audit-img{aspect-ratio:2/1;overflow:hidden;border-radius:4px}
+.cs-audit-img img{display:block;width:100%;height:100%;object-fit:cover}
+.cs-audit-card p{margin:0}
+.cs-audit-pc{display:flex;flex-direction:column;gap:6px;margin:0;padding:0;list-style:none;font-size:.875rem}
+.cs-audit-name{margin:0;font-family:var(--mono);font-weight:500;font-size:12px;line-height:16px}
+.cs-section .cs-disclaimer{margin:0;text-align:left;font-size:12px;line-height:16px;color:var(--ink-3)}   /* beats .cs-section p */
+.cs-section .cs-audit-src{font-family:var(--mono);font-weight:500;font-size:12px;line-height:16px;color:var(--ink-3)}
+.cs-note{margin:0}
+.cs-figs{display:flex;gap:24px;align-items:flex-start}
+.cs-figs>.cs-figure{flex:1 1 0;min-width:0;margin:0}
+.cs-figs>.cs-figure.is-narrow{flex:0 1 var(--w);width:auto}
+@media (max-width:699px){.cs-figs{gap:12px}}
+</style>
+</head>
+<body>
+<div class="cursor-chip" id="cursorChip" aria-hidden="true">
+  <svg class="cursor-arrow" viewBox="-1 -1 17 22" width="17" height="22"><path d="M0 0 L0 20 L5.5 15.5 L14.5 15.5 Z"/></svg>
+  <svg class="cursor-zoom" viewBox="0 0 26 26" width="26" height="26"><line class="cz-handle-edge" x1="14.5" y1="14.5" x2="21" y2="21"/><line class="cz-handle" x1="14.5" y1="14.5" x2="21" y2="21"/><circle class="cz-lens" cx="9" cy="9" r="7.5"/><line class="cz-mark" x1="5.5" y1="9" x2="12.5" y2="9"/><line class="cz-mark cz-plus" x1="9" y1="5.5" x2="9" y2="12.5"/></svg>
+  <span class="cursor-coords" id="cursorCoords">
+    <span id="cursorX">X: 0</span>
+    <span id="cursorY">Y: 0</span>
+  </span>
+</div>
+
+<nav class="bar" id="bar" data-open="false">
+  <a class="logo" href="../../index.html#home" aria-label="Home"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFsAAABaCAMAAADgtNoOAAADAFBMVEXjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERFpfbk+AAABAHRSTlMAAQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyAhIiMkJSYnKCkqKywtLi8wMTIzNDU2Nzg5Ojs8PT4/QEFCQ0RFRkdISUpLTE1OT1BRUlNUVVZXWFlaW1xdXl9gYWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXp7fH1+f4CBgoOEhYaHiImKi4yNjo+QkZKTlJWWl5iZmpucnZ6foKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr/AwcLDxMXGx8jJysvMzc7P0NHS09TV1tfY2drb3N3e3+Dh4uPk5ebn6Onq6+zt7u/w8fLz9PX29/j5+vv8/f7/qVjM+gAABG1JREFUeNrVmU1oFEkUgB8isoiIyBIkSAgS5jCIeBIRzQ4eRBQkiIiEnBYJIo2GHESkEUSWJaR3WVgwSAZ/8CCSBpFhkSy9hGWRoLSIBC+mFURkAnaQEARDZrasn/6p6a6qrpiug+8wM1Wv+qs3r15Vva4CAEBM6nWEaIFWJNVYavQz9CBuDG6iC5APIfJYDVaHYaQAAJ4hE8z2ffbT5qo9FBvCScJGjE36rLWiKl+I9zxKQg5XZ7darTCLrjscO6ojj674j2+q5Zxa/fRVYprr8n/p6XEoQ/6Ohy/19vIpKEluJD7hBrVEQdwwgwl49GGC7bMemibM9sl3Df1RNvttGuA/lc2+mQZK6e7+P5nz5bPvGLR7MI1vrnb7/mpJbDvLPvoFoZlvgI003JMZdgB0wUrlNumqR0bY2LtZrDiBn2r3ZH0CmM3B75PKigQ98AG13zwY2ZvXXCCP9efYfoe7VeyelWiFW5wa7tVh20ibPcpvMPMTA1sL2ZY2eyqzf63OXju4UcW28C6t6e+Xgn10uWFV5P7WZy9K0oD3t85cz7DZbA+0/b2hTcdxfPjcL40FUR85Np1AWuxtRPW5jxWq1sPFQjbOhGw9n3QT1RRXsXe0sSRjx1mWr8fuI6qxjJ/2XZpeFrDjtcrVZFeJ6rpgIThgz3wRsGtAkzQt9m4JWxbf+MtvtbJjeaBLJIeJ6nehqssWj+UQytn9jZIZSyu775TG9jzag1c+ezDZL8EIO6SGZ9n3J0TymKieC1UTT7TZFem+tYYYTGdn2WzwhnxjbEHuUxIbDLKjGGyZY1tWi19QSmQD3ufz7HfzImnSLU2omv8oZCMj6wlhe8Lcpxy2JZyXJteqj02RUJ8uC1XNJcl+qbue7Fl7fHuegr37RFXG3nrk2A4p+1DEVsyd0WhIBOxenPqsHlHbHajm/L+48I+YPUxKkyp2TRjfCXsWF/4TsyntnmqtMsZOT8wMsPGZmHqNXYdPAg8V+2ThXiR/EdVcXHpW6G8NtkoK/E3PCo2wPQhVc36ddoMxdki/QWssO+WZDtvWjUHByidln2KuNsKG9CxMxp4pYE8W5D6OLff3I1yYVRwcjKvZjipO7uLCazF7jDS8omIH6hi8RI5ztgvZNOMeULADzMYvU1J2PyldE6HZFUS3ym62HErH8gfyzr76swBNX+bnoJDNZpBwLx5nJ/oj/ZWd3bH07R+eZtPyrAZbnsd2LShm/NwmJdsBqCtz5NqKFP2pUpSf1NVs2Pdegn6xqzD3CTv3Bnq4vIP/c5vPv8qD209Ob+AbnSSVfaJ8kGNXX7aXxrJR8eOxC1d/+zOW8Svna1uyTS5PNwahgF2SXKRUco8Ehs7tfWL4r2buG+jNXtPc/c73dS+VsENT7LpBuy2DbDDGDjrvojMdpjfKKN+I6QFFpxmQvZZ26JNubiniu9C6Cc89DQ6z33Xl7eprfTl2MkHtsr4sy6FGDqUtA/wa5zielVyRs4vJDhOd5B7djutceqT+Fc9RphVm8gQ+AAAAAElFTkSuQmCC" alt="" width="91" height="90"></a>
+  <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="menu">
+    <svg class="burger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="5" x2="20" y2="5"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="19" x2="20" y2="19"/></svg>
+  </button>
+  <div class="menu" id="menu">
+    <div class="menu-panel">
+      <div class="nav">
+        <a href="../../index.html#home">Home</a>
+        <a href="../../index.html#work">Work</a>
+        <a href="../../index.html#playground">Playground</a>
+        <a href="../../index.html#about">About</a>
+      </div>
+      <div class="motion">
+        <span class="motion-label" id="motion-label">Reduce motion</span>
+        <button class="motion-track" id="motion" type="button" role="switch" aria-checked="false" aria-labelledby="motion-label">
+          <span class="motion-pill" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="cs-toc-mobile" id="csTocMobile" data-open="false">
+  <button class="cs-toc-trigger" type="button" id="csTocTrigger" aria-expanded="false" aria-controls="csTocPanel" aria-label="Jump to section">
+    <span class="cs-toc-trigger-label">Summary</span>
+    <svg class="cs-toc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+  </button>
+  <div class="cs-toc-panel" id="csTocPanel">
+    <a href="#summary">Summary</a>
+    <a href="#problem">The Problem</a>
+    <a href="#constraints">Constraints</a>
+    <a href="#decisions">The Decisions</a>
+    <a href="#craft">Craft &amp; System</a>
+    <a href="#ship">Ship &amp; Collaboration</a>
+    <a href="#outcome">The Outcome</a>
+    <a href="#reflection">Reflection</a>
+  </div>
+</div>
+
+<main class="cs-page">
+
+  <nav class="cs-toc" aria-label="Section navigation">
+    <span class="cs-toc-indicator" aria-hidden="true"></span>
+    <a href="#summary">Summary</a>
+    <a href="#problem">The Problem</a>
+    <a href="#constraints">Constraints</a>
+    <a href="#decisions">The Decisions</a>
+    <a href="#craft">Craft &amp; System</a>
+    <a href="#ship">Ship &amp; Collaboration</a>
+    <a href="#outcome">The Outcome</a>
+    <a href="#reflection">Reflection</a>
+  </nav>
+
+  <div class="cs-shell">
+
+  <div class="cs-article">
+
+  <header class="cs-hero">
+    <div class="cs-title-block">
+      <h1 class="cs-title">Loblaw Digital: Talk, Shop, Discover - AI Voice Assistant for Grocery Navigation</h1>
+      <p class="cs-outcome">Voice-assisted way-finding for the PC Express app and in-store kiosks. Final project for the MDEI program at the University of Waterloo.</p>
+    </div>
+    <div class="cs-facts">
+      <dl class="cs-facts-col">
+        <div><dt>Role</dt><dd>Designer / Prototyper</dd></div>
+        <div><dt>Timeline</dt><dd>10 days</dd></div>
+      </dl>
+      <dl class="cs-facts-col">
+        <div><dt>Deliverables</dt><dd>Figma prototype<br>20-minute pitch</dd></div>
+        <div><dt>Program</dt><dd>Master of Digital Experience Innovation<br>University of Waterloo</dd></div>
+      </dl>
+    </div>
+    <figure class="cs-figure cs-cover"><div class="cs-asset is-bare"><img src="Assets/web/00.webp?v=53b51a5b" width="2200" height="1463" alt="" loading="eager"></div></figure>
+  </header>
+
+  <section class="cs-section" id="summary">
+    <div class="cs-section-head"><h2>Summary</h2></div>
+    <div class="cs-body">
+      <div class="cs-row is-top" style="--cols:284fr 790fr">
+        <figure class="cs-figure is-narrow" style="--w:420px;--wm:235px"><div class="cs-asset" style="--ar:284/513;--ar-m:236/426"><video src="Assets/01-1.mp4?v=45363bab" poster="Assets/web/01-1-poster.webp?v=d0394d41" controls playsinline preload="metadata"></video></div><figcaption class="cs-caption">Mobile app prototype</figcaption></figure>
+        <figure class="cs-figure"><div class="cs-asset" style="--ar:790/513;--ar-m:335/218"><video src="Assets/01-2.mp4?v=e7f8aa91" poster="Assets/web/01-2-poster.webp?v=bed89a83" controls playsinline preload="metadata"></video></div><figcaption class="cs-caption">In-store kiosk app prototype</figcaption></figure>
+      </div>
+      <div class="cs-row is-top">
+        <figure class="cs-figure"><div class="cs-asset" style="--ar:584/378;--ar-m:335/217"><video src="Assets/01-3.mp4?v=415220ea" poster="Assets/web/01-3-poster.webp?v=83cbbd28" controls playsinline preload="metadata"></video></div><figcaption class="cs-caption">Example of Lola’s in-store navigation and recommendations using the app</figcaption></figure>
+        <div class="cs-text">
+          <p>Loblaw Digital’s brief for our MDEI final project: how can AI help shoppers find what matters to them beyond static signage? We designed Lola, a voice-assisted guide inside the PC Express app, plus an in-store kiosk for shoppers without it.</p>
+          <p>With two teammates, we mapped out the flows for Scenario A (sign-up, preferences, lists), then I built the prototype for Scenario B, AI navigation and product discovery, including the app’s voice assistant feature. After our mentor suggested making voice the primary feature, I incorporated it into the prototype for Scenario A. I also researched competitors and ran a usability test each round.</p>
+          <ul class="cs-list">
+            <li><strong>Team</strong>: MDEI students Arwa Haggag, Evangelyn Alexander, Francesca Ferrario, Karen SueAnn Yao, Patrick Duran Yutiga, and Wahba Alsawaf, along with our mentors Markus Grupp and Kael Karlo Cruz from Loblaw Digital</li>
+            <li><strong>Scope</strong>: Research, prototyping, two test rounds, final pitch</li>
+            <li><strong>Platform</strong>: Mobile app (extending PC Express) and in-store kiosk app</li>
+          </ul>
+          <p>See our full pitch deck <a href="https://www.canva.com/design/DAGkv3KiCUM/Wszm-r9oO0pd2yErkuwckw/view?utm_content=DAGkv3KiCUM&amp;utm_campaign=designshare&amp;utm_medium=link&amp;utm_source=viewer" target="_blank" rel="noopener">here</a>.</p>
+        </div>
+      </div>
+      <p class="cs-caption cs-disclaimer">Disclaimer: Loblaw Digital and Loblaws brand elements, as well as other company images, were used for academic purposes only.</p>
+    </div>
+  </section>
+
+  <section class="cs-section" id="problem">
+    <div class="cs-section-head"><h2>The Problem</h2></div>
+    <div class="cs-body">
+      <div class="cs-row is-top">
+        <figure class="cs-figure"><div class="cs-asset"><img src="Assets/web/02-interviews.webp?v=6f9adbc8" width="2200" height="1179" alt="" loading="lazy"></div><figcaption class="cs-caption">Interview findings conducted by team members</figcaption></figure>
+        <div class="cs-text">
+          <p><strong>The brief: How might Loblaw Digital create a seamless and engaging way-finding system that empowers customers to efficiently locate and discover products in-store that align with their personal preferences, such as Canadian-made goods or diabetes-friendly options?</strong></p>
+          <p>Shoppers with specific needs hunt aisle by aisle and often leave without the item they came for: it isn’t where they expected, and staff can’t always help since products move for promotions.</p>
+          <p>Our market scan, including my audit below, found apps lack real-time aisle-level navigation and most way-finding is costly to maintain.</p>
+        </div>
+      </div>
+      <div class="cs-row is-even is-top">
+        <div class="cs-quote-wrap">
+          <figure class="cs-quote-box">
+            <i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i>
+            <blockquote class="cs-quote">“Customers often ask me where certain items are, and sometimes they are not in their usual spots because of promos. An app that would tell us where things are, or even if they’re in stock would be super useful”</blockquote>
+            <figcaption class="cs-cite"><span class="cs-cite-text"><span>A Loblaws store employee</span><span class="cs-cite-org"></span></span></figcaption>
+          </figure>
+        </div>
+        <div class="cs-quote-wrap">
+          <figure class="cs-quote-box">
+            <i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i>
+            <blockquote class="cs-quote">“Not in a grocery store but choosing an item in the app/ in-store screen and it telling me where I can find the item exactly on the floor of the store made my shopping experience x10 better.”</blockquote>
+            <figcaption class="cs-cite"><span class="cs-cite-text"><span>A Canadian Shopper</span><span class="cs-cite-org"></span></span></figcaption>
+          </figure>
+        </div>
+      </div>
+      <div class="cs-sub">
+        <h3>My competitor audit</h3>
+        <div class="cs-audit">
+          <div class="cs-audit-card"><p class="cs-audit-name">Instacart Smart Shop</p><div class="cs-audit-img"><img src="Assets/web/02-audit-instacart.webp" width="900" height="450" alt="Instacart Smart Shop preferences screen in the app (Instacart press image)" loading="lazy"></div><p>Dietary preferences shape search and recommendations; tagging is automated.</p><ul class="cs-audit-pc"><li><strong>Pro:</strong> Personalizes results without manual tagging.</li><li><strong>Con:</strong> Can’t tell shoppers where an item is in the store.</li></ul><p class="cs-audit-src">Image: <a href="https://www.instacart.com/company/updates/introducing-smart-shop-personalization" target="_blank" rel="noopener">Instacart</a></p></div>
+          <div class="cs-audit-card"><p class="cs-audit-name">ALDIgo</p><div class="cs-audit-img"><img src="Assets/web/02-audit-aldigo.webp" width="656" height="492" alt="ALDIgo checkout-free pay station in an ALDI store (ALDI and Grabango press image)" loading="lazy"></div><p>Checkout-free, run by cameras and scanners across the ceiling.</p><ul class="cs-audit-pc"><li><strong>Pro:</strong> No app, cart or checkout line needed.</li><li><strong>Con:</strong> Needs store-wide cameras and scanners; solves checkout, not finding products.</li></ul><p class="cs-audit-src">Image: <a href="https://vmsd.com/aldi-launches-checkout-free-grocery/" target="_blank" rel="noopener">VMSD, ALDI and Grabango release</a></p></div>
+          <div class="cs-audit-card"><p class="cs-audit-name">Cust2Mate</p><div class="cs-audit-img"><img src="Assets/web/02-audit-cust2mate.webp" width="900" height="473" alt="Cust2Mate smart panel mounted on a shopping cart (Cust2Mate press image)" loading="lazy"></div><p>An attachable cart panel with sensors, a scale and a store map.</p><ul class="cs-audit-pc"><li><strong>Pro:</strong> Retrofits existing carts.</li><li><strong>Con:</strong> Adds hardware to every cart to manage.</li></ul><p class="cs-audit-src">Image: <a href="https://www.cust2mate.com" target="_blank" rel="noopener">Cust2Mate</a></p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cs-section" id="constraints">
+    <div class="cs-section-head"><h2>Constraints</h2></div>
+    <ul class="cs-list is-grid">
+      <li><strong>Ten days, seven team members.</strong> We ran it like a real work project with daily stand-ups around our jobs, and delivered a prototype and a 20-minute pitch with the process documented.</li>
+      <li><strong>Different shoppers, tailored solutions.</strong> Two personas: Sara, 30, phone-fluent, and Frank, 65, avoids apps. The app works for Sara and the in-store kiosk makes sense for Frank.</li>
+      <li><strong>A live app to extend.</strong> Our screens had to fit PC Express and Loblaw Digital’s brand while showing what was new.</li>
+      <li><strong>Personal data and trust.</strong> Lola uses personal preferences and location, so permission had to be granted before touching any data.</li>
+    </ul>
+  </section>
+
+  <section class="cs-section" id="decisions">
+    <div class="cs-section-head"><h2>The Decisions</h2></div>
+    <div class="cs-body">
+      <div class="cs-sub">
+        <h3>1 — Give Lola a distinct icon</h3>
+        <p class="cs-note"><strong>My decision</strong>, made after test round one.</p>
+        <div class="cs-figs">
+          <figure class="cs-figure is-narrow" style="--w:394px;--wm:170px"><div class="cs-asset is-bare"><img src="Assets/web/dec1-before-mic.webp" width="1024" height="941" alt="" loading="lazy"></div><figcaption class="cs-caption">Before: a mic with existing UI colors</figcaption></figure>
+          <figure class="cs-figure is-narrow" style="--w:394px;--wm:170px"><div class="cs-asset is-bare"><img src="Assets/web/dec1-after-L.webp" width="1024" height="941" alt="" loading="lazy"></div><figcaption class="cs-caption">After: an “L” with an audio mark and distinct colors</figcaption></figure>
+        </div>
+        <div class="cs-row is-top">
+          <div class="cs-text">
+            <p>Before: the mic icon blended into the UI and users weren’t sure it was the AI assistant. Five of six round-one testers missed it or found it unclear.</p>
+            <p><strong>After: an ‘L’ for Lola with an audio mark, in colors chosen to stand out and give Lola an identity.</strong> It also had to work as a floating button, since mentors pushed voice AI as the solution.</p>
+            <p>The cost: an off-brand mark. One round-two tester said its color didn’t match the brand, and another expected an assistant-like face, which we left out so no one would mistake Lola for a real person.</p>
+          </div>
+          <figure class="cs-figure"><div class="cs-asset is-bare"><img src="Assets/web/dec1-floating-button.webp" width="1024" height="670" alt="" loading="lazy"></div><figcaption class="cs-caption">Floating button on the home page</figcaption></figure>
+        </div>
+      </div>
+      <div class="cs-sub">
+        <h3>2 — Introduce Lola with a full page, not a tooltip</h3>
+        <p class="cs-note"><strong>My decision</strong>, made after test round two.</p>
+        <figure class="cs-figure"><div class="cs-asset is-bare"><img src="Assets/web/dec2-before-tooltips.webp" width="1024" height="358" alt="" loading="lazy"></div><figcaption class="cs-caption">Before: Lola is only introduced with a tooltip and in the chat</figcaption></figure>
+        <div class="cs-row is-top">
+          <div class="cs-text">
+            <p>Before: only subtle tooltips pointed to Lola, with no context on what it is. In round two, testers still asked what it was, and one questioned whether people would want AI reading their data.</p>
+            <p><strong>After: an onboarding intro to Lola that gives initial guidance and clarifies its role, followed by a permission request before any data is accessed.</strong></p>
+            <p>I chose a full page over a larger tooltip or pop-up because shoppers are already setting up their profile. The cost: an extra onboarding step that could lead to drop-off.</p>
+          </div>
+          <figure class="cs-figure is-narrow" style="--w:410px;--wm:300px"><div class="cs-asset is-bare"><img src="Assets/web/dec2-after-onboarding.webp" width="972" height="1024" alt="" loading="lazy"></div><figcaption class="cs-caption">After: Lola is introduced during onboarding with permissions</figcaption></figure>
+        </div>
+      </div>
+      <div class="cs-sub">
+        <h3>3 — A hands-free guide, with a kiosk for non-smartphone users</h3>
+        <p class="cs-note">A team decision.</p>
+        <div class="cs-row is-top">
+          <figure class="cs-figure"><div class="cs-asset is-bare"><img src="Assets/web/dec3-directions.webp" width="953" height="1024" alt="" loading="lazy"></div><figcaption class="cs-caption">Version 1 of the three directions we took to mentors: mobile app, cart clip-on, and kiosk</figcaption></figure>
+          <div class="cs-text">
+            <p>We started with smart glasses, then a clip-on, and landed on the phone shoppers already carry. Glasses raise hygiene concerns, don’t suit prescription wearers, and don’t exist off the shelf. A clip-on duplicated the phone. My competitor research raised concerns for hardware costs: Cust2Mate bolts sensors onto carts, ALDIgo rigs cameras across the ceiling.</p>
+            <p><strong>With our mentors’ guidance, we settled on Lola in the PC Express app, which shoppers can talk to hands-free, plus a kiosk for those without a smartphone.</strong> The cost: hands-free needs earbuds and a smartphone, and the kiosk is a second surface to maintain.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cs-section" id="craft">
+    <div class="cs-section-head"><h2>Craft &amp; System</h2></div>
+    <div class="cs-body">
+      <div class="cs-sub">
+        <h3>Lola: chat with voice built in</h3>
+        <div class="cs-row is-top">
+          <div class="cs-figs is-narrow">
+            <figure class="cs-figure is-narrow" style="--w:258px;--wm:160px"><div class="cs-asset is-bare"><img src="Assets/web/craft-chat-v1.webp" width="472" height="1024" alt="" loading="lazy"></div><figcaption class="cs-caption">Version 1: voice-focused chat</figcaption></figure>
+            <figure class="cs-figure is-narrow" style="--w:258px;--wm:160px"><div class="cs-asset is-bare"><img src="Assets/web/craft-chat-final.webp" width="472" height="1024" alt="" loading="lazy"></div><figcaption class="cs-caption">Final version: chat with voice</figcaption></figure>
+          </div>
+          <div class="cs-text"><p>Lola started voice-first, with the chat transcript as an overlay. I changed it to a traditional chat with voice built in, so shoppers can choose chat or voice and see the transcript from the chat.</p></div>
+        </div>
+      </div>
+      <div class="cs-sub">
+        <h3>A flat route map</h3>
+        <div class="cs-figs">
+          <figure class="cs-figure"><div class="cs-asset is-bare"><img src="Assets/web/craft-map-v1.webp" width="1024" height="687" alt="" loading="lazy"></div><figcaption class="cs-caption">Version 1: detailed isometric map</figcaption></figure>
+          <figure class="cs-figure"><div class="cs-asset is-bare"><img src="Assets/web/craft-map-final.webp" width="1024" height="687" alt="" loading="lazy"></div><figcaption class="cs-caption">Final version: simple flat map</figcaption></figure>
+        </div>
+        <div class="cs-text"><p>We replaced the isometric map with a flat one after mentors said isometric maps are typically harder to understand. It also had unnecessary detail that distracted from the pins marking where items were.</p></div>
+      </div>
+      <div class="cs-sub">
+        <h3>Two surfaces with their own use case</h3>
+        <div class="cs-row is-top">
+          <div class="cs-figs is-narrow">
+            <figure class="cs-figure is-narrow" style="--w:146px;--wm:90px"><div class="cs-asset is-bare"><img src="Assets/web/craft-home-mobile.webp" width="239" height="1024" alt="" loading="lazy"></div><figcaption class="cs-caption">Mobile app home</figcaption></figure>
+            <figure class="cs-figure"><div class="cs-asset is-bare"><img src="Assets/web/craft-home-kiosk.webp" width="874" height="1024" alt="" loading="lazy"></div><figcaption class="cs-caption">Kiosk app home</figcaption></figure>
+          </div>
+          <div class="cs-text"><p>The mobile home page is tailored to each shopper’s preferences. The kiosk works with or without logging in and should encourage exploration, so it leads with discounted and trending items.</p></div>
+        </div>
+      </div>
+      <div class="cs-sub">
+        <h3>Promoting the app from the kiosk</h3>
+        <div class="cs-row is-top">
+          <figure class="cs-figure"><div class="cs-asset is-bare"><img src="Assets/web/craft-popup.webp" width="1024" height="686" alt="" loading="lazy"></div><figcaption class="cs-caption">Mobile app download pop-up in the kiosk app</figcaption></figure>
+          <div class="cs-text"><p>Mentors asked how we could encourage more app downloads, so I added a pop-up with a QR code after shoppers create their list. It’s large enough to draw attention, but small enough to leave their next actions uncovered.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cs-section" id="ship">
+    <div class="cs-section-head"><h2>Ship &amp; Collaboration</h2></div>
+    <div class="cs-row is-top">
+      <figure class="cs-figure"><div class="cs-asset is-bare"><img src="Assets/web/ship-prototype.webp" width="1024" height="689" alt="" loading="lazy"></div><figcaption class="cs-caption">Figma screenshot of our final mobile prototype</figcaption></figure>
+      <div class="cs-text">
+        <p>At the end of the ten days, we delivered a Figma prototype, demo video and 20-minute pitch to the rest of our cohort and our two Loblaw Digital mentors.</p>
+        <p>A daily stand-up kept us aligned and one FigJam hub held research, flows, test notes and decisions.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cs-section" id="outcome">
+    <div class="cs-section-head"><h2>The Outcome</h2></div>
+    <div class="cs-body">
+      <div class="cs-row is-top" style="--cols:541fr 451fr">
+        <div class="cs-text">
+          <p>KPIs we would measure:</p>
+          <ul class="cs-list">
+            <li>Kiosk QR code scans and downloads per week, plus conversion rate</li>
+            <li>App downloads in the eight weeks before and after the kiosk launches</li>
+            <li>How often staff are asked where an item is, per shift, before and after the kiosk</li>
+            <li>Share of shoppers who find and use Lola unprompted in their first session</li>
+          </ul>
+        </div>
+        <div class="cs-quote-wrap">
+          <figure class="cs-quote-box">
+            <i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i>
+            <blockquote class="cs-quote">“This is a tool that we need in the store - both for customers and employees.”</blockquote>
+            <figcaption class="cs-cite"><span class="cs-cite-text"><span>A Canadian Superstore employee, Round-two tester</span></span></figcaption>
+          </figure>
+        </div>
+      </div>
+      <div class="cs-row is-even is-top">
+        <div class="cs-text">
+          <p>Limitations:</p>
+          <ul class="cs-list">
+            <li>Accurate aisle and inventory data: a route to an empty shelf is worse than no route</li>
+            <li>Training for staff and shoppers: there’s a learning curve and not everyone knows how to use voice assistance</li>
+            <li>Clear privacy communication for data collection: one round-two tester questioned whether people would want an AI reading their data</li>
+            <li>Scaling across store layouts and languages, plus kiosk maintenance costs: stores differ, and our mentors noted kiosks require investment</li>
+          </ul>
+        </div>
+        <div class="cs-text">
+          <p>Next steps:</p>
+          <ul class="cs-list">
+            <li>Run pilot tests in select stores to measure the KPIs and interview shoppers about the impact on their shopping time, product discovery and satisfaction</li>
+            <li>Refine AI capabilities to balance helpfulness with non-intrusiveness, since testers missed or misread Lola and some questioned AI using their data</li>
+            <li>Gather feedback from frontline stakeholders to improve onboarding and in-store support</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cs-section" id="reflection">
+    <div class="cs-section-head"><h2>Reflection</h2></div>
+    <p>Our prototype used preloaded conversations, so testers went through the motions instead of actually chatting with the AI. We could test whether shoppers found and understood Lola, but not whether its answers were useful, and we had no real store data to power a live version. Next time I’d have an AI role play as Lola against a made-up store layout, so shoppers could ask their own questions and we could test the conversation and usefulness, though not its accuracy for a real store.</p>
+  </section>
+
+  </div>
+
+  <hr class="cs-more-rule">
+
+  <section class="cs-more" aria-labelledby="more-title">
+    <div class="cs-section-head"><h2 id="more-title">See more work</h2></div>
+    <div class="cs-cards">
+      <article class="card">
+        <div class="card-body">
+          <div class="sel-box" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <div class="thumb"><img src="../masking-in-boards/Assets/00.webp" width="1600" height="1056" alt="" loading="lazy"></div>
+          <div class="card-text">
+            <h3><a href="../masking-in-boards/">Raspberry AI: Masking on a Canvas</a></h3>
+            <p>Multi-material masking, a mode leaving the rest of the workspace usable.</p>
+          </div>
+          <p class="meta"><span>2026</span><span>Product Designer</span></p>
+        </div>
+      </article>
+      <article class="card">
+        <div class="card-body">
+          <div class="sel-box" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <div class="thumb"><img src="../guardrail-system/Assets/00.webp" width="1600" height="1056" alt="" loading="lazy"></div>
+          <div class="card-text">
+            <h3><a href="../guardrail-system/">Guardrail: One Cohesive System</a></h3>
+            <p>Created a design system used to redesign and build new features on.</p>
+          </div>
+          <p class="meta"><span>2025</span><span>Lead Product Designer</span></p>
+        </div>
+      </article>
+      <article class="card">
+        <div class="card-body">
+          <div class="sel-box" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <div class="thumb"><img src="../workflow-tutorials/Assets/00.webp" width="1600" height="1056" alt="" loading="lazy"></div>
+          <div class="card-text">
+            <h3><a href="../workflow-tutorials/">Raspberry AI: Guided Workflows</a></h3>
+            <p>A guided tutorial system built around workflows to reduce onboarding calls.</p>
+          </div>
+          <p class="meta"><span>2026</span><span>Product Designer</span></p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  </div>
+</main>
+
+<footer class="cs-footer">
+  <p class="cs-foot-name">NICOLE CHOU</p>
+  <a class="cs-foot-email" href="mailto:nicole.chou97@outlook.com">nicole.chou97@outlook.com</a>
+  <a class="cs-foot-link" href="https://www.linkedin.com/in/nicolechouu/" target="_blank" rel="noopener">LinkedIn</a>
+  <p class="cs-foot-note cs-foot-made">Made with Claude Code &amp; Figma</p>
+  <p class="cs-foot-note cs-foot-updated">Last updated: October 9, 2026</p>
+  <p class="cs-foot-note cs-foot-clock">San Francisco Bay Area <span data-clock></span></p>
+</footer>
+
+<script src="../../nav.js?v=7bccf418"></script>
+<script src="../../clock.js?v=afe9466a"></script>
+<script src="../../case-study.js?v=46c83cbe"></script>
+</body>
+</html>

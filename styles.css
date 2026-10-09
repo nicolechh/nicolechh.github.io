@@ -255,12 +255,12 @@ body{
    than the nav's absolutely-positioned ::after so it follows a link that
    wraps onto a second line; it takes the link's own colour. Add any new
    inline-link context to this list rather than giving it its own hover. */
-.about-prose a,.spec a,.back-link,.cs-facts dd a,.cs-cite a,.cs-footer a{
+.about-prose a,.spec a,.back-link,.cs-facts dd a,.cs-cite a,.cs-footer a,.cs-section p a{
   text-decoration:none;
   background:linear-gradient(currentColor,currentColor) 0 100% / 0 1px no-repeat;
   transition:background-size .22s cubic-bezier(.4,0,.2,1);
 }
-:is(.about-prose a,.spec a,.back-link,.cs-facts dd a,.cs-cite a,.cs-footer a):is(:hover,:focus-visible){background-size:100% 1px}
+:is(.about-prose a,.spec a,.back-link,.cs-facts dd a,.cs-cite a,.cs-footer a,.cs-section p a):is(:hover,:focus-visible){background-size:100% 1px}
 a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 
 /* ---------- shell ---------- */
@@ -422,12 +422,10 @@ h2{
 
 /* ---------- card (Figma "Work Card") ---------- */
 /* Shared by the homepage grid and each case study's "See more work". */
-/* homepage card grids: three across on desktop (Figma: 369px cards, 24px gaps;
-   Playground's two cards sit in the first two of the same three tracks),
-   two across from 700px, one on phones */
+/* homepage card grids (#work's four projects, #playground's two): two
+   across from 700px, as in Figma, one on phones */
 .grid{display:grid;grid-template-columns:1fr;gap:24px}
 @media (min-width:700px){ .grid{grid-template-columns:repeat(2,1fr)} }
-@media (min-width:1100px){ .grid{grid-template-columns:repeat(3,1fr)} }
 .card{position:relative;display:flex}
 .card-body{
   position:relative;flex:1;
@@ -437,7 +435,7 @@ h2{
   border:1px solid var(--rule-soft);
   transition:border-color .18s ease;
 }
-.thumb{aspect-ratio:3/2;overflow:hidden}
+.thumb{aspect-ratio:524/341;overflow:hidden}   /* Figma's Work Card thumbnail */
 .thumb img{display:block;width:100%;height:100%;object-fit:cover}
 .card-text{display:flex;flex-direction:column;gap:8px}
 /* Body/Card Title */

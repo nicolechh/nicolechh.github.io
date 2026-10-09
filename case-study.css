@@ -138,7 +138,7 @@
   letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);
 }
 .cs-facts dd{margin:0;font-size:14.7px;line-height:1.4;color:var(--ink)}
-.cs-facts dd a{color:var(--select)}   /* standard link colour; underline on hover via styles.css */
+.cs-facts dd a,.cs-section p a{color:var(--select)}   /* standard link colour; underline on hover via styles.css */
 .cs-facts[data-fit="row"],.cs-facts[data-fit="row"] .cs-facts-col{flex-wrap:nowrap}
 .cs-facts[data-fit="row"] .cs-facts-col > div{flex:none}
 /* two equal columns, 14px apart, as in Figma's mobile two-up facts */
@@ -357,6 +357,10 @@
 .cs-cards{display:flex;flex-direction:column;gap:16px}
 @media (min-width:900px){
   .cs-cards{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+}
+/* three other case studies: one row at Figma's 1098px article width */
+@media (min-width:1100px){
+  .cs-cards{grid-template-columns:repeat(3,1fr)}
 }
 /* ---------- footer (Footer, Page=Case Study) ---------- */
 .cs-footer{
