@@ -83,7 +83,7 @@ body{padding-top:0}
 /* The homepage's top nav, as the original site had it: a 46px glass bar, the
    logo 20px in. 740-1099px: Home / Work / AI Builds / About centred and the
    reduce-motion switch on the right; under 740px a hamburger whose menu drops
-   the same links and the switch. Work is current (orange, 6px square).
+   the same links and the switch. Work is current (orange).
    Under the bar, a 48px dropdown jumps between this case study's sections. */
 .cs-bar,.cs-menu-btn,.cs-menu{display:none}
 @media (max-width:1099px){
@@ -95,14 +95,12 @@ body{padding-top:0}
   .cs-menu{display:contents}
   .cs-site-nav{display:flex;gap:24px;position:fixed;z-index:55;top:23px;left:50%;transform:translate(-50%,-50%)}
   .cs-site-nav a{
-    display:flex;align-items:center;gap:12px;white-space:nowrap;
+    display:block;white-space:nowrap;
     font-family:var(--mono);font-weight:500;font-size:12px;line-height:16px;letter-spacing:.08em;text-transform:uppercase;
     color:var(--ink-3);text-decoration:none;transition:color .18s ease;
   }
-  .cs-site-nav a i{width:6px;height:6px;flex:none;background:var(--accent);opacity:0}
   .cs-site-nav a:hover,.cs-site-nav a:focus-visible{color:var(--ink)}
   .cs-site-nav a[aria-current="true"]{color:var(--accent)}
-  .cs-site-nav a[aria-current="true"] i{opacity:1}
   .cs-motion{position:fixed;z-index:55;top:23px;right:20px;transform:translateY(-50%);margin:0}
   .cs-logo{top:7px;left:20px}
 }
