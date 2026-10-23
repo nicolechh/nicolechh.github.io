@@ -119,6 +119,9 @@ body.v2{padding-top:var(--gutter)}
 @media (max-width:1099px){
   .v2-nav{display:none}
   .v2-nav a i{display:none}   /* the top nav and phone menu mark the current item by colour only */
+  /* with the top bar showing, the rulers go and the page starts at the edge */
+  :root{--gutter:0px}
+  #ruler-x,#ruler-y,.corner{display:none}
   .v2 section{scroll-margin-top:calc(var(--gutter) + 64px)}   /* land below the floating logo */
   /* floating over the column, so they get the ruler's glass */
   .v2-logo,.v2-motion{background:var(--chrome);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
@@ -130,7 +133,7 @@ body.v2{padding-top:var(--gutter)}
 }
 /* 740-1099px: the side nav doesn't fit, so the same links run across the top
    in a glass bar the size of the old top nav (46px tall, 20px side padding),
-   under the ruler. The logo, links and switch sit on its centre line; the
+   with no rulers. The logo, links and switch sit on its centre line; the
    logo and switch drop their own glass.
    From 740px the centred links clear the switch; narrower is the phone layout. */
 @media (min-width:740px) and (max-width:1099px){
