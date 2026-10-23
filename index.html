@@ -127,22 +127,21 @@ body.v2{padding-top:var(--gutter)}
   .v2 #home{padding-top:104px}
   .v2-foot{padding:80px clamp(20px,4vw,48px) 34px}
 }
-/* 740-1099px: the side nav doesn't fit, so the same links run across the top,
-   centred in a glass bar under the ruler (like the old top nav). The logo and
-   switch stay exactly where desktop has them (58/52 and 34px from the right),
-   so nothing moves when the nav changes; the bar's middle is level with them
-   (68px down) and they drop their own glass. From 740px the centred links
-   clear the switch; narrower is the phone layout. */
+/* 740-1099px: the side nav doesn't fit, so the same links run across the top
+   in a glass bar the height of the old top nav (46px), under the ruler. The
+   logo and switch keep their desktop x (58px in, 34px from the right) and sit
+   on the bar's centre line, as do the links; they drop their own glass.
+   From 740px the centred links clear the switch; narrower is the phone layout. */
 @media (min-width:740px) and (max-width:1099px){
-  .v2-topbar{display:block;top:var(--gutter);left:var(--gutter);right:0;height:88px;z-index:54;
+  .v2-topbar{display:block;top:var(--gutter);left:var(--gutter);right:0;height:46px;z-index:54;
     background:var(--chrome);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule-soft)}
   .v2-logo,.v2-motion{background:none;-webkit-backdrop-filter:none;backdrop-filter:none;padding:0}
-  .v2-logo{width:32px;height:32px;top:calc(var(--gutter) + 28px);left:calc(var(--gutter) + 34px)}
-  .v2-motion{top:calc(var(--gutter) + 36px);right:34px}
-  .v2-nav{display:flex;flex-direction:row;gap:24px;top:calc(var(--gutter) + 44px);left:calc(50% + var(--gutter) / 2);transform:translate(-50%,-50%)}
+  .v2-logo{width:32px;height:32px;top:calc(var(--gutter) + 7px);left:calc(var(--gutter) + 34px)}
+  .v2-motion{top:calc(var(--gutter) + 23px);right:34px;transform:translateY(-50%)}
+  .v2-nav{display:flex;flex-direction:row;gap:24px;top:calc(var(--gutter) + 23px);left:calc(50% + var(--gutter) / 2);transform:translate(-50%,-50%)}
   .v2-nav a{white-space:nowrap}
-  .v2 #home{padding-top:120px}   /* clear the bar */
-  .v2 section{scroll-margin-top:calc(var(--gutter) + 112px)}   /* land below the bar */
+  .v2 #home{padding-top:80px}   /* the intro starts where desktop has it */
+  .v2 section{scroll-margin-top:calc(var(--gutter) + 70px)}   /* land below the bar */
 }
 /* styles.css turns .motion into a full-width menu row at 640px; here it stays a floating switch */
 @media (max-width:640px){
