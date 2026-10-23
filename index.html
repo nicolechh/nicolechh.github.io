@@ -143,6 +143,34 @@ body.v2{padding-top:var(--gutter)}
   .v2 #home{padding-top:80px}   /* the intro starts where desktop has it */
   .v2 section{scroll-margin-top:calc(var(--gutter) + 70px)}   /* land below the bar */
 }
+/* phones (under 740px): the old top bar -- 46px glass, logo left, hamburger
+   right -- whose menu drops the same section links (orange square on the
+   current one) and the reduce-motion switch, as the original site did */
+.v2-menu{display:contents}
+.v2-burger{display:none}
+@media (max-width:739px){
+  .v2-topbar{display:block;top:var(--gutter);left:var(--gutter);right:0;height:46px;z-index:54;
+    background:var(--chrome);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule-soft)}
+  .v2-logo{background:none;-webkit-backdrop-filter:none;backdrop-filter:none;padding:0;width:32px;height:32px;top:calc(var(--gutter) + 7px);left:calc(var(--gutter) + 20px)}
+  .v2-burger{display:flex;align-items:center;justify-content:center;top:calc(var(--gutter) + 1px);right:6px;width:44px;height:44px;padding:0;
+    background:none;border:0;color:var(--ink-2);cursor:pointer;z-index:56}
+  .v2-burger svg{display:block;width:16px;height:16px;overflow:visible}
+  .v2-burger line{transform-box:fill-box;transform-origin:center;transition:transform .22s cubic-bezier(.4,0,.2,1),opacity .15s ease}
+  .v2-burger[aria-expanded="true"] line:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .v2-burger[aria-expanded="true"] line:nth-child(2){opacity:0}
+  .v2-burger[aria-expanded="true"] line:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .v2-burger:focus-visible{outline:2px solid var(--accent);outline-offset:-4px}
+  .v2-menu{display:flex;flex-direction:column;position:fixed;z-index:53;top:calc(var(--gutter) + 46px);left:var(--gutter);right:0;
+    padding:6px;background:var(--menu-bg);border-bottom:1px solid var(--rule);
+    visibility:hidden;opacity:0;transform:translateY(-10px);
+    transition:opacity .18s ease,transform .3s cubic-bezier(.4,0,.2,1),visibility 0s linear .3s}
+  .v2-menu[data-open="true"]{visibility:visible;opacity:1;transform:none;transition:opacity .16s ease,transform .3s cubic-bezier(.4,0,.2,1),visibility 0s}
+  .v2 .v2-menu .v2-nav{display:flex;position:static;flex-direction:column;gap:0;transform:none}
+  .v2 .v2-menu .v2-nav a{padding:11px 12px}
+  .v2 .v2-menu .v2-motion{position:static;transform:none;display:flex;justify-content:space-between;width:auto;
+    padding:11px 12px;margin:5px 0 0;border-top:1px solid var(--rule-soft);background:none;-webkit-backdrop-filter:none;backdrop-filter:none}
+  .v2 section{scroll-margin-top:calc(var(--gutter) + 62px)}   /* land below the bar */
+}
 /* styles.css turns .motion into a full-width menu row at 640px; here it stays a floating switch */
 @media (max-width:640px){
   .v2 .v2-motion{position:fixed;width:auto;margin:0;border:0;justify-content:flex-start;font-size:12px}
@@ -181,6 +209,10 @@ body.v2{padding-top:var(--gutter)}
 
 <a class="logo v2-logo v2-fixed" href="#home" aria-label="Home"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFsAAABaCAMAAADgtNoOAAADAFBMVEXjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERFpfbk+AAABAHRSTlMAAQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyAhIiMkJSYnKCkqKywtLi8wMTIzNDU2Nzg5Ojs8PT4/QEFCQ0RFRkdISUpLTE1OT1BRUlNUVVZXWFlaW1xdXl9gYWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXp7fH1+f4CBgoOEhYaHiImKi4yNjo+QkZKTlJWWl5iZmpucnZ6foKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr/AwcLDxMXGx8jJysvMzc7P0NHS09TV1tfY2drb3N3e3+Dh4uPk5ebn6Onq6+zt7u/w8fLz9PX29/j5+vv8/f7/qVjM+gAABG1JREFUeNrVmU1oFEkUgB8isoiIyBIkSAgS5jCIeBIRzQ4eRBQkiIiEnBYJIo2GHESkEUSWJaR3WVgwSAZ/8CCSBpFhkSy9hGWRoLSIBC+mFURkAnaQEARDZrasn/6p6a6qrpiug+8wM1Wv+qs3r15Vva4CAEBM6nWEaIFWJNVYavQz9CBuDG6iC5APIfJYDVaHYaQAAJ4hE8z2ffbT5qo9FBvCScJGjE36rLWiKl+I9zxKQg5XZ7darTCLrjscO6ojj674j2+q5Zxa/fRVYprr8n/p6XEoQ/6Ohy/19vIpKEluJD7hBrVEQdwwgwl49GGC7bMemibM9sl3Df1RNvttGuA/lc2+mQZK6e7+P5nz5bPvGLR7MI1vrnb7/mpJbDvLPvoFoZlvgI003JMZdgB0wUrlNumqR0bY2LtZrDiBn2r3ZH0CmM3B75PKigQ98AG13zwY2ZvXXCCP9efYfoe7VeyelWiFW5wa7tVh20ibPcpvMPMTA1sL2ZY2eyqzf63OXju4UcW28C6t6e+Xgn10uWFV5P7WZy9K0oD3t85cz7DZbA+0/b2hTcdxfPjcL40FUR85Np1AWuxtRPW5jxWq1sPFQjbOhGw9n3QT1RRXsXe0sSRjx1mWr8fuI6qxjJ/2XZpeFrDjtcrVZFeJ6rpgIThgz3wRsGtAkzQt9m4JWxbf+MtvtbJjeaBLJIeJ6nehqssWj+UQytn9jZIZSyu775TG9jzag1c+ezDZL8EIO6SGZ9n3J0TymKieC1UTT7TZFem+tYYYTGdn2WzwhnxjbEHuUxIbDLKjGGyZY1tWi19QSmQD3ufz7HfzImnSLU2omv8oZCMj6wlhe8Lcpxy2JZyXJteqj02RUJ8uC1XNJcl+qbue7Fl7fHuegr37RFXG3nrk2A4p+1DEVsyd0WhIBOxenPqsHlHbHajm/L+48I+YPUxKkyp2TRjfCXsWF/4TsyntnmqtMsZOT8wMsPGZmHqNXYdPAg8V+2ThXiR/EdVcXHpW6G8NtkoK/E3PCo2wPQhVc36ddoMxdki/QWssO+WZDtvWjUHByidln2KuNsKG9CxMxp4pYE8W5D6OLff3I1yYVRwcjKvZjipO7uLCazF7jDS8omIH6hi8RI5ztgvZNOMeULADzMYvU1J2PyldE6HZFUS3ym62HErH8gfyzr76swBNX+bnoJDNZpBwLx5nJ/oj/ZWd3bH07R+eZtPyrAZbnsd2LShm/NwmJdsBqCtz5NqKFP2pUpSf1NVs2Pdegn6xqzD3CTv3Bnq4vIP/c5vPv8qD209Ob+AbnSSVfaJ8kGNXX7aXxrJR8eOxC1d/+zOW8Svna1uyTS5PNwahgF2SXKRUco8Ehs7tfWL4r2buG+jNXtPc/c73dS+VsENT7LpBuy2DbDDGDjrvojMdpjfKKN+I6QFFpxmQvZZ26JNubiniu9C6Cc89DQ6z33Xl7eprfTl2MkHtsr4sy6FGDqUtA/wa5zielVyRs4vJDhOd5B7djutceqT+Fc9RphVm8gQ+AAAAAElFTkSuQmCC" alt="" width="91" height="90"></a>
 <div class="v2-topbar v2-fixed" aria-hidden="true"></div>
+<button class="v2-burger v2-fixed" id="v2burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="v2menu">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="5" x2="20" y2="5"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="19" x2="20" y2="19"/></svg>
+</button>
+<div class="v2-menu" id="v2menu" data-open="false">
 <nav class="v2-nav v2-fixed" aria-label="Sections">
   <a href="#home" aria-current="true"><i aria-hidden="true"></i>Home</a>
   <a href="#work"><i aria-hidden="true"></i>Work</a>
@@ -192,6 +224,7 @@ body.v2{padding-top:var(--gutter)}
   <button class="motion-track" id="motion" type="button" role="switch" aria-checked="false" aria-labelledby="motion-label">
     <span class="motion-pill" aria-hidden="true"></span>
   </button>
+</div>
 </div>
 
 <main lang="en">
@@ -688,6 +721,18 @@ body.v2{padding-top:var(--gutter)}
 <script src="clock.js?v=afe9466a"></script>
 
 
+<script>
+// Phone menu (under 740px): the hamburger opens the section links + switch
+(() => {
+  const menu = document.getElementById("v2menu"), burger = document.getElementById("v2burger");
+  const setOpen = open => { menu.dataset.open = String(open); burger.setAttribute("aria-expanded", String(open)); };
+  burger.addEventListener("click", e => { e.stopPropagation(); setOpen(menu.dataset.open !== "true"); });
+  menu.addEventListener("click", e => { if (e.target.closest("a")) setOpen(false); });
+  document.addEventListener("click", e => { if (menu.dataset.open === "true" && !menu.contains(e.target) && !burger.contains(e.target)) setOpen(false); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && menu.dataset.open === "true"){ setOpen(false); burger.focus(); } });
+  matchMedia("(min-width: 740px)").addEventListener("change", e => { if (e.matches) setOpen(false); });
+})();
+</script>
 <script>
 // Side nav: the orange dot + text follow the section in view; the links
 // themselves jump (smooth-scrolled by styles.css unless motion is reduced)
