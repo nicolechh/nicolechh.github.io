@@ -11,8 +11,7 @@
   --cs-pad:clamp(20px,4vw,56px);
   --cs-top:clamp(24px,4vw,56px);
   /* Figma "CS - * V2" (1440): the side column starts 40px in, the 1097px
-     article 253px in, 90px clear of the right edge. Wider screens keep that
-     40/90 split of the spare width around the centred block. */
+     article 253px in, 90px clear of the right edge. */
   --cs-max:1097px;
   --cs-left:var(--cs-pad);
   --cs-right:var(--cs-pad);
@@ -20,8 +19,12 @@
 @media (min-width:1100px){
   :root{
     --cs-top:104px;
-    --cs-left:max(40px,calc((100vw - var(--cs-toc-w) - var(--cs-max)) / 2 - 25px));
-    --cs-right:max(var(--cs-pad),calc(100vw - var(--cs-toc-w) - var(--cs-max) - var(--cs-left)));
+    /* the logo and side nav stay pinned where the homepage puts them (nav
+       40px in, logo 58px); the article starts at 253 (Figma), or centres
+       once the window is wide enough to centre it clear of the nav */
+    --cs-left:40px;
+    --cs-content-left:max(calc(var(--cs-left) + var(--cs-toc-w)),calc((100vw - var(--cs-max)) / 2));
+    --cs-right:max(var(--cs-pad),calc(100vw - var(--cs-max) - var(--cs-content-left)));
   }
 }
 /* no top bar on the case studies: styles.css pads body for the homepage's */
@@ -37,7 +40,7 @@ body{padding-top:0}
 }
 @media (min-width:1100px){
   .cs-shell{
-    padding:var(--cs-top) var(--cs-right) 0 calc(var(--cs-left) + var(--cs-toc-w));
+    padding:var(--cs-top) var(--cs-right) 0 var(--cs-content-left);
     gap:64px;
   }
 }
