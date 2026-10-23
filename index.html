@@ -68,7 +68,7 @@ body.v2{padding-top:var(--gutter)}
 .v2 #ruler-y{top:var(--gutter);height:calc(100% - var(--gutter))}
 .v2 .corner{top:0}
 .v2 main{max-width:none;padding:0}
-.v2 section{scroll-margin-top:calc(var(--gutter) + 24px)}
+.v2 section{scroll-margin-top:calc(var(--gutter) + 80px)}   /* a nav jump lands each heading where the intro starts */
 .v2 :is(#home,#work,#playground,#about){padding:0}
 
 .v2-fixed{position:fixed;z-index:55}
@@ -679,7 +679,10 @@ body.v2{padding-top:var(--gutter)}
   let raf = 0;
   function spy(){
     raf = 0;
-    const line = innerHeight * 0.35;
+    // a section is current once its top reaches the line a nav jump lands it
+    // on (its scroll-margin), so the top of the page always reads Home and a
+    // clicked item lights up as soon as the scroll arrives
+    const line = parseFloat(getComputedStyle(secs[1]).scrollMarginTop) + 8;
     let cur = 0;
     secs.forEach((s, i) => { if (s.getBoundingClientRect().top <= line) cur = i; });
     if (innerHeight + scrollY >= document.documentElement.scrollHeight - 2) cur = secs.length - 1;
