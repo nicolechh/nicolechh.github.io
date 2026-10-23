@@ -118,6 +118,7 @@ body.v2{padding-top:var(--gutter)}
 .v2-topbar{display:none}
 @media (max-width:1099px){
   .v2-nav{display:none}
+  .v2-nav a i{display:none}   /* the top nav and phone menu mark the current item by colour only */
   .v2 section{scroll-margin-top:calc(var(--gutter) + 64px)}   /* land below the floating logo */
   /* floating over the column, so they get the ruler's glass */
   .v2-logo,.v2-motion{background:var(--chrome);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
@@ -144,8 +145,8 @@ body.v2{padding-top:var(--gutter)}
   .v2 section{scroll-margin-top:calc(var(--gutter) + 70px)}   /* land below the bar */
 }
 /* phones (under 740px): the old top bar -- 46px glass, logo left, hamburger
-   right -- whose menu drops the same section links (orange square on the
-   current one) and the reduce-motion switch, as the original site did */
+   right -- whose menu drops the same section links (the current one
+   orange) and the reduce-motion switch, as the original site did */
 .v2-menu{display:contents}
 .v2-burger{display:none}
 @media (max-width:739px){
