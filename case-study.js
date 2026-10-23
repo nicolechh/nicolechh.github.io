@@ -205,7 +205,7 @@
     });
   });
 
-  if (allTocLinks.length && sections.length && 'IntersectionObserver' in window){
+  if (allTocLinks.length && sections.length){
     var linksFor = {};
     allTocLinks.forEach(function(a){
       var id = a.getAttribute('href').slice(1);
@@ -235,13 +235,25 @@
       if (desktopLink) moveIndicator(desktopLink);
       if (tocTriggerLabel) tocTriggerLabel.textContent = links[0].textContent;
     }
-    activate(sections[0].id);
-    var observer = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if (entry.isIntersecting) activate(entry.target.id);
-      });
-    }, {rootMargin:'-15% 0px -70% 0px'});
-    sections.forEach(function(s){ observer.observe(s); });
+    /* Current section = the last one whose top has reached the line a TOC
+       jump lands it on (its scroll-margin), or the last section once the
+       page can't scroll further. A band in the middle of the window (the old
+       IntersectionObserver) let a short section like Constraints lose to the
+       one below it as soon as both fit in the band. */
+    var current = null, spyQueued = false;
+    function spy(){
+      spyQueued = false;
+      var line = parseFloat(getComputedStyle(sections[0]).scrollMarginTop) + 8;
+      var id = sections[0].id;
+      for (var i = 0; i < sections.length; i++){
+        if (sections[i].getBoundingClientRect().top <= line) id = sections[i].id;
+      }
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) id = sections[sections.length - 1].id;
+      if (id !== current){ current = id; activate(id); }
+    }
+    window.addEventListener('scroll', function(){ if (!spyQueued){ spyQueued = true; requestAnimationFrame(spy); } }, {passive:true});
+    window.addEventListener('resize', spy);
+    spy();
   }
 
   /* Facts (Role, Timeline, Status, Client, Agency): one line while every
