@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;700&family=Geist+Pixel&display=swap">
 <link rel="stylesheet" href="../../styles.css?v=08360895">
-<link rel="stylesheet" href="../../case-study.css?v=7c2a4fe5">
+<link rel="stylesheet" href="../../case-study.css?v=5973f55e">
 </head>
 <body>
 
@@ -37,12 +37,31 @@
 
 <a class="cs-logo" href="../../index.html" aria-label="Home"><img src="../../assets/favicon.png" alt="" width="91" height="90"></a>
 
+<div class="cs-bar" aria-hidden="true"></div>
+<button class="cs-menu-btn" id="csMenuBtn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="csMenu">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="5" x2="20" y2="5"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="19" x2="20" y2="19"/></svg>
+</button>
+<div class="cs-menu" id="csMenu" data-open="false">
+  <nav class="cs-site-nav" aria-label="Site">
+    <a href="../../index.html#home"><i aria-hidden="true"></i>Home</a>
+    <a href="../../index.html#work" aria-current="true"><i aria-hidden="true"></i>Work</a>
+    <a href="../../index.html#playground"><i aria-hidden="true"></i>AI Builds</a>
+    <a href="../../index.html#about"><i aria-hidden="true"></i>About</a>
+  </nav>
+  <div class="motion cs-motion">
+    <span class="motion-label" id="motion-label">Reduce motion</span>
+    <button class="motion-track" id="motion" type="button" role="switch" aria-checked="false" aria-labelledby="motion-label">
+      <span class="motion-pill" aria-hidden="true"></span>
+    </button>
+  </div>
+</div>
+
 <div class="cs-toc-mobile" id="csTocMobile" data-open="false">
-  <button class="cs-toc-trigger" type="button" id="csTocTrigger" aria-expanded="false" aria-controls="csTocPanel" aria-label="Menu">
-    <svg class="cs-burger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="5" x2="20" y2="5"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="19" x2="20" y2="19"/></svg>
+  <button class="cs-toc-trigger" type="button" id="csTocTrigger" aria-expanded="false" aria-controls="csTocPanel" aria-label="Jump to section">
+    <i aria-hidden="true"></i><span class="cs-toc-trigger-label">Summary</span>
+    <svg class="cs-toc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
   </button>
   <div class="cs-toc-panel" id="csTocPanel">
-    <a class="cs-back" href="../../index.html#work"><svg viewBox="0 0 9 9" aria-hidden="true"><path d="M8.5 4.5H1.2M4.6 1 1 4.5 4.6 8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="square"/></svg>Back to home</a>
     <a href="#summary"><i aria-hidden="true"></i>Summary</a>
     <a href="#problem"><i aria-hidden="true"></i>The Problem</a>
     <a href="#constraints"><i aria-hidden="true"></i>Constraints</a>
@@ -355,6 +374,6 @@
 </footer>
 
 <script src="../../clock.js?v=afe9466a"></script>
-<script src="../../case-study.js?v=3003ee39"></script>
+<script src="../../case-study.js?v=992e83e6"></script>
 </body>
 </html>

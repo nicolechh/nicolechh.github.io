@@ -172,7 +172,7 @@
 
   var toc = document.querySelector('.cs-toc');
   var tocIndicator = document.querySelector('.cs-toc-indicator');
-  var allTocLinks = document.querySelectorAll('.cs-toc a:not(.cs-back), .cs-toc-panel a:not(.cs-back)');
+  var allTocLinks = document.querySelectorAll('.cs-toc a:not(.cs-back), .cs-toc-panel a');
   var sections = document.querySelectorAll('.cs-hero[id], .cs-section[id]');
 
   var tocMobile = document.getElementById('csTocMobile');
@@ -184,10 +184,51 @@
     tocMobile.dataset.open = String(open);
     tocTrigger.setAttribute('aria-expanded', String(open));
   }
+
+  /* Site menu (under 740px the hamburger opens Home / Work / AI Builds /
+     About and the reduce-motion switch, as the homepage). Only one of it and
+     the section dropdown is open at a time. */
+  var siteMenu = document.getElementById('csMenu');
+  var menuBtn = document.getElementById('csMenuBtn');
+  function setMenuOpen(open){
+    if (!siteMenu) return;
+    siteMenu.dataset.open = String(open);
+    menuBtn.setAttribute('aria-expanded', String(open));
+  }
+  if (menuBtn){
+    menuBtn.addEventListener('click', function(e){
+      e.stopPropagation();
+      var open = siteMenu.dataset.open !== 'true';
+      if (open) setTocOpen(false);
+      setMenuOpen(open);
+    });
+    siteMenu.addEventListener('click', function(e){ if (e.target.closest('a')) setMenuOpen(false); });
+    document.addEventListener('click', function(e){
+      if (siteMenu.dataset.open === 'true' && !siteMenu.contains(e.target)) setMenuOpen(false);
+    });
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && siteMenu.dataset.open === 'true'){ setMenuOpen(false); menuBtn.focus(); }
+    });
+    matchMedia('(min-width: 740px)').addEventListener('change', function(e){ if (e.matches) setMenuOpen(false); });
+  }
+  var motionBtn = document.getElementById('motion');
+  if (motionBtn){
+    var mqReduce = matchMedia('(prefers-reduced-motion: reduce)');
+    var setMotion = function(on){
+      motionBtn.setAttribute('aria-checked', String(on));
+      document.documentElement.dataset.motion = on ? 'reduced' : 'full';
+    };
+    motionBtn.addEventListener('click', function(){ setMotion(motionBtn.getAttribute('aria-checked') !== 'true'); });
+    mqReduce.addEventListener('change', function(e){ setMotion(e.matches); });
+    setMotion(mqReduce.matches);
+  }
+
   if (tocTrigger){
     tocTrigger.addEventListener('click', function(e){
       e.stopPropagation();
-      setTocOpen(tocMobile.dataset.open !== 'true');
+      var open = tocMobile.dataset.open !== 'true';
+      if (open) setMenuOpen(false);
+      setTocOpen(open);
     });
     document.addEventListener('click', function(e){
       if (tocMobile.dataset.open === 'true' && !tocMobile.contains(e.target)) setTocOpen(false);
@@ -196,7 +237,7 @@
       if (e.key === 'Escape' && tocMobile.dataset.open === 'true'){ setTocOpen(false); tocTrigger.focus(); }
     });
   }
-  document.querySelectorAll('.cs-toc-panel a:not(.cs-back)').forEach(function(a){
+  document.querySelectorAll('.cs-toc-panel a').forEach(function(a){
     a.addEventListener('click', function(e){
       e.preventDefault();
       setTocOpen(false);
@@ -233,7 +274,7 @@
       links.forEach(function(a){ a.classList.add('is-active'); });
       var desktopLink = toc ? toc.querySelector('a[href="#' + id + '"]') : null;
       if (desktopLink) moveIndicator(desktopLink);
-      if (tocTriggerLabel) tocTriggerLabel.textContent = links[0].textContent;
+      if (tocTriggerLabel) tocTriggerLabel.textContent = links[0].textContent.trim();
     }
     /* Current section = the last one whose top has reached the line a TOC
        jump lands it on (its scroll-margin), or the last section once the
