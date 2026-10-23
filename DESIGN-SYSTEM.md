@@ -131,7 +131,7 @@ Every inline text link (About's email/LinkedIn, the case study client, agency an
 
 ### Footer — `.site-footer`
 
-Figma's **Footer** (Page=Home): name, "Made with Claude Code & Figma", "Last updated: …", and "San Francisco Bay Area" plus a live Pacific-time clock (24-hour, `HH:MM:SS`). The clock is `clock.js`, which fills every `[data-clock]` once a second; the case study footer (`.cs-footer`) uses the same script. Update the "Last updated" date on the homepage and all case studies together.
+Figma's **Footer** (Page=Home): name, "Built with Claude Code & Figma", "Last updated: …", and "San Francisco Bay Area" plus a live Pacific-time clock (24-hour, `HH:MM:SS`). The clock is `clock.js`, which fills every `[data-clock]` once a second; the case study footer (`.cs-footer`) uses the same script. Update the "Last updated" date on the homepage and all case studies together.
 
 ## Accessibility rules
 
