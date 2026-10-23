@@ -32,10 +32,10 @@ body{padding-top:0}
 
 /* ---------- page shell ---------- */
 /* styles.css gives every <main> padding/max-width; .cs-shell carries it here.
-   Below 1100 it clears the 56px fixed bar (logo + section dropdown). */
+   Below 1100 it clears the 46px fixed bar (logo + menu). */
 .cs-page{display:block;padding:0;max-width:none;margin:0}
 .cs-shell{
-  padding:calc(56px + 24px) var(--cs-pad) 0;
+  padding:calc(46px + 24px) var(--cs-pad) 0;
   display:flex;flex-direction:column;gap:36px;
 }
 @media (min-width:1100px){
@@ -79,45 +79,51 @@ body{padding-top:0}
 }
 .cs-back svg{width:9px;height:9px;flex:none}
 
-/* ---------- mobile section dropdown ---------- */
-/* Same glass-vs-solid split as .bar/#bar[data-open] so the two fixed
-   bars read as one material. Lives beside .bar under <body>: nested
-   inside <main>, backdrop-filter composited against the wrong layer. */
-/* one layer under .bar (z-index 50) so the open site menu drops over it */
-.cs-toc-mobile{position:fixed;top:0;left:0;right:0;z-index:49}
+/* ---------- under 1100px: the top bar + hamburger menu ---------- */
+/* As the homepage on phones: a 46px glass bar, logo 20px in on the left,
+   hamburger on the right (an X while open). Its menu drops "Back to home"
+   and the section links, the current one orange with the 6px square. */
+.cs-toc-mobile{
+  position:fixed;top:0;left:0;right:0;z-index:49;height:46px;
+  background:var(--chrome);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--rule-soft);
+}
 @media (min-width:1100px){ .cs-toc-mobile{display:none} }
 .cs-toc-trigger{
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
-  width:100%;height:56px;padding:0 var(--cs-pad) 0 calc(var(--cs-pad) + 48px);   /* the logo sits in the bar's left end */
-  background:var(--chrome);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
-  border:0;border-bottom:1px solid var(--rule-soft);
-  font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:.06em;text-transform:uppercase;
-  color:var(--ink);cursor:pointer;text-align:left;
+  position:absolute;top:1px;right:6px;width:44px;height:44px;padding:0;
+  display:flex;align-items:center;justify-content:center;
+  background:none;border:0;color:var(--ink-2);cursor:pointer;
 }
-.cs-toc-mobile[data-open="true"] .cs-toc-trigger{background:var(--menu-bg)}
-.cs-toc-chevron{width:16px;height:16px;flex:none;transition:transform .2s ease}
-.cs-toc-mobile[data-open="true"] .cs-toc-chevron{transform:rotate(180deg)}
+.cs-toc-trigger:focus-visible{outline:2px solid var(--accent);outline-offset:-4px}
+.cs-burger{display:block;width:16px;height:16px;overflow:visible}
+.cs-burger line{transform-box:fill-box;transform-origin:center;transition:transform .22s cubic-bezier(.4,0,.2,1),opacity .15s ease}
+.cs-toc-mobile[data-open="true"] .cs-burger line:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.cs-toc-mobile[data-open="true"] .cs-burger line:nth-child(2){opacity:0}
+.cs-toc-mobile[data-open="true"] .cs-burger line:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
 .cs-toc-panel{
-  overflow:hidden;max-height:0;visibility:hidden;
-  background:var(--menu-bg);
-  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
-  border-bottom:0 solid var(--rule);
-  transition:max-height .3s cubic-bezier(.4,0,.2,1),visibility 0s linear .3s;
+  position:absolute;top:46px;left:0;right:0;
+  display:flex;flex-direction:column;padding:6px;
+  max-height:calc(100vh - 46px);overflow-y:auto;
+  background:var(--menu-bg);border-bottom:1px solid var(--rule);
+  visibility:hidden;opacity:0;transform:translateY(-10px);
+  transition:opacity .18s ease,transform .3s cubic-bezier(.4,0,.2,1),visibility 0s linear .3s;
 }
 .cs-toc-mobile[data-open="true"] .cs-toc-panel{
-  max-height:70vh;visibility:visible;border-bottom-width:1px;
-  transition:max-height .3s cubic-bezier(.4,0,.2,1),visibility 0s;
+  visibility:visible;opacity:1;transform:none;
+  transition:opacity .16s ease,transform .3s cubic-bezier(.4,0,.2,1),visibility 0s;
 }
 .cs-toc-panel a{
-  display:block;padding:11px var(--cs-pad);
-  font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:.06em;text-transform:uppercase;
-  color:var(--ink-2);text-decoration:none;
+  display:flex;align-items:center;gap:12px;padding:11px 12px;
+  font-family:var(--mono);font-weight:500;font-size:12px;line-height:16px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-3);text-decoration:none;
 }
-.cs-toc-panel a:hover,.cs-toc-panel a:focus-visible{background:var(--select);color:var(--on-select)}
+.cs-toc-panel a i{width:6px;height:6px;flex:none;background:var(--accent);opacity:0}
+.cs-toc-panel a:hover,.cs-toc-panel a:focus-visible{color:var(--ink)}
 .cs-toc-panel a.is-active{color:var(--accent)}
-.cs-toc-panel a.cs-back{display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--rule-soft)}
-/* under 1100 the logo rides in the section bar */
-@media (max-width:1099px){ .cs-logo{top:12px;left:var(--cs-pad)} }
+.cs-toc-panel a.is-active i{opacity:1}
+.cs-toc-panel a.cs-back{gap:8px;margin-bottom:5px;border-bottom:1px solid var(--rule-soft)}
+/* under 1100 the logo sits in the bar, 20px in */
+@media (max-width:1099px){ .cs-logo{top:7px;left:20px} }
 
 /* ---------- hero ---------- */
 .cs-hero{display:flex;flex-direction:column;gap:24px}
@@ -169,7 +175,7 @@ body{padding-top:0}
 .cs-summary dd a{color:var(--select)}
 
 /* ---------- sections ---------- */
-.cs-section,.cs-hero{scroll-margin-top:calc(56px + 16px)}
+.cs-section,.cs-hero{scroll-margin-top:calc(46px + 16px)}
 .cs-section{display:flex;flex-direction:column;gap:16px}
 @media (min-width:1100px){ .cs-section,.cs-hero{scroll-margin-top:var(--cs-top)} }
 .cs-section-head{padding-bottom:16px;border-bottom:1px solid var(--rule)}
