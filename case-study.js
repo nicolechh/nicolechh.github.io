@@ -154,6 +154,22 @@
     render();
   });
 
+  /* .cs-row.is-mid: lift the text by its image's caption (height + the 8px
+     figure gap) so it centres on the image itself, as in Figma. Rows that set
+     --cap themselves keep it. */
+  var midRows = [].slice.call(document.querySelectorAll('.cs-row.is-mid')).filter(function(r){
+    return !/--cap/.test(r.getAttribute('style') || '');
+  });
+  function fitCaps(){
+    midRows.forEach(function(r){
+      var cap = r.querySelector(':scope > .cs-figure > .cs-caption');
+      if (cap) r.style.setProperty('--cap', (cap.offsetHeight + 8) + 'px');
+    });
+  }
+  fitCaps();
+  window.addEventListener('resize', fitCaps);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitCaps);
+
   var toc = document.querySelector('.cs-toc');
   var tocIndicator = document.querySelector('.cs-toc-indicator');
   var allTocLinks = document.querySelectorAll('.cs-toc a:not(.cs-back), .cs-toc-panel a:not(.cs-back)');

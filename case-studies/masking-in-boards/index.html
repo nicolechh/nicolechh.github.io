@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;700&family=Geist+Pixel&display=swap">
 <link rel="stylesheet" href="../../styles.css?v=08360895">
-<link rel="stylesheet" href="../../case-study.css?v=0deed272">
+<link rel="stylesheet" href="../../case-study.css?v=7e3ca524">
 </head>
 <body>
 
@@ -101,7 +101,7 @@
 
   <section class="cs-section" id="problem">
     <div class="cs-section-head"><h2>The Problem</h2></div>
-    <div class="cs-row is-top">
+    <div class="cs-row is-mid">
       <figure class="cs-figure"><div class="cs-asset"><img src="Assets/web/02.webp" width="2200" height="1429" alt="" loading="lazy"></div><figcaption class="cs-caption">Masking modal in Classic Sketch to Render</figcaption></figure>
       <div class="cs-text"><p>Masking is where a designer makes decisions worth comparing. In Classic, it happened in a modal, <strong>forcing a context switch every time a designer wants to see other ideas and adding a step to their workflow.</strong></p></div>
     </div>
@@ -122,18 +122,18 @@
     <div class="cs-body">
       <div class="cs-sub">
         <h3>1 — Mask in place, not in a modal</h3>
-        <div class="cs-row is-top">
+        <div class="cs-row is-mid">
           <figure class="cs-figure"><div class="cs-asset"><img src="Assets/web/04-1-2.webp" width="2200" height="1429" alt="" loading="lazy"></div><figcaption class="cs-caption">Masking mode in Boards</figcaption></figure>
           <div class="cs-text"><p>Porting the modal was the option developers favored because it was a proven pattern and had the least engineering lift. But a modal hides the rest of the board, cutting designers off from other options they might want to reference. <strong>I pushed for a masking mode instead, so the canvas stays in view while they work.</strong></p></div>
         </div>
-        <div class="cs-row is-flip is-top">
+        <div class="cs-row is-flip is-mid">
           <figure class="cs-figure"><div class="cs-asset"><img src="Assets/web/04-1-3.webp" width="1512" height="772" alt="" loading="lazy"></div><figcaption class="cs-caption">Masking toolbar in Boards</figcaption></figure>
           <div class="cs-text"><p>Moving onto the canvas traded space for navigation. Selection tools went into a dropdown, one click away, and masking’s pan and zoom merged into the canvas’s.</p></div>
         </div>
       </div>
       <div class="cs-sub">
         <h3>2 — Let designers leave mid-mask</h3>
-        <div class="cs-row is-top">
+        <div class="cs-row is-mid">
           <figure class="cs-figure"><div class="cs-asset"><img src="Assets/web/04-2.webp" width="2200" height="1429" alt="" loading="lazy"></div><figcaption class="cs-caption">Snackbar appears when panning away</figcaption></figure>
           <div class="cs-text">
             <p>Sharing the canvas’s navigation raised the next question: should the canvas stay live while masking? <strong>A locked canvas was the safer choice, but it would leave the board in view and out of reach, just like the modal, so I kept it live.</strong></p>
@@ -176,7 +176,7 @@
 
   <section class="cs-section" id="ship">
     <div class="cs-section-head"><h2>Ship &amp; Collaboration</h2></div>
-    <div class="cs-row is-flip is-top">
+    <div class="cs-row is-flip is-mid">
       <figure class="cs-figure"><div class="cs-asset" style="--ar:584/326;--ar-m:335/216"><video src="Assets/06.mp4" poster="Assets/web/06-poster.webp" controls playsinline preload="metadata"></video></div><figcaption class="cs-caption">Prototype of panning away, returning to image, and zooming in and out</figcaption></figure>
       <div class="cs-text"><p>Some behaviors are easier shown than described, so I prototyped masking mode with Claude and demoed it live to the Raspberry team. It shipped mostly as designed, with one change: a text reset button instead of an icon.</p></div>
     </div>
@@ -254,6 +254,6 @@
 </footer>
 
 <script src="../../clock.js?v=afe9466a"></script>
-<script src="../../case-study.js?v=29579401"></script>
+<script src="../../case-study.js?v=d9f1e735"></script>
 </body>
 </html>

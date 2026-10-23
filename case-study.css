@@ -225,6 +225,11 @@ body{padding-top:0}
   .cs-row.is-flip > :first-child{order:2}
   .cs-row.is-top{align-items:start}
   .cs-row.is-even{--cols:1fr 1fr}
+  /* Figma's rows centre the text on the image itself, not image + caption:
+     the text sits up by the caption's height (--cap; case-study.js measures
+     it, or a row sets it, e.g. 0px when the media has no caption) */
+  .cs-row.is-mid{align-items:center}
+  .cs-row.is-mid > :not(.cs-figure){margin-bottom:var(--cap,25px)}
   .cs-desk-last{order:1}
   /* text column with the media spanning every row beside it: used where
      mobile drops the media partway through the text */

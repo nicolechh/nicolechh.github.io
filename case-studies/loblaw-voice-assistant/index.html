@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;700&family=Geist+Pixel&display=swap">
 <link rel="stylesheet" href="../../styles.css?v=08360895">
-<link rel="stylesheet" href="../../case-study.css?v=0deed272">
+<link rel="stylesheet" href="../../case-study.css?v=7e3ca524">
 <style>
 /* Competitor audit (Figma: Component Frames -- purple label, outline and
    handles from styles.css .cframe -- around an unfilled Audit Card).
@@ -53,12 +53,6 @@
   .lob-sum .lob-text{grid-column:4 / 7;grid-row:1}
   .lob-sum .lob-kiosk{grid-column:1 / 5;grid-row:2;align-self:start}
   .lob-sum .lob-demo{grid-column:6 / 8;grid-row:2;align-self:start}
-}
-/* Rows (Figma): from 1280px the text centres on the image itself, not the
-   image + caption, so it sits up by the caption's height (--cap) */
-@media (min-width:1280px){
-  .cs-row.lob-mid{align-items:center}
-  .cs-row.lob-mid > .cs-text{margin-bottom:var(--cap,25px)}
 }
 /* Decision 1 icons: a centred pair; Figma mobile stacks them left-aligned */
 .cs-figs.lob-icons{justify-content:center}
@@ -186,7 +180,7 @@ html .cs-asset.is-bare{border-radius:8px;overflow:hidden}
   <section class="cs-section" id="problem">
     <div class="cs-section-head"><h2>The Problem</h2></div>
     <div class="cs-body">
-      <div class="cs-row lob-mid">
+      <div class="cs-row is-mid">
         <figure class="cs-figure"><div class="cs-asset"><img src="Assets-new/web/02-1.webp?v=14efc0e5" width="2200" height="1179" alt="" loading="lazy"></div><figcaption class="cs-caption">Interview findings conducted by team members</figcaption></figure>
         <div class="cs-text">
           <p>Shoppers with specific needs hunt aisle by aisle and often leave without the item they came for: it isn’t where they expected, and staff can’t always help since products move for promotions.</p>
@@ -240,7 +234,7 @@ html .cs-asset.is-bare{border-radius:8px;overflow:hidden}
           <figure class="cs-figure is-narrow" style="--w:394px;--wm:260px"><div class="cs-asset is-bare is-flat"><img src="Assets-new/web/04-1-1.webp?v=fe87eecb" width="726" height="667" alt="" loading="lazy"></div><figcaption class="cs-caption">Before: a mic with existing UI colors</figcaption></figure>
           <figure class="cs-figure is-narrow" style="--w:394px;--wm:260px"><div class="cs-asset is-bare is-flat"><img src="Assets-new/web/04-1-2.webp?v=2c64d8ef" width="726" height="667" alt="" loading="lazy"></div><figcaption class="cs-caption">After: an “L” with an audio mark and distinct colors</figcaption></figure>
         </div>
-        <div class="cs-row lob-mid" style="--cols:490fr 584fr">
+        <div class="cs-row is-mid" style="--cols:490fr 584fr">
           <div class="cs-text">
             <p>Before: the mic icon blended into the UI and users weren’t sure it was the AI assistant. Five of six round-one testers missed it or found it unclear.</p>
             <p><strong>After: an ‘L’ for Lola with an audio mark, in colors chosen to stand out and give Lola an identity.</strong> It also had to work as a floating button, since mentors pushed voice AI as the solution.</p>
@@ -253,7 +247,7 @@ html .cs-asset.is-bare{border-radius:8px;overflow:hidden}
         <h3>2 — Introduce Lola with a full page, not a tooltip</h3>
         <p class="cs-note"><strong>My decision</strong>, made after test round two.</p>
         <figure class="cs-figure"><div class="cs-asset is-bare"><img src="Assets-new/web/04-2-1.webp?v=66a2b164" width="2200" height="769" alt="" loading="lazy"></div><figcaption class="cs-caption">Before: Lola is only introduced with a tooltip and in the chat</figcaption></figure>
-        <div class="cs-row lob-mid" style="--cols:580fr 494fr;--cap:42px">
+        <div class="cs-row is-mid" style="--cols:580fr 494fr;--cap:42px">
           <div class="cs-text">
             <p>Before: only subtle tooltips pointed to Lola, with no context on what it is. In round two, testers still asked what it was, and one questioned whether people would want AI reading their data.</p>
             <p><strong>After: an onboarding intro to Lola that gives initial guidance and clarifies its role, followed by a permission request before any data is accessed.</strong></p>
@@ -265,7 +259,7 @@ html .cs-asset.is-bare{border-radius:8px;overflow:hidden}
       <div class="cs-sub">
         <h3>3 — A hands-free guide, with a kiosk for non-smartphone users</h3>
         <p class="cs-note">A team decision.</p>
-        <div class="cs-row lob-mid" style="--cap:42px">
+        <div class="cs-row is-mid" style="--cap:42px">
           <figure class="cs-figure"><div class="cs-asset is-bare"><img src="Assets-new/web/04-3.webp?v=d701e3c1" width="1168" height="1257" alt="" loading="lazy"></div><figcaption class="cs-caption">Version 1 of the three directions we took to mentors: mobile app, cart clip-on, and kiosk</figcaption></figure>
           <div class="cs-text">
             <p>We started with smart glasses, then a clip-on, and landed on the phone shoppers already carry. Glasses raise hygiene concerns, don’t suit prescription wearers, and don’t exist off the shelf. A clip-on duplicated the phone. My competitor research raised concerns for hardware costs: Cust2Mate bolts sensors onto carts, ALDIgo rigs cameras across the ceiling.</p>
@@ -281,7 +275,7 @@ html .cs-asset.is-bare{border-radius:8px;overflow:hidden}
     <div class="cs-body">
       <div class="cs-sub">
         <h3>Lola: chat with voice built in</h3>
-        <div class="cs-row lob-mid" style="--cols:531fr 543fr;--cap:0px">
+        <div class="cs-row is-mid" style="--cols:531fr 543fr;--cap:0px">
           <div class="cs-figs lob-pair">
             <figure class="cs-figure is-narrow" style="--w:258px;--wm:160px"><div class="cs-asset is-bare"><img src="Assets-new/web/05-1-1.webp?v=6062531c" width="516" height="1119" alt="" loading="lazy"></div><figcaption class="cs-caption">Version 1: voice-focused chat</figcaption></figure>
             <figure class="cs-figure is-narrow" style="--w:258px;--wm:160px"><div class="cs-asset is-bare"><img src="Assets-new/web/05-1-2.webp?v=2de6eacd" width="516" height="1119" alt="" loading="lazy"></div><figcaption class="cs-caption">Final version: chat with voice</figcaption></figure>
@@ -299,7 +293,7 @@ html .cs-asset.is-bare{border-radius:8px;overflow:hidden}
       </div>
       <div class="cs-sub">
         <h3>Two surfaces with their own use case</h3>
-        <div class="cs-row lob-mid" style="--cols:697fr 377fr;--cap:0px">
+        <div class="cs-row is-mid" style="--cols:697fr 377fr;--cap:0px">
           <div class="cs-figs lob-surfaces">
             <figure class="cs-figure" style="--g:146;--wm:167px"><div class="cs-asset is-bare" style="--ar:146/627;--ar-m:146/627"><img src="Assets-new/web/05-3-1.webp?v=0ee46a2c" width="334" height="1430" alt="" loading="lazy"></div><figcaption class="cs-caption">Mobile app home</figcaption></figure>
             <figure class="cs-figure" style="--g:535"><div class="cs-asset is-bare" style="--ar:535/627;--ar-m:535/627"><img src="Assets-new/web/05-3-2.webp?v=9405ac2c" width="1070" height="1252" alt="" loading="lazy"></div><figcaption class="cs-caption">Kiosk app home</figcaption></figure>
@@ -309,7 +303,7 @@ html .cs-asset.is-bare{border-radius:8px;overflow:hidden}
       </div>
       <div class="cs-sub">
         <h3>Promoting the app from the kiosk</h3>
-        <div class="cs-row lob-mid" style="--cap:0px">
+        <div class="cs-row is-mid" style="--cap:0px">
           <figure class="cs-figure"><div class="cs-asset is-bare"><img src="Assets-new/web/05-4.webp?v=b79641f5" width="1168" height="779" alt="" loading="lazy"></div><figcaption class="cs-caption">Mobile app download pop-up in the kiosk app</figcaption></figure>
           <div class="cs-text"><p>Mentors asked how we could encourage more app downloads, so I added a pop-up with a QR code after shoppers create their list. It’s large enough to draw attention, but small enough to leave their next actions uncovered.</p></div>
         </div>
@@ -319,7 +313,7 @@ html .cs-asset.is-bare{border-radius:8px;overflow:hidden}
 
   <section class="cs-section" id="ship">
     <div class="cs-section-head"><h2>Ship &amp; Collaboration</h2></div>
-    <div class="cs-row lob-mid">
+    <div class="cs-row is-mid">
       <figure class="cs-figure"><div class="cs-asset is-bare"><img src="Assets-new/web/06.webp?v=4ba8bc98" width="1168" height="787" alt="" loading="lazy"></div><figcaption class="cs-caption">Figma screenshot of our final mobile prototype</figcaption></figure>
       <div class="cs-text">
         <p>At the end of the ten days, we delivered a Figma prototype, demo video and 20-minute pitch to the rest of our cohort and our two Loblaw Digital mentors.</p>
@@ -432,6 +426,6 @@ html .cs-asset.is-bare{border-radius:8px;overflow:hidden}
 </footer>
 
 <script src="../../clock.js?v=afe9466a"></script>
-<script src="../../case-study.js?v=29579401"></script>
+<script src="../../case-study.js?v=d9f1e735"></script>
 </body>
 </html>
