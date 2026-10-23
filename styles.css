@@ -255,12 +255,12 @@ body{
    than the nav's absolutely-positioned ::after so it follows a link that
    wraps onto a second line; it takes the link's own colour. Add any new
    inline-link context to this list rather than giving it its own hover. */
-.about-prose a,.spec a,.back-link,.cs-facts dd a,.cs-cite a,.cs-footer a,.cs-section p a{
+.about-prose a,.spec a,.back-link,.cs-facts dd a,.cs-summary dd a,.cs-cite a,.cs-footer a,.cs-section p a{
   text-decoration:none;
   background:linear-gradient(currentColor,currentColor) 0 100% / 0 1px no-repeat;
   transition:background-size .22s cubic-bezier(.4,0,.2,1);
 }
-:is(.about-prose a,.spec a,.back-link,.cs-facts dd a,.cs-cite a,.cs-footer a,.cs-section p a):is(:hover,:focus-visible){background-size:100% 1px}
+:is(.about-prose a,.spec a,.back-link,.cs-facts dd a,.cs-summary dd a,.cs-cite a,.cs-footer a,.cs-section p a):is(:hover,:focus-visible){background-size:100% 1px}
 a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 
 /* ---------- shell ---------- */

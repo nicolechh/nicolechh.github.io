@@ -6,14 +6,14 @@
 <meta name="color-scheme" content="light">
 
 <title>Nicole Chou — Portfolio</title>
-<meta name="description" content="Nicole Chou is a product designer who thinks in systems and designs for people.">
+<meta name="description" content="I’m Nicole Chou, a product designer in the SF Bay Area with 3 years of experience, most recently designing AI-powered creative tools and complex systems for agency clients.">
 <link rel="canonical" href="https://nicolec.xyz/">
 
 <!-- Open Graph / social preview. assets/social-card.png is a 1200x630 render
      of the hero (dot grid, rulers, name, tag, lede, a frozen frame of the wave) -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Nicole Chou — Portfolio">
-<meta property="og:description" content="I think in systems and design for people.">
+<meta property="og:description" content="I’m Nicole Chou, a product designer in the SF Bay Area with 3 years of experience, most recently designing AI-powered creative tools and complex systems for agency clients.">
 <meta property="og:url" content="https://nicolec.xyz/">
 <meta property="og:image" content="https://nicolec.xyz/assets/social-card.png?v=9640fa47">
 <meta property="og:image:width" content="1200">
@@ -27,9 +27,9 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;700&family=Geist+Pixel&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;700&family=Geist+Pixel:ELSH@0..100&display=swap">
 
-<link rel="stylesheet" href="styles.css?v=c614eb24">
+<link rel="stylesheet" href="styles.css?v=08360895">
 <script>
   // Intro: an initial visit or a refresh starts on the bare dot grid while
   // the load-in wave plays; the main script reveals the page once the wave
@@ -56,15 +56,104 @@
     }
   })();
 </script>
+<style>
+/* ---------- Homepage (Figma "Homepage V2.2", 1440 frame) ----------
+   No top bar: the rulers start at the top edge, and the logo, side nav and
+   reduce-motion switch float, fixed, over the page. Content is one 982px
+   column that starts 229px into Figma's 1416 slot (left of centre, clear of
+   the side nav); it narrows to clear the nav down to 1100px, then the nav
+   hides and the column centres with side padding. */
+body.v2{padding-top:var(--gutter)}
+.v2 #ruler-x{top:0}
+.v2 #ruler-y{top:var(--gutter);height:calc(100% - var(--gutter))}
+.v2 .corner{top:0}
+.v2 main{max-width:none;padding:0}
+.v2 section{scroll-margin-top:calc(var(--gutter) + 24px)}
+.v2 :is(#home,#work,#playground,#about){padding:0}
+
+.v2-fixed{position:fixed;z-index:55}
+.v2-logo{top:calc(var(--gutter) + 28px);left:calc(var(--gutter) + 34px)}
+.v2-motion{top:calc(var(--gutter) + 36px);right:34px;margin:0}
+.v2-nav{top:calc(var(--gutter) + 90px);left:calc(var(--gutter) + 16px);display:flex;flex-direction:column;gap:8px}
+/* Mono/Nav; the active section is orange with a 6px square */
+.v2-nav a{
+  display:flex;align-items:center;gap:12px;
+  font-family:var(--mono);font-weight:500;font-size:12px;line-height:16px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink-3);text-decoration:none;transition:color .18s ease;
+}
+.v2-nav a i{width:6px;height:6px;background:var(--accent);opacity:0;transition:opacity .18s ease;flex:none}
+.v2-nav a:hover{color:var(--ink)}
+.v2-nav a[aria-current="true"]{color:var(--accent)}
+.v2-nav a[aria-current="true"] i{opacity:1}
+.intro .v2-fixed{opacity:0;pointer-events:none}
+.intro-in .v2-fixed{animation:intro-fade .5s ease-out backwards}
+
+/* the 982 column: 229px in at 1440 (Figma), keeping that offset's share of
+   the spare width on wider screens, and never under the side nav */
+.h-col{width:min(982px, 100% - 300px);margin-left:max(150px, (100% - 982px) * .5276)}
+.v2 #home{padding-top:80px}
+/* intro: Geist Pixel 36 / 24; highlights in its Square style
+   (the variable font's Element Shape axis: Regular 0, Square 1) */
+.h-intro,.h-intro-2{font-family:var(--name);font-weight:400;font-synthesis:none;line-height:1.35;color:var(--ink-2);margin:0;text-wrap:pretty}
+.h-intro{font-size:36px;max-width:731px}
+.h-intro-2{font-size:24px;max-width:653px;margin-top:24px}
+.h-intro strong,.h-intro-2 strong{font-weight:400;font-variation-settings:"ELSH" 1;color:var(--accent)}
+.h-intro strong.is-blue{color:var(--select)}
+.h-sec{margin-top:56px}
+.h-sec h2{line-height:36px;margin-bottom:16px}
+.h-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.h-grid .thumb{aspect-ratio:437/293}
+.h-grid.is-ai .thumb{aspect-ratio:437/281}
+.h-grid .card-text{min-height:94px}   /* Figma's Text Block, so paired cards match */
+.h-grid.is-ai .card-text{min-height:73px}
+.h-about{display:flex;align-items:center;gap:24px;padding-bottom:8px}
+.h-photo{flex:0 0 372px;transform:rotate(-1.29deg)}
+.h-photo .cframe-img{aspect-ratio:372/343}
+.h-about .about-prose{flex:0 1 578px;margin-left:8px}
+/* Figma footer slot: 60 after the last section, then 40 top, 34 sides and
+   bottom; the footer itself only pads its top (20) */
+.v2-foot{padding:100px 34px 34px}
+.v2 .site-footer{padding-bottom:0}
+
+@media (max-width:1099px){
+  .v2-nav{display:none}
+  .v2 section{scroll-margin-top:calc(var(--gutter) + 64px)}   /* land below the floating logo */
+  /* floating over the column, so they get the ruler's glass */
+  .v2-logo,.v2-motion{background:var(--chrome);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+  .v2-logo{padding:4px;width:40px;height:40px;top:calc(var(--gutter) + 12px);left:calc(var(--gutter) + 12px)}
+  .v2-motion{padding:8px 10px;top:calc(var(--gutter) + 12px);right:12px}
+  .h-col{width:auto;max-width:982px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+  .v2 #home{padding-top:104px}
+  .v2-foot{padding:80px clamp(20px,4vw,48px) 34px}
+}
+/* styles.css turns .motion into a full-width menu row at 640px; here it stays a floating switch */
+@media (max-width:640px){
+  .v2 .v2-motion{position:fixed;width:auto;margin:0;border:0;justify-content:flex-start;font-size:12px}
+}
+/* the About row needs ~900px: stack it below that, photo at its Figma size */
+@media (max-width:899px){
+  .h-about{flex-direction:column;align-items:flex-start;gap:28px}
+  .h-photo{flex:none;width:min(372px,100%)}
+  .h-about .about-prose{flex:none;margin-left:0;max-width:580px}
+}
+@media (max-width:699px){
+  .v2 #home{padding-top:88px}
+  .h-intro{font-size:26px}
+  .h-intro-2{font-size:18px;margin-top:16px}
+  .h-sec{margin-top:48px}
+  .h-grid{grid-template-columns:1fr}
+  .h-about{flex-direction:column;align-items:stretch;gap:24px}
+  .h-photo{flex:none;width:100%;transform:none}
+  .h-about .about-prose{flex:none;margin-left:0}
+  .v2-foot{padding-top:56px}
+}
+</style>
 </head>
-
-<body>
-
+<body class="v2">
 <canvas id="dots" aria-hidden="true"></canvas>
 <canvas id="ruler-x" class="chrome" aria-hidden="true"></canvas>
 <canvas id="ruler-y" class="chrome" aria-hidden="true"></canvas>
 <div class="corner chrome" aria-hidden="true"></div>
-
 <div class="cursor-chip" id="cursorChip" aria-hidden="true">
   <svg viewBox="-1 -1 17 22" width="17" height="22"><path d="M0 0 L0 20 L5.5 15.5 L14.5 15.5 Z"/></svg>
   <span class="cursor-coords" id="cursorCoords">
@@ -73,53 +162,37 @@
   </span>
 </div>
 
-<nav class="bar" id="bar" data-open="false">
-  <a class="logo" href="#home" aria-label="Home"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFsAAABaCAMAAADgtNoOAAADAFBMVEXjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERFpfbk+AAABAHRSTlMAAQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyAhIiMkJSYnKCkqKywtLi8wMTIzNDU2Nzg5Ojs8PT4/QEFCQ0RFRkdISUpLTE1OT1BRUlNUVVZXWFlaW1xdXl9gYWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXp7fH1+f4CBgoOEhYaHiImKi4yNjo+QkZKTlJWWl5iZmpucnZ6foKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr/AwcLDxMXGx8jJysvMzc7P0NHS09TV1tfY2drb3N3e3+Dh4uPk5ebn6Onq6+zt7u/w8fLz9PX29/j5+vv8/f7/qVjM+gAABG1JREFUeNrVmU1oFEkUgB8isoiIyBIkSAgS5jCIeBIRzQ4eRBQkiIiEnBYJIo2GHESkEUSWJaR3WVgwSAZ/8CCSBpFhkSy9hGWRoLSIBC+mFURkAnaQEARDZrasn/6p6a6qrpiug+8wM1Wv+qs3r15Vva4CAEBM6nWEaIFWJNVYavQz9CBuDG6iC5APIfJYDVaHYaQAAJ4hE8z2ffbT5qo9FBvCScJGjE36rLWiKl+I9zxKQg5XZ7darTCLrjscO6ojj674j2+q5Zxa/fRVYprr8n/p6XEoQ/6Ohy/19vIpKEluJD7hBrVEQdwwgwl49GGC7bMemibM9sl3Df1RNvttGuA/lc2+mQZK6e7+P5nz5bPvGLR7MI1vrnb7/mpJbDvLPvoFoZlvgI003JMZdgB0wUrlNumqR0bY2LtZrDiBn2r3ZH0CmM3B75PKigQ98AG13zwY2ZvXXCCP9efYfoe7VeyelWiFW5wa7tVh20ibPcpvMPMTA1sL2ZY2eyqzf63OXju4UcW28C6t6e+Xgn10uWFV5P7WZy9K0oD3t85cz7DZbA+0/b2hTcdxfPjcL40FUR85Np1AWuxtRPW5jxWq1sPFQjbOhGw9n3QT1RRXsXe0sSRjx1mWr8fuI6qxjJ/2XZpeFrDjtcrVZFeJ6rpgIThgz3wRsGtAkzQt9m4JWxbf+MtvtbJjeaBLJIeJ6nehqssWj+UQytn9jZIZSyu775TG9jzag1c+ezDZL8EIO6SGZ9n3J0TymKieC1UTT7TZFem+tYYYTGdn2WzwhnxjbEHuUxIbDLKjGGyZY1tWi19QSmQD3ufz7HfzImnSLU2omv8oZCMj6wlhe8Lcpxy2JZyXJteqj02RUJ8uC1XNJcl+qbue7Fl7fHuegr37RFXG3nrk2A4p+1DEVsyd0WhIBOxenPqsHlHbHajm/L+48I+YPUxKkyp2TRjfCXsWF/4TsyntnmqtMsZOT8wMsPGZmHqNXYdPAg8V+2ThXiR/EdVcXHpW6G8NtkoK/E3PCo2wPQhVc36ddoMxdki/QWssO+WZDtvWjUHByidln2KuNsKG9CxMxp4pYE8W5D6OLff3I1yYVRwcjKvZjipO7uLCazF7jDS8omIH6hi8RI5ztgvZNOMeULADzMYvU1J2PyldE6HZFUS3ym62HErH8gfyzr76swBNX+bnoJDNZpBwLx5nJ/oj/ZWd3bH07R+eZtPyrAZbnsd2LShm/NwmJdsBqCtz5NqKFP2pUpSf1NVs2Pdegn6xqzD3CTv3Bnq4vIP/c5vPv8qD209Ob+AbnSSVfaJ8kGNXX7aXxrJR8eOxC1d/+zOW8Svna1uyTS5PNwahgF2SXKRUco8Ehs7tfWL4r2buG+jNXtPc/c73dS+VsENT7LpBuy2DbDDGDjrvojMdpjfKKN+I6QFFpxmQvZZ26JNubiniu9C6Cc89DQ6z33Xl7eprfTl2MkHtsr4sy6FGDqUtA/wa5zielVyRs4vJDhOd5B7djutceqT+Fc9RphVm8gQ+AAAAAElFTkSuQmCC" alt="" width="91" height="90"></a>
-  <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="menu">
-    <svg class="burger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="5" x2="20" y2="5"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="19" x2="20" y2="19"/></svg>
-  </button>
-  <div class="menu" id="menu">
-    <div class="menu-panel">
-      <div class="nav">
-        <a href="#home">Home</a>
-        <a href="#work">Work</a>
-        <a href="#playground">Playground</a>
-        <a href="#about">About</a>
-      </div>
-      <div class="motion">
-        <span class="motion-label" id="motion-label">Reduce motion</span>
-        <button class="motion-track" id="motion" type="button" role="switch" aria-checked="false" aria-labelledby="motion-label">
-          <span class="motion-pill" aria-hidden="true"></span>
-        </button>
-      </div>
-    </div>
-  </div>
+<a class="logo v2-logo v2-fixed" href="#home" aria-label="Home"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFsAAABaCAMAAADgtNoOAAADAFBMVEXjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERFpfbk+AAABAHRSTlMAAQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyAhIiMkJSYnKCkqKywtLi8wMTIzNDU2Nzg5Ojs8PT4/QEFCQ0RFRkdISUpLTE1OT1BRUlNUVVZXWFlaW1xdXl9gYWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXp7fH1+f4CBgoOEhYaHiImKi4yNjo+QkZKTlJWWl5iZmpucnZ6foKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr/AwcLDxMXGx8jJysvMzc7P0NHS09TV1tfY2drb3N3e3+Dh4uPk5ebn6Onq6+zt7u/w8fLz9PX29/j5+vv8/f7/qVjM+gAABG1JREFUeNrVmU1oFEkUgB8isoiIyBIkSAgS5jCIeBIRzQ4eRBQkiIiEnBYJIo2GHESkEUSWJaR3WVgwSAZ/8CCSBpFhkSy9hGWRoLSIBC+mFURkAnaQEARDZrasn/6p6a6qrpiug+8wM1Wv+qs3r15Vva4CAEBM6nWEaIFWJNVYavQz9CBuDG6iC5APIfJYDVaHYaQAAJ4hE8z2ffbT5qo9FBvCScJGjE36rLWiKl+I9zxKQg5XZ7darTCLrjscO6ojj674j2+q5Zxa/fRVYprr8n/p6XEoQ/6Ohy/19vIpKEluJD7hBrVEQdwwgwl49GGC7bMemibM9sl3Df1RNvttGuA/lc2+mQZK6e7+P5nz5bPvGLR7MI1vrnb7/mpJbDvLPvoFoZlvgI003JMZdgB0wUrlNumqR0bY2LtZrDiBn2r3ZH0CmM3B75PKigQ98AG13zwY2ZvXXCCP9efYfoe7VeyelWiFW5wa7tVh20ibPcpvMPMTA1sL2ZY2eyqzf63OXju4UcW28C6t6e+Xgn10uWFV5P7WZy9K0oD3t85cz7DZbA+0/b2hTcdxfPjcL40FUR85Np1AWuxtRPW5jxWq1sPFQjbOhGw9n3QT1RRXsXe0sSRjx1mWr8fuI6qxjJ/2XZpeFrDjtcrVZFeJ6rpgIThgz3wRsGtAkzQt9m4JWxbf+MtvtbJjeaBLJIeJ6nehqssWj+UQytn9jZIZSyu775TG9jzag1c+ezDZL8EIO6SGZ9n3J0TymKieC1UTT7TZFem+tYYYTGdn2WzwhnxjbEHuUxIbDLKjGGyZY1tWi19QSmQD3ufz7HfzImnSLU2omv8oZCMj6wlhe8Lcpxy2JZyXJteqj02RUJ8uC1XNJcl+qbue7Fl7fHuegr37RFXG3nrk2A4p+1DEVsyd0WhIBOxenPqsHlHbHajm/L+48I+YPUxKkyp2TRjfCXsWF/4TsyntnmqtMsZOT8wMsPGZmHqNXYdPAg8V+2ThXiR/EdVcXHpW6G8NtkoK/E3PCo2wPQhVc36ddoMxdki/QWssO+WZDtvWjUHByidln2KuNsKG9CxMxp4pYE8W5D6OLff3I1yYVRwcjKvZjipO7uLCazF7jDS8omIH6hi8RI5ztgvZNOMeULADzMYvU1J2PyldE6HZFUS3ym62HErH8gfyzr76swBNX+bnoJDNZpBwLx5nJ/oj/ZWd3bH07R+eZtPyrAZbnsd2LShm/NwmJdsBqCtz5NqKFP2pUpSf1NVs2Pdegn6xqzD3CTv3Bnq4vIP/c5vPv8qD209Ob+AbnSSVfaJ8kGNXX7aXxrJR8eOxC1d/+zOW8Svna1uyTS5PNwahgF2SXKRUco8Ehs7tfWL4r2buG+jNXtPc/c73dS+VsENT7LpBuy2DbDDGDjrvojMdpjfKKN+I6QFFpxmQvZZ26JNubiniu9C6Cc89DQ6z33Xl7eprfTl2MkHtsr4sy6FGDqUtA/wa5zielVyRs4vJDhOd5B7djutceqT+Fc9RphVm8gQ+AAAAAElFTkSuQmCC" alt="" width="91" height="90"></a>
+<nav class="v2-nav v2-fixed" aria-label="Sections">
+  <a href="#home" aria-current="true"><i aria-hidden="true"></i>Home</a>
+  <a href="#work"><i aria-hidden="true"></i>Work</a>
+  <a href="#playground"><i aria-hidden="true"></i>AI Builds</a>
+  <a href="#about"><i aria-hidden="true"></i>About</a>
 </nav>
+<div class="motion v2-motion v2-fixed">
+  <span class="motion-label" id="motion-label">Reduce motion</span>
+  <button class="motion-track" id="motion" type="button" role="switch" aria-checked="false" aria-labelledby="motion-label">
+    <span class="motion-pill" aria-hidden="true"></span>
+  </button>
+</div>
 
 <main lang="en">
-  <section id="home" class="hero">
-    <div class="hero-frame">
-      <div class="sel">
-        <p class="sticker"><i></i><i></i><i></i><i></i>Product designer</p>
-        <h1 class="name" aria-label="Nicole Chou"><span>Nicole</span> <span>Chou</span></h1>
-      </div>
-      <div class="tlayer">
-        <div class="tbox" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-        <p class="lede">I think in systems and design for people.</p>
-      </div>
-    </div>
+  <div class="h-col">
+  <section id="home" class="h-hero">
+    <h1 class="h-intro">I’m Nicole Chou, a <strong class="is-blue">product designer</strong> in the SF Bay Area with 3 years of experience.</h1>
+    <p class="h-intro-2">Most recently, I’ve designed <strong>AI-powered creative tools</strong> and <strong>complex systems</strong> for agency clients.</p>
   </section>
 
-  <section id="work">
-    <div class="head"><h2>Selected Work</h2></div>
-    <div class="grid">
+  <section id="work" class="h-sec">
+    <h2>Work</h2>
+    <div class="h-grid is-work">
       <article class="card">
         <div class="card-body">
           <div class="sel-box" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <div class="thumb"><img src="case-studies/masking-in-boards/Assets/00.webp" alt="" width="1600" height="1056" loading="lazy"></div>
           <div class="card-text">
-            <h3><a href="case-studies/masking-in-boards/">Raspberry AI: Masking on a Canvas</a></h3>
-            <p>Multi-material masking, a mode that leaves the rest of the workspace usable.</p>
+            <h3><a href="case-studies/masking-in-boards/">Raspberry AI: A New Way to Mask</a></h3>
+            <p>Introduced a new interaction model that keeps fashion designers in context, speeding up their workflow.</p>
           </div>
           <p class="meta"><span>2026</span><span>Product Designer</span></p>
         </div>
@@ -129,8 +202,8 @@
           <div class="sel-box" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <div class="thumb"><img src="case-studies/guardrail-system/Assets/00.webp" alt="" width="1600" height="1058" loading="lazy"></div>
           <div class="card-text">
-            <h3><a href="case-studies/guardrail-system/">Guardrail: One Cohesive System</a></h3>
-            <p>Created a design system used to redesign and build new features on.</p>
+            <h3><a href="case-studies/guardrail-system/">Guardrail: A System for Designers &amp; Developers</a></h3>
+            <p>Reduced developers’ custom styling by 90% and gave designers the foundation to expand the product.</p>
           </div>
           <p class="meta"><span>2025</span><span>Lead Product Designer</span></p>
         </div>
@@ -140,8 +213,8 @@
           <div class="sel-box" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <div class="thumb"><img src="case-studies/workflow-tutorials/Assets/00.webp" alt="" width="1600" height="1056" loading="lazy"></div>
           <div class="card-text">
-            <h3><a href="case-studies/workflow-tutorials/">Raspberry AI: Guided Workflows</a></h3>
-            <p>A guided tutorial system built around workflows to reduce onboarding calls.</p>
+            <h3><a href="case-studies/workflow-tutorials/">Raspberry AI: From Tools to Workflows</a></h3>
+            <p>Unified fragmented tools into guided workflows, leading 68.5% of fashion designers who start one to generate.</p>
           </div>
           <p class="meta"><span>2026</span><span>Product Designer</span></p>
         </div>
@@ -149,10 +222,10 @@
       <article class="card">
         <div class="card-body">
           <div class="sel-box" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-          <div class="thumb"><img src="case-studies/loblaw-voice-assistant/Assets-new/web/00-card.webp?v=1539264c" width="1600" height="1064" alt="" loading="lazy"></div>
+          <div class="thumb"><img src="case-studies/loblaw-voice-assistant/Assets-new/web/00-card.webp?v=1539264c" alt="" width="1600" height="1064" loading="lazy"></div>
           <div class="card-text">
-            <h3><a href="case-studies/loblaw-voice-assistant/">Loblaw Digital: AI Voice Assistant for Grocery Navigation</a></h3>
-            <p>Voice-assisted way-finding for the PC Express app and in-store kiosks. Final project for the MDEI program at the University of Waterloo.</p>
+            <h3><a href="case-studies/loblaw-voice-assistant/">Loblaw Digital: An AI Shopping Assistant</a></h3>
+            <p>Turned static signage into voice-guided way-finding, with tailored solutions across app and kiosk.</p>
           </div>
           <p class="meta"><span>2025</span><span>Designer / Prototyper</span></p>
         </div>
@@ -160,9 +233,9 @@
     </div>
   </section>
 
-  <section id="playground">
-    <div class="head"><h2>Playground</h2></div>
-    <div class="grid">
+  <section id="playground" class="h-sec">
+    <h2>AI Builds</h2>
+    <div class="h-grid is-ai">
       <article class="card">
         <div class="card-body">
           <div class="sel-box" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
@@ -188,25 +261,16 @@
     </div>
   </section>
 
-  <section id="about">
-    <div class="head"><h2>About</h2></div>
-    <div class="about-body">
-      <div class="about-photos">
-        <figure class="cframe is-me">
-          <figcaption class="cframe-label"><svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M15.536 11.293a1 1 0 0 0 0 1.414l2.376 2.377a1 1 0 0 0 1.414 0l2.377-2.377a1 1 0 0 0 0-1.414l-2.377-2.377a1 1 0 0 0-1.414 0z"/><path d="M2.297 11.293a1 1 0 0 0 0 1.414l2.377 2.377a1 1 0 0 0 1.414 0l2.377-2.377a1 1 0 0 0 0-1.414L6.088 8.916a1 1 0 0 0-1.414 0z"/><path d="M8.916 17.912a1 1 0 0 0 0 1.415l2.377 2.376a1 1 0 0 0 1.414 0l2.377-2.376a1 1 0 0 0 0-1.415l-2.377-2.376a1 1 0 0 0-1.414 0z"/><path d="M8.916 4.674a1 1 0 0 0 0 1.414l2.377 2.376a1 1 0 0 0 1.414 0l2.377-2.376a1 1 0 0 0 0-1.414l-2.377-2.377a1 1 0 0 0-1.414 0z"/></svg>hi, i’m nicole!</figcaption>
-          <div class="cframe-img">
-            <img src="assets/about-nicole.webp" alt="Nicole standing by an infinity pool overlooking a city and the sea" width="1000" height="902" loading="lazy">
-            <i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i>
-          </div>
-        </figure>
-        <figure class="cframe is-home">
-          <figcaption class="cframe-label"><svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M15.536 11.293a1 1 0 0 0 0 1.414l2.376 2.377a1 1 0 0 0 1.414 0l2.377-2.377a1 1 0 0 0 0-1.414l-2.377-2.377a1 1 0 0 0-1.414 0z"/><path d="M2.297 11.293a1 1 0 0 0 0 1.414l2.377 2.377a1 1 0 0 0 1.414 0l2.377-2.377a1 1 0 0 0 0-1.414L6.088 8.916a1 1 0 0 0-1.414 0z"/><path d="M8.916 17.912a1 1 0 0 0 0 1.415l2.377 2.376a1 1 0 0 0 1.414 0l2.377-2.376a1 1 0 0 0 0-1.415l-2.377-2.376a1 1 0 0 0-1.414 0z"/><path d="M8.916 4.674a1 1 0 0 0 0 1.414l2.377 2.376a1 1 0 0 0 1.414 0l2.377-2.376a1 1 0 0 0 0-1.414l-2.377-2.377a1 1 0 0 0-1.414 0z"/></svg>home — taipei, taiwan</figcaption>
-          <div class="cframe-img">
-            <img src="assets/about-taipei.webp" alt="Taipei 101 at dusk, lit up against a blue and orange sky" width="1000" height="1333" loading="lazy">
-            <i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i>
-          </div>
-        </figure>
-      </div>
+  <section id="about" class="h-sec">
+    <h2>About</h2>
+    <div class="h-about">
+      <figure class="cframe h-photo">
+        <figcaption class="cframe-label"><svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M15.536 11.293a1 1 0 0 0 0 1.414l2.376 2.377a1 1 0 0 0 1.414 0l2.377-2.377a1 1 0 0 0 0-1.414l-2.377-2.377a1 1 0 0 0-1.414 0z"/><path d="M2.297 11.293a1 1 0 0 0 0 1.414l2.377 2.377a1 1 0 0 0 1.414 0l2.377-2.377a1 1 0 0 0 0-1.414L6.088 8.916a1 1 0 0 0-1.414 0z"/><path d="M8.916 17.912a1 1 0 0 0 0 1.415l2.377 2.376a1 1 0 0 0 1.414 0l2.377-2.376a1 1 0 0 0 0-1.415l-2.377-2.376a1 1 0 0 0-1.414 0z"/><path d="M8.916 4.674a1 1 0 0 0 0 1.414l2.377 2.376a1 1 0 0 0 1.414 0l2.377-2.376a1 1 0 0 0 0-1.414l-2.377-2.377a1 1 0 0 0-1.414 0z"/></svg>hi, i’m nicole!</figcaption>
+        <div class="cframe-img">
+          <img src="assets/about-nicole.webp" alt="Nicole standing by an infinity pool overlooking a city and the sea" width="1000" height="902" loading="lazy">
+          <i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i><i aria-hidden="true"></i>
+        </div>
+      </figure>
       <div class="about-prose">
         <p>I’m a product designer who’s always wondering “what if?” I like building systems where one good pattern does the work of ten screens, and I usually have a plan B tucked away. Maybe a plan C, if there’s coffee involved.</p>
         <p class="obsessions"><span>Currently obsessed with:</span> <span class="obs-list"><span class="obs"><img src="assets/pixel/tennis-ball.svg" alt="" width="20" height="20">tennis,</span> <span class="obs"><img src="assets/pixel/journal.svg" alt="" width="20" height="20">journaling, and</span> <span class="obs"><img src="assets/pixel/sword.svg" alt="" width="20" height="20">Zelda.</span></span></p>
@@ -214,15 +278,17 @@
       </div>
     </div>
   </section>
+  </div>
 
+  <div class="v2-foot">
   <footer class="site-footer">
     <p class="foot-name">NICOLE CHOU</p>
     <p class="foot-made">Made with Claude Code &amp; Figma</p>
-    <p class="foot-note foot-updated">Last updated: October 9, 2026</p>
+    <p class="foot-note foot-updated">Last updated: October 22, 2026</p>
     <p class="foot-note foot-clock">San Francisco Bay Area <span data-clock></span></p>
   </footer>
+  </div>
 </main>
-
 <script>
 (() => {
   let G = 30;                   // ruler gutter, read from --gutter (shrinks on mobile)
@@ -300,7 +366,7 @@
     // the 46px bar and right of the gutter (0 on mobile, where the ruler hides)
     const gut = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--gutter")) || 0;
     const dz = fit(cv, ctx);
-    W = dz[0]; H = dz[1]; originX = gut; originY = 46 + gut;
+    W = dz[0]; H = dz[1]; originX = gut; originY = gut;
     ctx.setTransform(dpr, 0, 0, dpr, originX * dpr, originY * dpr);
     rxW = fit(rx, rxc)[0];
     ryH = fit(ry, ryc)[1];
@@ -571,35 +637,7 @@
 
   let rt;
   window.addEventListener("resize", () => {
-    if (document.documentElement.clientWidth > 640) setMenu(false);
     clearTimeout(rt); rt = setTimeout(build, 120);
-  });
-
-  // collapsed menu
-  const bar = document.getElementById("bar");
-  const burger = document.getElementById("burger");
-  const menu = document.getElementById("menu");
-  const setMenu = open => {
-    bar.dataset.open = String(open);
-    burger.setAttribute("aria-expanded", String(open));
-    menuOpen = open;
-    if (open){                    // drop any attraction still under the panel
-      mx = my = -9999;
-      for (const d of dots){ d.ox = 0; d.oy = 0; }
-      settled = false;
-      kick();
-    }
-  };
-  burger.addEventListener("click", e => {
-    e.stopPropagation();
-    setMenu(bar.dataset.open !== "true");
-  });
-  menu.addEventListener("click", e => { if (e.target.closest("a")) setMenu(false); });
-  document.addEventListener("click", e => {
-    if (bar.dataset.open === "true" && !bar.contains(e.target)) setMenu(false);
-  });
-  document.addEventListener("keydown", e => {
-    if (e.key === "Escape" && bar.dataset.open === "true"){ setMenu(false); burger.focus(); }
   });
 
   // reduce-motion switch
@@ -631,5 +669,26 @@
 </script>
 <script src="clock.js?v=afe9466a"></script>
 
+
+<script>
+// Side nav: the orange dot + text follow the section in view; the links
+// themselves jump (smooth-scrolled by styles.css unless motion is reduced)
+(() => {
+  const links = [...document.querySelectorAll(".v2-nav a")];
+  const secs = links.map(a => document.querySelector(a.hash));
+  let raf = 0;
+  function spy(){
+    raf = 0;
+    const line = innerHeight * 0.35;
+    let cur = 0;
+    secs.forEach((s, i) => { if (s.getBoundingClientRect().top <= line) cur = i; });
+    if (innerHeight + scrollY >= document.documentElement.scrollHeight - 2) cur = secs.length - 1;
+    links.forEach((a, i) => i === cur ? a.setAttribute("aria-current", "true") : a.removeAttribute("aria-current"));
+  }
+  addEventListener("scroll", () => { if (!raf) raf = requestAnimationFrame(spy); }, { passive: true });
+  addEventListener("resize", spy);
+  spy();
+})();
+</script>
 </body>
 </html>

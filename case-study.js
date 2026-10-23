@@ -156,8 +156,8 @@
 
   var toc = document.querySelector('.cs-toc');
   var tocIndicator = document.querySelector('.cs-toc-indicator');
-  var allTocLinks = document.querySelectorAll('.cs-toc a, .cs-toc-panel a');
-  var sections = document.querySelectorAll('.cs-section[id]');
+  var allTocLinks = document.querySelectorAll('.cs-toc a:not(.cs-back), .cs-toc-panel a:not(.cs-back)');
+  var sections = document.querySelectorAll('.cs-hero[id], .cs-section[id]');
 
   var tocMobile = document.getElementById('csTocMobile');
   var tocTrigger = document.getElementById('csTocTrigger');
@@ -180,7 +180,7 @@
       if (e.key === 'Escape' && tocMobile.dataset.open === 'true'){ setTocOpen(false); tocTrigger.focus(); }
     });
   }
-  document.querySelectorAll('.cs-toc-panel a').forEach(function(a){
+  document.querySelectorAll('.cs-toc-panel a:not(.cs-back)').forEach(function(a){
     a.addEventListener('click', function(e){
       e.preventDefault();
       setTocOpen(false);

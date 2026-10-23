@@ -7,76 +7,85 @@
 :root{
   /* no ruler canvas on these pages, so no reserved left gutter */
   --gutter:0px;
-  --cs-toc-w:230px;
+  --cs-toc-w:213px;
   --cs-pad:clamp(20px,4vw,56px);
   --cs-top:clamp(24px,4vw,56px);
-  /* article column caps at Figma's 1098px; past that, sidebar + article
-     centre as one block and the side margins grow instead */
-  --cs-max:1098px;
-  --cs-inset:var(--cs-pad);
+  /* Figma "CS - * V2" (1440): the side column starts 40px in, the 1097px
+     article 253px in, 90px clear of the right edge. Wider screens keep that
+     40/90 split of the spare width around the centred block. */
+  --cs-max:1097px;
+  --cs-left:var(--cs-pad);
+  --cs-right:var(--cs-pad);
 }
 @media (min-width:1100px){
-  :root{--cs-inset:max(var(--cs-pad),calc((100vw - var(--cs-toc-w) - var(--cs-max)) / 2))}
+  :root{
+    --cs-top:104px;
+    --cs-left:max(40px,calc((100vw - var(--cs-toc-w) - var(--cs-max)) / 2 - 25px));
+    --cs-right:max(var(--cs-pad),calc(100vw - var(--cs-toc-w) - var(--cs-max) - var(--cs-left)));
+  }
 }
+/* no top bar on the case studies: styles.css pads body for the homepage's */
+body{padding-top:0}
 
 /* ---------- page shell ---------- */
 /* styles.css gives every <main> padding/max-width; .cs-shell carries it here.
-   body already pads 46px for the fixed nav, so only what's below it
-   (the 48px section dropdown on mobile) is added here. */
+   Below 1100 it clears the 56px fixed bar (logo + section dropdown). */
 .cs-page{display:block;padding:0;max-width:none;margin:0}
 .cs-shell{
-  padding:calc(48px + 24px) var(--cs-pad) 0;
+  padding:calc(56px + 24px) var(--cs-pad) 0;
   display:flex;flex-direction:column;gap:36px;
 }
 @media (min-width:1100px){
   .cs-shell{
-    padding:var(--cs-top) var(--cs-inset) 0 calc(var(--cs-inset) + var(--cs-toc-w));
+    padding:var(--cs-top) var(--cs-right) 0 calc(var(--cs-left) + var(--cs-toc-w));
     gap:64px;
   }
 }
 .cs-article{display:flex;flex-direction:column;gap:36px}
 @media (min-width:900px){ .cs-article{gap:40px} }
 
-/* ---------- desktop section nav ---------- */
+/* ---------- logo + desktop section nav ---------- */
+/* fixed logo, top-left (Figma: 58, 52 at 1440 -- in line with the nav's
+   labels, past the 6px marker and its 12px gap) */
+.cs-logo{position:fixed;z-index:56;top:52px;left:calc(var(--cs-left) + 18px);width:32px;height:32px;display:block;transition:transform .22s cubic-bezier(.4,0,.2,1)}
+.cs-logo img{display:block;width:100%;height:100%;object-fit:contain}
+.cs-logo:hover{transform:rotate(-9deg) scale(1.07)}
+.cs-logo:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .cs-toc{display:none}
 @media (min-width:1100px){
   /* position:fixed so it stays put while the article scrolls */
   .cs-toc{
-    display:flex;flex-direction:column;
-    position:fixed;left:var(--cs-inset);top:calc(46px + var(--cs-top));z-index:5;
+    display:flex;flex-direction:column;gap:8px;
+    position:fixed;left:var(--cs-left);top:calc(var(--cs-top) + 10px);z-index:5;
     width:var(--cs-toc-w);
-    max-height:calc(100vh - 46px - var(--cs-top) - 24px);overflow-y:auto;
+    max-height:calc(100vh - var(--cs-top) - 34px);overflow-y:auto;
   }
-  .cs-toc::before{
-    content:"";position:absolute;left:0;top:0;bottom:0;width:2px;
-    background:var(--rule-soft);
-  }
+  /* Mono/Nav, as the homepage's side nav: the current section turns orange
+     with a 6px square */
   .cs-toc a{
-    font-family:var(--mono);font-weight:500;font-size:12px;line-height:12px;
-    letter-spacing:.06em;text-transform:uppercase;
-    color:var(--ink-3);text-decoration:none;padding:7px 0 7px 14px;
-    transition:color .15s ease;
+    display:flex;align-items:center;gap:12px;
+    font-family:var(--mono);font-weight:500;font-size:12px;line-height:16px;
+    letter-spacing:.08em;text-transform:uppercase;
+    color:var(--ink-3);text-decoration:none;transition:color .15s ease;
   }
+  .cs-toc a i{width:6px;height:6px;flex:none;background:var(--accent);opacity:0;transition:opacity .15s ease}
   .cs-toc a:hover{color:var(--ink)}
-  .cs-toc a.is-active{color:var(--select)}
-  /* opacity is separate so case-study.js can fade it in on first paint
-     without sliding in from 0 -- see moveIndicator() */
-  .cs-toc-indicator{
-    position:absolute;left:0;top:0;width:2px;background:var(--select);
-    transition:transform .2s ease,height .2s ease,opacity .3s ease;opacity:0;
-  }
+  .cs-toc a.is-active{color:var(--accent)}
+  .cs-toc a.is-active i{opacity:1}
+  .cs-toc a.cs-back{gap:8px;margin-bottom:16px}   /* 24 to the list, with the 8px gap */
 }
+.cs-back svg{width:9px;height:9px;flex:none}
 
 /* ---------- mobile section dropdown ---------- */
 /* Same glass-vs-solid split as .bar/#bar[data-open] so the two fixed
    bars read as one material. Lives beside .bar under <body>: nested
    inside <main>, backdrop-filter composited against the wrong layer. */
 /* one layer under .bar (z-index 50) so the open site menu drops over it */
-.cs-toc-mobile{position:fixed;top:46px;left:0;right:0;z-index:49}
+.cs-toc-mobile{position:fixed;top:0;left:0;right:0;z-index:49}
 @media (min-width:1100px){ .cs-toc-mobile{display:none} }
 .cs-toc-trigger{
   display:flex;align-items:center;justify-content:space-between;gap:10px;
-  width:100%;height:48px;padding:0 var(--cs-pad);
+  width:100%;height:56px;padding:0 var(--cs-pad) 0 calc(var(--cs-pad) + 48px);   /* the logo sits in the bar's left end */
   background:var(--chrome);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
   border:0;border-bottom:1px solid var(--rule-soft);
   font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:.06em;text-transform:uppercase;
@@ -102,7 +111,10 @@
   color:var(--ink-2);text-decoration:none;
 }
 .cs-toc-panel a:hover,.cs-toc-panel a:focus-visible{background:var(--select);color:var(--on-select)}
-.cs-toc-panel a.is-active{color:var(--select)}
+.cs-toc-panel a.is-active{color:var(--accent)}
+.cs-toc-panel a.cs-back{display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--rule-soft)}
+/* under 1100 the logo rides in the section bar */
+@media (max-width:1099px){ .cs-logo{top:12px;left:var(--cs-pad)} }
 
 /* ---------- hero ---------- */
 .cs-hero{display:flex;flex-direction:column;gap:24px}
@@ -127,10 +139,7 @@
    items and sets data-fit="row|two|stack"; without it everything wraps.
    The two <dl> groups sit inline on one line, so the row still reads as
    five items 64px apart. */
-.cs-facts{
-  display:flex;flex-wrap:wrap;gap:14px 64px;margin:0;
-  padding:16px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
-}
+.cs-facts{display:flex;flex-wrap:wrap;gap:14px 64px;margin:0}
 .cs-facts-col{display:flex;flex-wrap:wrap;gap:14px 64px;margin:0}
 .cs-facts-col > div{display:flex;flex-direction:column;gap:4px}
 .cs-facts dt{
@@ -147,9 +156,19 @@
 .cs-facts[data-fit="stack"] .cs-facts-col{flex-direction:column;gap:14px}
 .cs-facts[data-fit="stack"]{flex-direction:column;gap:14px}
 
+/* Figma V2's Facts frame: a rule, the facts row, then Client / Team / Scope /
+   Outcome one under another at the 580 body measure, then a rule; 16 apart */
+.cs-factblock{display:flex;flex-direction:column;gap:16px;padding:16px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+.cs-summary{display:flex;flex-direction:column;gap:16px;margin:0;max-width:580px}
+.cs-summary > div{display:flex;flex-direction:column;gap:4px}
+.cs-summary dt{font-family:var(--mono);font-weight:500;font-size:9px;line-height:1;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.cs-summary dd{margin:0;font-size:14.7px;line-height:1.4;color:var(--ink)}
+.cs-summary dd a{color:var(--select)}
+
 /* ---------- sections ---------- */
-.cs-section{display:flex;flex-direction:column;gap:16px;scroll-margin-top:calc(46px + 48px + 12px)}
-@media (min-width:1100px){ .cs-section{scroll-margin-top:calc(46px + var(--cs-top))} }
+.cs-section,.cs-hero{scroll-margin-top:calc(56px + 16px)}
+.cs-section{display:flex;flex-direction:column;gap:16px}
+@media (min-width:1100px){ .cs-section,.cs-hero{scroll-margin-top:var(--cs-top)} }
 .cs-section-head{padding-bottom:16px;border-bottom:1px solid var(--rule)}
 /* Display/CS Section Head -- styles.css's global h2 is the homepage size */
 .cs-section-head h2{
@@ -266,6 +285,10 @@
   letter-spacing:.03em;color:var(--ink-3);margin:0;text-align:center;
 }
 .cs-cover{margin:0}
+/* media stacked full width (e.g. two hero prototypes), 24 apart */
+.cs-stack{display:flex;flex-direction:column;gap:24px}
+/* an inline SVG chart sized like media */
+.cs-chart svg{display:block;width:100%;height:auto}
 
 /* ---------- image switches (Button Group / Button Group - Viewport) ---------- */
 .cs-switch{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
@@ -364,7 +387,7 @@
 }
 /* ---------- footer (Footer, Page=Case Study) ---------- */
 .cs-footer{
-  margin:36px var(--cs-inset) 0;padding:20px 0 56px;border-top:1px solid var(--rule);
+  margin:36px var(--cs-pad) 0;padding:20px 0 56px;border-top:1px solid var(--rule);
   display:grid;grid-template-columns:1fr;gap:8px;
   font-family:var(--mono);font-weight:500;color:var(--ink-3);
   text-transform:none;   /* styles.css's bare footer{} uppercases everything */

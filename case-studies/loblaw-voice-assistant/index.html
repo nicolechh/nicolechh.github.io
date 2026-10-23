@@ -4,25 +4,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
-<title>Loblaw Digital: Talk, Shop, Discover - AI Voice Assistant for Grocery Navigation — Nicole Chou</title>
-<meta name="description" content="Voice-assisted way-finding for the PC Express app and in-store kiosks. Final project for the MDEI program at the University of Waterloo.">
+<title>Loblaw Digital: An AI Shopping Assistant — Nicole Chou</title>
+<meta name="description" content="Turned static signage into voice-guided way-finding, with tailored solutions across app and kiosk.">
 <link rel="canonical" href="https://nicolec.xyz/case-studies/loblaw-voice-assistant/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Nicole Chou">
-<meta property="og:title" content="Loblaw Digital: Talk, Shop, Discover - AI Voice Assistant for Grocery Navigation — Nicole Chou">
-<meta property="og:description" content="Voice-assisted way-finding for the PC Express app and in-store kiosks. Final project for the MDEI program at the University of Waterloo.">
+<meta property="og:title" content="Loblaw Digital: An AI Shopping Assistant — Nicole Chou">
+<meta property="og:description" content="Turned static signage into voice-guided way-finding, with tailored solutions across app and kiosk.">
 <meta property="og:url" content="https://nicolec.xyz/case-studies/loblaw-voice-assistant/">
 <meta property="og:image" content="https://nicolec.xyz/case-studies/loblaw-voice-assistant/Assets-new/web/og.jpg?v=51404b26">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Screens from the case study Loblaw Digital: Talk, Shop, Discover - AI Voice Assistant for Grocery Navigation">
+<meta property="og:image:alt" content="Screens from the case study Loblaw Digital: An AI Shopping Assistant">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../../assets/favicon.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;700&family=Geist+Pixel&display=swap">
-<link rel="stylesheet" href="../../styles.css?v=c614eb24">
-<link rel="stylesheet" href="../../case-study.css?v=b0579d25">
+<link rel="stylesheet" href="../../styles.css?v=08360895">
+<link rel="stylesheet" href="../../case-study.css?v=fcaefb8f">
 <style>
 /* Competitor audit (Figma: Component Frames -- purple label, outline and
    handles from styles.css .cframe -- around an unfilled Audit Card).
@@ -99,6 +99,7 @@ html .cs-asset.is-bare{border-radius:8px;overflow:hidden}
   .cs-figs.lob-surfaces{flex-direction:column;align-items:center}
   .lob-surfaces > .cs-figure{flex:none;width:min(var(--wm,100%),100%)}
 }
+.cs-hero .cs-disclaimer{margin:0;font-family:var(--mono);font-weight:500;font-size:12px;line-height:16px;letter-spacing:.06em;color:var(--ink-3)}   /* Mono/Label */
 </style>
 </head>
 <body>
@@ -111,28 +112,7 @@ html .cs-asset.is-bare{border-radius:8px;overflow:hidden}
   </span>
 </div>
 
-<nav class="bar" id="bar" data-open="false">
-  <a class="logo" href="../../index.html#home" aria-label="Home"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFsAAABaCAMAAADgtNoOAAADAFBMVEXjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERHjERFpfbk+AAABAHRSTlMAAQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyAhIiMkJSYnKCkqKywtLi8wMTIzNDU2Nzg5Ojs8PT4/QEFCQ0RFRkdISUpLTE1OT1BRUlNUVVZXWFlaW1xdXl9gYWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXp7fH1+f4CBgoOEhYaHiImKi4yNjo+QkZKTlJWWl5iZmpucnZ6foKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr/AwcLDxMXGx8jJysvMzc7P0NHS09TV1tfY2drb3N3e3+Dh4uPk5ebn6Onq6+zt7u/w8fLz9PX29/j5+vv8/f7/qVjM+gAABG1JREFUeNrVmU1oFEkUgB8isoiIyBIkSAgS5jCIeBIRzQ4eRBQkiIiEnBYJIo2GHESkEUSWJaR3WVgwSAZ/8CCSBpFhkSy9hGWRoLSIBC+mFURkAnaQEARDZrasn/6p6a6qrpiug+8wM1Wv+qs3r15Vva4CAEBM6nWEaIFWJNVYavQz9CBuDG6iC5APIfJYDVaHYaQAAJ4hE8z2ffbT5qo9FBvCScJGjE36rLWiKl+I9zxKQg5XZ7darTCLrjscO6ojj674j2+q5Zxa/fRVYprr8n/p6XEoQ/6Ohy/19vIpKEluJD7hBrVEQdwwgwl49GGC7bMemibM9sl3Df1RNvttGuA/lc2+mQZK6e7+P5nz5bPvGLR7MI1vrnb7/mpJbDvLPvoFoZlvgI003JMZdgB0wUrlNumqR0bY2LtZrDiBn2r3ZH0CmM3B75PKigQ98AG13zwY2ZvXXCCP9efYfoe7VeyelWiFW5wa7tVh20ibPcpvMPMTA1sL2ZY2eyqzf63OXju4UcW28C6t6e+Xgn10uWFV5P7WZy9K0oD3t85cz7DZbA+0/b2hTcdxfPjcL40FUR85Np1AWuxtRPW5jxWq1sPFQjbOhGw9n3QT1RRXsXe0sSRjx1mWr8fuI6qxjJ/2XZpeFrDjtcrVZFeJ6rpgIThgz3wRsGtAkzQt9m4JWxbf+MtvtbJjeaBLJIeJ6nehqssWj+UQytn9jZIZSyu775TG9jzag1c+ezDZL8EIO6SGZ9n3J0TymKieC1UTT7TZFem+tYYYTGdn2WzwhnxjbEHuUxIbDLKjGGyZY1tWi19QSmQD3ufz7HfzImnSLU2omv8oZCMj6wlhe8Lcpxy2JZyXJteqj02RUJ8uC1XNJcl+qbue7Fl7fHuegr37RFXG3nrk2A4p+1DEVsyd0WhIBOxenPqsHlHbHajm/L+48I+YPUxKkyp2TRjfCXsWF/4TsyntnmqtMsZOT8wMsPGZmHqNXYdPAg8V+2ThXiR/EdVcXHpW6G8NtkoK/E3PCo2wPQhVc36ddoMxdki/QWssO+WZDtvWjUHByidln2KuNsKG9CxMxp4pYE8W5D6OLff3I1yYVRwcjKvZjipO7uLCazF7jDS8omIH6hi8RI5ztgvZNOMeULADzMYvU1J2PyldE6HZFUS3ym62HErH8gfyzr76swBNX+bnoJDNZpBwLx5nJ/oj/ZWd3bH07R+eZtPyrAZbnsd2LShm/NwmJdsBqCtz5NqKFP2pUpSf1NVs2Pdegn6xqzD3CTv3Bnq4vIP/c5vPv8qD209Ob+AbnSSVfaJ8kGNXX7aXxrJR8eOxC1d/+zOW8Svna1uyTS5PNwahgF2SXKRUco8Ehs7tfWL4r2buG+jNXtPc/c73dS+VsENT7LpBuy2DbDDGDjrvojMdpjfKKN+I6QFFpxmQvZZ26JNubiniu9C6Cc89DQ6z33Xl7eprfTl2MkHtsr4sy6FGDqUtA/wa5zielVyRs4vJDhOd5B7djutceqT+Fc9RphVm8gQ+AAAAAElFTkSuQmCC" alt="" width="91" height="90"></a>
-  <button class="burger" id="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="menu">
-    <svg class="burger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><line x1="4" y1="5" x2="20" y2="5"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="19" x2="20" y2="19"/></svg>
-  </button>
-  <div class="menu" id="menu">
-    <div class="menu-panel">
-      <div class="nav">
-        <a href="../../index.html#home">Home</a>
-        <a href="../../index.html#work">Work</a>
-        <a href="../../index.html#playground">Playground</a>
-        <a href="../../index.html#about">About</a>
-      </div>
-      <div class="motion">
-        <span class="motion-label" id="motion-label">Reduce motion</span>
-        <button class="motion-track" id="motion" type="button" role="switch" aria-checked="false" aria-labelledby="motion-label">
-          <span class="motion-pill" aria-hidden="true"></span>
-        </button>
-      </div>
-    </div>
-  </div>
-</nav>
+<a class="cs-logo" href="../../index.html" aria-label="Home"><img src="../../assets/favicon.png" alt="" width="91" height="90"></a>
 
 <div class="cs-toc-mobile" id="csTocMobile" data-open="false">
   <button class="cs-toc-trigger" type="button" id="csTocTrigger" aria-expanded="false" aria-controls="csTocPanel" aria-label="Jump to section">
@@ -140,12 +120,13 @@ html .cs-asset.is-bare{border-radius:8px;overflow:hidden}
     <svg class="cs-toc-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
   </button>
   <div class="cs-toc-panel" id="csTocPanel">
+    <a class="cs-back" href="../../index.html#work"><svg viewBox="0 0 9 9" aria-hidden="true"><path d="M8.5 4.5H1.2M4.6 1 1 4.5 4.6 8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="square"/></svg>Back to home</a>
     <a href="#summary">Summary</a>
     <a href="#problem">The Problem</a>
     <a href="#constraints">Constraints</a>
     <a href="#decisions">The Decisions</a>
     <a href="#craft">Craft &amp; System</a>
-    <a href="#ship">Ship &amp; Collaboration</a>
+    <a href="#ship">Ship &amp; Collab</a>
     <a href="#outcome">The Outcome</a>
     <a href="#reflection">Reflection</a>
   </div>
@@ -154,60 +135,53 @@ html .cs-asset.is-bare{border-radius:8px;overflow:hidden}
 <main class="cs-page">
 
   <nav class="cs-toc" aria-label="Section navigation">
-    <span class="cs-toc-indicator" aria-hidden="true"></span>
-    <a href="#summary">Summary</a>
-    <a href="#problem">The Problem</a>
-    <a href="#constraints">Constraints</a>
-    <a href="#decisions">The Decisions</a>
-    <a href="#craft">Craft &amp; System</a>
-    <a href="#ship">Ship &amp; Collaboration</a>
-    <a href="#outcome">The Outcome</a>
-    <a href="#reflection">Reflection</a>
+    <a class="cs-back" href="../../index.html#work"><svg viewBox="0 0 9 9" aria-hidden="true"><path d="M8.5 4.5H1.2M4.6 1 1 4.5 4.6 8" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="square"/></svg>Back to home</a>
+    <a href="#summary"><i aria-hidden="true"></i>Summary</a>
+    <a href="#problem"><i aria-hidden="true"></i>The Problem</a>
+    <a href="#constraints"><i aria-hidden="true"></i>Constraints</a>
+    <a href="#decisions"><i aria-hidden="true"></i>The Decisions</a>
+    <a href="#craft"><i aria-hidden="true"></i>Craft &amp; System</a>
+    <a href="#ship"><i aria-hidden="true"></i>Ship &amp; Collab</a>
+    <a href="#outcome"><i aria-hidden="true"></i>The Outcome</a>
+    <a href="#reflection"><i aria-hidden="true"></i>Reflection</a>
   </nav>
 
   <div class="cs-shell">
 
   <div class="cs-article">
 
-  <header class="cs-hero">
+  <header class="cs-hero" id="summary">
     <div class="cs-title-block">
-      <h1 class="cs-title">Loblaw Digital: Talk, Shop, Discover - AI Voice Assistant for Grocery Navigation</h1>
-      <p class="cs-outcome">Voice-assisted way-finding for the PC Express app and in-store kiosks. Final project for the MDEI program at the University of Waterloo.</p>
+      <h1 class="cs-title">Loblaw Digital: An AI Shopping Assistant</h1>
+      <p class="cs-outcome">Turned static signage into voice-guided way-finding, with tailored solutions across app and kiosk.</p>
     </div>
-    <div class="cs-facts">
-      <dl class="cs-facts-col">
-        <div><dt>Role</dt><dd>Designer / Prototyper</dd></div>
-        <div><dt>Timeline</dt><dd>10 days</dd></div>
-      </dl>
-      <dl class="cs-facts-col">
-        <div><dt>Deliverables</dt><dd>Figma prototype<br>20-minute pitch</dd></div>
-        <div><dt>Program</dt><dd>Master of Digital Experience Innovation<br>University of Waterloo</dd></div>
-      </dl>
-    </div>
-    <figure class="cs-figure cs-cover"><div class="cs-asset is-bare is-flat"><img src="Assets-new/web/00.webp?v=184e975b" width="2200" height="1463" alt="" loading="eager"></div></figure>
-  </header>
-
-  <section class="cs-section" id="summary">
-    <div class="cs-section-head"><h2>Summary</h2></div>
-    <div class="cs-body">
-      <div class="lob-sum">
-        <figure class="cs-figure is-narrow lob-mob" style="--w:420px;--wm:236px"><div class="cs-asset" style="--ar:358/639;--ar-m:236/426"><video src="Assets-new/01-1.mp4?v=fe98c74f" poster="Assets-new/web/01-1-poster.webp?v=9f77891a" controls playsinline preload="metadata"></video></div><figcaption class="cs-caption">Mobile app prototype</figcaption></figure>
-        <figure class="cs-figure lob-kiosk"><div class="cs-asset" style="--ar:537/332;--ar-m:335/218"><video src="Assets-new/01-2.mp4?v=e7f8aa91" poster="Assets-new/web/01-2-poster.webp?v=775e56ca" controls playsinline preload="metadata"></video></div><figcaption class="cs-caption">In-store kiosk app prototype</figcaption></figure>
-        <figure class="cs-figure lob-demo"><div class="cs-asset" style="--ar:537/332;--ar-m:335/217"><video src="Assets-new/01-3.mp4?v=415220ea" poster="Assets-new/web/01-3-poster.webp?v=49715079" controls playsinline preload="metadata"></video></div><figcaption class="cs-caption">Example of Lola’s in-store navigation and recommendations using the app</figcaption></figure>
-        <div class="cs-text lob-text">
-            <p>Loblaw Digital’s brief for our MDEI final project: how can AI help shoppers find what matters to them beyond static signage? We designed Lola, a voice-assisted guide inside the PC Express app, plus an in-store kiosk for shoppers without it.</p>
-            <p>With two teammates, we mapped out the flows for Scenario A (sign-up, preferences, lists), then I built the prototype for Scenario B, AI navigation and product discovery, including the app’s voice assistant feature. After our mentor suggested making voice the primary feature, I incorporated it into the prototype for Scenario A. I also researched competitors and ran a usability test each round.</p>
-            <ul class="cs-list">
-              <li><strong>Team</strong>: MDEI students Arwa Haggag, Evangelyn Alexander, Francesca Ferrario, Karen SueAnn Yao, Patrick Duran Yutiga, and Wahba Alsawaf, along with our mentors Markus Grupp and Kael Karlo Cruz from Loblaw Digital</li>
-              <li><strong>Scope</strong>: Research, prototyping, two test rounds, final pitch</li>
-              <li><strong>Platform</strong>: Mobile app (extending PC Express) and in-store kiosk app</li>
-            </ul>
-            <p>See our full pitch deck <a href="https://www.canva.com/design/DAGkv3KiCUM/Wszm-r9oO0pd2yErkuwckw/view?utm_content=DAGkv3KiCUM&amp;utm_campaign=designshare&amp;utm_medium=link&amp;utm_source=viewer" target="_blank" rel="noopener">here</a>.</p>
-            <p class="cs-caption cs-disclaimer">Disclaimer: Loblaw Digital and Loblaws brand elements, as well as other company images, were used for academic purposes only</p>
-        </div>
+    <div class="cs-factblock">
+      <div class="cs-facts">
+        <dl class="cs-facts-col">
+          <div><dt>Role</dt><dd>Designer / Prototyper</dd></div>
+          <div><dt>Timeline</dt><dd>10 days</dd></div>
+        </dl>
+        <dl class="cs-facts-col">
+          <div><dt>Deliverables</dt><dd>Figma prototype<br>20-minute pitch</dd></div>
+          <div><dt>Program</dt><dd>Master of Digital Experience Innovation<br>University of Waterloo</dd></div>
+        </dl>
       </div>
+      <dl class="cs-summary">
+        <div><dt>Project brief</dt><dd>How might Loblaw Digital create a seamless and engaging way-finding system that empowers customers to efficiently locate and discover products in-store that align with their preferences, such as Canadian-made goods or diabetes-friendly options?</dd></div>
+        <div><dt>Team</dt><dd>MDEI students Arwa Haggag, Evangelyn Alexander, Francesca Ferrario, Karen SueAnn Yao, Patrick Duran Yutiga, and Wahba Alsawaf, along with our mentors Markus Grupp and Kael Karlo Cruz from Loblaw Digital</dd></div>
+        <div><dt>Scope</dt><dd>Research, Figma prototype, two test rounds, and a final pitch.</dd></div>
+        <div><dt>Outcome</dt><dd>With the prototype, shoppers no longer have to hunt aisle by aisle. Lola guides them by voice or chat from the PC Express app, and the kiosk gives any shopper, with or without the app, search, list-making and a printed map showing the route to each item. During testing, a store employee called it “a tool that we need in the store.” See our full pitch deck <a href="https://www.canva.com/design/DAGkv3KiCUM/Wszm-r9oO0pd2yErkuwckw/view?utm_content=DAGkv3KiCUM&amp;utm_campaign=designshare&amp;utm_medium=link&amp;utm_source=viewer" target="_blank" rel="noopener">here</a>.</dd></div>
+      </dl>
+      <p class="cs-disclaimer">Disclaimer: Loblaw Digital and Loblaws brand elements, as well as other company images, were used for academic purposes only</p>
     </div>
-  </section>
+    <div class="cs-stack">
+      <div class="cs-row is-top" style="--cols:358fr 715fr">
+        <figure class="cs-figure is-narrow" style="--w:420px;--wm:236px"><div class="cs-asset" style="--ar:358/639;--ar-m:236/426"><video src="Assets-new/01-1.mp4?v=fe98c74f" poster="Assets-new/web/01-1-poster.webp?v=9f77891a" controls playsinline preload="metadata"></video></div><figcaption class="cs-caption">Mobile app prototype</figcaption></figure>
+        <figure class="cs-figure"><div class="cs-asset" style="--ar:715/504"><video src="Assets-new/01-2.mp4?v=e7f8aa91" poster="Assets-new/web/01-2-poster.webp?v=775e56ca" controls playsinline preload="metadata"></video></div><figcaption class="cs-caption">In-store kiosk app prototype</figcaption></figure>
+      </div>
+      <figure class="cs-figure"><div class="cs-asset" style="--ar:1097/591"><video src="Assets-new/01-3.mp4?v=415220ea" poster="Assets-new/web/01-3-poster.webp?v=49715079" controls playsinline preload="metadata"></video></div><figcaption class="cs-caption">Example of Lola’s in-store navigation and recommendations using the app</figcaption></figure>
+    </div>
+  </header>
 
   <section class="cs-section" id="problem">
     <div class="cs-section-head"><h2>The Problem</h2></div>
@@ -215,7 +189,6 @@ html .cs-asset.is-bare{border-radius:8px;overflow:hidden}
       <div class="cs-row lob-mid">
         <figure class="cs-figure"><div class="cs-asset"><img src="Assets-new/web/02-1.webp?v=14efc0e5" width="2200" height="1179" alt="" loading="lazy"></div><figcaption class="cs-caption">Interview findings conducted by team members</figcaption></figure>
         <div class="cs-text">
-          <p><strong>The brief: How might Loblaw Digital create a seamless and engaging way-finding system that empowers customers to efficiently locate and discover products in-store that align with their personal preferences, such as Canadian-made goods or diabetes-friendly options?</strong></p>
           <p>Shoppers with specific needs hunt aisle by aisle and often leave without the item they came for: it isn’t where they expected, and staff can’t always help since products move for promotions.</p>
           <p>Our market scan, including my audit below, found apps lack real-time aisle-level navigation and most way-finding is costly to maintain.</p>
         </div>
@@ -415,8 +388,8 @@ html .cs-asset.is-bare{border-radius:8px;overflow:hidden}
           <div class="sel-box" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <div class="thumb"><img src="../masking-in-boards/Assets/00.webp" width="1600" height="1056" alt="" loading="lazy"></div>
           <div class="card-text">
-            <h3><a href="../masking-in-boards/">Raspberry AI: Masking on a Canvas</a></h3>
-            <p>Multi-material masking, a mode leaving the rest of the workspace usable.</p>
+            <h3><a href="../masking-in-boards/">Raspberry AI: A New Way to Mask</a></h3>
+            <p>Introduced a new interaction model that keeps fashion designers in context, speeding up their workflow.</p>
           </div>
           <p class="meta"><span>2026</span><span>Product Designer</span></p>
         </div>
@@ -424,10 +397,10 @@ html .cs-asset.is-bare{border-radius:8px;overflow:hidden}
       <article class="card">
         <div class="card-body">
           <div class="sel-box" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-          <div class="thumb"><img src="../guardrail-system/Assets/00.webp" width="1600" height="1056" alt="" loading="lazy"></div>
+          <div class="thumb"><img src="../guardrail-system/Assets/00.webp" width="1600" height="1058" alt="" loading="lazy"></div>
           <div class="card-text">
-            <h3><a href="../guardrail-system/">Guardrail: One Cohesive System</a></h3>
-            <p>Created a design system used to redesign and build new features on.</p>
+            <h3><a href="../guardrail-system/">Guardrail: A System for Designers &amp; Developers</a></h3>
+            <p>Reduced developers’ custom styling by 90% and gave designers the foundation to expand the product.</p>
           </div>
           <p class="meta"><span>2025</span><span>Lead Product Designer</span></p>
         </div>
@@ -437,8 +410,8 @@ html .cs-asset.is-bare{border-radius:8px;overflow:hidden}
           <div class="sel-box" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <div class="thumb"><img src="../workflow-tutorials/Assets/00.webp" width="1600" height="1056" alt="" loading="lazy"></div>
           <div class="card-text">
-            <h3><a href="../workflow-tutorials/">Raspberry AI: Guided Workflows</a></h3>
-            <p>A guided tutorial system built around workflows to reduce onboarding calls.</p>
+            <h3><a href="../workflow-tutorials/">Raspberry AI: From Tools to Workflows</a></h3>
+            <p>Unified fragmented tools into guided workflows, leading 68.5% of fashion designers who start one to generate.</p>
           </div>
           <p class="meta"><span>2026</span><span>Product Designer</span></p>
         </div>
@@ -454,12 +427,11 @@ html .cs-asset.is-bare{border-radius:8px;overflow:hidden}
   <a class="cs-foot-email" href="mailto:nicole.chou97@outlook.com">nicole.chou97@outlook.com</a>
   <a class="cs-foot-link" href="https://www.linkedin.com/in/nicolechouu/" target="_blank" rel="noopener">LinkedIn</a>
   <p class="cs-foot-note cs-foot-made">Made with Claude Code &amp; Figma</p>
-  <p class="cs-foot-note cs-foot-updated">Last updated: October 9, 2026</p>
+  <p class="cs-foot-note cs-foot-updated">Last updated: October 22, 2026</p>
   <p class="cs-foot-note cs-foot-clock">San Francisco Bay Area <span data-clock></span></p>
 </footer>
 
-<script src="../../nav.js?v=7bccf418"></script>
 <script src="../../clock.js?v=afe9466a"></script>
-<script src="../../case-study.js?v=46c83cbe"></script>
+<script src="../../case-study.js?v=29579401"></script>
 </body>
 </html>

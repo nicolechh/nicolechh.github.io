@@ -14,6 +14,13 @@ The design language is a **design tool's own canvas**, not a page pretending to 
 
 Three fonts, one superfamily: **Geist** (body/display), **Geist Mono** (labels, nav, meta — always uppercase and letter-spaced), **Geist Pixel** (display only, single weight — the hero name and section headings). Geist Pixel is a Geist sibling, so it pairs by construction; don't introduce a fourth family.
 
+## Layout (V2, October 2026)
+
+Mirrors Figma "Homepage V2.2" and "CS - * V2". Neither page type has a top bar any more.
+
+- **Homepage** (`index.html`): rulers start at the top edge; the logo, the side nav (Home / Work / AI Builds / About, a scroll-spy with a 6px orange square on the current section) and the reduce-motion switch are fixed. Content is one 982px column, 229px into the 1416 slot at 1440; Work is a 2×2 card grid, AI Builds 1×2, About a tilted Component Frame photo beside the prose. Under 1100px the side nav hides and the logo and switch float on glass; cards go to one column under 700px; About stacks under 900px. The hero intro is Geist Pixel with its highlights in the Square style (`font-variation-settings:"ELSH" 1`, from the variable `Geist+Pixel:ELSH@0..100` font request).
+- **Case studies** (`case-study.css`/`.js`): a fixed logo, then "Back to home" over the section TOC (same orange-square active state) in a 213px left column; the 1097px article starts 253px in at 1440. The header holds the title, outcome line, a facts row, then Client/Brief, Team, Scope and Outcome (`.cs-summary`) between two rules, then the hero media; there's no separate Summary section (the TOC's Summary links to the header). Under 1100px a 56px fixed bar carries the logo and the section dropdown, whose panel starts with Back to home.
+
 ## Tokens
 
 All defined on `:root` in `styles.css` (light values match the Figma file's Color variables). The portfolio and case studies are **always light**: they deliberately don't follow the system dark-mode setting (`color-scheme: light` on every page). Dark values are kept under `:root[data-theme="dark"]` only, for a possible future manual toggle. Prompt Pixie and PeaPal are separate: they follow the visitor's system setting unless the visitor picks a theme in the app.
