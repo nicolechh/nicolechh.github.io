@@ -93,7 +93,7 @@ Same corner-handle idea, but with a solid `--tag-blue` fill and bold white text 
 
 Figma's **Work Card**, shared by the homepage's `#work` and `#playground` grids and every case study's "See more work" row. `--card` fill, `--rule-soft` border, 20px padding, 16px gaps. `.thumb` is a 524:341 image (Figma's Work Card thumbnail) with no fill or border of its own (the thumbnails carry their own framing). `.meta` is one row, date left and role right, above a `--rule-soft` top border. Hover / press / keyboard focus darken the border to `--rule` and show the `.sel-box` marquee 10px outside the card.
 
-Playground cards (Prompt Pixie, PeaPal) use the same card with the role slot reading "Made with Claude Code", and their links open in a new tab (`target="_blank" rel="noopener"`) since they're separate apps. A new side project goes there, not in `#work`.
+Playground cards (Prompt Pixie, PeaPal) use the same card with the role slot reading "Built with Claude Code", and their links open in a new tab (`target="_blank" rel="noopener"`) since they're separate apps. A new side project goes there, not in `#work`.
 
 Interaction states are deliberately split three ways:
 - **Hover** (`@media (hover:hover)` only) — a tap on a touchscreen must never leave a card stuck in its hover state.
