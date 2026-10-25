@@ -297,7 +297,7 @@
     spy();
   }
 
-  /* Card thumbs with data-hover (Masking's walkthrough video): on a pointer
+  /* Card thumbs with data-hover (a walkthrough video): on a pointer
      device, hovering the card plays the muted, looping video over the still,
      from the start each time; leaving pauses it and shows the still again.
      It only loads on first hover. Skipped while motion is reduced. */
