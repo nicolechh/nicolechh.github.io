@@ -437,10 +437,10 @@ h2{
 }
 .thumb{aspect-ratio:524/341;overflow:hidden}   /* Figma's Work Card thumbnail */
 .thumb img{display:block;width:100%;height:100%;object-fit:cover}
-/* a thumb with data-hover plays that animation over its still while the card
+/* a thumb with data-hover plays that video over its still while the card
    is hovered (pointer devices, motion not reduced); see playOnHover() */
 .thumb[data-hover]{position:relative}
-.thumb .thumb-play{position:absolute;inset:0;opacity:0;transition:opacity .2s ease}
+.thumb .thumb-play{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .2s ease}
 .thumb.is-playing .thumb-play{opacity:1}
 .card-text{display:flex;flex-direction:column;gap:8px}
 /* Body/Card Title */

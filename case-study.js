@@ -297,31 +297,37 @@
     spy();
   }
 
-  /* Card thumbs with data-hover (Masking's animation): on a pointer device,
-     hovering the card lays the animation over the still. It loads on first
-     hover, and leaving drops its src so the next hover starts from the top.
-     Skipped while motion is reduced. */
+  /* Card thumbs with data-hover (Masking's walkthrough video): on a pointer
+     device, hovering the card plays the muted, looping video over the still,
+     from the start each time; leaving pauses it and shows the still again.
+     It only loads on first hover. Skipped while motion is reduced. */
   (function playOnHover(){
     if (!matchMedia('(hover:hover)').matches) return;
     var mqReduce = matchMedia('(prefers-reduced-motion: reduce)');
     document.querySelectorAll('.thumb[data-hover]').forEach(function(thumb){
       var card = thumb.closest('.card') || thumb;
-      var play = null;
+      var play = null, hovering = false;
       card.addEventListener('mouseenter', function(){
         var motion = document.documentElement.dataset.motion;
         if (motion === 'reduced' || (!motion && mqReduce.matches)) return;
+        hovering = true;
         if (!play){
-          play = document.createElement('img');
-          play.className = 'thumb-play'; play.alt = ''; play.decoding = 'async';
-          play.addEventListener('load', function(){ if (play.getAttribute('src')) thumb.classList.add('is-playing'); });
+          play = document.createElement('video');
+          play.className = 'thumb-play';
+          play.muted = true; play.loop = true; play.playsInline = true;
+          play.setAttribute('aria-hidden', 'true');
+          play.addEventListener('playing', function(){ if (hovering) thumb.classList.add('is-playing'); });
+          play.src = thumb.dataset.hover;
           thumb.appendChild(play);
         }
-        play.src = thumb.dataset.hover;
-        if (play.complete && play.naturalWidth) thumb.classList.add('is-playing');
+        play.currentTime = 0;
+        var p = play.play();
+        if (p && p.catch) p.catch(function(){});
       });
       card.addEventListener('mouseleave', function(){
+        hovering = false;
         thumb.classList.remove('is-playing');
-        if (play) play.removeAttribute('src');
+        if (play) play.pause();
       });
     });
   })();
