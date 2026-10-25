@@ -29,7 +29,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;700&family=Geist+Pixel:ELSH@0..100&display=swap">
 
-<link rel="stylesheet" href="styles.css?v=08360895">
+<link rel="stylesheet" href="styles.css?v=1a534b35">
 <script>
   // Intro: an initial visit or a refresh starts on the bare dot grid while
   // the load-in wave plays; the main script reveals the page once the wave
@@ -244,7 +244,7 @@ body.v2{padding-top:var(--gutter)}
       <article class="card">
         <div class="card-body">
           <div class="sel-box" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-          <div class="thumb"><img src="case-studies/masking-in-boards/Assets/00.webp" alt="" width="1600" height="1056" loading="lazy"></div>
+          <div class="thumb" data-hover="case-studies/masking-in-boards/Assets/00.gif"><img src="case-studies/masking-in-boards/Assets/00still.webp" alt="" width="1512" height="982" loading="lazy"></div>
           <div class="card-text">
             <h3><a href="case-studies/masking-in-boards/">Raspberry AI: A New Way to Mask</a></h3>
             <p>Introduced a new interaction model that keeps fashion designers in context, speeding up their workflow.</p>
@@ -735,6 +735,39 @@ body.v2{padding-top:var(--gutter)}
   document.addEventListener("click", e => { if (menu.dataset.open === "true" && !menu.contains(e.target) && !burger.contains(e.target)) setOpen(false); });
   document.addEventListener("keydown", e => { if (e.key === "Escape" && menu.dataset.open === "true"){ setOpen(false); burger.focus(); } });
   matchMedia("(min-width: 740px)").addEventListener("change", e => { if (e.matches) setOpen(false); });
+})();
+</script>
+<script>
+(() => {
+
+  /* Card thumbs with data-hover (Masking's animation): on a pointer device,
+     hovering the card lays the animation over the still. It loads on first
+     hover, and leaving drops its src so the next hover starts from the top.
+     Skipped while motion is reduced. */
+  (function playOnHover(){
+    if (!matchMedia('(hover:hover)').matches) return;
+    var mqReduce = matchMedia('(prefers-reduced-motion: reduce)');
+    document.querySelectorAll('.thumb[data-hover]').forEach(function(thumb){
+      var card = thumb.closest('.card') || thumb;
+      var play = null;
+      card.addEventListener('mouseenter', function(){
+        var motion = document.documentElement.dataset.motion;
+        if (motion === 'reduced' || (!motion && mqReduce.matches)) return;
+        if (!play){
+          play = document.createElement('img');
+          play.className = 'thumb-play'; play.alt = ''; play.decoding = 'async';
+          play.addEventListener('load', function(){ if (play.getAttribute('src')) thumb.classList.add('is-playing'); });
+          thumb.appendChild(play);
+        }
+        play.src = thumb.dataset.hover;
+        if (play.complete && play.naturalWidth) thumb.classList.add('is-playing');
+      });
+      card.addEventListener('mouseleave', function(){
+        thumb.classList.remove('is-playing');
+        if (play) play.removeAttribute('src');
+      });
+    });
+  })();
 })();
 </script>
 <script>

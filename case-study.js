@@ -297,6 +297,35 @@
     spy();
   }
 
+  /* Card thumbs with data-hover (Masking's animation): on a pointer device,
+     hovering the card lays the animation over the still. It loads on first
+     hover, and leaving drops its src so the next hover starts from the top.
+     Skipped while motion is reduced. */
+  (function playOnHover(){
+    if (!matchMedia('(hover:hover)').matches) return;
+    var mqReduce = matchMedia('(prefers-reduced-motion: reduce)');
+    document.querySelectorAll('.thumb[data-hover]').forEach(function(thumb){
+      var card = thumb.closest('.card') || thumb;
+      var play = null;
+      card.addEventListener('mouseenter', function(){
+        var motion = document.documentElement.dataset.motion;
+        if (motion === 'reduced' || (!motion && mqReduce.matches)) return;
+        if (!play){
+          play = document.createElement('img');
+          play.className = 'thumb-play'; play.alt = ''; play.decoding = 'async';
+          play.addEventListener('load', function(){ if (play.getAttribute('src')) thumb.classList.add('is-playing'); });
+          thumb.appendChild(play);
+        }
+        play.src = thumb.dataset.hover;
+        if (play.complete && play.naturalWidth) thumb.classList.add('is-playing');
+      });
+      card.addEventListener('mouseleave', function(){
+        thumb.classList.remove('is-playing');
+        if (play) play.removeAttribute('src');
+      });
+    });
+  })();
+
   /* Facts (Role, Timeline, Status, Client, Agency): one line while every
      item fits side by side (natural widths + the 64px gaps), else two equal
      columns 14px apart while the widest item fits half the width (the
