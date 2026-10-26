@@ -277,7 +277,7 @@ body.v2{padding-top:var(--gutter)}
       <article class="card">
         <div class="card-body">
           <div class="sel-box" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-          <div class="thumb" data-fade-loop data-hover="case-studies/loblaw-voice-assistant/Assets-new/web/00-hover.mp4?v=f1e44584"><img src="case-studies/loblaw-voice-assistant/Assets-new/web/00-card.webp?v=1539264c" alt="" width="1600" height="1064" loading="lazy"></div>
+          <div class="thumb" data-hover="case-studies/loblaw-voice-assistant/Assets-new/web/00-hover.mp4?v=3deb16a7"><img src="case-studies/loblaw-voice-assistant/Assets-new/web/00-card.webp?v=1539264c" alt="" width="1600" height="1064" loading="lazy"></div>
           <div class="card-text">
             <h3><a href="case-studies/loblaw-voice-assistant/">Loblaw Digital: An AI Shopping Assistant</a></h3>
             <p>Turned static signage into voice-guided way-finding, with tailored solutions across app and kiosk.</p>
@@ -759,19 +759,6 @@ body.v2{padding-top:var(--gutter)}
           play.className = 'thumb-play';
           play.muted = true; play.loop = true; play.playsInline = true;
           play.setAttribute('aria-hidden', 'true');
-          if (thumb.hasAttribute('data-fade-loop')){
-            /* long video: fade back to the still at the end, then fade in from the start */
-            play.loop = false;
-            play.addEventListener('ended', function(){
-              thumb.classList.remove('is-playing');
-              setTimeout(function(){
-                if (!hovering) return;
-                play.currentTime = 0;
-                var q = play.play();
-                if (q && q.catch) q.catch(function(){});
-              }, 350);
-            });
-          }
           play.addEventListener('playing', function(){ if (hovering) thumb.classList.add('is-playing'); });
           play.src = thumb.dataset.hover;
           thumb.appendChild(play);
