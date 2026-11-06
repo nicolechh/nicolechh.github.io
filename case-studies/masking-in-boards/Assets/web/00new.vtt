@@ -1,0 +1,83 @@
+WEBVTT
+
+00:00:00.300 --> 00:00:04.800
+Raspberry AI is a generative fashion design platform,
+and this is Boards, their new canvas workspace.
+
+00:00:05.740 --> 00:00:09.340
+I designed a new masking mode for Boards
+for their Sketch to Render feature,
+
+00:00:09.340 --> 00:00:12.200
+to apply different materials
+to specific parts of a garment.
+
+00:00:13.700 --> 00:00:16.760
+Previously, masking
+was done in this modal,
+
+00:00:17.900 --> 00:00:22.980
+but for Boards, I decided to move the tools onto a
+toolbar to keep the rest of the workspace available.
+
+00:00:23.640 --> 00:00:24.860
+Let me show you how it works.
+
+00:00:26.770 --> 00:00:30.000
+First, the designer enters masking mode
+through the Sketch to Render node,
+
+00:00:30.000 --> 00:00:33.130
+then selects Add Mask
+to draw on their mask.
+
+00:00:36.140 --> 00:00:40.020
+Once complete, they can add
+more materials, up to three.
+
+00:00:40.620 --> 00:00:42.380
+Here, they select a second one.
+
+00:00:43.000 --> 00:00:47.440
+Click on the second material to enter masking
+mode again to add that second mask.
+
+00:00:53.980 --> 00:00:58.860
+To see the different masks they’ve applied, they can
+click on the material in the toolbar or in the node.
+
+00:00:59.740 --> 00:01:03.000
+And once all materials have been masked
+and a prompt added,
+
+00:01:03.000 --> 00:01:06.400
+Generate is enabled
+and the designs are rendered.
+
+00:01:13.100 --> 00:01:16.760
+So the main reason I chose masking mode
+with a toolbar over a modal was
+
+00:01:16.760 --> 00:01:20.000
+so that designers could reference other
+ideas on the canvas while they work.
+
+00:01:20.900 --> 00:01:25.380
+As you can see, the toolbar here stays with the image
+so they don’t lose track of what’s being edited.
+
+00:01:26.040 --> 00:01:29.500
+And if they were to pan away,
+a snackbar appears,
+
+00:01:29.500 --> 00:01:32.080
+allowing them to quickly return
+to the image or exit masking mode.
+
+00:01:33.240 --> 00:01:38.480
+Zooming in or out also maintains the same
+toolbar size so that it always stays usable.
+
+00:01:41.440 --> 00:01:46.280
+The result is a new masking interaction that keeps
+designers in context on the canvas without breaking their workflow.

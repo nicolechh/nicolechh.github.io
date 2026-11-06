@@ -1,0 +1,133 @@
+WEBVTT
+
+00:00:00.210 --> 00:00:03.950
+This is Guardrail, a real-time security
+platform for blockchain threats.
+
+00:00:04.950 --> 00:00:08.200
+Guards are the customizable security
+checks that send alerts,
+
+00:00:08.200 --> 00:00:13.750
+and clicking into each one shows its alert
+status as well as configuration details.
+
+00:00:16.590 --> 00:00:19.850
+To create a guard, there are four methods,
+though the top two are recommended.
+
+00:00:20.630 --> 00:00:25.070
+You can select from a catalog of guards or
+create a DIY guard with a built-in code editor.
+
+00:00:25.830 --> 00:00:29.250
+Or if you need more guidance, one of the
+new features I designed was this
+
+00:00:29.250 --> 00:00:33.350
+Guard Assistant, which answers questions
+and recommends guards for your needs.
+
+00:00:35.790 --> 00:00:41.530
+Choosing from the catalog or from the assistant’s
+recommendations brings you to this Create Guard wizard.
+
+00:00:42.370 --> 00:00:48.510
+The fields here differ for each guard, but once
+verified, it’s added to your table of guards.
+
+00:00:52.180 --> 00:00:56.000
+In addition to Guards and Create Guard,
+other redesigned features include
+
+00:00:56.000 --> 00:00:59.380
+Alerts, which notifies
+about security incidents,
+
+00:01:02.600 --> 00:01:05.400
+Simulate, where guards can be
+tested on a transaction,
+
+00:01:07.060 --> 00:01:10.960
+Response, to set where you want to be
+notified and how to respond to threats,
+
+00:01:11.560 --> 00:01:16.900
+and Addresses,
+where your contract addresses live.
+
+00:01:18.540 --> 00:01:23.660
+Other new features I designed include this Dashboard,
+which has an overview of any important information,
+
+00:01:24.620 --> 00:01:27.240
+Screening, to monitor
+compliance and security risks,
+
+00:01:27.920 --> 00:01:32.500
+and Threat Intelligence, to keep up to date
+with any recent attack patterns.
+
+00:01:35.300 --> 00:01:40.210
+As you can see, most of Guardrail is made up of
+dense tables and a lot of repeating elements.
+
+00:01:41.110 --> 00:01:45.500
+The challenge was figuring out how best to
+display the dense data to Guardrail’s users
+
+00:01:45.500 --> 00:01:50.030
+across different screen sizes, while using a
+pattern other designers could easily recreate.
+
+00:01:51.630 --> 00:01:55.390
+I worked with Guardrail’s front-end developer
+to set up the foundations for our
+
+00:01:55.390 --> 00:01:59.410
+design system, including color and spacing
+tokens, as well as the core components.
+
+00:01:59.410 --> 00:02:03.000
+In this example of the Guards table,
+I decided to set list view as default
+
+00:02:03.000 --> 00:02:06.690
+on mobile-sized screens
+for better legibility.
+
+00:02:07.410 --> 00:02:11.430
+This became the template we used for future
+designs, so all three of us designers
+
+00:02:11.430 --> 00:02:14.070
+could maintain consistency
+across the different features.
+
+00:02:15.350 --> 00:02:19.510
+Creating spacing tokens also allowed us
+to maintain the right proportions across
+
+00:02:19.510 --> 00:02:25.990
+desktop and mobile and all the other features without
+constantly having to double-check each other’s work.
+
+00:02:37.300 --> 00:02:40.980
+The color tokens allowed us to support
+light and dark mode from the same system.
+
+00:02:41.540 --> 00:02:45.120
+It meant that designers and developers no
+longer had to question what color went
+
+00:02:45.120 --> 00:02:48.780
+where, and color contrast was always
+checked before it touched a screen.
+
+00:02:50.160 --> 00:02:54.020
+And with this design system, the developers
+were able to reduce their custom
+
+00:02:54.020 --> 00:02:58.300
+styling by 90%, while our design team
+could redesign and expand the product.
