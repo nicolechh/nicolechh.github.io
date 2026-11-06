@@ -10,12 +10,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&family=Geist+Pixel&display=swap">
-<link rel="stylesheet" href="styles.css?v=be3c733e">
+<link rel="stylesheet" href="styles.css?v=1bcd5815">
 <style>
   /* page-specific layout only — colors, fonts and tokens all come from
      styles.css so this page can't drift from the rest of the site the
      way it previously did (it used to carry its own stale copy of --paper) */
-  body{
+  /* the layout lives on <main> (a landmark for screen readers); it resets
+     styles.css's homepage main width/padding first */
+  main.nf{
+    max-width:none; margin:0;
     min-height:100vh; display:flex; flex-direction:column;
     align-items:flex-start; justify-content:center; gap:22px;
     padding:clamp(28px,8vw,96px);
@@ -29,9 +32,11 @@
 </style>
 </head>
 <body>
+<main class="nf">
   <span class="code">Error 404 — off the artboard</span>
   <h1>Nothing here</h1>
   <p>That page doesn't exist, or it moved.</p>
   <a class="back-link" href="/">← Back to the start</a>
+</main>
 </body>
 </html>

@@ -39,7 +39,8 @@ All defined on `:root` in `styles.css` (light values match the Figma file's Colo
 | `--edge` | Ruler ticks, control borders — kept at ≥3:1 against its background (non-text contrast) |
 | `--accent` | Links, focus rings, the "hot" dot color, the ruler's cursor marker |
 | `--select` | Marquee borders, hover/select states, the load-in wave's dots, About links |
-| `--component` | `#9747FF` — Figma's component purple; the About photos' and Loblaw audit cards' component frames |
+| `--component` | `#9747FF` — Figma's component purple; the About photos' and Loblaw audit cards' component frames (outline and handles) |
+| `--component-text` | `#933FFF` — the Component Frame label text. `--component` is 4.39:1 on `--paper`, just under AA for 12px text; this shade is 4.66:1 |
 | `--tag-blue` | **Fixed, not theme-swapped** — see below |
 | `--dot` / `--dot-hot` | Dot-grid resting / near-cursor colors |
 | `--on-select` | Text color on an `--select`-filled surface |
@@ -135,19 +136,26 @@ Figma's **Footer** (Page=Home): name, "Built with Claude Code & Figma", "Last up
 
 ## Accessibility rules
 
-These aren't optional polish — treat them as part of the system:
+The whole site — portfolio, case studies, 404, style guide, Prompt Pixie and PeaPal — targets **WCAG 2.2 AA**. These aren't optional polish — treat them as part of the system:
 
-1. **Contrast**: any solid-fill-plus-text pairing gets checked against WCAG AA in both themes (see `--tag-blue` above for why).
-2. **Hit targets**: interactive controls meet at least 24×24 (WCAG 2.5.8); prefer 44×44 (2.5.5) via padding/margin, not by resizing the visible control.
+1. **Contrast**: text meets 4.5:1 (3:1 for 24px+, or 18.66px+ bold) against whatever it actually sits on, in every theme the page can show (see `--tag-blue` and `--component-text` above for why a token's other uses don't vouch for a new one). UI parts and states that carry meaning (control borders, carousel dots, focus rings, icons without a text label) meet 3:1 (1.4.11) — `--edge` exists for this; `--rule-soft` is too faint (~1.3:1) to be the only thing showing a control.
+2. **Hit targets**: interactive controls meet at least 24×24 (WCAG 2.5.8); prefer 44×44 (2.5.5) via padding/margin, not by resizing the visible control. The one known exception is the 6px case-study carousel dots: they pass 2.5.8 through its "equivalent control" exception, because the 36px prev/next arrows beside them reach every slide. Don't add a dot row without those arrows.
 3. **State gating**: hover behind `@media (hover:hover)`, press feedback via `:active`, keyboard focus via `:focus-visible` — never `:focus-within` for anything a touch tap can also trigger.
 4. **Motion**: respect both `prefers-reduced-motion` and the site's own reduce-motion toggle (`[data-motion="reduced"]`) for any new animation.
 5. **Text on mobile**: `text-size-adjust: 100%` is set globally to stop mobile browsers auto-boosting small text — don't rely on that boosting instead of picking a legible size.
+6. **Keyboard**: anything a mouse can do, Tab plus Enter/Space can do, in a sensible order, with a visible `--accent` focus ring. Case-study images open the lightbox from the keyboard (`case-study.js` gives each one `role="button"`, `tabindex="0"` and a "View larger: <caption>" name).
+7. **Overlays and dialogs**: hidden overlays are `inert` (and `visibility:hidden`) so nothing invisible can take focus; open ones are `role="dialog"` + `aria-modal`, move focus inside, keep Tab inside, close on Escape, and return focus to whatever opened them. The lightbox is the reference.
+8. **Text alternatives**: every `<img>` has an `alt`. Use `alt=""` only when the same information is already in text beside it — a `<figcaption>` or a card's title. Icons and logos inside links get `alt=""` and the link gets an `aria-label`. Videos keep native `controls`, never autoplay with sound, and sit in a figure whose caption says what they show; a video with narration needs captions.
+9. **Structure**: one `<h1>`, headings in order without skipping levels, `lang="en"` on `<html>`, a unique `<title>`, and each page's content inside `<main>`.
+10. **Reflow**: no sideways scrolling at 320px wide, and nothing breaks at 200% text zoom.
+
+**Check before calling any change done:** run axe-core (`wcag2a`, `wcag2aa`, `wcag21a`, `wcag21aa`, `wcag22aa` tags) on every page you touched, at desktop and 375px, and fix every violation (the carousel-dot `target-size` result above is the only accepted one). Then Tab through anything new to confirm focus order, the visible ring, and Enter/Space/Escape behavior. axe only catches about a third of WCAG issues, so the manual pass isn't optional.
 
 ## Adding a new page or section — checklist
 
 1. Link `styles.css`. Don't paste or fork any part of it into the new page's own `<style>`.
 2. Reach for an existing token first. If nothing fits, that's a signal the *system* needs a new token — add it to `:root` (and its dark-mode overrides) rather than hardcoding a one-off value in a selector.
-3. New filled-color-plus-text pairing? Check contrast in both themes.
+3. New filled-color-plus-text pairing? Check contrast in both themes. Run the accessibility check above (axe + a keyboard pass) before calling it done.
 4. New interactive control? Follow the hover/`:active`/`:focus-visible` split and the 44×44-hit-target-on-a-smaller-visual pattern.
 5. New repeating "selection" chrome reuses `.sel-box`'s pattern; a new filled tag reuses `.sticker`'s. Don't invent a third variant of the same idea.
 6. Respect reduced-motion.

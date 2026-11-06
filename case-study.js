@@ -11,26 +11,42 @@
      and the browser's own fullscreen. */
   var overlay = document.createElement('div');
   overlay.className = 'cs-lightbox';
-  overlay.innerHTML = '<button class="cs-lightbox-close" type="button" aria-label="Close">&times;</button><img class="cs-lightbox-img" alt="">';
+  /* A modal dialog (WCAG 2.1.1 / 2.4.3): inert while closed so its buttons
+     can't take keyboard focus unseen; opening moves focus to Close, Tab
+     stays inside, and closing returns focus to the image that opened it. */
+  overlay.setAttribute('role', 'dialog');
+  overlay.setAttribute('aria-modal', 'true');
+  overlay.setAttribute('aria-label', 'Enlarged image');
+  overlay.inert = true;
+  overlay.innerHTML = '<button class="cs-lightbox-close" type="button" aria-label="Close">&times;</button><img class="cs-lightbox-img" alt="" tabindex="0" role="button" aria-label="Zoom in">';
   document.body.appendChild(overlay);
   var lbImg = overlay.querySelector('.cs-lightbox-img');
   var closeBtn = overlay.querySelector('.cs-lightbox-close');
-  var zoomed = false;
+  var zoomed = false, opener = null;
 
-  function openLightbox(src, alt){
+  function setZoom(on){
+    zoomed = on;
+    lbImg.classList.toggle('is-zoomed', on);
+    lbImg.setAttribute('aria-label', on ? 'Zoom out' : 'Zoom in');
+  }
+  function openLightbox(src, alt, from){
     lbImg.src = src;
     lbImg.alt = alt || '';
-    zoomed = false;
-    lbImg.classList.remove('is-zoomed');
+    setZoom(false);
+    opener = from || null;
+    overlay.inert = false;
     overlay.classList.add('is-open');
     document.body.style.overflow = 'hidden';
+    closeBtn.focus();
   }
   function closeLightbox(){
     overlay.classList.remove('is-open');
+    overlay.inert = true;
     document.body.style.overflow = '';
-    zoomed = false;
-    lbImg.classList.remove('is-zoomed');
+    setZoom(false);
     lbImg.style.transformOrigin = '';
+    if (opener) opener.focus();
+    opener = null;
   }
   // Zoomed-in panning for a mouse: the pointer's position across the
   // viewport sets the zoom origin, so pointing toward an edge brings that
@@ -44,25 +60,42 @@
     if (zoomed && e.pointerType === 'mouse') panTo(e.clientX, e.clientY);
   });
 
+  // Each image is also a keyboard button (Enter/Space) named by its caption,
+  // since its alt is empty (the figcaption already describes it).
   document.querySelectorAll('.cs-asset img').forEach(function(el){
+    var cap = el.closest('figure') && el.closest('figure').querySelector('figcaption');
+    el.tabIndex = 0;
+    el.setAttribute('role', 'button');
+    el.setAttribute('aria-label', 'View larger' + (cap ? ': ' + cap.textContent.trim() : ''));
     el.addEventListener('click', function(){
-      openLightbox(el.currentSrc || el.src, el.alt);
+      openLightbox(el.currentSrc || el.src, el.alt, el);
+    });
+    el.addEventListener('keydown', function(e){
+      if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openLightbox(el.currentSrc || el.src, el.alt, el); }
     });
   });
 
   lbImg.addEventListener('click', function(e){
     e.stopPropagation();
-    zoomed = !zoomed;
-    if (zoomed && e.pointerType !== 'touch') panTo(e.clientX, e.clientY);
-    lbImg.classList.toggle('is-zoomed', zoomed);
+    setZoom(!zoomed);
+    if (zoomed && e.pointerType && e.pointerType !== 'touch') panTo(e.clientX, e.clientY);
     setCursorMode(e.target);
+  });
+  lbImg.addEventListener('keydown', function(e){
+    if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); lbImg.style.transformOrigin = ''; setZoom(!zoomed); }
   });
   overlay.addEventListener('click', function(e){
     if (e.target === overlay) closeLightbox();
   });
   closeBtn.addEventListener('click', closeLightbox);
   document.addEventListener('keydown', function(e){
-    if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeLightbox();
+    if (!overlay.classList.contains('is-open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    else if (e.key === 'Tab'){
+      // keep focus on the dialog's two controls
+      e.preventDefault();
+      (document.activeElement === closeBtn ? lbImg : closeBtn).focus();
+    }
   });
 
   /* The homepage's Figma-style cursor chip (styled in styles.css, which

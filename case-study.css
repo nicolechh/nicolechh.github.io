@@ -395,7 +395,7 @@ body{padding-top:0}
 .cs-dots{display:flex;align-items:center;gap:8px}
 .cs-dot{
   width:6px;height:6px;padding:0;border:0;border-radius:3px;
-  background:var(--rule-soft);cursor:pointer;
+  background:var(--edge);cursor:pointer;
   transition:width .2s ease,background .2s ease;
 }
 .cs-dot[aria-current="true"]{width:20px;background:var(--select)}
@@ -496,9 +496,13 @@ body{padding-top:0}
   position:fixed;inset:0;background:rgba(0,0,0,.88);
   display:flex;align-items:center;justify-content:center;
   padding:40px;z-index:1000;
-  opacity:0;pointer-events:none;transition:opacity .15s ease;
+  opacity:0;pointer-events:none;visibility:hidden;
+  transition:opacity .15s ease,visibility 0s linear .15s;
 }
-.cs-lightbox.is-open{opacity:1;pointer-events:auto}
+.cs-lightbox.is-open{opacity:1;pointer-events:auto;visibility:visible;transition:opacity .15s ease}
+.cs-lightbox-close:focus-visible,.cs-lightbox-img:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* case-study images open the lightbox from the keyboard too */
+.cs-asset img:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 .cs-lightbox-img{
   max-width:100%;max-height:100%;object-fit:contain;
   cursor:zoom-in;transition:transform .2s ease;

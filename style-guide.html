@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&family=Geist+Pixel&display=swap">
-<link rel="stylesheet" href="styles.css?v=be3c733e">
+<link rel="stylesheet" href="styles.css?v=1bcd5815">
 <style>
   /* Guide-only scaffolding. Every token/color/component value below comes
      from styles.css itself (via var(--...) or literal classes) -- nothing
@@ -74,9 +74,12 @@
     .g-type-row{flex-direction:column;gap:6px}
     .g-type-meta{width:auto}
   }
+  /* <main> is the page's landmark; undo styles.css's homepage main sizing */
+  .g-main{max-width:none;margin:0;padding:0}
 </style>
 </head>
 <body>
+<main class="g-main">
 
 <div class="g-head">
   <div>
@@ -123,6 +126,8 @@
     <div class="g-swatch"><div class="g-swatch-fill" style="background:var(--accent)"></div><div class="g-swatch-label"><b>--accent</b>Links, focus rings, hot dots</div></div>
     <div class="g-swatch"><div class="g-swatch-fill" style="background:var(--select)"></div><div class="g-swatch-label"><b>--select</b>Marquee borders, hover states</div></div>
     <div class="g-swatch"><div class="g-swatch-fill" style="background:var(--tag-blue)"></div><div class="g-swatch-label"><b>--tag-blue</b>Fixed (not theme-swapped) — see below</div></div>
+    <div class="g-swatch"><div class="g-swatch-fill" style="background:var(--component)"></div><div class="g-swatch-label"><b>--component</b>Component Frame outline &amp; handles</div></div>
+    <div class="g-swatch"><div class="g-swatch-fill" style="background:var(--component-text)"></div><div class="g-swatch-label"><b>--component-text</b>Component Frame label (AA on --paper)</div></div>
   </div>
 
   <p style="font-size:.85rem;color:var(--ink-2);max-width:64ch;line-height:1.6;margin-top:24px">
@@ -304,6 +309,7 @@
     <li>Update this page and <code style="font-family:var(--mono)">DESIGN-SYSTEM.md</code> if the new work introduces a genuinely new token or component — not for a one-off use of existing ones.</li>
   </ul>
 </section>
+</main>
 
 <script>
   const toggle = document.getElementById("themeToggle");

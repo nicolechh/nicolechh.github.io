@@ -11,6 +11,7 @@ Read [DESIGN-SYSTEM.md](DESIGN-SYSTEM.md) first and follow it. It holds the toke
 - Solid blue fills with white text use `--tag-blue`, never `--select`. Check the contrast of any new text-on-color pairing in both themes.
 - Stay in the Geist superfamily (Geist, Geist Mono, Geist Pixel); don't add a fourth font family.
 - Follow the "Adding a new page or section" checklist in DESIGN-SYSTEM.md, including reduced motion and checks at 375px, 900px, and 1200px.
+- **Every change must meet WCAG 2.2 AA, on every page including `pixie/` and `peapal/`.** Before changing anything, read the "Accessibility rules" in DESIGN-SYSTEM.md. Before calling the work done, run an axe-core scan (WCAG 2.0/2.1/2.2 A and AA tags) on each page you touched at desktop and 375px, fix every violation, and Tab through anything new to check focus order, a visible focus ring, and Enter/Space/Escape. If a design choice would fail WCAG, say so and propose a passing alternative instead of shipping it.
 - If you add a genuinely new token or component, add it to DESIGN-SYSTEM.md and `style-guide.html`.
 
 `pixie/` and `peapal/` are self-contained apps with their own styles. They don't use `styles.css`.

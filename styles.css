@@ -31,6 +31,10 @@
   /* Figma's own component purple -- the Component Frame outline/label;
      fixed in both themes like the tool it references */
   --component:#9747FF;
+  /* the Component Frame LABEL: --component itself is 4.39:1 on --paper,
+     just under WCAG AA for 12px text, so text uses this hair-darker shade
+     (4.66:1); outlines and handles keep the exact Figma purple (non-text, >=3:1) */
+  --component-text:#933FFF;
 
   --gutter:24px;
   --step:8px;
@@ -503,7 +507,7 @@ h3 a{color:inherit;text-decoration:none}
 .cframe-label{
   display:flex;align-items:center;gap:4px;
   font-family:var(--mono);font-weight:500;font-size:12px;line-height:16px;letter-spacing:.06em;
-  color:var(--component);
+  color:var(--component-text);
 }
 .cframe-label svg{width:14px;height:14px;flex:none}
 .cframe-img{position:relative;outline:1px solid var(--component)}
