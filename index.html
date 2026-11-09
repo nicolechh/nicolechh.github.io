@@ -29,7 +29,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;700&family=Geist+Pixel:ELSH@0..100&display=swap">
 
-<link rel="stylesheet" href="styles.css?v=1bcd5815">
+<link rel="stylesheet" href="styles.css?v=53ae0c96">
 <script>
   // Intro: an initial visit or a refresh starts on the bare dot grid while
   // the load-in wave plays; the main script reveals the page once the wave
@@ -58,8 +58,8 @@
 </script>
 <style>
 /* ---------- Homepage (Figma "Homepage V2.2", 1440 frame) ----------
-   No top bar: the rulers start at the top edge, and the logo, side nav and
-   reduce-motion switch float, fixed, over the page. Content is one 982px
+   No top bar: the rulers start at the top edge, and the logo and side nav
+   float, fixed, over the page. Content is one 982px
    column that starts 229px into Figma's 1416 slot (left of centre, clear of
    the side nav); it narrows to clear the nav down to 1100px, then the nav
    hides and the column centres with side padding. */
@@ -73,7 +73,6 @@ body.v2{padding-top:var(--gutter)}
 
 .v2-fixed{position:fixed;z-index:55}
 .v2-logo{top:calc(var(--gutter) + 28px);left:calc(var(--gutter) + 34px)}
-.v2-motion{top:calc(var(--gutter) + 36px);right:34px;margin:0}
 .v2-nav{top:calc(var(--gutter) + 90px);left:calc(var(--gutter) + 16px);display:flex;flex-direction:column;gap:8px}
 /* Mono/Nav; the active section is orange with a 6px square */
 .v2-nav a{
@@ -123,25 +122,22 @@ body.v2{padding-top:var(--gutter)}
   :root{--gutter:0px}
   #ruler-x,#ruler-y,.corner{display:none}
   .v2 section{scroll-margin-top:calc(var(--gutter) + 64px)}   /* land below the floating logo */
-  /* floating over the column, so they get the ruler's glass */
-  .v2-logo,.v2-motion{background:var(--chrome);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+  /* floating over the column, so it gets the ruler's glass */
+  .v2-logo{background:var(--chrome);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
   .v2-logo{padding:4px;width:40px;height:40px;top:calc(var(--gutter) + 12px);left:calc(var(--gutter) + 12px)}
-  .v2-motion{padding:8px 10px;top:calc(var(--gutter) + 12px);right:12px}
   .h-col{width:auto;max-width:982px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
   .v2 #home{padding-top:104px}
   .v2-foot{padding:80px clamp(20px,4vw,48px) 34px}
 }
 /* 740-1099px: the side nav doesn't fit, so the same links run across the top
    in a glass bar the size of the old top nav (46px tall, 20px side padding),
-   with no rulers. The logo, links and switch sit on its centre line; the
-   logo and switch drop their own glass.
-   From 740px the centred links clear the switch; narrower is the phone layout. */
+   with no rulers. The logo and links sit on its centre line; the logo drops
+   its own glass. Narrower than 740px is the phone layout. */
 @media (min-width:740px) and (max-width:1099px){
   .v2-topbar{display:block;top:var(--gutter);left:var(--gutter);right:0;height:46px;z-index:54;
     background:var(--chrome);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule-soft)}
-  .v2-logo,.v2-motion{background:none;-webkit-backdrop-filter:none;backdrop-filter:none;padding:0}
+  .v2-logo{background:none;-webkit-backdrop-filter:none;backdrop-filter:none;padding:0}
   .v2-logo{width:32px;height:32px;top:calc(var(--gutter) + 7px);left:calc(var(--gutter) + 20px)}
-  .v2-motion{top:calc(var(--gutter) + 23px);right:20px;transform:translateY(-50%)}
   .v2-nav{display:flex;flex-direction:row;gap:24px;top:calc(var(--gutter) + 23px);left:calc(50% + var(--gutter) / 2);transform:translate(-50%,-50%)}
   .v2-nav a{white-space:nowrap}
   .v2 #home{padding-top:80px}   /* the intro starts where desktop has it */
@@ -149,7 +145,7 @@ body.v2{padding-top:var(--gutter)}
 }
 /* phones (under 740px): the old top bar -- 46px glass, logo left, hamburger
    right -- whose menu drops the same section links (the current one
-   orange) and the reduce-motion switch, as the original site did */
+   orange) */
 .v2-menu{display:contents}
 .v2-burger{display:none}
 @media (max-width:739px){
@@ -171,13 +167,7 @@ body.v2{padding-top:var(--gutter)}
   .v2-menu[data-open="true"]{visibility:visible;opacity:1;transform:none;transition:opacity .16s ease,transform .3s cubic-bezier(.4,0,.2,1),visibility 0s}
   .v2 .v2-menu .v2-nav{display:flex;position:static;flex-direction:column;gap:0;transform:none}
   .v2 .v2-menu .v2-nav a{padding:11px 12px}
-  .v2 .v2-menu .v2-motion{position:static;transform:none;display:flex;justify-content:space-between;width:auto;
-    padding:11px 12px;margin:5px 0 0;border-top:1px solid var(--rule-soft);background:none;-webkit-backdrop-filter:none;backdrop-filter:none}
   .v2 section{scroll-margin-top:calc(var(--gutter) + 62px)}   /* land below the bar */
-}
-/* styles.css turns .motion into a full-width menu row at 640px; here it stays a floating switch */
-@media (max-width:640px){
-  .v2 .v2-motion{position:fixed;width:auto;margin:0;border:0;justify-content:flex-start;font-size:12px}
 }
 /* the About row needs ~900px: stack it below that, photo at its Figma size */
 @media (max-width:899px){
@@ -223,12 +213,6 @@ body.v2{padding-top:var(--gutter)}
   <a href="#playground"><i aria-hidden="true"></i>AI Builds</a>
   <a href="#about"><i aria-hidden="true"></i>About</a>
 </nav>
-<div class="motion v2-motion v2-fixed">
-  <span class="motion-label" id="motion-label">Reduce motion</span>
-  <button class="motion-track" id="motion" type="button" role="switch" aria-checked="false" aria-labelledby="motion-label">
-    <span class="motion-pill" aria-hidden="true"></span>
-  </button>
-</div>
 </div>
 
 <main lang="en">
@@ -349,8 +333,6 @@ body.v2{padding-top:var(--gutter)}
   let G = 30;                   // ruler gutter, read from --gutter (shrinks on mobile)
   const SPACING = 20;           // dot grid pitch (divides the ruler's 10px ticks)
   const DOT_R = 1.05;           // resting dot radius
-  const R = 118;                // cursor influence radius
-  const PULL = 8;               // max attraction in px
   const mqReduce = matchMedia("(prefers-reduced-motion: reduce)");
   let reduce = mqReduce.matches;
 
@@ -370,19 +352,18 @@ body.v2{padding-top:var(--gutter)}
   let dpr = 1, W = 0, H = 0, cols = 0, rows = 0;
   let rxW = 0, ryH = 0;         // each ruler's own drawn length
   let originX = 0, originY = 0; // the ruler's 0,0 in viewport space; dot + cursor coords are relative to it
-  let dots = [];                // {bx, by, ox, oy} base + current offset
+  let dots = [];                // {bx, by} grid positions
   let mx = -9999, my = -9999;   // cursor in canvas space
   let scrollY = 0;
   let running = false, settled = true, menuOpen = false;
   let touchInput = false;       // last input came from a touch — suppress the ruler's cursor line
-  let pDown = false;            // a touch is currently held — gate the dot response to this
+  let pDown = false;            // a touch is currently held
 
   const css = getComputedStyle(document.documentElement);
-  let cDot, cHot, cRule, cLabel, cAccent, cWave;
+  let cDot, cRule, cLabel, cAccent, cWave;
   function readTokens(){
     cWave   = css.getPropertyValue("--select").trim();
     cDot    = css.getPropertyValue("--dot").trim();
-    cHot    = css.getPropertyValue("--dot-hot").trim();
     cRule   = css.getPropertyValue("--edge").trim();   // ruler minor ticks
     cLabel  = css.getPropertyValue("--ink-3").trim();
     cAccent = css.getPropertyValue("--accent").trim();
@@ -435,7 +416,7 @@ body.v2{padding-top:var(--gutter)}
     let i = 0;
     for (let r = 0; r < rows; r++){
       for (let c = 0; c < cols; c++){
-        dots[i++] = { bx: (c + c0) * SPACING, by: (r + r0) * SPACING, ox: 0, oy: 0 };
+        dots[i++] = { bx: (c + c0) * SPACING, by: (r + r0) * SPACING };
       }
     }
     readTokens();
@@ -472,8 +453,6 @@ body.v2{padding-top:var(--gutter)}
     ctx.clearRect(minX, minY, W, H);
     // grid scrolls with the page: shift the whole field by the scroll remainder
     const phase = -(scrollY % SPACING);
-    const ease = reduce ? 1 : 0.16;
-    let maxMove = 0;
 
     const now = performance.now();
     const intro = root.classList.contains("intro");
@@ -494,11 +473,9 @@ body.v2{padding-top:var(--gutter)}
     const strip = new Path2D();
 
     ctx.beginPath();                       // resting dots \u2014 one fill
-    const hot = [];
     for (let i = 0; i < dots.length; i++){
       const d = dots[i];
       const x = d.bx, y = d.by + phase;
-      let tx = 0, ty = 0, near = 0;
 
       const under = x < 0 || y < 0;
       if (under && stripA <= 0) continue;
@@ -516,33 +493,11 @@ body.v2{padding-top:var(--gutter)}
         }
       }
 
-      if (!reduce){
-        const dx = mx - x, dy = my - y;
-        const d2 = dx * dx + dy * dy;
-        if (d2 < R * R){
-          const dist = Math.sqrt(d2) || 0.0001;
-          const f = 1 - dist / R;
-          near = f;
-          const push = Math.min(PULL * f * f * 1.6, dist);   // pull toward, never overshoot
-          tx = (dx / dist) * push;
-          ty = (dy / dist) * push;
-        }
-      }
-      d.ox += (tx - d.ox) * ease;
-      d.oy += (ty - d.oy) * ease;
-      const m = Math.abs(d.ox) + Math.abs(d.oy);
-      if (m > maxMove) maxMove = m;
+      if (x < minX - 8 || x > maxX + 8 || y < minY - 8 || y > maxY + 8) continue;
 
-      const px = x + d.ox, py = y + d.oy;
-      if (px < minX - 8 || px > maxX + 8 || py < minY - 8 || py > maxY + 8) continue;
-
-      if (near > 0.08 && !under){
-        hot.push(px, py, near);
-      } else {
-        const path = under ? strip : ctx;
-        path.moveTo(px + DOT_R, py);
-        path.arc(px, py, DOT_R, 0, 6.2832);
-      }
+      const path = under ? strip : ctx;
+      path.moveTo(x + DOT_R, y);
+      path.arc(x, y, DOT_R, 0, 6.2832);
     }
     ctx.fillStyle = cDot;
     ctx.fill();
@@ -552,14 +507,6 @@ body.v2{padding-top:var(--gutter)}
       ctx.globalAlpha = 1;
     }
 
-    for (let i = 0; i < hot.length; i += 3){         // attracted dots read warmer + larger
-      const n = hot[i + 2];
-      ctx.beginPath();
-      ctx.arc(hot[i], hot[i + 1], DOT_R + n * 1.1, 0, 6.2832);
-      ctx.globalAlpha = 0.19 + n * 0.55;
-      ctx.fillStyle = cHot;
-      ctx.fill();
-    }
     for (let i = 0; i < wave.length; i += 3){        // the wave: blue, more opaque where it is strongest; dots keep their resting size
       const k = wave[i + 2];
       ctx.beginPath();
@@ -569,7 +516,7 @@ body.v2{padding-top:var(--gutter)}
       ctx.fill();
     }
     ctx.globalAlpha = 1;
-    settled = reduce || (intro ? false : waveT < 0 && stripA <= 0 && maxMove < 0.04 && mx < -1000);
+    settled = reduce || (intro ? false : waveT < 0 && stripA <= 0);
   }
 
   function ticks(cx, len, cross, offset, horiz, thick){
@@ -647,7 +594,7 @@ body.v2{padding-top:var(--gutter)}
   }
   function release(){
     pDown = false;
-    mx = my = -9999;              // let the field ease back to the grid
+    mx = my = -9999;              // hide the ruler's cursor marker
     if (fineCursor) cursorChip.classList.remove("is-visible");
     settled = false;
     kick();
@@ -657,7 +604,7 @@ body.v2{padding-top:var(--gutter)}
     if (menuOpen) return;         // panel open: the canvas holds still behind it
     if (e.pointerType === "touch"){
       touchInput = true;
-      if (!pDown) return;         // touch: the field only reacts while the screen is held
+      if (!pDown) return;         // touch: only tracked while the screen is held
     } else {
       touchInput = false;
     }
@@ -668,7 +615,7 @@ body.v2{padding-top:var(--gutter)}
     if (menuOpen || e.pointerType !== "touch") return;
     touchInput = true;
     pDown = true;
-    track(e);                     // tap: pull the field toward the touch point
+    track(e);
   }, { passive: true });
 
   window.addEventListener("pointerup", e => { if (e.pointerType === "touch") release(); }, { passive: true });
@@ -695,22 +642,13 @@ body.v2{padding-top:var(--gutter)}
     clearTimeout(rt); rt = setTimeout(build, 120);
   });
 
-  // reduce-motion switch
-  const btn = document.getElementById("motion");
-  function setMotion(on){
-    reduce = on;
-    btn.setAttribute("aria-checked", String(on));
-    document.documentElement.dataset.motion = on ? "reduced" : "full";
-    if (on){
-      for (const d of dots){ d.ox = 0; d.oy = 0; }   // snap the field back to the grid
-      reveal();
-    }
+  // the OS reduced-motion setting skips (or cuts short) the intro wave
+  mqReduce.addEventListener("change", e => {
+    reduce = e.matches;
+    if (reduce) reveal();
     settled = false;
     kick();
-  }
-  btn.addEventListener("click", () => setMotion(!reduce));
-  mqReduce.addEventListener("change", e => setMotion(e.matches));
-  setMotion(reduce);
+  });
 
   // the rulers are painted into a canvas, which takes no part in font swap \u2014
   // repaint once the webfont is actually available
@@ -726,7 +664,7 @@ body.v2{padding-top:var(--gutter)}
 
 
 <script>
-// Phone menu (under 740px): the hamburger opens the section links + switch
+// Phone menu (under 740px): the hamburger opens the section links
 (() => {
   const menu = document.getElementById("v2menu"), burger = document.getElementById("v2burger");
   const setOpen = open => { menu.dataset.open = String(open); burger.setAttribute("aria-expanded", String(open)); };
@@ -743,7 +681,7 @@ body.v2{padding-top:var(--gutter)}
   /* Card thumbs with data-hover (a walkthrough video): on a pointer
      device, hovering the card plays the muted, looping video over the still,
      from the start each time; leaving pauses it and shows the still again.
-     It only loads on first hover. Skipped while motion is reduced. */
+     It only loads on first hover. Skipped under the OS reduced-motion setting. */
   (function playOnHover(){
     if (!matchMedia('(hover:hover)').matches) return;
     var mqReduce = matchMedia('(prefers-reduced-motion: reduce)');
@@ -751,8 +689,7 @@ body.v2{padding-top:var(--gutter)}
       var card = thumb.closest('.card') || thumb;
       var play = null, hovering = false;
       card.addEventListener('mouseenter', function(){
-        var motion = document.documentElement.dataset.motion;
-        if (motion === 'reduced' || (!motion && mqReduce.matches)) return;
+        if (mqReduce.matches) return;
         hovering = true;
         if (!play){
           play = document.createElement('video');

@@ -15,7 +15,6 @@
   --rule-soft:#DEDED8;
   --edge:#8A8A83;          /* ruler ticks + control borders: >=3:1 non-text */
   --dot:rgba(22,23,26,.16);
-  --dot-hot:rgba(192,62,15,.62);
   --accent:#C03E0F;
   --select:#2E5BEA;
   --on-select:#FFFFFF;
@@ -60,7 +59,6 @@
   --rule-soft:#26282D;
   --edge:#64676F;
   --dot:rgba(233,233,228,.13);
-  --dot-hot:rgba(255,122,64,.68);
   --accent:#FF7A40;
   --select:#7391FF;
   --on-select:#0E1220;
