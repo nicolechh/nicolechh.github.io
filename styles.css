@@ -112,6 +112,9 @@ body{
    without this a touch device would render it as a plain static block
    sitting in normal document flow. */
 .cursor-chip{display:none}
+/* Hidden for now: every page's chip carries the `hidden` attribute, so the
+   OS cursor shows and the chip never draws. Remove `hidden` to bring it back. */
+.cursor-chip[hidden]{display:none!important}
 @media (hover:hover) and (pointer:fine){
   /* !important: .burger/.motion-track set their own cursor:pointer, a
      class selector that otherwise beats the universal selector's
@@ -122,7 +125,7 @@ body{
      styles.css (style-guide.html included) would hide the OS cursor with
      nothing drawn in its place. Pages that don't include the chip element
      keep their normal cursor automatically. */
-  body:has(.cursor-chip) *{cursor:none!important}
+  body:has(.cursor-chip:not([hidden])) *{cursor:none!important}
   .cursor-chip{
     display:block;
     position:fixed;top:0;left:0;z-index:9999;pointer-events:none;
